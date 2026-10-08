@@ -770,17 +770,21 @@ const REC={
   appspring:{name:'Spring rolls',emoji:'🥟',price:5,map:['NNN','SS.'],needs:'noodle',app:1},
   appchips:{name:'Chips & salsa',emoji:'🌶️',price:5,map:['OO.','.OO','SS.'],needs:'fryer',app:1},
   appchicken:{name:'Chicken bites',emoji:'🍗',price:6,map:['K.','K.','KK'],needs:'fryer',app:1},
+  appfrozen:{name:'Frozen berry cup',emoji:'🍒',price:4,map:['YY','YI'],needs:'sweets',app:1},
+  apptaco:{name:'Fish tacos',emoji:'🌮',price:9,map:['FFF','TFT'],needs:'sushi',app:1},
+  appknots:{name:'Cheesy garlic knots',emoji:'🥖',price:6,map:['DDD','.C.'],plate:1,app:1},
+  appsampler:{name:'Party sampler',emoji:'🧆',price:11,map:['BBDDD','CCTTE'],plate:2,app:1},
   feast:{name:'Dragon-sized feast',emoji:'🍖',price:45,map:['RRRRBBE','RRRRBBE','BBCCRRE','TTCCRRT','BBDDDBB','BBDDDBB'],plate:2},
 };
 const EQUIP={
   garden:{name:'Garden supplier',emoji:'🌱',cost:40,desc:'Adds lettuce and the garden salad. Kids: 🐰 Bunny salad. Starters: 🥬 Lettuce wraps.',ing:['L']},
   grill:{name:'Grill',emoji:'🔥',cost:60,desc:'Adds patties and burgers. Kids: 🍔 Mini slider. Starters: 🥩 Patty bites.',ing:['P']},
-  sweets:{name:'Dessert freezer',emoji:'🧊',cost:80,desc:'Comes with a dessert freezer in your pantry for ice cream and berries — food there lasts longer. Adds ice cream, berries and the berry sundae. Kids: 🍦 Mini cone.',ing:['I','Y']},
+  sweets:{name:'Dessert freezer',emoji:'🧊',cost:80,desc:'Comes with a dessert freezer in your pantry for ice cream and berries — food there lasts longer. Adds ice cream, berries and the berry sundae. Kids: 🍦 Mini cone. Starters: 🍒 Frozen berry cup.',ing:['I','Y']},
   smoothie:{name:'Smoothie bar',emoji:'🍹',cost:100,desc:'Adds bananas, mango, yogurt and berries for three specialty smoothies. Kids: 🍓 Fruit cup. Starters: 🥭 Mango salsa, 🍌 Banana bites.',ing:['A','M','G','Y']},
   noodle:{name:'Noodle station',emoji:'🥢',cost:90,desc:'Adds noodles, sauce and two noodle dishes. Kids: 🥢 Noodle cup. Starters: 🥟 Spring rolls.',ing:['N','S']},
   fryer:{name:'Deep fryer',emoji:'🛢️',cost:120,desc:'Adds potatoes, chicken, sauce, fries and the chicken plate. Kids: 🍟 Mini fries. Starters: 🌶️ Chips & salsa, 🍗 Chicken bites.',ing:['O','K','S']},
   deluxe:{name:'Deluxe menu',emoji:'👑',cost:150,desc:'Adds the deluxe burger. Needs the grill and garden supplier.',ing:[],requires:['grill','garden']},
-  sushi:{name:'Fish counter',emoji:'🐟',cost:180,desc:'Adds fish and the fish rice bowl. Kids: 🐠 Fish sticks.',ing:['F']},
+  sushi:{name:'Fish counter',emoji:'🐟',cost:180,desc:'Adds fish and the fish rice bowl. Kids: 🐠 Fish sticks. Starters: 🌮 Fish tacos.',ing:['F']},
 };
 const FURN={
   single:{name:'Table',emoji:'🍽️',shape:MONO,seats:1,cost:12,color:'#FFFFFF',cloth:'#C8102E'},
@@ -844,7 +848,7 @@ const APPL={
   fishcounter:{name:'Fish counter',emoji:'🐟',shape:I3,color:'#4F8CC4',eq:'sushi'},
 };
 const REC_APPL={toast:['toaster'],eggrice:['rice','stove'],burger:['grill'],salad:['saladbar'],noodle:['noodlepot'],spicy:['noodlepot','stove'],sundae:['freezer'],
-  berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],apptoast:['toaster'],appwrap:['saladbar'],apppatty:['grill'],appmango:['blender'],appbanana:['blender'],appspring:['noodlepot'],appchips:['fryer'],appchicken:['fryer'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
+  berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],apptoast:['toaster'],appfrozen:['freezer'],apptaco:['fishcounter'],appknots:['stove'],appsampler:['stove','toaster'],appwrap:['saladbar'],apppatty:['grill'],appmango:['blender'],appbanana:['blender'],appspring:['noodlepot'],appchips:['fryer'],appchicken:['fryer'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
 const PLATE_SIZES=[[5,4],[6,5],[7,6]], PLATE_COST=[120,260], PLATE_NAMES=['Small plate','Big plate','Serving platter'];
 const FREEZER_SIZES=[[4,3],[5,4],[6,5]], FREEZER_COST=[100,200];
 const FRIDGE_SIZES=[[5,4],[6,5],[7,6],[8,6]], FRIDGE_COST=[80,180,300];
