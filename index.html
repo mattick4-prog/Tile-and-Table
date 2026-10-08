@@ -501,6 +501,10 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .buywrap{gap:5px!important}
 .buy1{border:2px solid var(--mint);background:#DDF5EC;color:#1E5C4A;border-radius:12px;padding:9px 12px;font:inherit;font-size:15px;font-weight:900;cursor:pointer;text-align:center;min-height:44px}
 .buy1 small{display:block;font-size:12px;font-weight:700;color:#1E5C4A;opacity:.8}
+.freezer{background:#7FA6D6;border-radius:10px;box-shadow:0 0 0 8px #EAF2FF,0 0 0 11px #7FA6D6}
+.freezer .cell{background:#E6F0FF;border:1px solid #fff;background-image:radial-gradient(circle at 30% 30%,rgba(255,255,255,.9) 0 2px,transparent 3px)}
+#freezerBox[hidden]{display:none}
+.storerow{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))!important}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -605,8 +609,10 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
       <div class="storerow">
         <div><div class="phead"><h2>Dry shelves</h2><span class="hours" id="pantryNote"></span></div><div class="gridbox"><div class="grid shelves" id="g-storage"></div></div></div>
         <div><div class="phead"><h2>Fridge ❄️</h2><span class="hours" id="fridgeNote"></span></div><div class="gridbox"><div class="grid fridge" id="g-fridge"></div></div></div>
+        <div id="freezerBox" hidden><div class="phead"><h2>Dessert freezer 🧊</h2><span class="hours" id="freezerNote"></span></div><div class="gridbox"><div class="grid freezer" id="g-freezer"></div></div></div>
       </div>
       <div class="trash" id="trash"><span class="tb">🗑️</span><span><b>Trash bin</b><small>Drag a basket here to throw it away. You don't get your money back.</small></span></div>
+      <p class="warn" id="meltNote" hidden>🍨 Ice cream is outside the dessert freezer. Move it into the freezer or it melts tonight.</p>
       <p class="warn" id="warmNote" hidden>🌡️ Cold food is sitting on the dry shelves. Move it into the fridge or it spoils tonight.</p>
       <p class="hint">Double-tap a basket on the truck to put it away, or drag baskets off the truck onto the shelves or into the fridge. ❄️ baskets belong in the fridge. Tap a basket to rotate it. Every square of a basket holds 4 pieces — as you cook, squares disappear. The white number is pieces left; the dark tag is days until it spoils.</p>
     </div>
@@ -649,7 +655,7 @@ const ING={
   G:{name:'Yogurt',emoji:'🥛',color:'#9DB7CF',piece:I2,basket:I2,uses:8,cost:6},
   D:{name:'Pizza dough',emoji:'🫓',color:'#E2B872',piece:I3,basket:L4,uses:16,cost:20},
 };
-const COLD=['C','E','P','L','K','F','I','Y','G'];COLD.forEach(k=>ING[k].cold=true);
+const COLD=['C','E','P','L','K','F','I','Y','G'];COLD.forEach(k=>ING[k].cold=true);ING.I.frozen=true;
 const CLOTHS=[['Cherry','#C8102E'],['Ocean','#1E5AAA'],['Mint','#2BA88A'],['Sunny','#E8A417'],['Orange','#E8692A'],['Grape','#7B4FB8'],['Bubblegum','#E05A9C'],['Midnight','#2A1E1A']];
 const REC={
   toast:{name:'Cheese toast',emoji:'🥪',price:6,map:['BB','CC','BB']},
@@ -684,7 +690,7 @@ const REC={
 const EQUIP={
   garden:{name:'Garden supplier',emoji:'🌱',cost:40,desc:'Adds lettuce and the garden salad. Kids: 🐰 Bunny salad.',ing:['L']},
   grill:{name:'Grill',emoji:'🔥',cost:60,desc:'Adds patties and burgers. Kids: 🍔 Mini slider.',ing:['P']},
-  sweets:{name:'Dessert freezer',emoji:'🧊',cost:80,desc:'Adds ice cream, berries and the berry sundae. Kids: 🍦 Mini cone.',ing:['I','Y']},
+  sweets:{name:'Dessert freezer',emoji:'🧊',cost:80,desc:'Comes with a dessert freezer in your pantry for ice cream. Adds ice cream, berries and the berry sundae. Kids: 🍦 Mini cone.',ing:['I','Y']},
   smoothie:{name:'Smoothie bar',emoji:'🍹',cost:100,desc:'Adds bananas, mango, yogurt and berries for three specialty smoothies. Kids: 🍓 Fruit cup.',ing:['A','M','G','Y']},
   noodle:{name:'Noodle station',emoji:'🥢',cost:90,desc:'Adds noodles, sauce and two noodle dishes. Kids: 🥢 Noodle cup.',ing:['N','S']},
   fryer:{name:'Deep fryer',emoji:'🛢️',cost:120,desc:'Adds potatoes, chicken, sauce, fries and the chicken plate. Kids: 🍟 Mini fries.',ing:['O','K','S']},
@@ -755,8 +761,9 @@ const APPL={
 const REC_APPL={toast:['toaster'],eggrice:['rice','stove'],burger:['grill'],salad:['saladbar'],noodle:['noodlepot'],spicy:['noodlepot','stove'],sundae:['freezer'],
   berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
 const PLATE_SIZES=[[5,4],[6,5],[7,6]], PLATE_COST=[120,260], PLATE_NAMES=['Small plate','Big plate','Serving platter'];
+const FREEZER_SIZES=[[4,3],[5,4],[6,5]], FREEZER_COST=[100,200];
 const FRIDGE_SIZES=[[5,4],[6,5],[7,6],[8,6]], FRIDGE_COST=[80,180,300];
-const ACCEPT={plate2:'food',kitchen:'appl',dining:'furn',storage:'basket',fridge:'basket',truck:'basket',plate:'food'};
+const ACCEPT={plate2:'food',kitchen:'appl',dining:'furn',storage:'basket',fridge:'basket',freezer:'basket',truck:'basket',plate:'food'};
 const LV=[1,1.4,1.8];
 const MPS=2; // game minutes per real second
 const SAVE='tile-and-table-save-v4';
@@ -779,7 +786,7 @@ function blankStats(){return {earned:0,tips:0,dishes:0,happy:0,angry:0,lost:0,ki
 function newGame(){
   uid=1;
   S={money:80,rep:3,day:1,phase:'prep',clock:600,openTime:660,closeTime:1200,
-     eq:{},up:{dining:0,pantry:0,fridge:0,plate:0,host:false,comfy:false,hours:false},
+     eq:{},up:{dining:0,pantry:0,fridge:0,freezer:0,plate:0,host:false,comfy:false,hours:false},
      kitchen:{w:6,h:4,pieces:[]},dining:{w:7,h:5,pieces:[]},storage:{w:5,h:4,pieces:[]},fridge:{w:5,h:4,pieces:[]},truck:{w:6,h:3,pieces:[]},plate:{w:5,h:4,pieces:[]},
      storeroom:[{key:'plant'},{key:'single',cloth:'#E8A417'},{key:'single',cloth:'#E8A417'}],rec:{},ingOn:['B','C','R','E','T'],rot:{},
      parties:[],nextArrival:0,active:null,sel:null,stats:blankStats(),math:{on:true,tables:[2,3,4,5,6,7,8,9,10]},facts:{},clear:{},payQ:[]};
@@ -794,7 +801,7 @@ function newGame(){
 function addPiece(gid,kind,key,x,y,shape,extra){
   if(!shape) shape=kind==='appl'?APPL[key].shape:kind==='furn'?FURN[key].shape:kind==='basket'?ING[key].basket:ING[key].piece;
   const p={id:uid++,kind,key,x,y,shape:shape.map(c=>[...c])};
-  if(kind==='basket'){p.uses=ING[key].uses;p.days=ING[key].cold?2:3;}
+  if(kind==='basket'){p.uses=ING[key].uses;p.days=ING[key].frozen?4:ING[key].cold?2:3;}
   if(kind==='furn'&&FURN[key].seats)p.cloth=FURN[key].cloth;
   if(extra)Object.assign(p,extra);
   S[gid].pieces.push(p); return p;
@@ -816,7 +823,7 @@ function addAppliance(eq){for(const a in APPL){if(APPL[a].eq!==eq)continue;let s
 function recReady(k){const r=REC[k];return (!r.needs||!!S.eq[r.needs])&&(!r.also||!!S.eq[r.also])&&(!r.plate||S.up.plate>=r.plate);}
 function refreshUnlocks(){const fresh=[];for(const k in REC)if(recReady(k)&&!S.rec[k].unlocked){S.rec[k].unlocked=true;S.rec[k].onMenu=true;fresh.push(k);}return fresh;}
 function lockText(k){const r=REC[k],p=[];if(r.needs&&!S.eq[r.needs])p.push('the '+EQUIP[r.needs].name.toLowerCase());if(r.also&&!S.eq[r.also])p.push('the '+EQUIP[r.also].name.toLowerCase());if(r.plate&&S.up.plate<r.plate)p.push('the '+PLATE_NAMES[r.plate].toLowerCase());return 'Needs '+p.join(' and ')+'.';}
-function migrate(){if(S.up.plate2&&!S.plate2)S.plate2={w:S.plate.w,h:S.plate.h,pieces:[]};S.st={};S.cur='plate';if(S.fridge){const fz=FRIDGE_SIZES[S.up.fridge||0];S.fridge.w=Math.max(S.fridge.w,fz[0]);S.fridge.h=Math.max(S.fridge.h,fz[1]);}[S.storage,S.fridge,S.truck].forEach(g=>g&&g.pieces.forEach(b=>{if(b.kind==='basket')shrink(b);}));if(S.up.plate==null)S.up.plate=0;if(!S.kitchen){S.kitchen={w:6,h:4,pieces:[]};seedKitchen();for(const k in S.eq)if(S.eq[k])addAppliance(k);}
+function migrate(){if(S.up.freezer==null)S.up.freezer=0;if(S.eq.sweets&&!S.freezer)S.freezer={w:4,h:3,pieces:[]};if(S.up.plate2&&!S.plate2)S.plate2={w:S.plate.w,h:S.plate.h,pieces:[]};S.st={};S.cur='plate';if(S.fridge){const fz=FRIDGE_SIZES[S.up.fridge||0];S.fridge.w=Math.max(S.fridge.w,fz[0]);S.fridge.h=Math.max(S.fridge.h,fz[1]);}[S.storage,S.fridge,S.truck].forEach(g=>g&&g.pieces.forEach(b=>{if(b.kind==='basket')shrink(b);}));if(S.up.plate==null)S.up.plate=0;if(!S.kitchen){S.kitchen={w:6,h:4,pieces:[]};seedKitchen();for(const k in S.eq)if(S.eq[k])addAppliance(k);}
   for(const k in REC)if(!S.rec[k])S.rec[k]={unlocked:false,level:1,onMenu:false};refreshUnlocks();}
 const PKEY='tile-and-table-players';
 const AVATARS=['🐶','🐱','🐰','🐻','🐼','🦊','🐨','🐸','🐷','🐯','🦁','🐵','🐧','🐢','🦄','🐉','🧜‍♀️','🧚','👽','🤖'];
@@ -833,7 +840,8 @@ function save(){if(!CUR)return;lsSet(saveKey(),JSON.stringify({S,uid}));}
 function loadSave(id){try{const j=JSON.parse(lsGet(saveKey(id)));if(j&&j.S&&j.S.dining)return j;}catch(e){}return null;}
 
 /* ---------- inventory ---------- */
-function stock(){return [...S.storage.pieces,...S.fridge.pieces];}
+function coldSpots(k){const i=ING[k];return i.frozen?(S.freezer?['freezer','fridge','storage']:['fridge','storage']):i.cold?['fridge','storage']:['storage','fridge'];}
+function stock(){return [...S.storage.pieces,...S.fridge.pieces,...(S.freezer?S.freezer.pieces:[])];}
 function uses(key){return stock().filter(p=>p.key===key).reduce((a,p)=>a+p.uses,0);}
 function truckUses(key){return S.truck.pieces.filter(p=>p.key===key).reduce((a,p)=>a+p.uses,0);}
 const PER_BLOCK=4;
@@ -844,9 +852,9 @@ function shrink(b){const need=Math.max(1,Math.ceil(b.uses/PER_BLOCK));
 function connected(cs){if(cs.length<=1)return true;const set=new Set(cs.map(c=>c+''));const seen=new Set([cs[0]+'']);const st=[cs[0]];
   while(st.length){const [x,y]=st.pop();for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const k=[x+dx,y+dy]+'';if(set.has(k)&&!seen.has(k)){seen.add(k);st.push([x+dx,y+dy]);}}}return seen.size===cs.length;}
 function consume(key){const bs=stock().filter(p=>p.key===key&&p.uses>0).sort((a,b)=>a.days-b.days||a.uses-b.uses);if(!bs.length)return false;const b=bs[0];b.uses--;
-  if(b.uses<=0){S.storage.pieces=S.storage.pieces.filter(p=>p!==b);S.fridge.pieces=S.fridge.pieces.filter(p=>p!==b);}else shrink(b);return true;}
+  if(b.uses<=0){['storage','fridge','freezer'].forEach(g=>{if(S[g])S[g].pieces=S[g].pieces.filter(p=>p!==b);});}else shrink(b);return true;}
 function refund(key){const b=stock().find(p=>p.key===key&&p.uses<p.shape.length*PER_BLOCK);if(b){b.uses++;return;}
-  for(const gid of ING[key].cold?['fridge','storage']:['storage','fridge']){const spot=findSpot(gid,MONO);if(spot){const p=addPiece(gid,'basket',key,spot.x,spot.y,spot.shape);p.uses=1;return;}}}
+  for(const gid of coldSpots(key)){const spot=findSpot(gid,MONO);if(spot){const p=addPiece(gid,'basket',key,spot.x,spot.y,spot.shape);p.uses=1;return;}}}
 function ingShape(key){let s=ING[key].piece;for(let i=0;i<(S.rot[key]||0)%4;i++)s=rot(s);return s;}
 function charm(){return S.dining.pieces.reduce((a,p)=>a+(FURN[p.key].charm||0),0);}
 function patBonus(){return (S.up.comfy?1.25:1)*(1+charm()*0.03)*(evIs('cushions')?1.3:1)*(evIs('grumpy')?.75:1);}
@@ -1056,7 +1064,7 @@ function blockPrice(k){return Math.max(1,Math.ceil(truckPrice(k)/ING[k].basket.l
 function truckPrice(k){let c=ING[k].cost;if(evIs('sale'))c=Math.round(c*.75);if(evIs('fuel'))c+=2;return c;}
 function menuNeeds(){const need={};menuList().forEach(k=>{for(const i in piecesNeeded(k))(need[i]=need[i]||[]).push(k);});return need;}
 function basketIcon(p){return `<span class="bi">${ING[p.key].emoji}</span>`;}
-function basketLabel(p){const i=ING[p.key];return `<span class="bi">${i.emoji}</span><span class="uses">${p.uses}</span><span class="fresh ${p.days<=1?'d1':''}">${i.cold?'❄':''}${p.days}d</span>`;}
+function basketLabel(p){const i=ING[p.key];return `<span class="bi">${i.emoji}</span><span class="uses">${p.uses}</span><span class="fresh ${p.days<=1?'d1':''}">${i.frozen?'🧊':i.cold?'❄':''}${p.days}d</span>`;}
 function renderTruck(){
   const here=S.phase==='prep';
   $('#truckArea').hidden=!here;$('#truckGone').hidden=here;
@@ -1065,7 +1073,7 @@ function renderTruck(){
   const need=menuNeeds();const order=ingList().filter(k=>!(evIs('shortage')&&S.ev.ing===k)).sort((a,b)=>(need[b]?1:0)-(need[a]?1:0));
   const cl=Object.keys(S.clear||{}).filter(k=>S.clear[k]>0);
   $('#clearance').innerHTML=cl.length?`<div class="clearhead">🏷️ Clearance today — half price, but it spoils after today!</div><div class="buylist">${cl.map(k=>{const i=ING[k];return `<button class="buy clr" data-act="buyClear" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · <s>$${i.cost}</s> $${Math.ceil(i.cost/2)}</b><small>${S.clear[k]} left · ${i.uses} pieces · use it today</small></span></button>`;}).join('')}</div>`:'';
-  $('#buylist').innerHTML=order.map(k=>{const i=ING[k];return `<div class="buywrap ${need[k]?'':'unused'}"><button class="buy" data-act="buyIng" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · $${truckPrice(k)}</b><small>${i.uses} pieces · ${i.cold?'❄️ goes in the fridge':'dry shelf'}${need[k]?'':' · not on your menu'}</small></span>${miniShape(i.basket,i.color,9)}</button>${i.basket.length>1?`<button class=\"buy1\" data-act=\"buyOne\" data-arg=\"${k}\">＋ Just 1 block · $${blockPrice(k)}<small>4 pieces</small></button>`:''}</div>`;}).join('');
+  $('#buylist').innerHTML=order.map(k=>{const i=ING[k];return `<div class="buywrap ${need[k]?'':'unused'}"><button class="buy" data-act="buyIng" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · $${truckPrice(k)}</b><small>${i.uses} pieces · ${i.frozen?'🧊 goes in the dessert freezer':i.cold?'❄️ goes in the fridge':'dry shelf'}${need[k]?'':' · not on your menu'}</small></span>${miniShape(i.basket,i.color,9)}</button>${i.basket.length>1?`<button class=\"buy1\" data-act=\"buyOne\" data-arg=\"${k}\">＋ Just 1 block · $${blockPrice(k)}<small>4 pieces</small></button>`:''}</div>`;}).join('');
 }
 function renderShopping(){
   const need=menuNeeds();const menu=menuList();
@@ -1076,6 +1084,9 @@ function renderShopping(){
 }
 function renderStorage(){
   paintGrid('storage',{max:64,color:p=>ING[p.key].color,label:basketLabel,icon:basketIcon,pcls:p=>ING[p.key].cold?'warm':''});
+  if(S.freezer)paintGrid('freezer',{max:64,color:p=>ING[p.key].color,label:basketLabel,icon:basketIcon,pcls:p=>ING[p.key].frozen?'':'warmz'});
+  $('#freezerBox').hidden=!S.freezer;if(S.freezer)$('#freezerNote').textContent=`${S.freezer.w}×${S.freezer.h}`;
+  {const melt=S.freezer?[...S.storage.pieces,...S.fridge.pieces].filter(p=>ING[p.key].frozen).length:0;$('#meltNote').hidden=!melt;}
   paintGrid('fridge',{max:64,cell:(x,y)=>S.ev&&S.ev.blocked&&S.ev.blocked.includes(x+','+y)?{cls:'blocked',inner:'⚠️'}:{},color:p=>ING[p.key].color,label:basketLabel,icon:basketIcon});
   $('#pantryNote').textContent=`${S.storage.w}×${S.storage.h}`;$('#fridgeNote').textContent=`${S.fridge.w}×${S.fridge.h}`;
   const warm=S.storage.pieces.filter(p=>ING[p.key].cold).length;
@@ -1106,6 +1117,7 @@ function renderUpgrades(){
   const dl=S.up.dining,pl=S.up.pantry;
   h+=urow('📐','Bigger dining room',dl<DINING_COST.length?`Grow the floor to ${DINING_SIZES[dl+1].join('×')}.`:'Fully expanded.',dl<DINING_COST.length?`<button class="btn small go" data-act="growDining">Buy $${DINING_COST[dl]}</button>`:'');
   h+=urow('🗄️','Bigger pantry',pl<PANTRY_COST.length?`Grow the shelves to ${PANTRY_SIZES[pl+1].join('×')}.`:'Fully expanded.',pl<PANTRY_COST.length?`<button class="btn small go" data-act="growPantry">Buy $${PANTRY_COST[pl]}</button>`:'');
+  if(S.freezer){const zl=S.up.freezer||0;h+=urow('🧊','Bigger dessert freezer',zl<FREEZER_COST.length?`Grow the dessert freezer to ${FREEZER_SIZES[zl+1].join('×')}.`:'Fully expanded.',zl<FREEZER_COST.length?`<button class="btn small go" data-act="growFreezer">Buy $${FREEZER_COST[zl]}</button>`:'');}
   const fl=S.up.fridge;
   h+=urow('❄️','Bigger fridge',fl<FRIDGE_COST.length?`Grow the fridge to ${FRIDGE_SIZES[fl+1].join('×')}.`:'Fully expanded.',fl<FRIDGE_COST.length?`<button class="btn small go" data-act="growFridge">Buy $${FRIDGE_COST[fl]}</button>`:'');
   h+=urow('🙋','Host stand','A host seats guests at the door for you automatically.',S.up.host?'<button class="btn small" disabled>Owned</button>':'<button class="btn small go" data-act="buyUp" data-arg="host">Buy $120</button>');
@@ -1164,7 +1176,7 @@ function dailyHTML(){
   ${step(1,'🍽️','Arrange your dining room','Drag tables where you want them. Push tables together to make bigger tables for groups.','dining','Dining')}
   ${step(2,'🍳','Arrange your kitchen','Move your appliances around however you like.','kitchen','Kitchen')}
   ${step(3,'📋','Set your menu','In the Menu tab, pick today’s dishes and solve the math to set their prices. Use Upgrades to unlock new dishes and equipment.','menu','Menu')}
-  ${step(4,'📦','Shop for ingredients','In the Pantry, buy what your menu needs from the truck. Put ❄️ cold food in the fridge.','pantry','Pantry')}
+  ${step(4,'📦','Shop for ingredients','In the Pantry, buy what your menu needs from the truck. Put ❄️ cold food in the fridge and 🧊 ice cream in the dessert freezer.','pantry','Pantry')}
   ${step(5,'🪧','Flip the sign to Open','Tap the <b>Closed</b> sign at the top to open your doors.','','')}
   ${step(6,'🐾','Seat guests and fill orders','Tap a guest at the door, then a table. Build each dish on the plate, serve it, then ring up the bill.','','')}
   </ol>
@@ -1231,7 +1243,7 @@ const EVENTS=[
  {id:'goldstar',good:1,em:'⭐',area:'Inspector',t:'Gold star inspection',d:()=>'The health inspector visits today. If no cold food is sitting on the dry shelves, you earn bonus stars!',go(){S.ev.at=S.openTime+rint(120,300);}},
  {id:'inspect',good:0,day:2,em:'🧑‍⚕️',area:'Inspector',t:'Surprise inspection',d:()=>'The health inspector is coming today. You\'ll be fined $5 for every cold basket left on the dry shelves.',go(){S.ev.at=S.openTime+rint(120,300);}},
  {id:'cleanup',good:0,day:3,em:'🧽',area:'Inspector',t:'Clean-up order',d:e=>`The inspector says old food has to go. ${e.n} basket${e.n===1?'':'s'} with only 1 day left ${e.n===1?'was':'were'} thrown away.`,
-   go(){let n=0;['storage','fridge'].forEach(g=>{S[g].pieces=S[g].pieces.filter(b=>{if(b.days<=1){n++;return false;}return true;});});if(!n)return false;S.ev.n=n;}},
+   go(){let n=0;['storage','fridge','freezer'].filter(g=>S[g]).forEach(g=>{S[g].pieces=S[g].pieces.filter(b=>{if(b.days<=1){n++;return false;}return true;});});if(!n)return false;S.ev.n=n;}},
  {id:'special',good:1,em:'👨‍🍳',area:'Food',t:'Chef\'s special',d:e=>`${dn(e.dish)} is today's chef's special. Every one you serve earns double!`,go(){const m=menuList();S.ev.dish=m[rint(0,m.length-1)];}},
  {id:'trial',good:1,em:'📜',area:'Food',t:'New recipe card',d:e=>`A friend lent you their recipe for ${dn(e.dish)}. It's on your menu just for today — its ingredients are on the truck.`,
    go(){const c=Object.keys(REC).filter(k=>!S.rec[k].unlocked&&(!REC[k].plate||S.up.plate>=REC[k].plate));if(!c.length)return false;S.ev.dish=c[rint(0,c.length-1)];}},
@@ -1240,7 +1252,7 @@ const EVENTS=[
    go(){const own=shuffle([...new Set(S.kitchen.pieces.map(p=>p.key))].filter(a=>a!=='sink'));for(const a of own){S.ev.appl=a;if(lockDishes(k=>(REC_APPL[k]||[]).includes(a)))return;}return false;}},
  {id:'extracold',good:1,em:'❄️',area:'Storage',t:'Extra cold night',d:()=>'The fridge is running extra cold. Fridge food won\'t lose a day tonight.'},
  {id:'crate',good:1,em:'📦',area:'Pantry',t:'Found a crate',d:e=>`You found a forgotten crate of ${ING[e.ing].emoji} ${ING[e.ing].name.toLowerCase()}. It\'s already put away!`,
-   go(){const opts=shuffle(Object.keys(menuNeeds()));for(const k of opts){for(const g of ING[k].cold?['fridge','storage']:['storage','fridge']){const sp=findSpot(g,ING[k].basket);if(sp){addPiece(g,'basket',k,sp.x,sp.y,sp.shape);S.ev.ing=k;return;}}}return false;}},
+   go(){const opts=shuffle(Object.keys(menuNeeds()));for(const k of opts){for(const g of coldSpots(k)){const sp=findSpot(g,ING[k].basket);if(sp){addPiece(g,'basket',k,sp.x,sp.y,sp.shape);S.ev.ing=k;return;}}}return false;}},
  {id:'fritz',good:0,day:4,em:'🧊',area:'Storage',t:'Fridge on the fritz',d:e=>`Part of the fridge stopped working. ${e.blocked.length} fridge squares (⚠️) can't be used today.`,
    go(){const e=emptyCells('fridge');const n=Math.min(e.length,Math.floor(S.fridge.w*S.fridge.h/2));if(n<2)return false;S.ev.blocked=shuffle(e).slice(0,n).map(c=>c+'');}},
  {id:'mice',good:0,day:3,em:'🐭',area:'Pantry',t:'Mice in the pantry',d:e=>`Little mice nibbled your ${ING[e.ing].emoji} ${ING[e.ing].name.toLowerCase()}. ${e.n} pieces are gone.`,
@@ -1281,7 +1293,8 @@ function closeDay(early){
   if(early&&S.repStart!=null&&S.rep>S.repStart){lostStars=S.rep-S.repStart;S.rep=S.repStart;}
   S.payQ=[];REG=null;
   for(const p of S.parties){const T=TYPES[p.type];if(p.state==='paying'){S.money+=p.bill.base+p.bill.tip;S.stats.earned+=p.bill.base+p.bill.tip;S.stats.tips+=p.bill.tip;S.stats.happy++;continue;}if(p.state==='eating'){ke++;changeRep(-0.02*T.rep);S.money+=p.bill.base;S.stats.earned+=p.bill.base;}else{kicked++;changeRep(-0.06*T.rep);}}
-  const spoiled=[];for(const gid of ['storage','fridge']){S[gid].pieces=S[gid].pieces.filter(b=>{const i=ING[b.key];
+  const spoiled=[];for(const gid of ['storage','fridge','freezer'].filter(g=>S[g])){S[gid].pieces=S[gid].pieces.filter(b=>{const i=ING[b.key];
+    if(i.frozen&&S.freezer&&gid!=='freezer'){spoiled.push(`${i.emoji} ${i.name} — melted outside the dessert freezer`);return false;}
     if(i.cold&&gid==='storage'){spoiled.push(`${i.emoji} ${i.name} — left out of the fridge`);return false;}
     if(!(gid==='fridge'&&evIs('extracold')))b.days--;if(b.days<=0){spoiled.push(`${i.emoji} ${i.name} — too old`);return false;}return true;});}
   S.parties.forEach(p=>{if(p.tables&&p.state!=='walking')walkOut(p);});document.querySelectorAll('#f-dining [id^="w-"]').forEach(e=>e.remove());
@@ -1581,8 +1594,8 @@ function tap(d){
 }
 let LASTTAP={id:0,t:0};
 function unloadBasket(p,say){const i=ING[p.key];
-  for(const gid of i.cold?['fridge','storage']:['storage','fridge']){const spot=findSpot(gid,p.shape);if(spot){S.truck.pieces=S.truck.pieces.filter(q=>q!==p);p.shape=spot.shape;p.x=spot.x;p.y=spot.y;S[gid].pieces.push(p);
-    if(say)toast(gid==='fridge'?`❄️ ${i.emoji} ${i.name} went in the fridge.`:i.cold?`⚠️ Fridge is full — ${i.name.toLowerCase()} is on the dry shelf and will spoil tonight.`:`${i.emoji} ${i.name} went on the shelf.`);return true;}}
+  for(const gid of coldSpots(p.key)){const spot=findSpot(gid,p.shape);if(spot){S.truck.pieces=S.truck.pieces.filter(q=>q!==p);p.shape=spot.shape;p.x=spot.x;p.y=spot.y;S[gid].pieces.push(p);
+    if(say)toast(gid==='freezer'?`🧊 ${i.emoji} ${i.name} went in the dessert freezer.`:i.frozen&&S.freezer?`⚠️ Dessert freezer is full — ${i.name.toLowerCase()} will melt tonight if it stays out.`:gid==='fridge'?`❄️ ${i.emoji} ${i.name} went in the fridge.`:i.cold?`⚠️ Fridge is full — ${i.name.toLowerCase()} is on the dry shelf and will spoil tonight.`:`${i.emoji} ${i.name} went on the shelf.`);return true;}}
   if(say)toast(`No room for the ${i.name.toLowerCase()}. Throw something away or buy more space.`);return false;}
 function unloadAll(){const ps=[...S.truck.pieces].sort((a,b)=>b.shape.length-a.shape.length);let n=0;ps.forEach(p=>{if(unloadBasket(p,false))n++;});
   const left=S.truck.pieces.length;toast(left?`Unloaded ${n}. ${left} didn't fit — make some room.`:`📥 Unloaded ${n} basket${n===1?'':'s'}.`);}
@@ -1621,6 +1634,7 @@ const ACT={
   growPlate(){const l=S.up.plate;if(l>=PLATE_COST.length||!spend(PLATE_COST[l]))return;stations().forEach(clearSt);
     S.up.plate++;[S.plate.w,S.plate.h]=PLATE_SIZES[l+1];if(S.plate2){S.plate2.w=S.plate.w;S.plate2.h=S.plate.h;}if(S.up.plate===1&&!S.ingOn.includes('D'))S.ingOn.push('D');
     const f=refreshUnlocks();toast(`🍽️ ${PLATE_NAMES[l+1]}! New on the menu: ${f.map(k=>REC[k].emoji+' '+REC[k].name).join(', ')||'nothing yet — buy the equipment it needs'}.`);},
+  growFreezer(){const l=S.up.freezer||0;if(!S.freezer||l>=FREEZER_COST.length||!spend(FREEZER_COST[l]))return;S.up.freezer=l+1;[S.freezer.w,S.freezer.h]=FREEZER_SIZES[l+1];toast('Bigger dessert freezer! 🧊');},
   growFridge(){const l=S.up.fridge;if(l>=FRIDGE_COST.length||!spend(FRIDGE_COST[l]))return;S.up.fridge++;[S.fridge.w,S.fridge.h]=FRIDGE_SIZES[l+1];toast('Bigger fridge installed! ❄️');},
   pause(){paused=!paused;$('#f-dining').getAnimations&&$('#f-dining').getAnimations({subtree:true}).forEach(a=>paused?a.pause():a.play());},
   help(){modal(helpHTML());},
@@ -1660,7 +1674,7 @@ const ACT={
     addPiece('truck','basket',k,spot.x,spot.y,MONO,{paid:price,uses:4});if(evIs('late')){S.ev.left--;toast(`⏰ ${S.ev.left} basket${S.ev.left===1?'':'s'} left today.`);}},
   buyIng(k){if(S.phase!=='prep')return toast('The truck is gone until tomorrow morning.');if(evIs('shortage')&&S.ev.ing===k)return toast('🚫 The truck is out of that today.');if(evIs('late')&&S.ev.left<=0)return toast('⏰ The truck can\'t sell any more baskets today.');const price=truckPrice(k);const spot=findSpot('truck',ING[k].basket);if(!spot)return toast('The truck bed is full. Drag some baskets onto your shelves first.');if(!spend(price))return;addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{paid:price});if(evIs('late')){S.ev.left--;toast(`⏰ ${S.ev.left} basket${S.ev.left===1?'':'s'} left today.`);}},
   buyEq(k){const e=EQUIP[k];if(S.eq[k])return;if(!spend(e.cost))return;S.eq[k]=true;e.ing.forEach(i=>{if(!S.ingOn.includes(i))S.ingOn.push(i);});
-    refreshUnlocks();addAppliance(k);toast(`${e.emoji} ${e.name} installed — it's in your kitchen now, and new dishes are on the menu.`);},
+    refreshUnlocks();addAppliance(k);if(k==='sweets'&&!S.freezer){S.freezer={w:4,h:3,pieces:[]};}toast(`${e.emoji} ${e.name} installed — it's in your kitchen now, and new dishes are on the menu.`);},
   toggleMenu(k){if(S.phase!=='prep')return toast('The menu is set for today. Change it tomorrow morning.');const s=S.rec[k];if(s.onMenu&&menuList().length<=1)return toast('Keep at least one dish on the menu.');s.onMenu=!s.onMenu;},
   improve(k){const s=S.rec[k];if(s.level>=3)return;if(!spend(REC[k].price*8*s.level))return;s.level++;if(S.priced)delete S.priced[k];toast(`${REC[k].emoji} ${REC[k].name} improved — now $${recipePrice(k)}.`);},
   buyFurn(k){if(!spend(FURN[k].cost))return;S.storeroom.push(FURN[k].seats?{key:k,cloth:FURN[k].cloth}:{key:k});toast(`${FURN[k].name} is in the storeroom. Drag it onto the floor.`);},
