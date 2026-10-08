@@ -506,6 +506,13 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 #freezerBox[hidden]{display:none}
 .storerow{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))!important}
 .apptag{font-family:'Nunito',sans-serif;font-size:11px;font-weight:900;background:#FFE7B8;color:#7A4A00;border-radius:6px;padding:0 5px;vertical-align:middle}
+.mcard{position:relative}
+.mcard.isnew{border-color:#E8A417;box-shadow:0 0 0 3px rgba(232,164,23,.3)}
+.newtag{position:absolute;top:-10px;right:10px;background:#E8A417;color:#fff;font-weight:900;font-size:12px;border-radius:999px;padding:1px 9px}
+.tipbox{background:#FFF6C9;color:#2A1E1A;border-radius:10px;padding:8px 12px;font-size:14px;margin:0 0 12px}
+.swatch{display:inline-block;width:18px;height:18px;border-radius:5px;margin-right:4px;border:1px solid rgba(0,0,0,.2);vertical-align:middle}
+.shelf{margin-top:6px;display:inline-flex;gap:6px;background:linear-gradient(transparent 70%,#8A5A2E 70%);padding:0 10px 4px;border-radius:4px;font-size:26px;line-height:1.2}
+.shelf[hidden]{display:none}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -525,6 +532,7 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
       <button class="iconbtn" data-act="help">Help</button>
       <button class="iconbtn" data-act="guide">Guests</button>
       <button class="iconbtn" data-act="math">🧮 Math</button>
+      <button class="iconbtn" id="relaxBtn" data-act="relax" title="Relaxed mode">🐇 Normal</button>
       <button class="iconbtn" id="sndBtn" data-act="sound" aria-label="Door bell sound">🔔</button>
     </div>
     <button id="sign" class="sign closed" data-act="sign" title="Flip the sign">Closed</button>
@@ -543,7 +551,7 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
   </nav>
   <section>
     <div class="panel dining tabpanel" id="tab-dining">
-      <div class="wallband"><div class="phead" style="margin:0"><h2>Dining room</h2><span class="hours" id="hours"></span></div></div>
+      <div class="wallband"><div class="phead" style="margin:0"><h2>Dining room</h2><span class="hours" id="hours"></span></div><div class="shelf" id="shelf" hidden></div></div>
       <button class="pbanner" id="priceBanner" data-act="setPrices" hidden></button>
       <div class="door"><span class="door-label">Waiting at the door</span><div id="queue" class="queue"></div></div>
       <div class="floortools">
@@ -756,7 +764,7 @@ const TYPES={
   bigfoot:{name:'Bigfoot',faces:['🦍'],special:true,size:[1,1],pat:1.2,tip:2,rep:2,eat:2,w:.6,minRep:2.8,prefer:['feast','pizza','salad','fries'],desc:'Legendary forest giant. Gentle, VERY hungry, and loves big dishes.'},
 };
 const DINING_SIZES=[[7,5],[9,6],[10,7]], DINING_COST=[100,220];
-const PANTRY_SIZES=[[5,4],[6,5],[7,6],[8,7]], PANTRY_COST=[70,150,260];
+const PANTRY_SIZES=[[5,4],[6,5],[7,6],[8,7],[9,8]], PANTRY_COST=[70,150,260,400];
 const APPL={
   stove:{name:'Stove',emoji:'🍳',shape:I2,color:'#3B4248'},
   sink:{name:'Sink',emoji:'🚰',shape:I2,color:'#8FA7B8'},
@@ -775,7 +783,24 @@ const REC_APPL={toast:['toaster'],eggrice:['rice','stove'],burger:['grill'],sala
   berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],apptoast:['toaster'],appfrozen:['freezer'],apptaco:['fishcounter'],appknots:['stove'],appsampler:['stove','toaster'],appwrap:['saladbar'],apppatty:['grill'],appmango:['blender'],appbanana:['blender'],appspring:['noodlepot'],appchips:['fryer'],appchicken:['fryer'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
 const PLATE_SIZES=[[5,4],[6,5],[7,6]], PLATE_COST=[120,260], PLATE_NAMES=['Small plate','Big plate','Serving platter'];
 const FREEZER_SIZES=[[4,3],[5,4],[6,5]], FREEZER_COST=[100,200];
-const FRIDGE_SIZES=[[5,4],[6,5],[7,6],[8,6]], FRIDGE_COST=[80,180,300];
+const THEMES={
+  diner:{name:'Classic diner',emoji:'🍒',cost:0,wall:'#22605A',stripe:'#1D5550',a:'#FBFBF8',b:'#2B2B2B'},
+  ocean:{name:'Under the sea',emoji:'🐠',cost:300,wall:'#1F5F8B',stripe:'#1A5378',a:'#E8F6FF',b:'#7FC6E8'},
+  candy:{name:'Candy shop',emoji:'🍭',cost:400,wall:'#C2477D',stripe:'#A93C6C',a:'#FFF0F6',b:'#FFB3D1'},
+  jungle:{name:'Jungle hut',emoji:'🌴',cost:500,wall:'#2F6B2A',stripe:'#275A23',a:'#F3EBD3',b:'#B88C52'},
+  space:{name:'Space station',emoji:'🚀',cost:700,wall:'#1C1A3A',stripe:'#15132E',a:'#3A3766',b:'#24224A'},
+  castle:{name:'Royal castle',emoji:'🏰',cost:900,wall:'#5A3F7A',stripe:'#4C346A',a:'#EFE7D6',b:'#9C8A6E'},
+};
+const TROPHIES={
+  spoon:{name:'Golden spoon',emoji:'🥄',cost:250},
+  medal:{name:'Best burger medal',emoji:'🥇',cost:400},
+  cup:{name:'Chef cup',emoji:'🏆',cost:600},
+  plaque:{name:'Five-star plaque',emoji:'🌟',cost:900},
+  crown:{name:'Royal chef crown',emoji:'👑',cost:1200},
+  egg:{name:'Dragon egg',emoji:'🥚',cost:1600},
+};
+function applyTheme(){const id=(S&&S.theme)||'diner',t=THEMES[id]||THEMES.diner,r=document.documentElement.style;if(id==='diner'){['--wallpaper','--stripe','--tileA','--tileB'].forEach(v=>r.removeProperty(v));return;}r.setProperty('--wallpaper',t.wall);r.setProperty('--stripe',t.stripe);r.setProperty('--tileA',t.a);r.setProperty('--tileB',t.b);}
+const FRIDGE_SIZES=[[5,4],[6,5],[7,6],[8,6],[9,7]], FRIDGE_COST=[80,180,300,450];
 const ACCEPT={plate2:'food',kitchen:'appl',dining:'furn',storage:'basket',fridge:'basket',freezer:'basket',truck:'basket',plate:'food'};
 const LV=[1,1.4,1.8];
 const MPS=2; // game minutes per real second
@@ -834,7 +859,7 @@ function findSpot(gid,shape){let s=shape;const g=S[gid];for(let r=0;r<4;r++){for
 function seedKitchen(){addPiece('kitchen','appl','stove',0,0);addPiece('kitchen','appl','sink',4,0);addPiece('kitchen','appl','toaster',0,3);addPiece('kitchen','appl','rice',1,3);}
 function addAppliance(eq){for(const a in APPL){if(APPL[a].eq!==eq)continue;let spot=findSpot('kitchen',APPL[a].shape);while(!spot){S.kitchen.h++;spot=findSpot('kitchen',APPL[a].shape);}addPiece('kitchen','appl',a,spot.x,spot.y,spot.shape);}}
 function recReady(k){const r=REC[k];return (!r.needs||!!S.eq[r.needs])&&(!r.also||!!S.eq[r.also])&&(!r.plate||S.up.plate>=r.plate);}
-function refreshUnlocks(){const fresh=[];for(const k in REC)if(recReady(k)&&!S.rec[k].unlocked){S.rec[k].unlocked=true;S.rec[k].onMenu=true;fresh.push(k);}return fresh;}
+function refreshUnlocks(){const fresh=[];for(const k in REC)if(recReady(k)&&!S.rec[k].unlocked){S.rec[k].unlocked=true;S.rec[k].onMenu=false;S.rec[k].isNew=true;fresh.push(k);}return fresh;}
 function lockText(k){const r=REC[k],p=[];if(r.needs&&!S.eq[r.needs])p.push('the '+EQUIP[r.needs].name.toLowerCase());if(r.also&&!S.eq[r.also])p.push('the '+EQUIP[r.also].name.toLowerCase());if(r.plate&&S.up.plate<r.plate)p.push('the '+PLATE_NAMES[r.plate].toLowerCase());return 'Needs '+p.join(' and ')+'.';}
 function migrate(){if(S.up.freezer==null)S.up.freezer=0;if(S.eq.sweets&&!S.freezer)S.freezer={w:4,h:3,pieces:[]};if(S.up.plate2&&!S.plate2)S.plate2={w:S.plate.w,h:S.plate.h,pieces:[]};S.st={};S.cur='plate';if(S.fridge){const fz=FRIDGE_SIZES[S.up.fridge||0];S.fridge.w=Math.max(S.fridge.w,fz[0]);S.fridge.h=Math.max(S.fridge.h,fz[1]);}[S.storage,S.fridge,S.truck].forEach(g=>g&&g.pieces.forEach(b=>{if(b.kind==='basket')shrink(b);}));if(S.up.plate==null)S.up.plate=0;if(!S.kitchen){S.kitchen={w:6,h:4,pieces:[]};seedKitchen();for(const k in S.eq)if(S.eq[k])addAppliance(k);}
   for(const k in REC)if(!S.rec[k])S.rec[k]={unlocked:false,level:1,onMenu:false};refreshUnlocks();}
@@ -869,8 +894,8 @@ function consume(key){const bs=stock().filter(p=>p.key===key&&p.uses>0).sort((a,
 function refund(key){const b=stock().find(p=>p.key===key&&p.uses<p.shape.length*PER_BLOCK);if(b){b.uses++;return;}
   for(const gid of coldSpots(key)){const spot=findSpot(gid,MONO);if(spot){const p=addPiece(gid,'basket',key,spot.x,spot.y,spot.shape);p.uses=1;return;}}}
 function ingShape(key){let s=ING[key].piece;for(let i=0;i<(S.rot[key]||0)%4;i++)s=rot(s);return s;}
-function charm(){return S.dining.pieces.reduce((a,p)=>a+(FURN[p.key].charm||0),0);}
-function patBonus(){return (S.up.comfy?1.25:1)*(1+charm()*0.03)*(evIs('cushions')?1.3:1)*(evIs('grumpy')?.75:1);}
+function charm(){return S.dining.pieces.reduce((a,p)=>a+(FURN[p.key].charm||0),0)+(S.trophies||[]).length*2;}
+function patBonus(){return (S.relaxed?1.6:1)*(S.up.comfy?1.25:1)*(1+charm()*0.03)*(evIs('cushions')?1.3:1)*(evIs('grumpy')?.75:1);}
 function priceStep(k){return Math.max(1,Math.round(REC[k].price*0.25));}
 function priceAt(k,lv){return REC[k].price+priceStep(k)*(lv-1);}
 function improveCost(k){return priceStep(k)*15;}
@@ -948,6 +973,7 @@ function paintGrid(gid,opt){const el=document.getElementById('g-'+gid),g=S[gid];
 
 function renderHeader(){
   {const c=evCard(),ch=$('#evChip');ch.hidden=!c;if(c){ch.className='stat evchip '+(c.good?'good':'bad');$('#evName').textContent=c.em+' '+c.t;}}
+  $('#relaxBtn').textContent=S.relaxed?'🐢 Relaxed':'🐇 Normal';
   $('#sndBtn').textContent=SOUND?'🔔':'🔕';$('#day').textContent=S.day;const cp=curPlayer();$('#who').textContent=cp?cp.av+' '+cp.name:'—';
   $('#clock').textContent=S.phase==='open'?fmt(S.clock):'Before opening';
   $('#money').textContent='$'+S.money;
@@ -1128,6 +1154,11 @@ function renderUpgrades(){
   h+='<h3>Magical seating</h3>';
   for(const k in FURN){const f=FURN[k];if(!f.for)continue;const T=TYPES[f.for];
     h+=urow(f.emoji,f.name,`For ${T.faces[0]} ${T.name.toLowerCase()} only (visits at ${T.minRep}★+). Seated here they tip extra; at a regular table they pay for their food but leave no tip.`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
+  h+='<h3>Restaurant themes</h3><p class="hint" style="margin:0 0 6px">Change the whole look of your restaurant. Buy a theme once, then switch any time.</p>';
+  for(const k in THEMES){const t=THEMES[k],own=k==='diner'||(S.themes||[]).includes(k),on=(S.theme||'diner')===k;
+    h+=urow(t.emoji,t.name,`<span class="swatch" style="background:${t.wall}"></span><span class="swatch" style="background:${t.a}"></span><span class="swatch" style="background:${t.b}"></span>`,on?'<button class="btn small" disabled>✓ Using</button>':own?`<button class="btn small" data-act="useTheme" data-arg="${k}">Use</button>`:`<button class="btn small go" data-act="buyTheme" data-arg="${k}">Buy $${t.cost}</button>`);}
+  h+='<h3>Trophy shelf</h3><p class="hint" style="margin:0 0 6px">Show off on the dining room wall. Each trophy adds +2 charm (guests wait longer and tip more).</p>';
+  for(const k in TROPHIES){const t=TROPHIES[k],own=(S.trophies||[]).includes(k);h+=urow(t.emoji,t.name,'+2 charm',own?'<button class="btn small" disabled>On the shelf</button>':`<button class="btn small go" data-act="buyTrophy" data-arg="${k}">Buy $${t.cost}</button>`);}
   h+='<h3>Restaurant</h3>';
   const dl=S.up.dining,pl=S.up.pantry;
   h+=urow('📐','Bigger dining room',dl<DINING_COST.length?`Grow the floor to ${DINING_SIZES[dl+1].join('×')}.`:'Fully expanded.',dl<DINING_COST.length?`<button class="btn small go" data-act="growDining">Buy $${DINING_COST[dl]}</button>`:'');
@@ -1154,23 +1185,25 @@ function renderMenuTab(){
   const unl=Object.keys(REC).filter(k=>S.rec[k].unlocked),locked=Object.keys(REC).filter(k=>!S.rec[k].unlocked);
   const on=menuList().length,np=unpriced().length;
   $('#menuNote').textContent=`${on} dish${on===1?'':'es'} on the menu`;
-  $('#mbadge').textContent=prep&&np?'✏️':'';
+  const nNew=unl.filter(k=>S.rec[k].isNew).length;$('#mbadge').textContent=nNew?'NEW':prep&&np?'✏️':'';
   const card=k=>{const r=REC[k],st=S.rec[k],inM=menuList().includes(k),pn=piecesNeeded(k);
     const ings=Object.keys(pn).map(i=>`<span class="mi ${uses(i)<pn[i]?'low':''}" title="${ING[i].name}${uses(i)<pn[i]?' — not enough in stock':''}">${ING[i].emoji}×${pn[i]}</span>`).join('');
     let btn;
     if(prep)btn=`<button class="mbtn ${inM?'on':''}" data-act="toggleMenu" data-arg="${k}">${inM?'✓ On today\'s menu':'＋ Add to menu'}</button>`;
     else if(inM)btn=`<button class="mbtn ${so[k]?'sold':'on'}" data-act="soldOut" data-arg="${k}">${so[k]?'🚫 Sold out — tap to bring back':'✓ Serving — tap if sold out'}</button>`;
     else btn=`<button class="mbtn" disabled>Not on today's menu</button>`;
-    return `<div class="mcard ${inM?'in':''} ${so[k]&&inM?'sold':''}"><div class="mtop"><span class="me">${r.emoji}</span><b>${r.name}${r.app?' <small class=\"apptag\">starter</small>':r.kid?' <small class=\"kidtag\">kids</small>':''}</b><em>${inM?(so[k]?'SOLD OUT':priceTag(k)):'$'+recipePrice(k)}</em></div><div class="mings">${ings}</div>${btn}</div>`;};
+    return `<div class="mcard ${inM?'in':''} ${so[k]&&inM?'sold':''} ${st.isNew?'isnew':''}">${st.isNew?'<span class="newtag">New!</span>':''}<div class="mtop"><span class="me">${r.emoji}</span><b>${r.name}${r.app?' <small class=\"apptag\">starter</small>':r.kid?' <small class=\"kidtag\">kids</small>':''}</b><em>${inM?(so[k]?'SOLD OUT':priceTag(k)):'$'+recipePrice(k)}</em></div><div class="mings">${ings}</div>${btn}</div>`;};
   $('#menuTab').innerHTML=
     (prep&&np?`<button class="pbanner" data-act="setPrices">✏️ <b>Set today's menu prices</b><span>${np} to go — tap here</span></button>`:'')+
     `<p class="hint" style="margin:0 0 10px">${prep?'Pick the dishes you want to cook today, then set their prices. You can change this every morning.':'The menu is set for today. If you run out of something, tap a dish to mark it sold out.'}</p>`+
-    `<div class="mgrid">${unl.map(card).join('')}</div>`+
+    `<p class="tipbox">💡 Smaller menus waste less food — you only need ingredients for the dishes you pick. ${on>10?`You have <b>${on}</b> dishes on today's menu.`:''}</p>`+
+    `<div class="mgrid">${[...unl.filter(k=>S.rec[k].isNew),...unl.filter(k=>!S.rec[k].isNew)].map(card).join('')}</div>`+
     (locked.length?`<h3>Still locked</h3><div class="mgrid">${locked.map(k=>`<div class="mcard locked"><div class="mtop"><span class="me">${REC[k].emoji}</span><b>${REC[k].name}</b><em>🔒</em></div><small>${lockText(k)} See Upgrades.</small></div>`).join('')}</div>`:'');
 }
 function renderTabs(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','pantry','upgrades','receipts'].forEach(t=>$('#tab-'+t).hidden=t!==tab);}
 function renderLive(){if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
-function renderAll(){renderHeader();renderQueue();renderDining();renderStoreroom();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
+function renderShelf(){const t=S.trophies||[],el=$('#shelf');el.hidden=!t.length;el.innerHTML=t.map(k=>`<span title="${TROPHIES[k].name}">${TROPHIES[k].emoji}</span>`).join('');}
+function renderAll(){applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
 
 /* ---------- toasts, floats, modal ---------- */
 function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;$('#toasts').appendChild(t);while($('#toasts').children.length>3)$('#toasts').firstChild.remove();setTimeout(()=>t.remove(),3200);}
@@ -1211,6 +1244,7 @@ function helpHTML(){return `<h1>How to play</h1><ol>
 <li><b>Set today's prices.</b> Each morning, solve the addition fact for each dish on the chalkboard menu to set its price.</li>
 <li><b>Ring up the bill.</b> When guests finish, add their food + tip at the cash register. (Change the facts or turn math off with 🧮 Math.)</li>
 <li><b>Get paid.</b> Everyone in a group orders their own meal. When guests finish eating they pay, and their receipt goes in the 🧾 Receipts tab — what they ordered, their tip and what they thought. Check it any time.</li>
+<li><b>Speed matters for tips.</b> Guests who get their food fast tip more. Slow food never costs stars — only guests who walk out do. Need more time? Turn on 🐢 Relaxed mode.</li>
 <li><b>Stay open all day.</b> If you close early, you don't earn any stars that day.</li>
 <li><b>Watch the clock.</b> At closing time the sign flips and everyone still inside gets kicked out — unhappy guests cost you stars.</li>
 <li><b>Grow.</b> Spend cash in <b>Upgrades</b> on equipment, new recipes, better recipes, furniture and a bigger restaurant.</li></ol>
@@ -1225,7 +1259,8 @@ function titleScreen(){loadPlayers();
 function playerMenu(){const p=curPlayer();if(!p)return titleScreen();const sv=loadSave();
   modal(`<div class="pmenu"><span class="pav big">${p.av}</span><h2>${esc(p.name)}'s restaurant</h2><p>${sv?`Day ${sv.S.day} · $${sv.S.money} · ${sv.S.rep.toFixed(1)}★`:'No restaurant yet.'}</p></div>
   <div class="modal-actions">${sv?`<button class="btn primary" data-act="continue">Continue — day ${sv.S.day}</button><button class="btn" data-act="askNewGame">Start over</button>`:`<button class="btn primary" data-act="newGame">Open my restaurant</button>`}
-  <button class="btn" data-act="switchPlayer">← Players</button><button class="btn" data-act="askDelete">Delete player</button></div>`);}
+  <button class="btn" data-act="switchPlayer">← Players</button><button class="btn" data-act="askDelete">Delete player</button></div>
+  <p class="hint">Tip: tap 🐇/🐢 at the top of the game to switch Relaxed mode on or off.</p>`);}
 function newPlayerHTML(){return `<h2>New player</h2><label class="plabel">Name<input id="pname" maxlength="14" placeholder="Your name" autocomplete="off"></label>
   <h3>Pick your animal</h3><div class="avgrid">${AVATARS.map(a=>`<button class="avb ${a===NEWAV?'on':''}" data-act="pickAv" data-arg="${a}">${a}</button>`).join('')}</div>
   <div class="modal-actions"><button class="btn primary" data-act="createPlayer">Create player</button><button class="btn" data-act="switchPlayer">Cancel</button></div>`;}
@@ -1352,7 +1387,7 @@ function spawnParty(){
   const mp=30*T.pat*patBonus();
   S.parties.push({id:uid++,type,size,faces:fs,state:'door',pat:mp,maxPat:mp,t:0,tables:null,dishes:[],bday,kids});chime(!!T.special);if(bday)toast('🎂 The birthday family is here!');
 }
-function arrivalGap(){let g=45/(0.4+S.rep/4)*rand(.6,1.35);if(S.day<=2)g*=1.4;if(evIs('rush'))g/=2;if(evIs('rain'))g*=2;return g;}
+function arrivalGap(){let g=(S.relaxed?1.3:1)*45/(0.4+S.rep/4)*rand(.6,1.35);if(S.day<=2)g*=1.4;if(evIs('rush'))g/=2;if(evIs('rain'))g*=2;return g;}
 function seatParty(pid,table){
   const p=S.parties.find(q=>q.id===pid);S.sel=null;if(!p||p.state!=='door')return;
   const c=clusterOf(table.id);if(!c)return toast('🪚 That table is wobbly today. Try another one.');
@@ -1419,16 +1454,16 @@ function swapOrder(p){
   toast(`🔄 ${faces(p)} picked something else: ${left.map(d=>REC[d.rec].emoji+' '+REC[d.rec].name).join(', ')}. They'll pay a bit less.`);
   renderAll();}
 function removeParty(p){S.parties=S.parties.filter(q=>q!==p);const we=document.getElementById('w-'+p.id);if(we)we.remove();for(const g of stations()){const sl=stSlot(g);if(sl&&sl.pid===p.id){clearSt(g);S.st[g]=null;}}autoFill();if(S.sel===p.id)S.sel=null;}
-function leaveAngry(p,why){const T=TYPES[p.type];changeRep(-0.08*T.rep);S.stats.angry++;p.why=why;p.repLoss=-0.08*T.rep;p.tnum=p.tables?tableNum(p.tables[0]):0;receipt(p,'angry');walkOut(p);if(p.tables)floatText(p.tables[0],p.type==='dragon'?'🔥':'😠',true);
+function leaveAngry(p,why){const T=TYPES[p.type];changeRep(-0.06*Math.min(T.rep,2));S.stats.angry++;p.why=why;p.repLoss=-0.06*Math.min(T.rep,2);p.tnum=p.tables?tableNum(p.tables[0]):0;receipt(p,'angry');walkOut(p);if(p.tables)floatText(p.tables[0],p.type==='dragon'?'🔥':'😠',true);
   if(p.type==='dragon')toast(`🐉 The dragon ${why} and flew off in a puff of smoke!`);removeParty(p);renderAll();}
 function finishParty(p){
   const T=TYPES[p.type],frac=Math.max(0,p.pat/p.maxPat);
   let base=p.dishes.reduce((a,d)=>a+d.price,0);
-  let tip=Math.round(base*0.3*T.tip*(0.4+frac)*(1+charm()*0.04));let note='';
+  const speed=frac>.5?1.2:frac>.25?0.6:0.15;let tip=Math.round(base*0.3*T.tip*speed*(1+charm()*0.04));let note=frac<=.25?'🐌 Food was slow — small tip':frac<=.5?'⏳ A bit slow — smaller tip':'';
   if(evIs('tippers'))tip*=2;if(p.bday){tip+=10;note='🎂 Birthday party — big tip!';}
   if(T.special&&p.misSeat){tip=0;note=`Wanted the ${seatName(p.type).toLowerCase()} — no tip`;}
   else if(T.special){tip=Math.round(tip*1.3);note=`Loved the ${seatName(p.type).toLowerCase()}! Extra tip`;}
-  const dr=frac>.5?0.05*T.rep:frac>.25?0.01*T.rep:-0.03*T.rep;changeRep(dr);
+  const dr=frac>.5?0.05*T.rep:frac>.2?0.02*T.rep:0;changeRep(dr);
   p.bill={base,tip,note,frac,rep:dr,stars:clamp(Math.round(1+frac*4.5),1,5)};
   if(p.type==='critic')toast(frac>.5?'🦉 The critic loved it! Your stars jump.':'🦉 The critic scribbles notes… that took a while.');
   if(p.type==='unicorn'&&frac>.5)toast('🦄 The unicorn is delighted! Sparkles everywhere. ✨');
@@ -1650,7 +1685,7 @@ const ACT={
   paintColor(c){paintColor=c;tool='paint';},
   growPlate(){const l=S.up.plate;if(l>=PLATE_COST.length||!spend(PLATE_COST[l]))return;stations().forEach(clearSt);
     S.up.plate++;[S.plate.w,S.plate.h]=PLATE_SIZES[l+1];if(S.plate2){S.plate2.w=S.plate.w;S.plate2.h=S.plate.h;}if(S.up.plate===1&&!S.ingOn.includes('D'))S.ingOn.push('D');
-    const f=refreshUnlocks();toast(`🍽️ ${PLATE_NAMES[l+1]}! New on the menu: ${f.map(k=>REC[k].emoji+' '+REC[k].name).join(', ')||'nothing yet — buy the equipment it needs'}.`);},
+    const f=refreshUnlocks();toast(`🍽️ ${PLATE_NAMES[l+1]}! New recipes to add in the 📋 Menu tab: ${f.map(k=>REC[k].emoji+' '+REC[k].name).join(', ')||'nothing yet — buy the equipment it needs'}.`);},
   growFreezer(){const l=S.up.freezer||0;if(!S.freezer||l>=FREEZER_COST.length||!spend(FREEZER_COST[l]))return;S.up.freezer=l+1;[S.freezer.w,S.freezer.h]=FREEZER_SIZES[l+1];toast('Bigger dessert freezer! 🧊');},
   growFridge(){const l=S.up.fridge;if(l>=FRIDGE_COST.length||!spend(FRIDGE_COST[l]))return;S.up.fridge++;[S.fridge.w,S.fridge.h]=FRIDGE_SIZES[l+1];toast('Bigger fridge installed! ❄️');},
   pause(){paused=!paused;$('#f-dining').getAnimations&&$('#f-dining').getAnimations({subtree:true}).forEach(a=>paused?a.pause():a.play());},
@@ -1670,6 +1705,12 @@ const ACT={
   deletePlayer(){lsDel(saveKey());PLAYERS=PLAYERS.filter(p=>p.id!==CUR);savePlayers();CUR=null;titleScreen();},
   newGame(){newGame();closeModal();renderAll();save();modal(dailyHTML());},
   daily(){modal(dailyHTML());},
+  buyTheme(k){if(!spend(THEMES[k].cost))return;S.themes=S.themes||[];S.themes.push(k);S.theme=k;applyTheme();toast(`${THEMES[k].emoji} Your restaurant is now a ${THEMES[k].name.toLowerCase()}!`);},
+  useTheme(k){S.theme=k;applyTheme();},
+  buyTrophy(k){if((S.trophies||[]).includes(k)||!spend(TROPHIES[k].cost))return;S.trophies=S.trophies||[];S.trophies.push(k);toast(`${TROPHIES[k].emoji} ${TROPHIES[k].name} is on your trophy shelf!`);},
+  relax(){modal(`<h2>🐢 Relaxed mode</h2><p>Relaxed mode is great for younger players. Guests wait <b>60% longer</b> and come in a little slower, so there's more time to cook.</p><p>Each player picks their own setting.</p>
+    <div class="modal-actions"><button class="btn ${S.relaxed?'':'primary'}" data-act="setRelax" data-arg="1">🐢 Relaxed</button><button class="btn ${S.relaxed?'primary':''}" data-act="setRelax" data-arg="0">🐇 Normal</button></div>`);},
+  setRelax(v){S.relaxed=v==='1';save();closeModal();toast(S.relaxed?'🐢 Relaxed mode on — guests are extra patient.':'🐇 Normal mode — guests move at regular speed.');},
   goPhone(){try{localStorage.removeItem('tt-prefer')}catch(e){}location.href='phone.html';},
   goDesktop(){try{localStorage.setItem('tt-prefer','desktop')}catch(e){}location.href='./?desktop';},
   guideTog(){S.guide=!!($('#gOn')&&$('#gOn').checked);save();},
@@ -1691,8 +1732,8 @@ const ACT={
     addPiece('truck','basket',k,spot.x,spot.y,MONO,{paid:price,uses:4});if(evIs('late')){S.ev.left--;toast(`⏰ ${S.ev.left} basket${S.ev.left===1?'':'s'} left today.`);}},
   buyIng(k){if(S.phase!=='prep')return toast('The truck is gone until tomorrow morning.');if(evIs('shortage')&&S.ev.ing===k)return toast('🚫 The truck is out of that today.');if(evIs('late')&&S.ev.left<=0)return toast('⏰ The truck can\'t sell any more baskets today.');const price=truckPrice(k);const spot=findSpot('truck',ING[k].basket);if(!spot)return toast('The truck bed is full. Drag some baskets onto your shelves first.');if(!spend(price))return;addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{paid:price});if(evIs('late')){S.ev.left--;toast(`⏰ ${S.ev.left} basket${S.ev.left===1?'':'s'} left today.`);}},
   buyEq(k){const e=EQUIP[k];if(S.eq[k])return;if(!spend(e.cost))return;S.eq[k]=true;e.ing.forEach(i=>{if(!S.ingOn.includes(i))S.ingOn.push(i);});
-    refreshUnlocks();addAppliance(k);if(k==='sweets'&&!S.freezer){S.freezer={w:4,h:3,pieces:[]};}toast(`${e.emoji} ${e.name} installed — it's in your kitchen now, and new dishes are on the menu.`);},
-  toggleMenu(k){if(S.phase!=='prep')return toast('The menu is set for today. Change it tomorrow morning.');const s=S.rec[k];if(s.onMenu&&menuList().length<=1)return toast('Keep at least one dish on the menu.');s.onMenu=!s.onMenu;},
+    refreshUnlocks();addAppliance(k);if(k==='sweets'&&!S.freezer){S.freezer={w:4,h:3,pieces:[]};}toast(`${e.emoji} ${e.name} installed! New recipes are waiting in the 📋 Menu tab.`);},
+  toggleMenu(k){if(S.rec[k])S.rec[k].isNew=false;if(S.phase!=='prep')return toast('The menu is set for today. Change it tomorrow morning.');const s=S.rec[k];if(s.onMenu&&menuList().length<=1)return toast('Keep at least one dish on the menu.');s.onMenu=!s.onMenu;},
   improve(k){const s=S.rec[k];if(s.level>=3)return;if(!spend(improveCost(k)))return;s.level++;if(S.priced)delete S.priced[k];toast(`${REC[k].emoji} ${REC[k].name} improved — now $${recipePrice(k)}.`);},
   buyFurn(k){if(!spend(FURN[k].cost))return;S.storeroom.push(FURN[k].seats?{key:k,cloth:FURN[k].cloth}:{key:k});toast(`${FURN[k].name} is in the storeroom. Drag it onto the floor.`);},
   growDining(){const l=S.up.dining;if(l>=DINING_COST.length||!spend(DINING_COST[l]))return;S.up.dining++;[S.dining.w,S.dining.h]=DINING_SIZES[l+1];toast('The dining room got bigger!');},
