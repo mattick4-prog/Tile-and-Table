@@ -2,6 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>
+(function(){try{var h=location.hostname;if(!/github\.io$/.test(h))return;
+  if(/[?&]desktop/.test(location.search)){try{localStorage.setItem('tt-prefer','desktop')}catch(e){}return;}
+  var pref=null;try{pref=localStorage.getItem('tt-prefer')}catch(e){}
+  var phone=/Android|iPhone|iPod|Mobile/i.test(navigator.userAgent)||(window.matchMedia&&matchMedia('(max-width: 760px)').matches);
+  if(phone&&pref!=='desktop')location.replace('phone.html');}catch(e){}})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tile &amp; Table — Restaurant Game</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -358,7 +365,6 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .needrow .st{font-weight:900;font-size:12px;border-radius:999px;padding:2px 8px;background:rgba(43,168,138,.15);color:#1E7A63}
 .needrow.low{border-left-color:var(--mustard)} .needrow.low .st{background:rgba(242,177,52,.25);color:#8A5A00}
 .needrow.out{border-left-color:var(--red)} .needrow.out .st{background:rgba(200,16,46,.15);color:var(--red)}
-.buy.unused{opacity:.6}
 .spoil{margin:4px 0 0;padding-left:20px}
 #receipts{position:fixed;right:12px;top:calc(110px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:8px;z-index:190;width:min(260px,78vw)}
 .receipt{position:relative;background:#FFFDF4;color:#2A1E1A;padding:12px 14px 14px;border-radius:4px;box-shadow:0 8px 20px rgba(0,0,0,.3);font-size:13px;animation:rin .3s;
@@ -490,6 +496,11 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .kidtag{font-family:'Nunito',sans-serif;font-size:11px;font-weight:900;background:#FFD6E8;color:#7A1E4A;border-radius:6px;padding:0 5px;vertical-align:middle}
 .pc.s-beanstalk .blk{background:radial-gradient(circle at 20% 30%,#7CCB5A 0 14%,transparent 15%),radial-gradient(circle at 75% 65%,#7CCB5A 0 14%,transparent 15%),repeating-linear-gradient(100deg,#3E8A2E 0 10px,#2F6E22 10px 14px);box-shadow:inset 0 0 0 3px #A8E08A}
 .ptag.giant .who{font-size:clamp(34px,7vw,64px);padding:2px 12px}
+.buywrap{display:flex;flex-direction:column;gap:3px}
+.buywrap.unused{opacity:.6}
+.buywrap{gap:5px!important}
+.buy1{border:2px solid var(--mint);background:#DDF5EC;color:#1E5C4A;border-radius:12px;padding:9px 12px;font:inherit;font-size:15px;font-weight:900;cursor:pointer;text-align:center;min-height:44px}
+.buy1 small{display:block;font-size:12px;font-weight:700;color:#1E5C4A;opacity:.8}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -623,7 +634,7 @@ const ING={
   C:{name:'Cheese',emoji:'🧀',color:'#F2C94C',piece:MONO,basket:I2,uses:8,cost:8},
   R:{name:'Rice',emoji:'🍚',color:'#C9C9B8',piece:O4,basket:L3,uses:12,cost:14},
   E:{name:'Egg',emoji:'🥚',color:'#F4D98A',piece:MONO,basket:MONO,uses:4,cost:4},
-  T:{name:'Tomato',emoji:'🍅',color:'#E8483B',piece:MONO,basket:I3,uses:12,cost:8},
+  T:{name:'Tomato',emoji:'🍅',color:'#E8483B',piece:MONO,basket:O4,uses:16,cost:10},
   P:{name:'Patty',emoji:'🥩',color:'#9C4A2F',piece:I2,basket:I2,uses:8,cost:18},
   L:{name:'Lettuce',emoji:'🥬',color:'#5DB04A',piece:L3,basket:I2,uses:8,cost:8},
   N:{name:'Noodles',emoji:'🍜',color:'#E8B84F',piece:I3,basket:I3,uses:12,cost:18},
@@ -646,7 +657,7 @@ const REC={
   burger:{name:'Burger',emoji:'🍔',price:11,map:['BBBB','PPCT','BBBB'],needs:'grill'},
   salad:{name:'Garden salad',emoji:'🥗',price:8,map:['LLT','LLT','LLC'],needs:'garden'},
   noodle:{name:'Noodle bowl',emoji:'🍜',price:10,map:['NNNE','NNNT'],needs:'noodle'},
-  spicy:{name:'Spicy noodles',emoji:'🥵',price:13,map:['SNNN','SNNN','EETT'],needs:'noodle'},
+  spicy:{name:'Spicy noodles',emoji:'🥵',price:13,map:['SNNN','SNNN','EEET'],needs:'noodle'},
   sundae:{name:'Berry sundae',emoji:'🍨',price:9,map:['YYI','YII'],needs:'sweets'},
   berrysmooth:{name:'Berry smoothie',emoji:'🫐',price:9,map:['GG','YY','YG','.G'],needs:'smoothie'},
   tropical:{name:'Tropical smoothie',emoji:'🥭',price:11,map:['MM','MA','GA','G.'],needs:'smoothie'},
@@ -654,11 +665,11 @@ const REC={
   fries:{name:'Fries & dip',emoji:'🍟',price:7,map:['OO.S','.OOS'],needs:'fryer'},
   chicken:{name:'Chicken plate',emoji:'🍗',price:15,map:['KOO.','KTOO','KKSS'],needs:'fryer'},
   fishbowl:{name:'Fish rice bowl',emoji:'🍣',price:16,map:['RRFFF','RRTFE'],needs:'sushi'},
-  deluxe:{name:'Deluxe burger',emoji:'👑',price:20,map:['BBBB','LLCT','LPPT','BBBB'],needs:'deluxe'},
-  pizza:{name:'Family-size pizza',emoji:'🍕',price:30,map:['DDDDDD','DCTCTD','DTCTCD','DCTCTD','DDDDDD'],plate:1},
+  deluxe:{name:'Deluxe burger',emoji:'👑',price:20,map:['BBBB','LLCT','LPPC','BBBB'],needs:'deluxe'},
+  pizza:{name:'Family-size pizza',emoji:'🍕',price:30,map:['DDDDDD','DCTTCD','DCCCCD','DCTTCD','DDDDDD'],plate:1},
   bigsundae:{name:'Giant sundae',emoji:'🍧',price:28,map:['YYIIYY','YIIIIY','.YIIY.','.YYYY.'],needs:'sweets',plate:1},
   kidcheese:{name:'Cheese bites',emoji:'🧀',price:5,map:['BB','CC'],kid:1},
-  kidrice:{name:'Rice ball',emoji:'🍙',price:5,map:['RR','RR','ET'],kid:1},
+  kidrice:{name:'Rice ball',emoji:'🍙',price:3,map:['RR','RR'],kid:1},
   kidsoldier:{name:'Toast soldiers & egg',emoji:'🥚',price:3,map:['BBE'],kid:1},
   kidcone:{name:'Mini cone',emoji:'🍦',price:4,map:['I','I'],needs:'sweets',kid:1},
   kidfruit:{name:'Fruit cup',emoji:'🍓',price:5,map:['YY','YG','.G'],needs:'smoothie',kid:1},
@@ -668,7 +679,7 @@ const REC={
   kidfries:{name:'Mini fries',emoji:'🍟',price:4,map:['OO.','.OO'],needs:'fryer',kid:1},
   kidpizza:{name:'Pizza slice',emoji:'🍕',price:7,map:['DDD','CTC'],plate:1,kid:1},
   kidfish:{name:'Fish sticks',emoji:'🐠',price:6,map:['FFF','.F.'],needs:'sushi',kid:1},
-  feast:{name:'Dragon-sized feast',emoji:'🍖',price:45,map:['RRRRBBE','RRRRBBE','TTCCRRE','TTCCRRT','BBDDDBB','BBDDDBB'],plate:2},
+  feast:{name:'Dragon-sized feast',emoji:'🍖',price:45,map:['RRRRBBE','RRRRBBE','BBCCRRE','TTCCRRT','BBDDDBB','BBDDDBB'],plate:2},
 };
 const EQUIP={
   garden:{name:'Garden supplier',emoji:'🌱',cost:40,desc:'Adds lettuce and the garden salad. Kids: 🐰 Bunny salad.',ing:['L']},
@@ -1041,6 +1052,7 @@ function renderPalette(){
   $('#palette').innerHTML=ingList().map(k=>{const n=uses(k),i=ING[k];
     return `<div class="palwrap"><div class="pal ${n?'':'out'}" data-new="food" data-key="${k}" title="${i.name}"><span class="cnt">${n}</span>${miniShape(ingShape(k),i.color,13)}<span class="nm">${i.emoji} ${i.name}</span></div><button class="rotbtn" data-act="rotIng" data-arg="${k}" aria-label="Rotate ${i.name}">⟳ Rotate</button></div>`;}).join('');
 }
+function blockPrice(k){return Math.max(1,Math.ceil(truckPrice(k)/ING[k].basket.length*1.25));}
 function truckPrice(k){let c=ING[k].cost;if(evIs('sale'))c=Math.round(c*.75);if(evIs('fuel'))c+=2;return c;}
 function menuNeeds(){const need={};menuList().forEach(k=>{for(const i in piecesNeeded(k))(need[i]=need[i]||[]).push(k);});return need;}
 function basketIcon(p){return `<span class="bi">${ING[p.key].emoji}</span>`;}
@@ -1053,7 +1065,7 @@ function renderTruck(){
   const need=menuNeeds();const order=ingList().filter(k=>!(evIs('shortage')&&S.ev.ing===k)).sort((a,b)=>(need[b]?1:0)-(need[a]?1:0));
   const cl=Object.keys(S.clear||{}).filter(k=>S.clear[k]>0);
   $('#clearance').innerHTML=cl.length?`<div class="clearhead">🏷️ Clearance today — half price, but it spoils after today!</div><div class="buylist">${cl.map(k=>{const i=ING[k];return `<button class="buy clr" data-act="buyClear" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · <s>$${i.cost}</s> $${Math.ceil(i.cost/2)}</b><small>${S.clear[k]} left · ${i.uses} pieces · use it today</small></span></button>`;}).join('')}</div>`:'';
-  $('#buylist').innerHTML=order.map(k=>{const i=ING[k];return `<button class="buy ${need[k]?'':'unused'}" data-act="buyIng" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · $${truckPrice(k)}</b><small>${i.uses} pieces · ${i.cold?'❄️ goes in the fridge':'dry shelf'}${need[k]?'':' · not on your menu'}</small></span>${miniShape(i.basket,i.color,9)}</button>`;}).join('');
+  $('#buylist').innerHTML=order.map(k=>{const i=ING[k];return `<div class="buywrap ${need[k]?'':'unused'}"><button class="buy" data-act="buyIng" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · $${truckPrice(k)}</b><small>${i.uses} pieces · ${i.cold?'❄️ goes in the fridge':'dry shelf'}${need[k]?'':' · not on your menu'}</small></span>${miniShape(i.basket,i.color,9)}</button>${i.basket.length>1?`<button class=\"buy1\" data-act=\"buyOne\" data-arg=\"${k}\">＋ Just 1 block · $${blockPrice(k)}<small>4 pieces</small></button>`:''}</div>`;}).join('');
 }
 function renderShopping(){
   const need=menuNeeds();const menu=menuList();
@@ -1181,7 +1193,7 @@ function titleScreen(){loadPlayers();
   const cards=PLAYERS.map(p=>{const sv=loadSave(p.id);return `<button class="pcard" data-act="pickPlayer" data-arg="${p.id}"><span class="pav">${p.av}</span><b>${esc(p.name)}</b><small>${sv?`Day ${sv.S.day} · ${sv.S.rep.toFixed(1)}★`:'New restaurant'}</small></button>`;}).join('');
   modal(`<h1>Tile &amp; Table</h1><p class="tagline">🐶 🐹 🦉 🧜‍♀️ 🐉 🦄 👽 🧞</p><h2>Who's playing?</h2>
   <div class="pgrid">${cards}<button class="pcard add" data-act="newPlayer"><span class="pav">➕</span><b>New player</b><small>Start your own restaurant</small></button></div>
-  <div class="modal-actions"><button class="btn" data-act="help">How to play</button></div>`);}
+  <div class="modal-actions"><button class="btn" data-act="help">How to play</button>${/github\.io$/.test(location.hostname)?`<button class="btn" data-act="goPhone">📱 Phone version</button>`:''}</div>`);}
 function playerMenu(){const p=curPlayer();if(!p)return titleScreen();const sv=loadSave();
   modal(`<div class="pmenu"><span class="pav big">${p.av}</span><h2>${esc(p.name)}'s restaurant</h2><p>${sv?`Day ${sv.S.day} · $${sv.S.money} · ${sv.S.rep.toFixed(1)}★`:'No restaurant yet.'}</p></div>
   <div class="modal-actions">${sv?`<button class="btn primary" data-act="continue">Continue — day ${sv.S.day}</button><button class="btn" data-act="askNewGame">Start over</button>`:`<button class="btn primary" data-act="newGame">Open my restaurant</button>`}
@@ -1310,7 +1322,6 @@ function spawnParty(){
   if(S.parties.filter(p=>p.state==='door').length>=4){S.stats.lost++;toast(`${fs[0]} ${T.name} saw the long line and left.`);return;}
   const mp=30*T.pat*patBonus();
   S.parties.push({id:uid++,type,size,faces:fs,state:'door',pat:mp,maxPat:mp,t:0,tables:null,dishes:[],bday,kids});chime(!!T.special);if(bday)toast('🎂 The birthday family is here!');
-  if(T.special){const has=clusters().some(c=>c.for===type);toast(`✨ ${fs[0]} ${T.name} at the door!${has?` Seat them at the ${seatName(type).toLowerCase()}.`:` (No ${seatName(type).toLowerCase()} yet — they won't tip.)`}`);}
 }
 function arrivalGap(){let g=45/(0.4+S.rep/4)*rand(.6,1.35);if(S.day<=2)g*=1.4;if(evIs('rush'))g/=2;if(evIs('rain'))g*=2;return g;}
 function seatParty(pid,table){
@@ -1628,6 +1639,8 @@ const ACT={
   deletePlayer(){lsDel(saveKey());PLAYERS=PLAYERS.filter(p=>p.id!==CUR);savePlayers();CUR=null;titleScreen();},
   newGame(){newGame();closeModal();renderAll();save();modal(dailyHTML());},
   daily(){modal(dailyHTML());},
+  goPhone(){try{localStorage.removeItem('tt-prefer')}catch(e){}location.href='phone.html';},
+  goDesktop(){try{localStorage.setItem('tt-prefer','desktop')}catch(e){}location.href='./?desktop';},
   guideTog(){S.guide=!!($('#gOn')&&$('#gOn').checked);save();},
   guideGo(t){closeModal();tab=t;window.scrollTo(0,0);},
   cardDone(){closeModal();if(S.guide!==false&&S.phase==='prep')modal(dailyHTML());},
@@ -1642,6 +1655,9 @@ const ACT={
   buyPlate2(){if(S.up.plate2||!spend(150))return;S.up.plate2=true;S.plate2={w:S.plate.w,h:S.plate.h,pieces:[]};S.cur='plate2';autoFill();toast('🍽️ Second plate added! Build two dishes at once.');},
   buyClear(k){if(S.phase!=='prep')return toast('The truck is gone until tomorrow morning.');if(evIs('late')&&S.ev.left<=0)return toast('⏰ The truck can\'t sell any more baskets today.');if(!S.clear||!S.clear[k])return;const spot=findSpot('truck',ING[k].basket);if(!spot)return toast('The truck bed is full. Drag some baskets onto your shelves first.');
     if(!spend(Math.ceil(ING[k].cost/2)))return;S.clear[k]--;addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{days:1,cheap:true,paid:Math.ceil(ING[k].cost/2)});if(evIs('late'))S.ev.left--;toast(`🏷️ Clearance ${ING[k].name.toLowerCase()} — use it today!`);},
+  buyOne(k){if(S.phase!=='prep')return toast('The truck is gone until tomorrow morning.');if(evIs('shortage')&&S.ev.ing===k)return toast('🚫 The truck is out of that today.');if(evIs('late')&&S.ev.left<=0)return toast('⏰ The truck can\'t sell any more baskets today.');
+    const price=blockPrice(k);const spot=findSpot('truck',MONO);if(!spot)return toast('The truck bed is full. Drag some baskets onto your shelves first.');if(!spend(price))return;
+    addPiece('truck','basket',k,spot.x,spot.y,MONO,{paid:price,uses:4});if(evIs('late')){S.ev.left--;toast(`⏰ ${S.ev.left} basket${S.ev.left===1?'':'s'} left today.`);}},
   buyIng(k){if(S.phase!=='prep')return toast('The truck is gone until tomorrow morning.');if(evIs('shortage')&&S.ev.ing===k)return toast('🚫 The truck is out of that today.');if(evIs('late')&&S.ev.left<=0)return toast('⏰ The truck can\'t sell any more baskets today.');const price=truckPrice(k);const spot=findSpot('truck',ING[k].basket);if(!spot)return toast('The truck bed is full. Drag some baskets onto your shelves first.');if(!spend(price))return;addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{paid:price});if(evIs('late')){S.ev.left--;toast(`⏰ ${S.ev.left} basket${S.ev.left===1?'':'s'} left today.`);}},
   buyEq(k){const e=EQUIP[k];if(S.eq[k])return;if(!spend(e.cost))return;S.eq[k]=true;e.ing.forEach(i=>{if(!S.ingOn.includes(i))S.ingOn.push(i);});
     refreshUnlocks();addAppliance(k);toast(`${e.emoji} ${e.name} installed — it's in your kitchen now, and new dishes are on the menu.`);},
