@@ -580,6 +580,7 @@ h2{font-size:19px}
 .freezer .cell{background:#E6F0FF;border:1px solid #fff;background-image:radial-gradient(circle at 30% 30%,rgba(255,255,255,.9) 0 2px,transparent 3px)}
 #freezerBox[hidden]{display:none}
 .storerow{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))!important}
+.apptag{font-family:'Nunito',sans-serif;font-size:11px;font-weight:900;background:#FFE7B8;color:#7A4A00;border-radius:6px;padding:0 5px;vertical-align:middle}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -731,7 +732,7 @@ const ING={
   G:{name:'Yogurt',emoji:'🥛',color:'#9DB7CF',piece:I2,basket:I2,uses:8,cost:6},
   D:{name:'Pizza dough',emoji:'🫓',color:'#E2B872',piece:I3,basket:L4,uses:16,cost:20},
 };
-const COLD=['C','E','P','L','K','F','I','Y','G'];COLD.forEach(k=>ING[k].cold=true);ING.I.frozen=true;
+const COLD=['C','E','P','L','K','F','I','Y','G'];COLD.forEach(k=>ING[k].cold=true);ING.I.frozen=true;ING.Y.dessert=true;
 const CLOTHS=[['Cherry','#C8102E'],['Ocean','#1E5AAA'],['Mint','#2BA88A'],['Sunny','#E8A417'],['Orange','#E8692A'],['Grape','#7B4FB8'],['Bubblegum','#E05A9C'],['Midnight','#2A1E1A']];
 const REC={
   toast:{name:'Cheese toast',emoji:'🥪',price:6,map:['BB','CC','BB']},
@@ -761,15 +762,23 @@ const REC={
   kidfries:{name:'Mini fries',emoji:'🍟',price:4,map:['OO.','.OO'],needs:'fryer',kid:1},
   kidpizza:{name:'Pizza slice',emoji:'🍕',price:7,map:['DDD','CTC'],plate:1,kid:1},
   kidfish:{name:'Fish sticks',emoji:'🐠',price:6,map:['FFF','.F.'],needs:'sushi',kid:1},
+  apptoast:{name:'Tomato toast',emoji:'🍅',price:4,map:['BB','TT'],app:1},
+  appwrap:{name:'Lettuce wraps',emoji:'🥬',price:4,map:['LL','LE'],needs:'garden',app:1},
+  apppatty:{name:'Patty bites',emoji:'🥩',price:6,map:['PP','CC'],needs:'grill',app:1},
+  appmango:{name:'Mango salsa',emoji:'🥭',price:4,map:['MM','MT'],needs:'smoothie',app:1},
+  appbanana:{name:'Banana bites',emoji:'🍌',price:4,map:['AA','GG'],needs:'smoothie',app:1},
+  appspring:{name:'Spring rolls',emoji:'🥟',price:5,map:['NNN','SS.'],needs:'noodle',app:1},
+  appchips:{name:'Chips & salsa',emoji:'🌶️',price:5,map:['OO.','.OO','SS.'],needs:'fryer',app:1},
+  appchicken:{name:'Chicken bites',emoji:'🍗',price:6,map:['K.','K.','KK'],needs:'fryer',app:1},
   feast:{name:'Dragon-sized feast',emoji:'🍖',price:45,map:['RRRRBBE','RRRRBBE','BBCCRRE','TTCCRRT','BBDDDBB','BBDDDBB'],plate:2},
 };
 const EQUIP={
-  garden:{name:'Garden supplier',emoji:'🌱',cost:40,desc:'Adds lettuce and the garden salad. Kids: 🐰 Bunny salad.',ing:['L']},
-  grill:{name:'Grill',emoji:'🔥',cost:60,desc:'Adds patties and burgers. Kids: 🍔 Mini slider.',ing:['P']},
-  sweets:{name:'Dessert freezer',emoji:'🧊',cost:80,desc:'Comes with a dessert freezer in your pantry for ice cream. Adds ice cream, berries and the berry sundae. Kids: 🍦 Mini cone.',ing:['I','Y']},
-  smoothie:{name:'Smoothie bar',emoji:'🍹',cost:100,desc:'Adds bananas, mango, yogurt and berries for three specialty smoothies. Kids: 🍓 Fruit cup.',ing:['A','M','G','Y']},
-  noodle:{name:'Noodle station',emoji:'🥢',cost:90,desc:'Adds noodles, sauce and two noodle dishes. Kids: 🥢 Noodle cup.',ing:['N','S']},
-  fryer:{name:'Deep fryer',emoji:'🛢️',cost:120,desc:'Adds potatoes, chicken, sauce, fries and the chicken plate. Kids: 🍟 Mini fries.',ing:['O','K','S']},
+  garden:{name:'Garden supplier',emoji:'🌱',cost:40,desc:'Adds lettuce and the garden salad. Kids: 🐰 Bunny salad. Starters: 🥬 Lettuce wraps.',ing:['L']},
+  grill:{name:'Grill',emoji:'🔥',cost:60,desc:'Adds patties and burgers. Kids: 🍔 Mini slider. Starters: 🥩 Patty bites.',ing:['P']},
+  sweets:{name:'Dessert freezer',emoji:'🧊',cost:80,desc:'Comes with a dessert freezer in your pantry for ice cream and berries — food there lasts longer. Adds ice cream, berries and the berry sundae. Kids: 🍦 Mini cone.',ing:['I','Y']},
+  smoothie:{name:'Smoothie bar',emoji:'🍹',cost:100,desc:'Adds bananas, mango, yogurt and berries for three specialty smoothies. Kids: 🍓 Fruit cup. Starters: 🥭 Mango salsa, 🍌 Banana bites.',ing:['A','M','G','Y']},
+  noodle:{name:'Noodle station',emoji:'🥢',cost:90,desc:'Adds noodles, sauce and two noodle dishes. Kids: 🥢 Noodle cup. Starters: 🥟 Spring rolls.',ing:['N','S']},
+  fryer:{name:'Deep fryer',emoji:'🛢️',cost:120,desc:'Adds potatoes, chicken, sauce, fries and the chicken plate. Kids: 🍟 Mini fries. Starters: 🌶️ Chips & salsa, 🍗 Chicken bites.',ing:['O','K','S']},
   deluxe:{name:'Deluxe menu',emoji:'👑',cost:150,desc:'Adds the deluxe burger. Needs the grill and garden supplier.',ing:[],requires:['grill','garden']},
   sushi:{name:'Fish counter',emoji:'🐟',cost:180,desc:'Adds fish and the fish rice bowl. Kids: 🐠 Fish sticks.',ing:['F']},
 };
@@ -835,7 +844,7 @@ const APPL={
   fishcounter:{name:'Fish counter',emoji:'🐟',shape:I3,color:'#4F8CC4',eq:'sushi'},
 };
 const REC_APPL={toast:['toaster'],eggrice:['rice','stove'],burger:['grill'],salad:['saladbar'],noodle:['noodlepot'],spicy:['noodlepot','stove'],sundae:['freezer'],
-  berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
+  berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],apptoast:['toaster'],appwrap:['saladbar'],apppatty:['grill'],appmango:['blender'],appbanana:['blender'],appspring:['noodlepot'],appchips:['fryer'],appchicken:['fryer'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
 const PLATE_SIZES=[[5,4],[6,5],[7,6]], PLATE_COST=[120,260], PLATE_NAMES=['Small plate','Big plate','Serving platter'];
 const FREEZER_SIZES=[[4,3],[5,4],[6,5]], FREEZER_COST=[100,200];
 const FRIDGE_SIZES=[[5,4],[6,5],[7,6],[8,6]], FRIDGE_COST=[80,180,300];
@@ -916,7 +925,7 @@ function save(){if(!CUR)return;lsSet(saveKey(),JSON.stringify({S,uid}));}
 function loadSave(id){try{const j=JSON.parse(lsGet(saveKey(id)));if(j&&j.S&&j.S.dining)return j;}catch(e){}return null;}
 
 /* ---------- inventory ---------- */
-function coldSpots(k){const i=ING[k];return i.frozen?(S.freezer?['freezer','fridge','storage']:['fridge','storage']):i.cold?['fridge','storage']:['storage','fridge'];}
+function coldSpots(k){const i=ING[k];return (i.frozen||i.dessert)?(S.freezer?['freezer','fridge','storage']:['fridge','storage']):i.cold?['fridge','storage']:['storage','fridge'];}
 function stock(){return [...S.storage.pieces,...S.fridge.pieces,...(S.freezer?S.freezer.pieces:[])];}
 function uses(key){return stock().filter(p=>p.key===key).reduce((a,p)=>a+p.uses,0);}
 function truckUses(key){return S.truck.pieces.filter(p=>p.key===key).reduce((a,p)=>a+p.uses,0);}
@@ -934,7 +943,9 @@ function refund(key){const b=stock().find(p=>p.key===key&&p.uses<p.shape.length*
 function ingShape(key){let s=ING[key].piece;for(let i=0;i<(S.rot[key]||0)%4;i++)s=rot(s);return s;}
 function charm(){return S.dining.pieces.reduce((a,p)=>a+(FURN[p.key].charm||0),0);}
 function patBonus(){return (S.up.comfy?1.25:1)*(1+charm()*0.03)*(evIs('cushions')?1.3:1)*(evIs('grumpy')?.75:1);}
-function priceAt(k,lv){return Math.round(REC[k].price*LV[lv-1]);}
+function priceStep(k){return Math.max(1,Math.round(REC[k].price*0.25));}
+function priceAt(k,lv){return REC[k].price+priceStep(k)*(lv-1);}
+function improveCost(k){return priceStep(k)*15;}
 function recipePrice(k){let p=priceAt(k,S.rec[k].level);const e=S&&S.ev;if(e){if(e.id==='bump'&&e.dish===k)p+=2;if(e.id==='coupon')p-=1;if(e.id==='wrongtag'&&e.dish===k)p-=2;}return Math.max(2,p);}
 function mathOn(){return !S.math||S.math.on!==false;}
 function mathTables(){return (S.math&&S.math.tables&&S.math.tables.length)?S.math.tables:[2,3,4,5,6,7,8,9,10];}
@@ -1078,7 +1089,7 @@ function renderDining(){
 }
 function renderMenuBoard(){
   const so=S.soldOut||{};
-  $('#menuboard').innerHTML=menuList().map(k=>`<li class="${needsPricing(k)?'unset':''} ${so[k]?'sold':''}" data-act="soldOut" data-arg="${k}" role="button" tabindex="0" title="Tap to mark ${so[k]?'available again':'sold out'}"><span>${REC[k].emoji} ${REC[k].name}${REC[k].kid?' <small class="kidtag">kids</small>':''}</span><i></i><b>${so[k]?'SOLD OUT':priceTag(k)}</b></li>`).join('')
+  $('#menuboard').innerHTML=menuList().map(k=>`<li class="${needsPricing(k)?'unset':''} ${so[k]?'sold':''}" data-act="soldOut" data-arg="${k}" role="button" tabindex="0" title="Tap to mark ${so[k]?'available again':'sold out'}"><span>${REC[k].emoji} ${REC[k].name}${REC[k].kid?' <small class="kidtag">kids</small>':''}${REC[k].app?' <small class="apptag">starter</small>':''}</span><i></i><b>${so[k]?'SOLD OUT':priceTag(k)}</b></li>`).join('')
     +`<p class="chalkhint">Tap a dish to mark it sold out for today${Object.values(so).some(Boolean)?' — tap again to bring it back':''}.</p>`;
   const n=unpriced().length;$('#priceBtn').hidden=!n;$('#priceBtn').textContent=`✏️ Set today's prices (${n} to go)`;const pb=$('#priceBanner');pb.hidden=!n||S.phase!=='prep';pb.innerHTML=`✏️ <b>Set today's menu prices</b><span>${n} to go — tap here</span>`;
 }
@@ -1149,7 +1160,7 @@ function renderTruck(){
   const need=menuNeeds();const order=ingList().filter(k=>!(evIs('shortage')&&S.ev.ing===k)).sort((a,b)=>(need[b]?1:0)-(need[a]?1:0));
   const cl=Object.keys(S.clear||{}).filter(k=>S.clear[k]>0);
   $('#clearance').innerHTML=cl.length?`<div class="clearhead">🏷️ Clearance today — half price, but it spoils after today!</div><div class="buylist">${cl.map(k=>{const i=ING[k];return `<button class="buy clr" data-act="buyClear" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · <s>$${i.cost}</s> $${Math.ceil(i.cost/2)}</b><small>${S.clear[k]} left · ${i.uses} pieces · use it today</small></span></button>`;}).join('')}</div>`:'';
-  $('#buylist').innerHTML=order.map(k=>{const i=ING[k];return `<div class="buywrap ${need[k]?'':'unused'}"><button class="buy" data-act="buyIng" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · $${truckPrice(k)}</b><small>${i.uses} pieces · ${i.frozen?'🧊 goes in the dessert freezer':i.cold?'❄️ goes in the fridge':'dry shelf'}${need[k]?'':' · not on your menu'}</small></span>${miniShape(i.basket,i.color,9)}</button>${i.basket.length>1?`<button class=\"buy1\" data-act=\"buyOne\" data-arg=\"${k}\">＋ Just 1 block · $${blockPrice(k)}<small>4 pieces</small></button>`:''}</div>`;}).join('');
+  $('#buylist').innerHTML=order.map(k=>{const i=ING[k];return `<div class="buywrap ${need[k]?'':'unused'}"><button class="buy" data-act="buyIng" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · $${truckPrice(k)}</b><small>${i.uses} pieces · ${i.frozen?'🧊 goes in the dessert freezer':i.dessert&&S.freezer?'🧊 dessert freezer or ❄️ fridge':i.cold?'❄️ goes in the fridge':'dry shelf'}${need[k]?'':' · not on your menu'}</small></span>${miniShape(i.basket,i.color,9)}</button>${i.basket.length>1?`<button class=\"buy1\" data-act=\"buyOne\" data-arg=\"${k}\">＋ Just 1 block · $${blockPrice(k)}<small>4 pieces</small></button>`:''}</div>`;}).join('');
 }
 function renderShopping(){
   const need=menuNeeds();const menu=menuList();
@@ -1181,8 +1192,8 @@ function renderUpgrades(){
   h+='<h3>Recipes</h3><p class="hint" style="margin:0 0 6px">Improve a recipe to sell it for more. Choose what\'s on today\'s menu in the 📋 Menu tab.</p>';
   for(const k in REC){const r=REC[k],s=S.rec[k];
     if(!s.unlocked){h+=urow(r.emoji,r.name,lockText(k),'');continue;}
-    const lv=s.level,cost=r.price*8*lv;
-    h+=urow(r.emoji,`${r.name} · $${recipePrice(k)}`,`Recipe level ${lv} of 3${lv<3?` — improve to sell for $${priceAt(k,lv+1)}`:''}`,
+    const lv=s.level,cost=improveCost(k);
+    h+=urow(r.emoji,`${r.name} · $${recipePrice(k)}`,`Recipe level ${lv} of 3${lv<3?` — improve to sell for $${priceAt(k,lv+1)} (+$${priceStep(k)} each, pays for itself after 15 sold)`:''}`,
       (lv<3?`<button class="btn small go" data-act="improve" data-arg="${k}">Improve $${cost}</button>`:''));}
   h+='<h3>Furniture &amp; decor</h3>';
   for(const k in FURN){const f=FURN[k];if(f.for)continue;h+=urow(f.emoji,f.name,f.seats?`Seats 1. Put it next to other tables to build a bigger table.`:`Decor: +${f.charm} charm (guests wait longer and tip more).`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
@@ -1222,7 +1233,7 @@ function renderMenuTab(){
     if(prep)btn=`<button class="mbtn ${inM?'on':''}" data-act="toggleMenu" data-arg="${k}">${inM?'✓ On today\'s menu':'＋ Add to menu'}</button>`;
     else if(inM)btn=`<button class="mbtn ${so[k]?'sold':'on'}" data-act="soldOut" data-arg="${k}">${so[k]?'🚫 Sold out — tap to bring back':'✓ Serving — tap if sold out'}</button>`;
     else btn=`<button class="mbtn" disabled>Not on today's menu</button>`;
-    return `<div class="mcard ${inM?'in':''} ${so[k]&&inM?'sold':''}"><div class="mtop"><span class="me">${r.emoji}</span><b>${r.name}</b><em>${inM?(so[k]?'SOLD OUT':priceTag(k)):'$'+recipePrice(k)}</em></div><div class="mings">${ings}</div>${btn}</div>`;};
+    return `<div class="mcard ${inM?'in':''} ${so[k]&&inM?'sold':''}"><div class="mtop"><span class="me">${r.emoji}</span><b>${r.name}${r.app?' <small class=\"apptag\">starter</small>':r.kid?' <small class=\"kidtag\">kids</small>':''}</b><em>${inM?(so[k]?'SOLD OUT':priceTag(k)):'$'+recipePrice(k)}</em></div><div class="mings">${ings}</div>${btn}</div>`;};
   $('#menuTab').innerHTML=
     (prep&&np?`<button class="pbanner" data-act="setPrices">✏️ <b>Set today's menu prices</b><span>${np} to go — tap here</span></button>`:'')+
     `<p class="hint" style="margin:0 0 10px">${prep?'Pick the dishes you want to cook today, then set their prices. You can change this every morning.':'The menu is set for today. If you run out of something, tap a dish to mark it sold out.'}</p>`+
@@ -1268,6 +1279,7 @@ function helpHTML(){return `<h1>How to play</h1><ol>
 <li><b>Flip the sign to OPEN.</b> A ding-dong rings when a guest walks in — turn it off with 🔔. Animal guests line up at the door. As your stars grow, legendary guests visit too — mermaids, dragons, fairies, aliens, a genie, a giant and more. Buy their magical seat and they'll tip extra; at a regular table they pay for their food but don't tip. Tap a guest, then tap a table with enough seats.</li>
 <li><b>Cook.</b> After reading the menu they order. In the <b>Kitchen</b>, pick their ticket and fill the outline on the plate with the right ingredient pieces. Every square must match. Then hit <b>Serve</b>. Buy a second plate in Upgrades to build two dishes at once.</li>
 <li><b>Plan your menu.</b> In the 📋 Menu tab, pick which dishes you'll cook today.</li>
+<li><b>Starters.</b> Starters (appetizers) are small dishes some tables order before their meal. They use up extra ingredients so less food spoils.</li>
 <li><b>Set today's prices.</b> Each morning, solve the addition fact for each dish on the chalkboard menu to set its price.</li>
 <li><b>Ring up the bill.</b> When guests finish, add their food + tip at the cash register. (Change the facts or turn math off with 🧮 Math.)</li>
 <li><b>Get paid.</b> Everyone in a group orders their own meal. When guests finish eating they pay, and their receipt goes in the 🧾 Receipts tab — what they ordered, their tip and what they thought. Check it any time.</li>
@@ -1372,7 +1384,7 @@ function closeDay(early){
   const spoiled=[];for(const gid of ['storage','fridge','freezer'].filter(g=>S[g])){S[gid].pieces=S[gid].pieces.filter(b=>{const i=ING[b.key];
     if(i.frozen&&S.freezer&&gid!=='freezer'){spoiled.push(`${i.emoji} ${i.name} — melted outside the dessert freezer`);return false;}
     if(i.cold&&gid==='storage'){spoiled.push(`${i.emoji} ${i.name} — left out of the fridge`);return false;}
-    if(!(gid==='fridge'&&evIs('extracold')))b.days--;if(b.days<=0){spoiled.push(`${i.emoji} ${i.name} — too old`);return false;}return true;});}
+    if(!(gid==='fridge'&&evIs('extracold'))&&!(gid==='freezer'&&S.day%2===0))b.days--;if(b.days<=0){spoiled.push(`${i.emoji} ${i.name} — too old`);return false;}return true;});}
   S.parties.forEach(p=>{if(p.tables&&p.state!=='walking')walkOut(p);});document.querySelectorAll('#f-dining [id^="w-"]').forEach(e=>e.remove());
   S.stats.kicked=kicked;S.stats.kickedEating=ke;S.parties=[];S.active=null;S.sel=null;
   ['plate','plate2'].forEach(g=>{if(S[g]){S[g].pieces.forEach(p=>refund(p.key));S[g].pieces=[];}});S.st={};
@@ -1447,7 +1459,7 @@ function autoSeat(){
   }
 }
 function orderFood(p){
-  const T=TYPES[p.type];const all=menuList().filter(k=>!(S.soldOut&&S.soldOut[k]));
+  const T=TYPES[p.type];const avail=menuList().filter(k=>!(S.soldOut&&S.soldOut[k]));const apps=avail.filter(k=>REC[k].app);const all=avail.filter(k=>!REC[k].app);
   const kidMenu=all.filter(k=>REC[k].kid);let menu=T.kidOK?all:all.filter(k=>!REC[k].kid);if(!menu.length)menu=all;
   if(evIs('picky')&&menu.length>2)menu=[...menu].sort((a,b)=>recipePrice(b)-recipePrice(a)).slice(0,2);
   if(!menu.length){leaveAngry(p,'found nothing on the menu');return;}
@@ -1460,7 +1472,8 @@ function orderFood(p){
     else if(T.prefer&&menu.some(k=>T.prefer.includes(k))){const opts=menu.filter(k=>T.prefer.includes(k));rk=opts[rint(0,opts.length-1)];}
     else rk=menu[rint(0,menu.length-1)];
     p.dishes.push({rec:rk,done:false,face:p.faces[i%p.faces.length]});}
-  p.maxPat=p.pat=(40+22*n)*T.pat*patBonus();p.state='waiting';
+  if(apps.length&&Math.random()<(p.size>=3?.6:.35))p.dishes.unshift({rec:apps[rint(0,apps.length-1)],done:false,face:'🍽️',app:true});
+  p.maxPat=p.pat=(40+22*p.dishes.length)*T.pat*patBonus();p.state='waiting';
   autoFill();
 }
 function canMake(k){const n=piecesNeeded(k);return Object.keys(n).every(i=>uses(i)>=n[i]);}
@@ -1753,7 +1766,7 @@ const ACT={
   buyEq(k){const e=EQUIP[k];if(S.eq[k])return;if(!spend(e.cost))return;S.eq[k]=true;e.ing.forEach(i=>{if(!S.ingOn.includes(i))S.ingOn.push(i);});
     refreshUnlocks();addAppliance(k);if(k==='sweets'&&!S.freezer){S.freezer={w:4,h:3,pieces:[]};}toast(`${e.emoji} ${e.name} installed — it's in your kitchen now, and new dishes are on the menu.`);},
   toggleMenu(k){if(S.phase!=='prep')return toast('The menu is set for today. Change it tomorrow morning.');const s=S.rec[k];if(s.onMenu&&menuList().length<=1)return toast('Keep at least one dish on the menu.');s.onMenu=!s.onMenu;},
-  improve(k){const s=S.rec[k];if(s.level>=3)return;if(!spend(REC[k].price*8*s.level))return;s.level++;if(S.priced)delete S.priced[k];toast(`${REC[k].emoji} ${REC[k].name} improved — now $${recipePrice(k)}.`);},
+  improve(k){const s=S.rec[k];if(s.level>=3)return;if(!spend(improveCost(k)))return;s.level++;if(S.priced)delete S.priced[k];toast(`${REC[k].emoji} ${REC[k].name} improved — now $${recipePrice(k)}.`);},
   buyFurn(k){if(!spend(FURN[k].cost))return;S.storeroom.push(FURN[k].seats?{key:k,cloth:FURN[k].cloth}:{key:k});toast(`${FURN[k].name} is in the storeroom. Drag it onto the floor.`);},
   growDining(){const l=S.up.dining;if(l>=DINING_COST.length||!spend(DINING_COST[l]))return;S.up.dining++;[S.dining.w,S.dining.h]=DINING_SIZES[l+1];toast('The dining room got bigger!');},
   growPantry(){const l=S.up.pantry;if(l>=PANTRY_COST.length||!spend(PANTRY_COST[l]))return;S.up.pantry++;[S.storage.w,S.storage.h]=PANTRY_SIZES[l+1];toast('More shelf space!');},
