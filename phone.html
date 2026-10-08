@@ -395,9 +395,9 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom,0px))}
 .topbar .logo{order:-2}
 .awning{height:14px;-webkit-mask-size:28px 14px;mask-size:28px 14px;-webkit-mask-image:radial-gradient(circle at 14px 0,#000 14px,transparent 14.5px);mask-image:radial-gradient(circle at 14px 0,#000 14px,transparent 14.5px);background:repeating-linear-gradient(90deg,var(--red) 0 28px,#fff 28px 56px)}
 .layout{padding:6px 8px 16px;gap:10px;max-width:none}
-.layout>.tabs{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:40;margin:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:#2A1E1A;display:grid;grid-template-columns:repeat(6,1fr);gap:3px;box-shadow:0 -4px 14px rgba(0,0,0,.25)}
+.layout>.tabs{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:40;margin:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:#2A1E1A;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;box-shadow:0 -4px 14px rgba(0,0,0,.25)}
 .layout>.tabs .tab{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 0;border-radius:12px;font-size:10px;background:transparent;color:#fff;position:relative}
-.layout>.tabs .tab i{font-style:normal;font-size:22px;line-height:1.1}
+.layout>.tabs .tab i{font-style:normal;font-size:20px;line-height:1.1}
 .layout>.tabs .tab.on{background:#FFF8E1;color:#2A1E1A}
 .layout>.tabs .tab{color:#FFFFFF!important}
 .layout>.tabs .tab.on{color:#2A1E1A!important}
@@ -588,6 +588,40 @@ h2{font-size:19px}
 .swatch{display:inline-block;width:18px;height:18px;border-radius:5px;margin-right:4px;border:1px solid rgba(0,0,0,.2);vertical-align:middle}
 .shelf{margin-top:6px;display:inline-flex;gap:6px;background:linear-gradient(transparent 70%,#8A5A2E 70%);padding:0 10px 4px;border-radius:4px;font-size:26px;line-height:1.2}
 .shelf[hidden]{display:none}
+
+.field{border-radius:8px;box-shadow:0 0 0 7px #6B8E3A}
+.field .cell{background:#C9A26B;border:1px solid rgba(90,56,28,.25);cursor:pointer}
+.field .cell.rock{display:flex;align-items:center;justify-content:center;font-size:clamp(16px,3.4vw,30px)}
+.field .cell.tilled{background:repeating-linear-gradient(0deg,#6B4423 0 6px,#563519 6px 10px)}
+.k-crop .blk{background:transparent!important;box-shadow:none!important;flex-direction:column;gap:0;line-height:1}
+.k-crop .cr{font-size:clamp(18px,4vw,34px);filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
+.pc.dry .cr{filter:grayscale(.6) sepia(.5)}
+.pc.ripe .cr{animation:pulse .8s infinite alternate}
+.cbadge{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:900;background:rgba(255,255,255,.9);color:#2A1E1A;border-radius:6px;padding:0 4px;white-space:nowrap}
+.wdrop{position:absolute;top:1px;right:2px;font-size:12px}
+.farmtools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.farmtools:empty{display:none}
+.sd{font-size:11px;color:var(--muted)}
+.fsel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.fchip{border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-weight:800;font-size:13px;cursor:pointer}
+.fchip.on{border-color:#6B8E3A;background:#E8F0D8;color:#2E4A12}
+#feedRow[hidden]{display:none}
+.pens{display:grid;gap:10px}
+.pen{background:#E8F0D8;border:4px solid #8A5A2E;border-radius:12px;padding:8px;color:#2A1E1A}
+.penh{display:flex;justify-content:space-between;margin-bottom:6px}
+.anis{display:flex;flex-wrap:wrap;gap:8px}
+.ani{border:2px solid #C9B68F;background:#FFFDF4;color:#2A1E1A;border-radius:12px;padding:6px 8px;min-width:84px;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;font:inherit}
+.ani .ae{font-size:34px;line-height:1.1}
+.ani.baby .ae{font-size:24px}
+.ani small{font-size:11px;color:#6E5E55}
+.ani em{font-style:normal;font-size:11px;font-weight:900;color:#2BA88A}
+.ani.fed{opacity:.6}.ani.fed em{color:#6E5E55}
+.barn{margin-top:16px;border:6px solid #9E2B25;border-radius:14px;padding:10px 12px;background:var(--panel)}
+.barn>h2{color:#9E2B25}
+.brow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:space-between;background:var(--paper);border-radius:10px;padding:6px 10px;margin-bottom:6px}
+.brow small{display:block;color:var(--muted);font-size:12px}
+.bbtns{display:flex;gap:4px;flex-wrap:wrap}
+.hvfact{font-size:clamp(30px,8vw,52px)}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -620,6 +654,7 @@ h2{font-size:19px}
     <button class="tab on" data-act="tab" data-arg="dining"><i>🍽️</i>Dining<span id="dbadge" class="badge"></span></button>
     <button class="tab" data-act="tab" data-arg="kitchen"><i>🍳</i>Kitchen<span id="kbadge" class="badge"></span></button>
     <button class="tab" data-act="tab" data-arg="menu"><i>📋</i>Menu<span id="mbadge" class="badge"></span></button>
+    <button class="tab" data-act="tab" data-arg="farm"><i>🌱</i>Farm</button>
     <button class="tab" data-act="tab" data-arg="pantry"><i>📦</i>Pantry</button>
     <button class="tab" data-act="tab" data-arg="upgrades"><i>⬆️</i>Upgrades</button>
     <button class="tab" data-act="tab" data-arg="receipts"><i>🧾</i>Receipts<span id="rbadge" class="badge"></span></button>
@@ -682,6 +717,23 @@ h2{font-size:19px}
       <div class="phead"><h2>Today's menu</h2><span class="hours" id="menuNote"></span></div>
       <div id="menuTab"></div>
     </div>
+    <div class="panel tabpanel farmtab" id="tab-farm" hidden>
+      <div class="phead"><h2>🌱 Your farm</h2><span class="hours" id="farmNote"></span></div>
+      <p class="hint" id="farmHint" style="margin:0 0 8px"></p>
+      <div class="farmtools" id="farmTools"></div>
+      <div class="gridbox"><div class="grid field" id="g-farm"></div></div>
+      <h3>🌱 Seed packets</h3>
+      <div id="seeds" class="palette"></div>
+      <h3>🐾 Animals</h3>
+      <div id="feedRow"><p class="hint" style="margin:0 0 6px">Pick a feed, then tap each animal once every morning.</p><div id="feedSel" class="fsel"></div></div>
+      <div id="pens" class="pens"></div>
+      <div class="barn">
+        <h2>🛖 Barn</h2>
+        <h3 style="margin-top:4px">Storage</h3>
+        <div id="barnStore"></div>
+        <div id="barnShop" class="upsec"></div>
+      </div>
+    </div>
     <div class="panel tabpanel" id="tab-pantry" hidden>
       <div id="shopping" class="shop"></div>
       <div id="truckArea">
@@ -738,6 +790,7 @@ const ING={
   A:{name:'Banana',emoji:'🍌',color:'#E9C93A',piece:I2,basket:L3,uses:12,cost:9},
   M:{name:'Mango',emoji:'🥭',color:'#F08A24',piece:L3,basket:MONO,uses:4,cost:5},
   G:{name:'Yogurt',emoji:'🥛',color:'#9DB7CF',piece:I2,basket:I2,uses:8,cost:6},
+  H:{name:'Honey',emoji:'🍯',color:'#F2B134',piece:MONO,basket:MONO,uses:4,cost:6,farmOnly:true},
   D:{name:'Pizza dough',emoji:'🫓',color:'#E2B872',piece:I3,basket:L4,uses:16,cost:20},
 };
 const COLD=['C','E','P','L','K','F','I','Y','G'];COLD.forEach(k=>ING[k].cold=true);ING.I.frozen=true;ING.Y.dessert=true;
@@ -782,6 +835,8 @@ const REC={
   apptaco:{name:'Fish tacos',emoji:'🌮',price:9,map:['FFF','TFT'],needs:'sushi',app:1},
   appknots:{name:'Cheesy garlic knots',emoji:'🥖',price:6,map:['DDD','.C.'],plate:1,app:1},
   appsampler:{name:'Party sampler',emoji:'🧆',price:11,map:['BBDDD','CCTTE'],plate:2,app:1},
+  apphoney:{name:'Honey toast',emoji:'🍯',price:5,map:['BB','HH'],needs:'bees',app:1},
+  honeyyog:{name:'Honey yogurt',emoji:'🥣',price:7,map:['GGH','YYH','Y..'],needs:'bees',also:'smoothie'},
   feast:{name:'Dragon-sized feast',emoji:'🍖',price:45,map:['RRRRBBE','RRRRBBE','BBCCRRE','TTCCRRT','BBDDDBB','BBDDDBB'],plate:2},
 };
 const EQUIP={
@@ -793,6 +848,7 @@ const EQUIP={
   fryer:{name:'Deep fryer',emoji:'🛢️',cost:120,desc:'Adds potatoes, chicken, sauce, fries and the chicken plate. Kids: 🍟 Mini fries. Starters: 🌶️ Chips & salsa, 🍗 Chicken bites.',ing:['O','K','S']},
   deluxe:{name:'Deluxe menu',emoji:'👑',cost:150,desc:'Adds the deluxe burger. Needs the grill and garden supplier.',ing:[],requires:['grill','garden']},
   sushi:{name:'Fish counter',emoji:'🐟',cost:180,desc:'Adds fish and the fish rice bowl. Kids: 🐠 Fish sticks. Starters: 🌮 Fish tacos.',ing:['F']},
+  bees:{name:'Beehive (on your farm)',emoji:'🐝',cost:0,desc:'',ing:[],farm:true},
 };
 const FURN={
   single:{name:'Table',emoji:'🍽️',shape:MONO,seats:1,cost:12,color:'#FFFFFF',cloth:'#C8102E'},
@@ -856,7 +912,7 @@ const APPL={
   fishcounter:{name:'Fish counter',emoji:'🐟',shape:I3,color:'#4F8CC4',eq:'sushi'},
 };
 const REC_APPL={toast:['toaster'],eggrice:['rice','stove'],burger:['grill'],salad:['saladbar'],noodle:['noodlepot'],spicy:['noodlepot','stove'],sundae:['freezer'],
-  berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],apptoast:['toaster'],appfrozen:['freezer'],apptaco:['fishcounter'],appknots:['stove'],appsampler:['stove','toaster'],appwrap:['saladbar'],apppatty:['grill'],appmango:['blender'],appbanana:['blender'],appspring:['noodlepot'],appchips:['fryer'],appchicken:['fryer'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
+  berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],apptoast:['toaster'],apphoney:['toaster'],honeyyog:['blender'],appfrozen:['freezer'],apptaco:['fishcounter'],appknots:['stove'],appsampler:['stove','toaster'],appwrap:['saladbar'],apppatty:['grill'],appmango:['blender'],appbanana:['blender'],appspring:['noodlepot'],appchips:['fryer'],appchicken:['fryer'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
 const PLATE_SIZES=[[5,4],[6,5],[7,6]], PLATE_COST=[120,260], PLATE_NAMES=['Small plate','Big plate','Serving platter'];
 const FREEZER_SIZES=[[4,3],[5,4],[6,5]], FREEZER_COST=[100,200];
 const THEMES={
@@ -877,7 +933,7 @@ const TROPHIES={
 };
 function applyTheme(){const id=(S&&S.theme)||'diner',t=THEMES[id]||THEMES.diner,r=document.documentElement.style;if(id==='diner'){['--wallpaper','--stripe','--tileA','--tileB'].forEach(v=>r.removeProperty(v));return;}r.setProperty('--wallpaper',t.wall);r.setProperty('--stripe',t.stripe);r.setProperty('--tileA',t.a);r.setProperty('--tileB',t.b);}
 const FRIDGE_SIZES=[[5,4],[6,5],[7,6],[8,6],[9,7]], FRIDGE_COST=[80,180,300,450];
-const ACCEPT={plate2:'food',kitchen:'appl',dining:'furn',storage:'basket',fridge:'basket',freezer:'basket',truck:'basket',plate:'food'};
+const ACCEPT={farm:'seed',plate2:'food',kitchen:'appl',dining:'furn',storage:'basket',fridge:'basket',freezer:'basket',truck:'basket',plate:'food'};
 const LV=[1,1.4,1.8];
 const MPS=2; // game minutes per real second
 const SAVE='tile-and-table-save-v4';
@@ -896,6 +952,7 @@ function miniShape(shape,color,size=11){const w=Math.max(...shape.map(c=>c[0]))+
 
 /* ---------- state ---------- */
 let S, uid=1, D=null, paused=false, tab='dining', booting=true, tool='rotate', paintColor='#C8102E';
+function ensureFarm(){if(!S.farm)S.farm=newFarm();if(!S.barn)S.barn=[];}
 function blankStats(){return {earned:0,tips:0,dishes:0,happy:0,angry:0,lost:0,kicked:0,kickedEating:0,spent:0};}
 function newGame(){
   uid=1;
@@ -911,6 +968,7 @@ function newGame(){
   addPiece('storage','basket','B',0,0); addPiece('storage','basket','T',2,0); addPiece('storage','basket','R',0,2);
   addPiece('fridge','basket','C',0,0); addPiece('fridge','basket','E',2,0);
   seedKitchen();
+  S.farm=newFarm();S.barn=[];
 }
 function addPiece(gid,kind,key,x,y,shape,extra){
   if(!shape) shape=kind==='appl'?APPL[key].shape:kind==='furn'?FURN[key].shape:kind==='basket'?ING[key].basket:ING[key].piece;
@@ -926,6 +984,7 @@ function fits(gid,shape,x,y,ignore){
   for(const [a,b] of shape){const cx=a+x,cy=b+y;
     if(cx<0||cy<0||cx>=g.w||cy>=g.h) return false;
     if(gid==='dining'&&cx===0&&cy===0) return false;
+    if(gid==='farm'&&S.farm.cells[cx+','+cy]!=='tilled') return false;
     if(S.ev&&gid==='dining'&&S.ev.sticky&&S.ev.sticky[0]===cx&&S.ev.sticky[1]===cy) return false;
     if(S.ev&&gid==='fridge'&&S.ev.blocked&&S.ev.blocked.includes(cx+','+cy)) return false;
     if(occ.has(cx+','+cy)) return false;}
@@ -937,7 +996,7 @@ function addAppliance(eq){for(const a in APPL){if(APPL[a].eq!==eq)continue;let s
 function recReady(k){const r=REC[k];return (!r.needs||!!S.eq[r.needs])&&(!r.also||!!S.eq[r.also])&&(!r.plate||S.up.plate>=r.plate);}
 function refreshUnlocks(){const fresh=[];for(const k in REC)if(recReady(k)&&!S.rec[k].unlocked){S.rec[k].unlocked=true;S.rec[k].onMenu=false;S.rec[k].isNew=true;fresh.push(k);}return fresh;}
 function lockText(k){const r=REC[k],p=[];if(r.needs&&!S.eq[r.needs])p.push('the '+EQUIP[r.needs].name.toLowerCase());if(r.also&&!S.eq[r.also])p.push('the '+EQUIP[r.also].name.toLowerCase());if(r.plate&&S.up.plate<r.plate)p.push('the '+PLATE_NAMES[r.plate].toLowerCase());return 'Needs '+p.join(' and ')+'.';}
-function migrate(){if(S.up.freezer==null)S.up.freezer=0;if(S.eq.sweets&&!S.freezer)S.freezer={w:4,h:3,pieces:[]};if(S.up.plate2&&!S.plate2)S.plate2={w:S.plate.w,h:S.plate.h,pieces:[]};S.st={};S.cur='plate';if(S.fridge){const fz=FRIDGE_SIZES[S.up.fridge||0];S.fridge.w=Math.max(S.fridge.w,fz[0]);S.fridge.h=Math.max(S.fridge.h,fz[1]);}[S.storage,S.fridge,S.truck].forEach(g=>g&&g.pieces.forEach(b=>{if(b.kind==='basket')shrink(b);}));if(S.up.plate==null)S.up.plate=0;if(!S.kitchen){S.kitchen={w:6,h:4,pieces:[]};seedKitchen();for(const k in S.eq)if(S.eq[k])addAppliance(k);}
+function migrate(){ensureFarm();if(S.up.freezer==null)S.up.freezer=0;if(S.eq.sweets&&!S.freezer)S.freezer={w:4,h:3,pieces:[]};if(S.up.plate2&&!S.plate2)S.plate2={w:S.plate.w,h:S.plate.h,pieces:[]};S.st={};S.cur='plate';if(S.fridge){const fz=FRIDGE_SIZES[S.up.fridge||0];S.fridge.w=Math.max(S.fridge.w,fz[0]);S.fridge.h=Math.max(S.fridge.h,fz[1]);}[S.storage,S.fridge,S.truck].forEach(g=>g&&g.pieces.forEach(b=>{if(b.kind==='basket')shrink(b);}));if(S.up.plate==null)S.up.plate=0;if(!S.kitchen){S.kitchen={w:6,h:4,pieces:[]};seedKitchen();for(const k in S.eq)if(S.eq[k])addAppliance(k);}
   for(const k in REC)if(!S.rec[k])S.rec[k]={unlocked:false,level:1,onMenu:false};refreshUnlocks();}
 const PKEY='tile-and-table-players';
 const AVATARS=['🐶','🐱','🐰','🐻','🐼','🦊','🐨','🐸','🐷','🐯','🦁','🐵','🐧','🐢','🦄','🐉','🧜‍♀️','🧚','👽','🤖'];
@@ -965,8 +1024,8 @@ function shrink(b){const need=Math.max(1,Math.ceil(b.uses/PER_BLOCK));
     b.shape.splice(idx,1);}}
 function connected(cs){if(cs.length<=1)return true;const set=new Set(cs.map(c=>c+''));const seen=new Set([cs[0]+'']);const st=[cs[0]];
   while(st.length){const [x,y]=st.pop();for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const k=[x+dx,y+dy]+'';if(set.has(k)&&!seen.has(k)){seen.add(k);st.push([x+dx,y+dy]);}}}return seen.size===cs.length;}
-function consume(key){const bs=stock().filter(p=>p.key===key&&p.uses>0).sort((a,b)=>a.days-b.days||a.uses-b.uses);if(!bs.length)return false;const b=bs[0];b.uses--;
-  if(b.uses<=0){['storage','fridge','freezer'].forEach(g=>{if(S[g])S[g].pieces=S[g].pieces.filter(p=>p!==b);});}else shrink(b);return true;}
+function consume(key){const bs=stock().filter(p=>p.key===key&&p.uses>0).sort((a,b)=>a.days-b.days||a.uses-b.uses);if(!bs.length)return false;const b=bs[0];b.uses--;const ret={farm:!!b.farm};
+  if(b.uses<=0){['storage','fridge','freezer'].forEach(g=>{if(S[g])S[g].pieces=S[g].pieces.filter(p=>p!==b);});}else shrink(b);return ret;}
 function refund(key){const b=stock().find(p=>p.key===key&&p.uses<p.shape.length*PER_BLOCK);if(b){b.uses++;return;}
   for(const gid of coldSpots(key)){const spot=findSpot(gid,MONO);if(spot){const p=addPiece(gid,'basket',key,spot.x,spot.y,spot.shape);p.uses=1;return;}}}
 function ingShape(key){let s=ING[key].piece;for(let i=0;i<(S.rot[key]||0)%4;i++)s=rot(s);return s;}
@@ -1174,7 +1233,7 @@ function renderOnePlate(g){
   });
 }
 function renderPalette(){
-  $('#palette').innerHTML=ingList().map(k=>{const n=uses(k),i=ING[k];
+  $('#palette').innerHTML=[...new Set([...ingList(),...Object.keys(ING).filter(k=>uses(k)>0)])].map(k=>{const n=uses(k),i=ING[k];
     return `<div class="palwrap"><div class="pal ${n?'':'out'}" data-new="food" data-key="${k}" title="${i.name}"><span class="cnt">${n}</span>${miniShape(ingShape(k),i.color,13)}<span class="nm">${i.emoji} ${i.name}</span></div><button class="rotbtn" data-act="rotIng" data-arg="${k}" aria-label="Rotate ${i.name}">⟳ Rotate</button></div>`;}).join('');
 }
 function blockPrice(k){return Math.max(1,Math.ceil(truckPrice(k)/ING[k].basket.length*1.25));}
@@ -1195,7 +1254,7 @@ function renderTruck(){
 function renderShopping(){
   const need=menuNeeds();const menu=menuList();
   const rows=Object.keys(need).map(k=>{const i=ING[k],n=uses(k),tr=truckUses(k);
-    const st=n===0?['out','Need to buy']:n<5?['low','Running low']:['ok','Stocked ✓'];
+    const st=i.farmOnly&&n===0?['out','Get it from the farm 🌱']:n===0?['out','Need to buy']:n<5?['low','Running low']:['ok','Stocked ✓'];
     return `<div class="needrow ${st[0]}"><span class="nm"><b>${i.name}${i.cold?' ❄️':''}</b></span><span class="have">${n} piece${n===1?'':'s'}${tr?`<small>+${tr} on truck</small>`:''}</span><span class="st">${st[1]}</span></div>`;}).join('');
   $('#shopping').innerHTML=`<h3>Your menu today</h3><div class="menudishes">${menu.map(k=>(()=>{const pn=piecesNeeded(k);return `<div class="dcard"><div class="dtop"><span class="de">${REC[k].emoji}</span><b>${REC[k].name}</b><em>${priceTag(k)}</em></div><div class="dings">${Object.keys(pn).map(i=>`<span class="ding" title="${ING[i].name}">${ING[i].emoji}<small>×${pn[i]}</small></span>`).join('')}</div></div>`;})()).join('')}</div><h3>What you need for it</h3><div class="needlist">${rows}</div>`;
 }
@@ -1212,7 +1271,7 @@ function renderStorage(){
 function urow(em,title,desc,btns){return `<div class="uprow"><span class="em">${em}</span><div class="txt"><b>${title}</b><small>${desc}</small></div><div class="btns">${btns}</div></div>`;}
 function renderUpgrades(){
   let h='<h3>Kitchen equipment</h3>';
-  for(const k in EQUIP){const e=EQUIP[k];const own=S.eq[k];const miss=(e.requires||[]).filter(r=>!S.eq[r]);
+  for(const k in EQUIP){const e=EQUIP[k];if(e.farm)continue;const own=S.eq[k];const miss=(e.requires||[]).filter(r=>!S.eq[r]);
     h+=urow(e.emoji,e.name,e.desc,own?'<button class="btn small" disabled>Owned</button>':`<button class="btn small go" data-act="buyEq" data-arg="${k}" ${miss.length?'disabled':''}>Buy $${e.cost}</button>`);}
   const pl2=S.up.plate;
   h+='<h3>Plates</h3>'+urow('🍽️',`${PLATE_NAMES[pl2]} (${PLATE_SIZES[pl2].join('×')})`,'The plate you build dishes on.','<button class="btn small" disabled>Owned</button>');
@@ -1276,10 +1335,10 @@ function renderMenuTab(){
     `<div class="mgrid">${[...unl.filter(k=>S.rec[k].isNew),...unl.filter(k=>!S.rec[k].isNew)].map(card).join('')}</div>`+
     (locked.length?`<h3>Still locked</h3><div class="mgrid">${locked.map(k=>`<div class="mcard locked"><div class="mtop"><span class="me">${REC[k].emoji}</span><b>${REC[k].name}</b><em>🔒</em></div><small>${lockText(k)} See Upgrades.</small></div>`).join('')}</div>`:'');
 }
-function renderTabs(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','pantry','upgrades','receipts'].forEach(t=>$('#tab-'+t).hidden=t!==tab);}
+function renderTabs(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts'].forEach(t=>$('#tab-'+t).hidden=t!==tab);}
 function renderLive(){if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
 function renderShelf(){const t=S.trophies||[],el=$('#shelf');el.hidden=!t.length;el.innerHTML=t.map(k=>`<span title="${TROPHIES[k].name}">${TROPHIES[k].emoji}</span>`).join('');}
-function renderAll(){applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
+function renderAll(){if(S)ensureFarm();renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
 
 /* ---------- toasts, floats, modal ---------- */
 function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;$('#toasts').appendChild(t);while($('#toasts').children.length>3)$('#toasts').firstChild.remove();setTimeout(()=>t.remove(),3200);}
@@ -1300,9 +1359,10 @@ function dailyHTML(){
   ${step(1,'🍽️','Arrange your dining room','Drag tables where you want them. Push tables together to make bigger tables for groups.','dining','Dining')}
   ${step(2,'🍳','Arrange your kitchen','Move your appliances around however you like.','kitchen','Kitchen')}
   ${step(3,'📋','Set your menu','In the Menu tab, pick today’s dishes and solve the math to set their prices. Use Upgrades to unlock new dishes and equipment.','menu','Menu')}
-  ${step(4,'📦','Shop for ingredients','In the Pantry, buy what your menu needs from the truck. Put ❄️ cold food in the fridge and 🧊 ice cream in the dessert freezer.','pantry','Pantry')}
-  ${step(5,'🪧','Flip the sign to Open','Tap the <b>Closed</b> sign at the top to open your doors.','','')}
-  ${step(6,'🐾','Seat guests and fill orders','Tap a guest at the door, then a table. Build each dish on the plate, serve it, then ring up the bill.','','')}
+  ${step(4,'🌱','Do your farm chores','Clear rocks, dig, plant and water. Feed your animals, then send food from the barn to the truck.','farm','Farm')}
+  ${step(5,'📦','Shop for ingredients','In the Pantry, buy what your menu needs from the truck. Put ❄️ cold food in the fridge and 🧊 ice cream in the dessert freezer.','pantry','Pantry')}
+  ${step(6,'🪧','Flip the sign to Open','Tap the <b>Closed</b> sign at the top to open your doors.','','')}
+  ${step(7,'🐾','Seat guests and fill orders','Tap a guest at the door, then a table. Build each dish on the plate, serve it, then ring up the bill.','','')}
   </ol>
   <div class="dtips"><div>🚫 <b>Ran out of something?</b> Tap a dish on the chalkboard or in the Menu tab to mark it sold out.</div>
   <div>🪧 <b>Bad day?</b> You can tap the Open sign to close early — but you won't earn any stars that day.</div></div>
@@ -1310,6 +1370,7 @@ function dailyHTML(){
   <div class="modal-actions"><button class="btn primary" data-act="closeModal">Let's go!</button><button class="btn" data-act="help">Full how to play</button></div>`;}
 function helpHTML(){return `<h1>How to play</h1><ol>
 <li><b>Flip the event card.</b> From day 2, every morning starts with an event card. Some help you, some make the day harder. Tap today's card at the top to read it again.</li>
+<li><b>Farm in the morning.</b> In the 🌱 Farm tab, clear rocks, dig, plant seeds and water them every morning. Feed your animals. Harvests and animal food go to the barn — send them to the truck, then unload them in the Pantry. Dishes made with farm food earn a 🌱 farm-fresh tip.</li>
 <li><b>Stock up in the morning.</b> In <b>Pantry &amp; truck</b>, check what your menu needs, then buy baskets. They land on the truck — drag dry food onto the shelves and ❄️ cold food into the fridge. The truck leaves when you open and comes back the next morning.</li>
 <li><b>Watch for spoiling.</b> Cold food left on the dry shelves spoils overnight. Fridge food lasts 2 days and dry food 3 days (the number on each basket).</li>
 <li><b>Set up the room.</b> Drag tables and decor around the dining room. Tap to rotate. Every table seats 1 — put tables side by side to join them into a bigger table of any shape. Tap a tablecloth color, then tap a table to paint it.</li>
@@ -1389,6 +1450,10 @@ const EVENTS=[
  {id:'late',good:0,day:3,em:'⏰',area:'Truck',t:'Truck is late',d:()=>'The truck showed up late and has to leave soon. You can only buy 3 baskets today.',go(){S.ev.left=3;}},
  {id:'shortage',good:0,day:4,em:'🚫',area:'Truck',t:'Shortage',d:e=>`The truck ran out of ${ING[e.ing].emoji} ${ING[e.ing].name.toLowerCase()}. You can't buy any today.`,go(){const n=Object.keys(menuNeeds());if(!n.length)return false;S.ev.ing=n[rint(0,n.length-1)];}},
  {id:'fuel',good:0,day:2,em:'⛽',area:'Truck',t:'Fuel prices',d:()=>'Gas got expensive. Every basket on the truck costs $2 more today.'},
+ {id:'rain',good:1,em:'🌧️',area:'Farm',t:'Rainy morning',d:()=>'Rain watered your whole farm today. No watering needed!',go(){if(!S.farm||!S.farm.pieces.length)return false;}},
+ {id:'bumper',good:1,em:'🌽',area:'Farm',t:'Bumper crop',d:()=>'Your plants are extra big! Everything you harvest today gives double.',go(){if(!S.farm||!S.farm.pieces.some(cropReady))return false;}},
+ {id:'drought',good:0,day:3,em:'☀️',area:'Farm',t:'Drought',d:()=>"It's hot and dry. Any crop you don't water today dries up tonight.",go(){if(!S.farm||!S.farm.pieces.some(p=>!cropReady(p)))return false;}},
+ {id:'crows',good:0,day:2,em:'🐦',area:'Farm',t:'Crows!',d:e=>`Crows swooped in and ate your ${e.lost}.`,go(){const ps=(S.farm&&S.farm.pieces)||[];if(!ps.length)return false;const p=ps[rint(0,ps.length-1)];S.ev.lost=CROPS[p.key].emoji+' '+CROPS[p.key].name.toLowerCase();freeCells(p);}},
 ];
 function drawEvent(){S.ev=null;if(S.day<2)return;
   const goodChance=S.day<=3?.75:.6;
@@ -1404,12 +1469,129 @@ function inspection(){const warm=S.storage.pieces.filter(b=>ING[b.key].cold).len
   if(evIs('goldstar')){if(!warm){changeRep(0.3);toast('⭐ The inspector gave you a gold star! Your stars went up.');}else toast('🧑‍⚕️ The inspector found cold food on the dry shelves. No gold star today.');}
   else{if(warm){const f=warm*5;S.money-=f;toast(`🧑‍⚕️ Inspection: ${warm} cold basket${warm===1?'':'s'} on the dry shelves. Fined $${f}.`);}else toast('🧑‍⚕️ Inspection passed! Everything was stored right.');}}
 
+
+/* ---------- farm ---------- */
+const CROPS={
+  tomato:{name:'Tomato vine',ing:'T',emoji:'🍅',shape:I2,days:3,cost:3,unlock:0},
+  lettuce:{name:'Lettuce',ing:'L',emoji:'🥬',shape:MONO,days:2,cost:2,unlock:40},
+  berry:{name:'Berry bush',ing:'Y',emoji:'🫐',shape:L3,days:3,cost:4,unlock:50},
+  potato:{name:'Potato patch',ing:'O',emoji:'🥔',shape:O4,days:4,cost:9,unlock:60},
+};
+const FIELD_SIZES=[[4,3],[5,4],[6,5],[7,6],[8,6]], FIELD_COST=[60,120,200,300];
+const TOOLS={
+  pickaxe:{name:'Pickaxe',emoji:'⛏️',cost:40,desc:'Tap a rock to clear a 2×2 area of rocks at once.'},
+  hose:{name:'Garden hose',emoji:'🚿',cost:60,desc:'Adds a “Water all” button.'},
+  basket:{name:'Harvest basket',emoji:'🧺',cost:50,desc:'Adds a “Harvest all” button.'},
+  tractor:{name:'Tractor',emoji:'🚜',cost:150,desc:'Tap dirt to dig the whole row at once.'},
+};
+const PENS={
+  coop:{name:'Chicken coop',emoji:'🛖',cost:80,slots:4,animal:'chicken'},
+  goatpen:{name:'Goat pen',emoji:'🪵',cost:120,slots:3,animal:'goat'},
+  hive:{name:'Beehive',emoji:'🍯',cost:100,slots:3,animal:'bee'},
+  pasture:{name:'Cow pasture',emoji:'🌾',cost:150,slots:2,animal:'cow'},
+};
+const ANIMALS={
+  chicken:{name:'Chicken',baby:'🐣',adult:'🐔',cost:8,grow:3,makes:'E',amt:2,per:1,word:'eggs'},
+  goat:{name:'Goat',baby:'🐐',adult:'🐐',cost:25,grow:4,makes:'C',amt:2,per:1,word:'goat cheese'},
+  bee:{name:'Bees',baby:'🐛',adult:'🐝',cost:15,grow:3,makes:'H',amt:2,per:1,word:'honey'},
+  cow:{name:'Cow',baby:'🐮',adult:'🐄',cost:35,grow:5,makes:'milk',amt:4,per:2,word:'milk'},
+};
+const FEEDS={
+  basic:{name:'Farm feed',emoji:'🌾',cost:1,desc:'Babies grow, adults make food.'},
+  golden:{name:'Golden corn',emoji:'🌽',cost:3,desc:'Also makes the animal better each time: bigger eggs, richer milk, more honey (up to +3).'},
+  rainbow:{name:'Rainbow seeds',emoji:'🌈',cost:4,desc:'Also gives the animal a fun new color.'},
+};
+function newFarm(){const f={w:4,h:3,pieces:[],cells:{},tools:{},seeds:['tomato'],size:0,pens:{},animals:[],feed:{basic:5},feedSel:'basic',churn:false};
+  for(let y=0;y<f.h;y++)for(let x=0;x<f.w;x++)f.cells[x+','+y]=Math.random()<.45?'rock':'dirt';return f;}
+function farmOK(){if(S.phase!=='prep'){toast('🌙 Farm chores happen in the morning. Come back tomorrow!');return false;}return true;}
+function seedShape(k){let s=CROPS[k].shape;for(let i=0;i<(S.rot['seed_'+k]||0)%4;i++)s=rot(s);return s;}
+function cropOf(p){return CROPS[p.key];}
+function cropReady(p){return p.age>=cropOf(p).days;}
+function barnAdd(k,n,d){if(n<=0)return;S.barn=S.barn||[];d=d||(k==='H'?99:3);const l=S.barn.find(x=>x.k===k&&x.d===d);if(l)l.n+=n;else S.barn.push({k,n,d});}
+function barnCount(k){return (S.barn||[]).filter(l=>l.k===k).reduce((a,l)=>a+l.n,0);}
+function barnTake(k,n){let left=n;(S.barn||[]).filter(l=>l.k===k).sort((a,b)=>a.d-b.d).forEach(l=>{const t=Math.min(l.n,left);l.n-=t;left-=t;});S.barn=(S.barn||[]).filter(l=>l.n>0);return n-left;}
+function barnName(k){return k==='milk'?'🥛 Milk':ING[k].emoji+' '+ING[k].name;}
+function farmTap(x,y){if(!farmOK())return;const F=S.farm,key=x+','+y,st=F.cells[key];if(!st)return;
+  if(st==='rock'){const area=F.tools.pickaxe?[[0,0],[1,0],[0,1],[1,1]]:[[0,0]];area.forEach(([a,b])=>{const k=(x+a)+','+(y+b);if(F.cells[k]==='rock')F.cells[k]='dirt';});}
+  else if(st==='dirt'){if(F.tools.tractor){for(let i=0;i<F.w;i++)if(F.cells[i+','+y]==='dirt')F.cells[i+','+y]='tilled';}else F.cells[key]='tilled';}
+  else if(st==='tilled')toast('🌱 Drag a seed packet onto the dark soil to plant.');}
+function plant(k,x,y,shape){const c=CROPS[k];if(!spend(c.cost))return false;addPiece('farm','crop',k,x,y,shape,{age:0,wilt:0,watered:evIs('rain')});return true;}
+function autoPlant(k){if(!farmOK())return;const F=S.farm;let s=seedShape(k);for(let r=0;r<4;r++){for(let y=0;y<F.h;y++)for(let x=0;x<F.w;x++)if(fits('farm',s,x,y)){plant(k,x,y,s);return;}s=rot(s);}
+  toast('No dug-up soil big enough. Tap squares to clear rocks and dig first.');}
+function freeCells(p){cellsOf(p).forEach(([x,y])=>{if(S.farm.cells[x+','+y])S.farm.cells[x+','+y]='dirt';});S.farm.pieces=S.farm.pieces.filter(q=>q!==p);}
+function cropYield(p){return p.shape.length*4*(evIs('bumper')?2:1);}
+function doHarvest(list){let msg=[];list.forEach(p=>{const n=cropYield(p);barnAdd(cropOf(p).ing,n);freeCells(p);msg.push(`${n} ${cropOf(p).emoji}`);});toast(`🧺 Into the barn: ${msg.join(', ')}`);renderAll();}
+let HV=null;
+function harvestAsk(list){const parts=[];list.forEach(p=>{for(let i=0;i<p.shape.length*(evIs('bumper')?2:1);i++)parts.push(4);});const ans=parts.reduce((a,b)=>a+b,0);
+  if(!mathOn()||parts.length<2||parts.length>8){doHarvest(list);return;}
+  HV={list,parts,ans,picked:[],choices:regChoices(ans)};showHv();}
+function showHv(){const t=HV.list.map(p=>cropOf(p).emoji).join(' ');
+  modal(`<div class="register"><div class="regtop">🧺 Harvest time</div><div class="regwho"><span class="rf">${t}</span><span>Each square gives 4. How many did you pick?</span></div>
+  <div class="fact hvfact">${HV.parts.join(' + ')} = <span class="q">?</span></div>
+  <div class="answers">${HV.choices.map(c=>`<button class="ans ${HV.picked.includes(c)?'no':''}" data-act="hvAns" data-arg="${c}" ${HV.picked.includes(c)?'disabled':''}>${c}</button>`).join('')}</div>
+  <p class="regmsg">${HV.picked.length?'Try again!':''}</p></div>`);}
+function cropTap(p){if(!farmOK())return;const c=cropOf(p);
+  if(cropReady(p))return harvestAsk([p]);
+  if(!p.watered&&!evIs('rain')){p.watered=true;return;}
+  toast(`${c.emoji} ${c.name}: ${c.days-p.age} more day${c.days-p.age===1?'':'s'} to grow.`);}
+function sendToTruck(k){if(S.phase!=='prep')return toast('The truck only comes in the morning.');let n=barnCount(k);if(!n)return;let sent=0;
+  while(n>0){const m=Math.min(n,ING[k].uses);const spot=findSpot('truck',ING[k].basket);if(!spot)break;const b=addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{farm:true,paid:0});b.uses=m;shrink(b);n-=m;sent+=m;}
+  barnTake(k,sent);toast(sent?`🚚 ${sent} ${ING[k].emoji} loaded on the truck. Unload it in the Pantry!`:'The truck is full. Unload it in the Pantry first.');}
+function feedAnimal(id){if(!farmOK())return;const F=S.farm,a=F.animals.find(x=>x.id===id);if(!a)return;const A=ANIMALS[a.type];
+  if(a.fed)return toast(`${a.adult?A.adult:A.baby} Already fed today.`);
+  const t=F.feedSel;if((F.feed[t]||0)<1)return toast(`Out of ${FEEDS[t].name.toLowerCase()}. Buy more in the barn.`);
+  F.feed[t]--;a.fed=true;if(t==='golden'&&a.q<3)a.q++;if(t==='rainbow'&&!a.hue)a.hue=rint(40,320);
+  if(!a.adult){a.g++;if(a.g>=A.grow){a.adult=true;toast(`🎉 Your ${A.name.toLowerCase()} grew up! It will make ${A.word} when you feed it.`);}else toast(`${A.baby} Yum! ${A.grow-a.g} more feeding${A.grow-a.g===1?'':'s'} to grow up.`);}
+  else{const n=A.amt+A.per*a.q;barnAdd(A.makes,n);toast(`${A.adult} +${n} ${A.word} to the barn!`);}}
+function farmNight(sp){const F=S.farm;if(!F)return;
+  [...F.pieces].forEach(p=>{const c=cropOf(p);
+    if(cropReady(p)){p.ripe=(p.ripe||0)+1;if(p.ripe>2){freeCells(p);sp.push(`${c.emoji} ${c.name} rotted — harvest sooner!`);}return;}
+    if(p.watered||evIs('rain')){p.age++;p.wilt=0;}else{p.wilt++;if(evIs('drought')||p.wilt>=2){freeCells(p);sp.push(`🥀 ${c.name} dried up — remember to water!`);return;}}
+    p.watered=false;});
+  F.animals.forEach(a=>a.fed=false);
+  S.barn=(S.barn||[]).filter(l=>{l.d--;if(l.d<=0){sp.push(`${barnName(l.k)} in the barn went bad`);return false;}return true;});}
+function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
+  $('#farmNote').textContent=`${F.w}×${F.h} field`;
+  $('#farmHint').textContent=prep?'Tap 🪨 rocks to clear them, tap dirt to dig it, then drag a seed packet onto the dark soil. Tap a plant to water it 💧 each morning.':'🌙 The farm is resting. Farm chores happen in the morning before you open.';
+  paintGrid('farm',{max:72,
+    cell:(x,y)=>{const st=F.cells[x+','+y];return st==='rock'?{cls:'rock',inner:'🪨'}:st==='tilled'?{cls:'tilled'}:{cls:'dirt'};},
+    color:()=>'#5A381C',pieceCls:p=>(p.watered||evIs('rain')?'wet ':'')+(cropReady(p)?'ripe ':'')+(p.wilt?'dry':''),
+    label:p=>{const c=cropOf(p),r=cropReady(p);return `<span class="cr">${r?c.emoji:p.age===0?'🌱':'🌿'}</span>${r?'<span class="cbadge">✨ pick</span>':`<span class="cbadge">${c.days-p.age}d</span>`}${(p.watered||evIs('rain'))&&!r?'<span class="wdrop">💧</span>':''}${p.wilt&&!r?'<span class="wdrop">🥀</span>':''}`;},
+    icon:p=>`<span class="cr">${cropReady(p)?cropOf(p).emoji:p.age===0?'🌱':'🌿'}</span>`});
+  $('#farmTools').innerHTML=(F.tools.hose?`<button class="btn small" data-act="waterAll">🚿 Water all</button>`:'')+(F.tools.basket?`<button class="btn small" data-act="harvestAll">🧺 Harvest all</button>`:'');
+  $('#seeds').innerHTML=F.seeds.map(k=>{const c=CROPS[k];return `<div class="palwrap"><div class="pal" data-new="seed" data-key="${k}" title="${c.name}"><span class="cnt">$${c.cost}</span>${miniShape(seedShape(k),'#3E8A2E',13)}<span class="nm">${c.emoji} ${c.name}</span><small class="sd">${c.days} days · ${c.shape.length*4} pieces</small></div><button class="rotbtn" data-act="rotSeed" data-arg="${k}">⟳ Rotate</button></div>`;}).join('');
+  // animals
+  const pens=Object.keys(PENS).filter(k=>F.pens[k]);
+  $('#feedSel').innerHTML=Object.keys(FEEDS).map(t=>`<button class="fchip ${F.feedSel===t?'on':''}" data-act="feedSel" data-arg="${t}">${FEEDS[t].emoji} ${FEEDS[t].name} <b>×${F.feed[t]||0}</b></button>`).join('');
+  $('#pens').innerHTML=pens.length?pens.map(k=>{const P=PENS[k],A=ANIMALS[P.animal],list=F.animals.filter(a=>a.type===P.animal);
+    return `<div class="pen"><div class="penh"><b>${P.emoji} ${P.name}</b><small>${list.length}/${P.slots}</small></div><div class="anis">${list.map(a=>`<button class="ani ${a.adult?'':'baby'} ${a.fed?'fed':''}" data-act="feedAnimal" data-arg="${a.id}"><span class="ae" style="${a.hue?`filter:hue-rotate(${a.hue}deg) saturate(1.5)`:''}">${a.adult?A.adult:A.baby}</span><small>${a.adult?`makes ${A.amt+A.per*a.q} ${A.word}`:`grown ${a.g}/${A.grow}`}</small>${a.q?`<small>${'⭐'.repeat(a.q)}</small>`:''}<em>${a.fed?'✓ fed':'tap to feed'}</em></button>`).join('')||'<span class="empty">Empty — buy animals in the barn.</span>'}</div></div>`;}).join('')
+    :'<p class="empty">No animals yet. Buy a pen in the barn to start.</p>';
+  $('#feedRow').hidden=!pens.length;
+  // barn storage
+  const keys=[...new Set((S.barn||[]).map(l=>l.k))];
+  $('#barnStore').innerHTML=keys.length?keys.map(k=>{const n=barnCount(k),d=Math.min(...S.barn.filter(l=>l.k===k).map(l=>l.d));
+    return `<div class="brow"><span class="bn">${barnName(k)} <b>×${n}</b><small>${d>50?'never spoils':d===1?'goes bad tonight!':`good for ${d} days`}</small></span>${k==='milk'?(F.churn?`<span class="bbtns"><button class="btn small" data-act="churn" data-arg="C">🧀 Cheese</button><button class="btn small" data-act="churn" data-arg="G">🥛 Yogurt</button><button class="btn small" data-act="churn" data-arg="I">🍨 Ice cream</button></span>`:'<small>Buy a dairy churn to turn milk into food.</small>'):`<button class="btn small go" data-act="toTruck" data-arg="${k}" ${prep?'':'disabled'}>🚚 Send to truck</button>`}</div>`;}).join('')
+    :'<p class="empty">Nothing stored yet. Harvested food and animal products land here.</p>';
+  // barn shop
+  let h='<h3>🌱 Seeds</h3>';
+  for(const k in CROPS){const c=CROPS[k];if(c.unlock===0)continue;h+=urow(c.emoji,c.name,`${c.shape.length} square${c.shape.length>1?'s':''} · grows in ${c.days} days · ${c.shape.length*4} pieces · $${c.cost} a packet`,F.seeds.includes(k)?'<button class="btn small" disabled>Owned</button>':`<button class="btn small go" data-act="buySeed" data-arg="${k}">Unlock $${c.unlock}</button>`);}
+  h+='<h3>🧰 Tools</h3>';for(const k in TOOLS){const t=TOOLS[k];h+=urow(t.emoji,t.name,t.desc,F.tools[k]?'<button class="btn small" disabled>Owned</button>':`<button class="btn small go" data-act="buyTool" data-arg="${k}">Buy $${t.cost}</button>`);}
+  h+='<h3>🟫 Land</h3>';h+=urow('🟫','Bigger field',F.size<FIELD_COST.length?`Grow your field to ${FIELD_SIZES[F.size+1].join('×')}. New land has rocks to clear.`:'Fully expanded.',F.size<FIELD_COST.length?`<button class="btn small go" data-act="growField">Buy $${FIELD_COST[F.size]}</button>`:'');
+  h+='<h3>🐾 Animals</h3>';for(const k in PENS){const P=PENS[k],A=ANIMALS[P.animal],n=F.animals.filter(a=>a.type===P.animal).length;
+    h+=urow(P.emoji,P.name,`Land and fence for ${P.slots} ${A.name.toLowerCase()}${P.slots>1&&A.name!=='Bees'?'s':''}. Adults make ${A.word}.`,F.pens[k]?'<button class="btn small" disabled>Built</button>':`<button class="btn small go" data-act="buyPen" data-arg="${k}">Build $${P.cost}</button>`);
+    if(F.pens[k])h+=urow(A.baby,`Baby ${A.name.toLowerCase()}`,`Feed it ${A.grow} times to grow up.`,n<P.slots?`<button class="btn small go" data-act="buyAnimal" data-arg="${P.animal}">Buy $${A.cost}</button>`:'<button class="btn small" disabled>Pen full</button>');}
+  h+='<h3>🌾 Feed</h3>';for(const t in FEEDS){const f=FEEDS[t];h+=urow(f.emoji,f.name+` (you have ${F.feed[t]||0})`,f.desc,`<button class="btn small go" data-act="buyFeed" data-arg="${t}">Buy 5 · $${f.cost*5}</button>`);}
+  h+='<h3>🧀 Dairy</h3>'+urow('🧈','Dairy churn','Turn cow milk into cheese, yogurt or ice cream.',F.churn?'<button class="btn small" disabled>Owned</button>':'<button class="btn small go" data-act="buyChurn">Buy $100</button>');
+  $('#barnShop').innerHTML=h;
+}
+
 /* ---------- day cycle ---------- */
 function openDay(force){
   if(!tables().length)return toast('Put at least one table on the floor first.');
   if(!menuList().length)return toast('Put at least one dish on the menu (📋 Menu tab).');
   if(unpriced().length)return modal(`<h2>✏️ Set today's prices first</h2><p>Your menu needs prices before the doors open. Solve each dish's math problem to set its price.</p><div class="modal-actions"><button class="btn primary" data-act="setPrices">Set prices</button><button class="btn" data-act="closeModal">Not yet</button></div>`);
   if(S.truck.pieces.length&&!force)return modal(`<h2>Baskets still on the truck</h2><p>${S.truck.pieces.map(p=>ING[p.key].emoji).join(' ')} — once you open, the truck drives away until tomorrow morning. Anything left on it goes back and you get your money back.</p><div class="modal-actions"><button class="btn primary" data-act="openForce">Open anyway</button><button class="btn" data-act="closeModal">Keep unloading</button></div>`);
+  {const fb=S.truck.pieces.filter(p=>p.farm);fb.forEach(p=>barnAdd(p.key,p.uses));if(fb.length)toast('🛖 Farm food left on the truck went back to the barn.');S.truck.pieces=S.truck.pieces.filter(p=>!p.farm);}
   if(S.truck.pieces.length){const back=S.truck.pieces.reduce((a,p)=>a+(p.paid!=null?p.paid:(p.cheap?Math.ceil(ING[p.key].cost/2):ING[p.key].cost)),0);S.money+=back;S.truck.pieces=[];toast(`Returned the leftover baskets: +$${back}.`);}
   toast('🚚💨 The truck drove off. It comes back tomorrow morning.');
   S.phase='open';S.repStart=S.rep;S.clock=S.openTime;S.nextArrival=S.openTime+6;S.stats=blankStats();S.receipts=[];S.newRc=0;
@@ -1424,6 +1606,7 @@ function closeDay(early){
     if(i.frozen&&S.freezer&&gid!=='freezer'){spoiled.push(`${i.emoji} ${i.name} — melted outside the dessert freezer`);return false;}
     if(i.cold&&gid==='storage'){spoiled.push(`${i.emoji} ${i.name} — left out of the fridge`);return false;}
     if(!(gid==='fridge'&&evIs('extracold'))&&!(gid==='freezer'&&S.day%2===0))b.days--;if(b.days<=0){spoiled.push(`${i.emoji} ${i.name} — too old`);return false;}return true;});}
+  farmNight(spoiled);
   S.parties.forEach(p=>{if(p.tables&&p.state!=='walking')walkOut(p);});document.querySelectorAll('#f-dining [id^="w-"]').forEach(e=>e.remove());
   S.stats.kicked=kicked;S.stats.kickedEating=ke;S.parties=[];S.active=null;S.sel=null;
   ['plate','plate2'].forEach(g=>{if(S[g]){S[g].pieces.forEach(p=>refund(p.key));S[g].pieces=[];}});S.st={};
@@ -1539,6 +1722,7 @@ function finishParty(p){
   if(evIs('tippers'))tip*=2;if(p.bday){tip+=10;note='🎂 Birthday party — big tip!';}
   if(T.special&&p.misSeat){tip=0;note=`Wanted the ${seatName(p.type).toLowerCase()} — no tip`;}
   else if(T.special){tip=Math.round(tip*1.3);note=`Loved the ${seatName(p.type).toLowerCase()}! Extra tip`;}
+  if(p.dishes.some(d=>d.fresh)&&tip>0){tip=Math.round(tip*1.25)+1;note=note||'🌱 Farm fresh — extra tip!';}
   const dr=frac>.5?0.05*T.rep:frac>.2?0.02*T.rep:0;changeRep(dr);
   p.bill={base,tip,note,frac,rep:dr,stars:clamp(Math.round(1+frac*4.5),1,5)};
   if(p.type==='critic')toast(frac>.5?'🦉 The critic loved it! Your stars jump.':'🦉 The critic scribbles notes… that took a while.');
@@ -1601,7 +1785,7 @@ function checkout(p){const b=p.bill;p.tnum=tableNum(p.tables[0]);S.money+=b.base
 function serve(g){g=g||curSt();
   const p=stParty(g),d=stDish(g);if(!d)return toast('Pick an order ticket first.');
   if(!plateMatches(d.rec,g))return toast('The plate doesn\'t match the outline yet.');
-  S[g].pieces=[];S.st[g]=null;d.done=true;d.price=d.swapped?Math.round(recipePrice(d.rec)*0.75):recipePrice(d.rec);if(evIs('special')&&S.ev.dish===d.rec)d.price*=2;S.stats.dishes++;
+  const fresh=S[g].pieces.some(q=>q.farm);S[g].pieces=[];S.st[g]=null;d.done=true;d.fresh=fresh;d.price=d.swapped?Math.round(recipePrice(d.rec)*0.75):recipePrice(d.rec);if(evIs('special')&&S.ev.dish===d.rec)d.price*=2;S.stats.dishes++;
   if(p.dishes.every(x=>x.done))finishParty(p);else if(S.autoLoad!==false)assign(g,p.id);
   autoFill();
 }
@@ -1634,12 +1818,14 @@ document.addEventListener('pointerdown',e=>{
   const q=e.target.closest('[data-party]');if(q){const id=+q.dataset.party;S.sel=S.sel===id?null:id;renderLive();return;}
   const c=e.target.closest('[data-cancel]');if(c){const p=S.parties.find(x=>x.id===+c.dataset.cancel);if(p)swapOrder(p);e.preventDefault();return;}
   const t=e.target.closest('[data-ticket]');if(t){pickTicket(+t.dataset.ticket);renderAll();return;}
+  {const ff=e.target.closest('#g-farm');if(ff){e.preventDefault();const pc2=e.target.closest('.pc');if(pc2){const p=S.farm.pieces.find(x=>x.id===+pc2.dataset.pid);if(p)cropTap(p);}else{const r=ff.getBoundingClientRect();farmTap(Math.floor((e.clientX-r.left)/r.width*S.farm.w),Math.floor((e.clientY-r.top)/r.height*S.farm.h));}renderAll();return;}}
   {const ps=e.target.closest('.pstation');if(ps&&!e.target.closest('button')&&S.cur!==ps.dataset.st){S.cur=ps.dataset.st;renderAll();}}
   const pc=e.target.closest('.pc'),nw=e.target.closest('[data-new]');
   if(pc){const gel=pc.closest('.grid'),gid=gel.dataset.grid,p=S[gid].pieces.find(x=>x.id===+pc.dataset.pid);if(!p)return;
     D={mode:'piece',gid,p,shape:p.shape,kind:p.kind,key:p.key,gx:+pc.dataset.cx,gy:+pc.dataset.cy,sx:e.clientX,sy:e.clientY,cs:cellPx(gid,40),started:false};}
-  else if(nw){const kind=nw.dataset.new,key=nw.dataset.key,shape=kind==='food'?ingShape(key):FURN[key].shape;
-    D={mode:'new',kind,key,shape,idx:+nw.dataset.idx,gx:shape[0][0],gy:shape[0][1],sx:e.clientX,sy:e.clientY,cs:kind==='food'?cellPx('plate',44):cellPx('dining',44),started:false};}
+  else if(nw){const kind=nw.dataset.new,key=nw.dataset.key,shape=kind==='food'?ingShape(key):kind==='seed'?seedShape(key):FURN[key].shape;
+    if(kind==='seed'&&S.phase!=='prep'){farmOK();return;}
+    D={mode:'new',kind,key,shape,idx:+nw.dataset.idx,gx:shape[0][0],gy:shape[0][1],sx:e.clientX,sy:e.clientY,cs:kind==='food'?cellPx('plate',44):kind==='seed'?cellPx('farm',44):cellPx('dining',44),started:false};}
   else return;
   e.preventDefault();
 });
@@ -1667,8 +1853,8 @@ function autoScroll(){
 }
 document.addEventListener('pointerup',()=>{if(!D)return;const d=D;D=null;removeGhost();if(!d.started)tap(d);else drop(d);renderAll();});
 document.addEventListener('pointercancel',()=>{D=null;removeGhost();if(S)renderAll();});
-function makeGhost(){const g=document.createElement('div');g.className='ghost';const color=D.kind==='appl'?APPL[D.key].color:D.kind==='food'||D.kind==='basket'?ING[D.key].color:(FURN[D.key].seats?'#FFFFFF':FURN[D.key].color);
-  const em=D.kind==='appl'?APPL[D.key].emoji:D.kind==='furn'?FURN[D.key].emoji:ING[D.key].emoji;
+function makeGhost(){const g=document.createElement('div');g.className='ghost';const color=D.kind==='seed'?'#3E8A2E':D.kind==='appl'?APPL[D.key].color:D.kind==='food'||D.kind==='basket'?ING[D.key].color:(FURN[D.key].seats?'#FFFFFF':FURN[D.key].color);
+  const em=D.kind==='seed'?'🌱':D.kind==='appl'?APPL[D.key].emoji:D.kind==='furn'?FURN[D.key].emoji:ING[D.key].emoji;
   g.innerHTML=D.shape.map(([x,y],i)=>`<div class="gc" style="left:${x*D.cs}px;top:${y*D.cs}px;width:${D.cs-2}px;height:${D.cs-2}px;--c:${color}">${i===0||D.kind==='food'?em:''}</div>`).join('');
   document.body.appendChild(g);}
 function removeGhost(){document.querySelectorAll('.ghost').forEach(g=>g.remove());document.querySelectorAll('.preview').forEach(p=>p.innerHTML='');}
@@ -1700,7 +1886,8 @@ function drop(d){
       else if(d.kind==='furn'){S.dining.pieces=S.dining.pieces.filter(q=>q!==d.p);S.storeroom.push({key:d.key,cloth:d.p.cloth,style:d.p.style});toast(`${FURN[d.key].name} moved to the storeroom.`);}
     }
   }else if(t&&t.ok){
-    if(d.kind==='food'){if(!consume(d.key))return;addPiece(t.gid,'food',d.key,t.x,t.y,d.shape);S.cur=t.gid;}
+    if(d.kind==='seed'){plant(d.key,t.x,t.y,d.shape);return;}
+    if(d.kind==='food'){const cb=consume(d.key);if(!cb)return;addPiece(t.gid,'food',d.key,t.x,t.y,d.shape,{farm:!!cb.farm});S.cur=t.gid;}
     else{const o=S.storeroom[d.idx];if(!o)return;S.storeroom.splice(d.idx,1);const ex={};if(o.cloth)ex.cloth=o.cloth;if(o.style)ex.style=o.style;addPiece('dining','furn',o.key,t.x,t.y,null,ex);}
   }
 }
@@ -1717,7 +1904,8 @@ function tap(d){
     if(d.gid==='dining'&&tool==='paint')return toast('Only tables have tablecloths to paint.');
     if(d.gid==='truck'){const now=performance.now();if(LASTTAP.id===p.id&&now-LASTTAP.t<450){LASTTAP={id:0,t:0};return unloadBasket(p,true);}LASTTAP={id:p.id,t:now};return;}
     rotatePiece(d.gid,p);
-  }else if(d.kind==='food')autoPlaceFood(d.key);
+  }else if(d.kind==='seed')autoPlant(d.key);
+  else if(d.kind==='food')autoPlaceFood(d.key);
   else autoPlaceFurn(d.idx);
 }
 let LASTTAP={id:0,t:0};
@@ -1735,7 +1923,7 @@ function autoPlaceFood(key){
     if(!fits(g,s,x,y))continue;
     if(t&&!s.every(([a,b])=>t.get((a+x)+','+(b+y))===key))continue;
     if(!t&&r>0)continue;
-    consume(key);addPiece(g,'food',key,x,y,s);return;}
+    const cb=consume(key);addPiece(g,'food',key,x,y,s,{farm:!!(cb&&cb.farm)});return;}
     s=rot(s);}
   toast(t?`No ${ING[key].name.toLowerCase()} spot left that fits — try another piece or clear the plate.`:'No room on the plate.');
 }
@@ -1781,6 +1969,22 @@ const ACT={
   deletePlayer(){lsDel(saveKey());PLAYERS=PLAYERS.filter(p=>p.id!==CUR);savePlayers();CUR=null;titleScreen();},
   newGame(){newGame();closeModal();renderAll();save();modal(dailyHTML());},
   daily(){modal(dailyHTML());},
+  hvAns(n){n=+n;if(!HV)return;if(n!==HV.ans){HV.picked.push(n);showHv();const c=$('.register');if(c){c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');}return;}
+    const l=HV.list;S.stats.facts=(S.stats.facts||0)+1;if(!HV.picked.length)S.stats.factsFirst=(S.stats.factsFirst||0)+1;HV=null;closeModal();doHarvest(l);},
+  rotSeed(k){S.rot['seed_'+k]=((S.rot['seed_'+k]||0)+1)%4;},
+  waterAll(){if(!farmOK())return;S.farm.pieces.forEach(p=>{if(!cropReady(p))p.watered=true;});toast('🚿 Everything is watered!');},
+  harvestAll(){if(!farmOK())return;const r=S.farm.pieces.filter(cropReady);if(!r.length)return toast('Nothing is ready to pick yet.');harvestAsk(r);},
+  toTruck(k){sendToTruck(k);},
+  feedSel(t){S.farm.feedSel=t;},
+  feedAnimal(id){feedAnimal(+id);},
+  buySeed(k){if(!spend(CROPS[k].unlock))return;S.farm.seeds.push(k);toast(`${CROPS[k].emoji} ${CROPS[k].name} seeds unlocked!`);},
+  buyTool(k){if(S.farm.tools[k]||!spend(TOOLS[k].cost))return;S.farm.tools[k]=true;toast(`${TOOLS[k].emoji} ${TOOLS[k].name} bought!`);},
+  growField(){const F=S.farm;if(F.size>=FIELD_COST.length||!spend(FIELD_COST[F.size]))return;F.size++;const [w,h]=FIELD_SIZES[F.size];for(let y=0;y<h;y++)for(let x=0;x<w;x++){const k=x+','+y;if(!F.cells[k])F.cells[k]=Math.random()<.45?'rock':'dirt';}F.w=w;F.h=h;toast('🟫 More land! Clear the new rocks to use it.');},
+  buyPen(k){if(S.farm.pens[k]||!spend(PENS[k].cost))return;S.farm.pens[k]=true;if(k==='hive'){S.eq.bees=true;refreshUnlocks();}toast(`${PENS[k].emoji} ${PENS[k].name} built! Now buy some babies.`);},
+  buyAnimal(t){const F=S.farm,P=Object.values(PENS).find(p=>p.animal===t);if(F.animals.filter(a=>a.type===t).length>=P.slots)return toast('That pen is full.');if(!spend(ANIMALS[t].cost))return;F.animals.push({id:uid++,type:t,adult:false,g:0,q:0,fed:false});toast(`${ANIMALS[t].baby} A baby ${ANIMALS[t].name.toLowerCase()} joined your farm!`);},
+  buyFeed(t){if(!spend(FEEDS[t].cost*5))return;S.farm.feed[t]=(S.farm.feed[t]||0)+5;},
+  buyChurn(){if(S.farm.churn||!spend(100))return;S.farm.churn=true;toast('🧈 Dairy churn ready!');},
+  churn(k){const n=barnCount('milk');if(!n)return;barnTake('milk',n);barnAdd(k,n);toast(`🧈 Turned ${n} milk into ${ING[k].emoji} ${ING[k].name.toLowerCase()}.`);},
   buyTheme(k){if(!spend(THEMES[k].cost))return;S.themes=S.themes||[];S.themes.push(k);S.theme=k;applyTheme();toast(`${THEMES[k].emoji} Your restaurant is now a ${THEMES[k].name.toLowerCase()}!`);},
   useTheme(k){S.theme=k;applyTheme();},
   buyTrophy(k){if((S.trophies||[]).includes(k)||!spend(TROPHIES[k].cost))return;S.trophies=S.trophies||[];S.trophies.push(k);toast(`${TROPHIES[k].emoji} ${TROPHIES[k].name} is on your trophy shelf!`);},
