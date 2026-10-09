@@ -3222,8 +3222,8 @@ function tap(d){
       if(tool==='paint'){if(FURN[p.key].for)return toast('Magical seats keep their own look.');clusterOf(p.id).tables.forEach(t=>t.cloth=paintColor);return;}
       return;
     }
-    if(d.gid==='dining'&&tool==='paint')return toast('Only tables have tablecloths to paint.');
     if(d.gid==='dining'&&FURN[p.key].gag)return doGag(p);
+    if(d.gid==='dining'&&tool==='paint')return toast('Only tables have tablecloths to paint.');
     if(d.gid==='truck'){const now=performance.now();if(LASTTAP.id===p.id&&now-LASTTAP.t<450){LASTTAP={id:0,t:0};return unloadBasket(p,true);}LASTTAP={id:p.id,t:now};return;}
     rotatePiece(d.gid,p);
   }else if(d.kind==='seed')autoPlant(d.key);
