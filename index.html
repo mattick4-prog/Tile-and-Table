@@ -549,6 +549,22 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+@media (max-width:640px){.tkey{position:static!important;margin-left:0!important;box-shadow:none!important}}
+
+.ticket.tk2{min-width:0;text-align:center;padding:14px 10px 8px;display:flex;flex-direction:column;align-items:center;gap:5px}
+.ticket.tk2 .tf{font-size:30px;letter-spacing:-2px;line-height:1}
+.ticket.tk2 .dishes{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;max-width:150px;font-size:26px;letter-spacing:0;line-height:1.1}
+.ticket.tk2 .dish{position:relative}
+.ticket.tk2 .dish.done{opacity:.3}
+.ticket.tk2 .dish.done::after{content:'✓';position:absolute;right:-3px;bottom:-2px;font-size:13px;font-weight:900;color:#1E7A50;opacity:1}
+.ticket.tk2 .bar{width:100%;min-width:72px;margin:0}
+.ticket.tk2 .cant{width:30px;height:30px;margin:0;border-radius:50%;background:#FFE7E4;border:2px solid var(--red);text-decoration:none;font-size:15px;display:flex;align-items:center;justify-content:center;padding:0}
+.ticket.tk2 .ponb{position:absolute;top:4px;right:4px;float:none;margin:0}
+.tkey{flex:0 0 auto;position:sticky;right:0;z-index:3;align-self:flex-start;margin-left:auto;background:#fff;color:#2A1E1A;border:2px solid var(--line);border-radius:10px;padding:6px 10px;font-size:12px;box-shadow:-6px 0 10px rgba(0,0,0,.08)}
+.tkey b{display:block;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#6E5E55;margin-bottom:2px}
+.tkey div{display:flex;align-items:center;gap:6px;white-space:nowrap;font-weight:800;line-height:1.5}
+.tkey span{font-size:18px}
+
 .pc.thirsty .blk{outline:3px dashed #E8483B!important;outline-offset:-3px;background:rgba(232,72,59,.10)!important}
 .k-crop.wet .blk,.k-flower.wet .blk{outline:3px solid #4AA3E8;outline-offset:-3px;background:rgba(40,110,210,.38)!important}
 
@@ -1467,8 +1483,10 @@ function renderStoreroom(){
 }
 function renderTickets(){
   const ws=S.parties.filter(p=>p.state==='waiting');
+  const keyRecs=[...new Set(ws.flatMap(p=>p.dishes.filter(d=>!d.done).map(d=>d.rec)))];
   $('#tickets').innerHTML=ws.length?ws.map(p=>{const T=TYPES[p.type],f=p.pat/p.maxPat;
-    return `<div class="ticket ${partyOnPlates(p.id).length?'on':''}" data-ticket="${p.id}" role="button" tabindex="0">${partyOnPlates(p.id).map(g=>`<em class="ponb">🍽️${g==='plate'?1:2}</em>`).join('')}<span class="tf">${facesHTML(p)}</span><div class="dishes">${p.dishes.map(d=>`<span class="dish ${d.done?'done':''}" title="${REC[d.rec].name}"><small>${dishFace(d)}</small>${REC[d.rec].emoji}</span>`).join('')}</div><span class="bar"><i style="width:${f*100}%;background:${barColor(f)}"></i></span><button class="cant" data-cancel="${p.id}">🔄 Can't make it — swap</button></div>`;}).join('')
+    return `<div class="ticket tk2 ${partyOnPlates(p.id).length?'on':''}" data-ticket="${p.id}" role="button" tabindex="0">${partyOnPlates(p.id).map(g=>`<em class="ponb">🍽️${g==='plate'?1:2}</em>`).join('')}<div class="tf">${facesHTML(p)}</div><div class="dishes">${p.dishes.map(d=>`<span class="dish ${d.done?'done':''}" title="${REC[d.rec].name}">${REC[d.rec].emoji}</span>`).join('')}</div><span class="bar"><i style="width:${f*100}%;background:${barColor(f)}"></i></span><button class="cant" data-cancel="${p.id}" title="Can't make it — swap" aria-label="Can't make it — swap">🔄</button></div>`;}).join('')
+      +(keyRecs.length?`<div class="tkey"><b>Key</b>${keyRecs.map(r=>`<div><span>${REC[r].emoji}</span>${REC[r].name}</div>`).join('')}</div>`:'')
     :`<span class="empty">${S.phase==='open'?'No orders yet. Seat some guests!':'Orders show up here once you open.'}</span>`;
 }
 function renderDishInfo(){
