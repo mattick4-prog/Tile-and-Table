@@ -624,6 +624,8 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+#dishinfo{display:none!important}
+.tkey .tki{font-style:normal;font-weight:600;margin-left:8px;font-size:15px;opacity:.9}.tkey .tki small{font-size:10px;font-weight:800}
 @media (max-width:640px){.tkey{position:static!important;margin-left:0!important;box-shadow:none!important}}
 
 .ticket.tk2{min-width:0;text-align:center;padding:14px 10px 8px;display:flex;flex-direction:column;align-items:center;gap:5px}
@@ -1561,8 +1563,8 @@ function renderTickets(){
   const ws=S.parties.filter(p=>p.state==='waiting');
   const keyRecs=[...new Set(ws.flatMap(p=>p.dishes.filter(d=>!d.done).map(d=>d.rec)))];
   $('#tickets').innerHTML=ws.length?ws.map(p=>{const T=TYPES[p.type],f=p.pat/p.maxPat;
-    return `<div class="ticket tk2 ${partyOnPlates(p.id).length?'on':''}" data-ticket="${p.id}" role="button" tabindex="0">${partyOnPlates(p.id).map(g=>`<em class="ponb">🍽️${g==='plate'?1:2}</em>`).join('')}<div class="tf">${facesHTML(p)}</div><div class="dishes">${p.dishes.map(d=>`<span class="dish ${d.done?'done':''}" title="${REC[d.rec].name}">${REC[d.rec].emoji}</span>`).join('')}</div><span class="bar"><i style="width:${f*100}%;background:${barColor(f)}"></i></span><button class="cant" data-cancel="${p.id}" title="Can't make it — swap" aria-label="Can't make it — swap">🔄</button></div>`;}).join('')
-      +(keyRecs.length?`<div class="tkey"><b>Key</b>${keyRecs.map(r=>`<div><span>${REC[r].emoji}</span>${REC[r].name}</div>`).join('')}</div>`:'')
+    return `<div class="ticket tk2 ${partyOnPlates(p.id).length?'on':''}" data-ticket="${p.id}" role="button" tabindex="0"><div class="tf">${facesHTML(p)}</div><div class="dishes">${p.dishes.map(d=>`<span class="dish ${d.done?'done':''}" title="${REC[d.rec].name}">${REC[d.rec].emoji}</span>`).join('')}</div><span class="bar"><i style="width:${f*100}%;background:${barColor(f)}"></i></span><button class="cant" data-cancel="${p.id}" title="Can't make it — swap" aria-label="Can't make it — swap">🔄</button></div>`;}).join('')
+      +(keyRecs.length?`<div class="tkey"><b>Key</b>${keyRecs.map(r=>`<div><span>${REC[r].emoji}</span>${REC[r].name}<i class="tki">${Object.entries(piecesNeeded(r)).map(([k,n])=>ING[k].emoji+(n>1?'<small>×'+n+'</small>':'')).join(' ')}</i></div>`).join('')}</div>`:'')
     :`<span class="empty">${S.phase==='open'?'No orders yet. Seat some guests!':'Orders show up here once you open.'}</span>`;
 }
 function renderDishInfo(){
