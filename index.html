@@ -558,6 +558,12 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .na{position:absolute;transform:translate(-50%,-50%);line-height:1;white-space:nowrap;pointer-events:none;z-index:3;filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
 .nsay{position:absolute;z-index:4;transform:translate(-50%,-100%);background:#fff;color:#2A1E1A;font-weight:800;padding:4px 9px;border-radius:12px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.3);pointer-events:none;line-height:1.25}
 .nbeam{width:34%;height:58%;clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);background:linear-gradient(rgba(170,255,170,.75),rgba(170,255,170,.12));filter:none;z-index:2}
+.pc.nhide{visibility:hidden}
+#g-dining .pc.deco{pointer-events:auto!important;z-index:2!important}
+.ngag{position:absolute;font-size:28px;line-height:1;pointer-events:none;z-index:9;transform:translate(-50%,-50%)}
+#g-dining.ndisco{animation:ndisco2 .6s linear 5}
+@keyframes ndisco2{0%{filter:hue-rotate(0)}50%{filter:hue-rotate(180deg) saturate(1.6)}100%{filter:hue-rotate(360deg)}}
+.nnote{background:#F1ECFF;border-radius:10px;padding:6px 10px;margin:8px 0}.nnote p{margin:4px 0}
 
 #dishinfo{display:none!important}
 .tkey .tki{font-style:normal;font-weight:600;margin-left:8px;font-size:15px;opacity:.9}.tkey .tki small{font-size:10px;font-weight:800}
@@ -1456,7 +1462,7 @@ function renderDining(){
     cell:(x,y)=>x===0&&y===0?{cls:'door',inner:'<span>🚪</span>'}:(S.ev&&S.ev.sticky&&S.ev.sticky[0]===x&&S.ev.sticky[1]===y)?{cls:'sticky',inner:'🥤'}:{},
     color:p=>FURN[p.key].color,
     pstyle:p=>FURN[p.key].seats&&!FURN[p.key].for?`;--cloth:${p.cloth||'#C8102E'}`:'',
-    pieceCls:p=>{const f=FURN[p.key];return (S.ev&&S.ev.broken===p.id?'broken ':'')+(f.for?'spc s-'+p.key:f.seats?'tbl t-'+p.key:'deco d-'+p.key)+(canSet.has(p.id)?' can':'');},
+    pieceCls:p=>{const f=FURN[p.key];return (p.id===NHIDE?'nhide ':'')+(S.ev&&S.ev.broken===p.id?'broken ':'')+(f.for?'spc s-'+p.key:f.seats?'tbl t-'+p.key:'deco d-'+p.key)+(canSet.has(p.id)?' can':'');},
     nb:(p,x,y)=>{if(!FURN[p.key].seats||FURN[p.key].for)return '';const h=(dx,dy)=>tc.has([x+dx,y+dy]+'');return [h(0,-1)?'nu':'',h(0,1)?'nd':'',h(-1,0)?'nl':'',h(1,0)?'nr':''].join(' ');},
     outer:p=>{if(!FURN[p.key].seats||FURN[p.key].for)return '';const sd=chairSide(p,tc);return sd?`<i class="chair ${sd}"></i>`:'';},
     label:p=>{const f=FURN[p.key];if(!f.seats)return f.flower?`${f.emoji}<span class="vbadge">${p.fresh||1}d</span>`:f.emoji;if(S.ev&&S.ev.broken===p.id)return '⚠️';const fi=first.get(p.id);if(!fi)return '';
@@ -2537,8 +2543,23 @@ function closeDay(early){
   ${spoiled.length?`<h3>🌙 Overnight news</h3><ul class="spoil">${spoiled.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p>✓ Nothing spoiled overnight.</p>'}
   <div class="modal-actions"><button class="btn primary" data-act="nextDay">Start day ${S.day+1}</button><button class="btn" data-act="seeReceipts">🧾 See today's receipts (${(S.receipts||[]).length})</button></div>`));
 }
-/* ---- night show: silly 15-second scenes in the dining room after closing (no effect on the game) ---- */
-let NSHOW=null,NLAST=-1;
+/* ---- night show: silly 15-second scenes in the dining room after closing ---- */
+const NITE={n_hat:['🎩','Mouse’s top hat','A tiny mouse pops out: “Ta-da!”','🐭'],n_bell:['🛎️','Ghost’s bell','Ding! … “Table for one?” 👻','👻'],n_fry:['🍟','Golden french fry','Still crunchy. Nobody knows how.','✨'],
+ n_disco:['🪩','Mini disco ball','Party time! 🎶','🎶','disco'],n_mail:['✉️','Snail mail','“Dear chef, hi. — Snail.” (It took 3 weeks to write.)','🐌'],n_note:['👽','Alien postcard','“Greetings, Earth chef. Food = 5 stars. Zorp.”','🛸'],
+ n_trumpet:['🎺','Tiny trumpet','TOOT TOOT!','🎵'],n_duck:['🦆','Rubber duck','SQUEAK!','💦'],n_pumpkin:['🎃','Witch’s pumpkin','BOO! Hee hee hee!','🦇'],n_sock:['🧦','Bigfoot’s sock','Phew! It smells like a whole forest.','🌲'],
+ n_peel:['🍌','Banana peel','Wheee! *slip*','💫'],n_egg:['🥚','Dino egg','*wobble wobble* … crack? Not yet!','🦕'],n_wand:['🪄','Fairy wand','Bibbidi-bobbidi! A tablecloth changes color.','✨','recolor'],
+ n_cushion:['🫓','Whoopee cushion','PFFFFFFT! 😂 Excuse you!','💨'],n_star:['🌟','Fallen star','Make a wish!','⭐'],n_balloon:['🎈','Frog balloon','It floats up… and back down. Ribbit!','🐸'],
+ n_chip:['💾','Robot dance chip','BEEP BOOP. Dance mode: ON.','🤖','disco'],n_feather:['🪶','Chicken feather','Tickle tickle! Hee hee hee!','🐔'],n_carrot:['🥕','Snowman’s nose','A tiny voice: “Hi! It’s me, the snowman!”','⛄']};
+for(const k in NITE){const [em,name,gag,fx,sp]=NITE[k];FURN[k]={name,emoji:em,shape:MONO,cost:0,color:'#E9E0FF',prize:true,nite:true,gag,fx,sp};}
+function tableRecolor(t){const c=t&&clusterOf(t.id);if(!c)return;const ts=c.tables||c.ids.map(id=>S.dining.pieces.find(q=>q.id===id)).filter(Boolean);const cur=ts[0]&&ts[0].cloth;const opts=CLOTHS.map(x=>x[1]).filter(x=>x!==cur);const col=opts[Math.floor(Math.random()*opts.length)];ts.forEach(q=>{if(!FURN[q.key].for)q.cloth=col;});}
+function randTable(){const ts=S.dining.pieces.filter(p=>FURN[p.key].seats&&!FURN[p.key].for);return ts[Math.floor(Math.random()*ts.length)]||null;}
+function doGag(p){const f=FURN[p.key],box=$('#f-dining'),g=S.dining;toast(`${f.emoji} ${f.gag}`,3500);
+  if(f.sp==='disco'){const el=$('#g-dining');el.classList.add('ndisco');setTimeout(()=>el.classList.remove('ndisco'),3000);}
+  if(f.sp==='recolor'){tableRecolor(randTable());renderDining();}
+  if(!box||!Element.prototype.animate)return;
+  for(let i=0;i<3;i++){const e=document.createElement('div');e.className='ngag';e.textContent=i===1?f.emoji:f.fx;e.style.left=((p.x+.5)/g.w*100)+'%';e.style.top=((p.y+.5)/g.h*100)+'%';box.appendChild(e);
+    const dx=(i-1)*30;e.animate([{transform:'translate(-50%,-50%) scale(.4)',opacity:0},{transform:`translate(calc(-50% + ${dx/2}px),-120%) scale(1.2) rotate(${dx/2}deg)`,opacity:1,offset:.3},{transform:`translate(calc(-50% + ${dx}px),-260%) scale(.9)`,opacity:0}],{duration:1400,delay:i*150,fill:'forwards',easing:'ease-out'});setTimeout(()=>e.remove(),1800);}}
+var NSHOW=null,NLAST=[],NHIDE=null;
 function nightShow(done){
   const box=document.querySelector('#tab-dining .gridbox');
   if(!box||!Element.prototype.animate||window.NO_NIGHT){done();return;}
@@ -2546,16 +2567,33 @@ function nightShow(done){
   const st=document.createElement('div');st.className='nstage';box.appendChild(st);
   st.innerHTML='<div class="nsky"></div><div class="ncap">🌙 Meanwhile, after closing…</div><button class="nskip" type="button">Skip ⏩</button>';
   try{box.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}
-  const timers=[];let over=false;
-  const fin=(quiet)=>{if(over)return;over=true;timers.forEach(clearTimeout);NSHOW=null;st.animate([{opacity:1},{opacity:0}],{duration:500,fill:'forwards'});setTimeout(()=>{st.remove();if(quiet!==true)done();},500);};
+  const timers=[],gifts=[],notes=[];let over=false;
+  const fin=(quiet)=>{if(over)return;over=true;timers.forEach(clearTimeout);NSHOW=null;if(NHIDE!=null){NHIDE=null;try{renderDining();}catch(e){}}
+    st.animate([{opacity:1},{opacity:0}],{duration:500,fill:'forwards'});
+    setTimeout(()=>{st.remove();if(quiet===true)return;done();
+      const lines=[...notes,...gifts.map(k=>`🎁 Something was left behind: <b>${FURN[k].emoji} ${FURN[k].name}</b>! It’s in your storeroom — put it on the floor and tap it.`)];
+      if(lines.length){const a=document.querySelector('#modalCard .modal-actions');if(a&&modalOpen())a.insertAdjacentHTML('beforebegin',`<div class="nnote">${lines.map(l=>`<p>🌙 ${l}</p>`).join('')}</div>`);else lines.forEach(l=>toast(l.replace(/<[^>]+>/g,''),6000));}},500);};
   NSHOW=fin;st.querySelector('.nskip').onclick=()=>fin();
-  const W=()=>st.clientWidth||300,fs=Math.max(26,Math.min(56,W()/9));
+  const W=()=>st.clientWidth||300,fs=Math.max(26,Math.min(56,W()/9)),G=S.dining;
   const at=(ms,fn)=>timers.push(setTimeout(()=>{if(!over)fn();},ms));
-  const A=(em,x,y,sc=1,cls='')=>{const e=document.createElement('div');e.className='na '+cls;e.innerHTML=em;e.style.fontSize=fs*sc+'px';e.style.left=x+'%';e.style.top=y+'%';st.appendChild(e);return e;};
-  const mv=(e,pts,dur,delay=0,ease='linear')=>e.animate(pts.map(p=>({left:p[0]+'%',top:p[1]+'%',transform:'translate(-50%,-50%) '+(p[2]||''),opacity:p[3]??1})),{duration:dur,delay,fill:'forwards',easing:ease});
+  const A=(em,x,y,sc=1,cls='')=>{const e=document.createElement('div');e.className='na '+cls;e.innerHTML=em;e.style.fontSize=fs*sc+'px';e.style.left=x+'%';e.style.top=y+'%';e._x=x;e._y=y;st.appendChild(e);return e;};
+  const mv=(e,pts,dur,delay=0,ease='linear')=>{const l=pts[pts.length-1];e._x=l[0];e._y=l[1];return e.animate(pts.map(p=>({left:p[0]+'%',top:p[1]+'%',transform:'translate(-50%,-50%) '+(p[2]||''),opacity:p[3]??1})),{duration:dur,delay,fill:'forwards',easing:ease});};
+  const go=(e,x,y,dur,o={})=>{const x0=e._x,y0=e._y,n=o.steps||Math.max(2,Math.round(dur/220)),f=(o.flip!==false&&x>x0+.5)?'scaleX(-1) ':'',h=o.hop??6,pts=[];for(let i=0;i<=n;i++){const t=i/n;pts.push([x0+(x-x0)*t,y0+(y-y0)*t,f+(h&&i%2?`translateY(-${h}%) `:'')+(o.tf||'')]);}return mv(e,pts,dur,o.delay||0,o.ease||'linear');};
+  const pose=(e,tfs,dur)=>mv(e,tfs.map(t=>[e._x,e._y,t]),dur);
   const say=(e,txt,ms,dur=1800)=>at(ms,()=>{const b=document.createElement('div');b.className='nsay';b.innerHTML=txt;b.style.fontSize=Math.max(12,fs*.32)+'px';const w=W(),x=Math.max(w*.18,Math.min(w*.82,e.offsetLeft));b.style.left=x+'px';b.style.top=Math.max(26,e.offsetTop-e.offsetHeight*.55)+'px';st.appendChild(b);b.animate([{opacity:0,transform:'translate(-50%,-90%) scale(.7)'},{opacity:1,transform:'translate(-50%,-100%) scale(1)'}],{duration:200,fill:'forwards'});setTimeout(()=>b.remove(),dur);});
   const hop=(n,amp=6)=>{const out=[];for(let i=0;i<=n;i++)out.push(i%2?`translateY(-${amp}px)`:'');return out;};
   const walk=(e,x0,x1,y,dur,delay=0,flip=false,bounce=8,n=12)=>{const pts=[];for(let i=0;i<=n;i++){const t=i/n;pts.push([x0+(x1-x0)*t,y,(flip?'scaleX(-1) ':'')+(i%2?`translateY(-${bounce}%)`:'')]);}return mv(e,pts,dur,delay);};
+  const sparkle=(x,y)=>{const s=A('✨',x,y-6,.45);mv(s,[[x,y-6,'scale(.3)',1],[x,y-10,'scale(1.5)',0]],900);};
+  const owned=k=>S.dining.pieces.some(p=>p.key===k)||S.storeroom.some(o=>o.key===k);
+  const gift=(k,x,y,ms,o={})=>at(ms,()=>{const X=typeof x==='function'?x():x,Y=typeof y==='function'?y():y;
+    if(!o.el){const e=A(FURN[k].emoji,X,Y-25,.55);mv(e,[[X,Y-25,'',0],[X,Y,'rotate(360deg)',1]],600,0,'ease-in');}
+    at(600,()=>sparkle(X,Y));if(!owned(k)){S.storeroom.push({key:k});gifts.push(k);}});
+  const pc=(x,y)=>[(x+.5)/G.w*100,(y+.5)/G.h*100];
+  const decorPick=()=>{const ds=S.dining.pieces.filter(p=>!FURN[p.key].seats&&p.shape.length===1);return ds[Math.floor(Math.random()*ds.length)]||null;};
+  const spotPick=d=>{const c=[];for(let y=0;y<G.h;y++)for(let x=0;x<G.w;x++)if(Math.abs(x-d.x)+Math.abs(y-d.y)>1&&fits('dining',d.shape,x,y,d.id))c.push({x,y});return c[Math.floor(Math.random()*c.length)]||null;};
+  const moveThing=(p,to,ms,dur,msg)=>at(ms,()=>{if(!S.dining.pieces.includes(p)||!fits('dining',p.shape,to.x,to.y,p.id))return;const [x0,y0]=pc(p.x,p.y),[x1,y1]=pc(to.x,to.y);p.x=to.x;p.y=to.y;NHIDE=p.id;renderDining();
+    const e=A(FURN[p.key].emoji,x0,y0,.6);mv(e,[[x0,y0],[(x0+x1)/2,Math.min(y0,y1)-8,'rotate(-12deg)'],[x1,y1]],dur,0,'ease-in-out');notes.push(`${msg} ${FURN[p.key].emoji} ${FURN[p.key].name.toLowerCase()}.`);
+    setTimeout(()=>{e.remove();if(NHIDE===p.id){NHIDE=null;try{renderDining();}catch(_){}}},dur);});
   const scenes=[
     ()=>{ // mouse & cat
       const ch=A('🧀',52,78,.7),m=A('🐭',-8,80,.8),c=A('🐈',112,74,1.1);
@@ -2564,7 +2602,8 @@ function nightShow(done){
       walk(c,112,70,74,1400,3600);say(c,'…!',5100,900);
       at(5600,()=>{walk(m,46,-15,80,1300,0,false,10);mv(ch,[[46,70],[-15,72]],1300);walk(c,70,-25,74,1600,200,false,6);});
       at(8000,()=>{c.remove();const c2=A('🙀',-20,74,1.1);walk(c2,-20,115,74,1700,0,true,8);const m2=A('🐭',-30,78,.8);const big=A('🧀',-34,68,1.3);walk(m2,-30,112,78,2000,300,true,10);mv(big,[[-34,68],[108,68]],2000,300);say(m2,'MY cheese!',900);});
-      at(11000,()=>{const m3=A('🐭',110,80,.8);const hat=A('🎩',110,72,.45);walk(m3,110,50,80,1300);mv(hat,[[110,72],[50,72]],1300);say(m3,'*takes a bow*',1500,1800);at(1600,()=>{mv(m3,[[50,80],[50,80,'rotate(-20deg)'],[50,80]],600);mv(hat,[[50,72],[47,74,'rotate(-30deg)'],[50,72]],600);});});
+      at(11000,()=>{const m3=A('🐭',110,80,.8);const hat=A('🎩',110,72,.45);walk(m3,110,50,80,1300);mv(hat,[[110,72],[50,72]],1300);say(m3,'*takes a bow*',1500,1800);at(1600,()=>{mv(m3,[[50,80],[50,80,'rotate(-20deg)'],[50,80]],600);mv(hat,[[50,72],[47,74,'rotate(-30deg)'],[50,72]],600);});
+        at(2400,()=>{walk(m3,50,-12,80,1000);mv(hat,[[50,72],[50,80,'rotate(20deg)']],400);});gift('n_hat',50,80,2600,{el:1});});
     },
     ()=>{ // ghost wants a table
       const g=A('👻',110,20,1.2);mv(g,[[110,20,'',0],[80,30,'',.9],[55,45,'',.9]],2500,0,'ease-out');
@@ -2573,6 +2612,7 @@ function nightShow(done){
       say(g,'…hello?',7000,1500);
       at(8800,()=>{const nap=A('🍽️',30,62,.7);mv(nap,[[30,62],[48,48]],700);say(g,'Fine. I’ll serve MYSELF.',300,1800);});
       at(11000,()=>{say(g,'Boo-hoo… see you tomorrow!',0,1800);mv(g,[[55,45,'',.9],[20,30,'scale(.8)',.6],[-15,15,'scale(.6)',0]],2500,600,'ease-in');});
+      gift('n_bell',62,58,12500,{el:1});
     },
     ()=>{ // raccoon raid
       const f=A('🍟',62,80,.55);const r=A('🦝',-10,70,1);
@@ -2583,6 +2623,7 @@ function nightShow(done){
       at(6500,()=>{mv(o,[[85,12,'',0],[85,12,'',1]],400);say(o,'Who? WHOOO?',300,1600);});
       at(8300,()=>{say(r,'…nobody!',0,1200);});
       at(9600,()=>{walk(r,58,-20,70,1000,0,false,10,6);mv(f,[[56,58],[-22,58]],1000);say(o,'Hoo-rude.',1300,1600);});
+      gift('n_fry',40,78,10000);
       at(12000,()=>{mv(o,[[85,12],[85,12,'rotate(-15deg)'],[85,12]],600);});
     },
     ()=>{ // leftover food dance party
@@ -2594,7 +2635,8 @@ function nightShow(done){
       at(8000,()=>{foods.forEach((f,i)=>mv(f,[[20+i*15,62]],400));});
       at(8600,()=>{const b=foods[1];mv(b,[[50,58],[50,45,'rotate(360deg) scale(1.4)'],[50,58,'rotate(720deg)']],1500);say(b,'broccoli solo!',0,1600);});
       at(10800,()=>{st.classList.remove('disco');say(foods[3],'uh oh, lights!',0,1200);});
-      at(11800,()=>{foods.forEach((f,i)=>mv(f,[[20+i*15,62],[20+i*15,115]],400,i*80,'ease-in'));mv(ball,[[50,10],[50,-20]],700);});
+      at(11800,()=>{foods.forEach((f,i)=>mv(f,[[20+i*15,62],[20+i*15,115]],400,i*80,'ease-in'));mv(ball,[[50,10],[50,76,'rotate(200deg)']],700,0,'ease-in');});
+      gift('n_disco',50,76,12500,{el:1});
     },
     ()=>{ // snail's big journey
       const s=A('🐌',-6,78,.8);mv(s,[[-6,78,'scaleX(-1)'],[92,78,'scaleX(-1)']],12500);
@@ -2602,16 +2644,17 @@ function nightShow(done){
       const b=A('🐞',-10,60,.6);walk(b,-10,112,60,900,2600,true,10,6);say(s,'whoa!',3100,800);
       at(5200,()=>{walk(b,112,-10,64,900,0,false,10,6);});say(s,'Almost there…',6600,1600);
       at(8200,()=>{const b2=A('🐞',-10,58,.6);walk(b2,-10,112,58,800,0,true,10,6);say(b2,'beep beep!',100,800);});
+      gift('n_mail',40,82,9500);
       say(s,'Made it! …wait.',11000,1400);say(s,'Where was I going?',12600,1600);
     },
     ()=>{ // sleepwalking chef
-      const c=A('🧑‍🍳',-10,62,1.1),z=A('💤',-4,44,.5),p=A('🍳',-2,68,.55);
+      const c=A('🧑‍🍳',-10,62,1.1),z=A('💤',-4,44,.5),p=A('🍳',-2,68,.55);let k=null;
       walk(c,-10,42,62,4000,0,true,3,10);mv(z,[[-4,44],[48,44]],4000);mv(p,[[-2,68],[50,68]],4000);say(c,'zzz… order up…',1400,1800);
-      at(4300,()=>{const k=A('🥞',50,64,.6);mv(k,[[50,64],[52,20,'rotate(540deg)'],[44,48,'rotate(720deg)']],1500,0,'ease-in-out');mv(p,[[50,68],[50,66,'rotate(-30deg)'],[50,68]],300);});
+      at(4300,()=>{k=A('🥞',50,64,.6);mv(k,[[50,64],[52,20,'rotate(540deg)'],[44,48,'rotate(720deg)']],1500,0,'ease-in-out');mv(p,[[50,68],[50,66,'rotate(-30deg)'],[50,68]],300);});
       at(6000,()=>{say(c,'…mmm, pancake hat',0,1800);});
-      at(7600,()=>{walk(c,42,70,62,1600,0,true,3,6);mv(z,[[48,44],[76,44]],1600);mv(p,[[50,68],[78,68]],1600);const k=st.querySelectorAll('.na')[3];if(k)mv(k,[[44,48],[72,48]],1600);});
+      at(7600,()=>{walk(c,42,70,62,1600,0,true,3,6);mv(z,[[48,44],[76,44]],1600);mv(p,[[50,68],[78,68]],1600);if(k)mv(k,[[44,48],[72,48]],1600);});
       at(9300,()=>{const bonk=A('💫',74,48,.6);mv(bonk,[[74,48,'scale(.4)'],[74,48,'scale(1.2) rotate(90deg)'],[74,48,'scale(0)']],900);say(c,'BONK',0,900);});
-      at(10600,()=>{walk(c,70,-15,62,2400,0,false,3,8);mv(z,[[76,44],[-9,44]],2400);mv(p,[[78,68],[-7,68]],2400);const k=st.querySelectorAll('.na')[3];if(k)mv(k,[[72,48],[-13,48]],2400);say(c,'…five more minutes…',300,1800);});
+      at(10600,()=>{walk(c,70,-15,62,2400,0,false,3,8);mv(z,[[76,44],[-9,44]],2400);mv(p,[[78,68],[-7,68]],2400);if(k)mv(k,[[72,48],[-13,48]],2400);say(c,'…five more minutes…',300,1800);});
     },
     ()=>{ // UFO snack run
       const u=A('🛸',-15,15,1.1);mv(u,[[-15,15],[50,14,'rotate(-8deg)'],[50,18]],1800,0,'ease-out');
@@ -2621,6 +2664,7 @@ function nightShow(done){
       at(4800,()=>{sh.style.opacity=0;say(u,'*crunch crunch*',0,1500);});
       at(6600,()=>{const al=A('👽',50,30,.7);mv(al,[[50,30,'',0],[50,72,'',1]],1200,0,'ease-out');say(al,'Yum! 5 stars ⭐⭐⭐⭐⭐',1300,2200);
         at(4000,()=>{mv(al,[[50,72],[50,26,'',0]],1000,0,'ease-in');});});
+      gift('n_note',38,76,10800);
       at(11800,()=>{beam.animate([{opacity:1},{opacity:0}],{duration:300,fill:'forwards'});mv(u,[[50,18],[60,22,'rotate(10deg)'],[120,-10,'rotate(20deg)']],1300,0,'ease-in');sh.style.opacity=1;mv(sh,[[50,30],[50,76]],600,200,'ease-in');});
     },
     ()=>{ // mouse band
@@ -2630,16 +2674,180 @@ function nightShow(done){
         for(let k=0;k<10;k++)at(k*550,()=>{const n=A(['🎵','🎶'][k%2],25+Math.random()*50,60,.45);mv(n,[[parseFloat(n.style.left),60,'',1],[parseFloat(n.style.left)+8,15,'rotate(20deg)',0]],2200);});});
       const br=A('🧹',120,62,1.2);
       at(9000,()=>{say(ms[2][0],'uh oh!',0,1000);mv(br,[[120,62],[90,64,'rotate(-25deg)'],[70,62,'rotate(15deg)']],900);});
-      at(10000,()=>{ms.forEach(([a,b,x],i)=>{walk(a,x,-20,66,1300,i*90,false,12,6);walk(b,x+6,-14,70,1300,i*90,false,12,6);});mv(br,[[70,62],[40,64,'rotate(-25deg)'],[-20,62,'rotate(15deg)']],1600,300);});
-      at(12200,()=>{const m=A('🐭',-8,66,.75);walk(m,-8,10,66,500,0,true);say(m,'Thank you, good night!',500,1800);at(2200,()=>walk(m,10,-12,66,500));});
+      at(10000,()=>{ms.forEach(([a,b,x],i)=>{walk(a,x,-20,66,1300,i*90,false,12,6);if(i)walk(b,x+6,-14,70,1300,i*90,false,12,6);});mv(br,[[70,62],[40,64,'rotate(-25deg)'],[-20,62,'rotate(15deg)']],1600,300);});
+      gift('n_trumpet',36,72,11200);
+      at(12200,()=>{const m=A('🐭',-8,66,.75);walk(m,-8,10,66,500,0,true);say(m,'Thank you, good night!',500,1800);});
+    },
+    // ---------- new scenes ----------
+    ()=>{ // duck parade
+      const m=A('🦆',-10,70,1),kids=[0,1,2,3].map(i=>A('🐤',-20-i*7,74,.55));
+      go(m,85,70,6000);kids.forEach((k,i)=>go(k,75-i*7,74,6000,{hop:10}));say(m,'Quack! Stay in line!',1500);
+      at(6200,()=>{go(kids[3],20,74,1800,{hop:10});say(kids[3],'peep?',300,1000);});
+      at(7600,()=>{say(m,'QUACK?!',0,1200);at(300,()=>go(m,28,70,1800));});
+      at(9900,()=>{say(m,'Found you!',0,1200);at(500,()=>{go(m,115,70,3000);go(kids[3],108,74,3000,{hop:10});kids.slice(0,3).forEach(k=>go(k,120,74,2500,{hop:10}));});});
+      gift('n_duck',26,82,11000);
+    },
+    ()=>{ // witch redecorates
+      const w=A('🧙‍♀️',-15,20,1.1);mv(w,[[-15,20],[30,25],[55,15],[50,30]],2500,0,'ease-in-out');say(w,'Hee hee hee!',2600,1500);
+      const t=randTable();
+      at(4300,()=>{const [tx,ty]=t?pc(t.x,t.y):[50,62];const z=A('⚡',50,34,.6);mv(z,[[50,34],[tx,ty]],400,0,'ease-in');
+        at(400,()=>{z.remove();const p=A('💥',tx,ty,.9);mv(p,[[tx,ty,'scale(.3)'],[tx,ty,'scale(1.5)',0]],700);if(t){tableRecolor(t);renderDining();notes.push('A witch zapped one of your tables a new tablecloth color!');}say(w,'Abraca-COLORS!',200,1600);});});
+      say(w,'Much better.',7400,1400);
+      gift('n_pumpkin',50,74,9000);
+      at(10600,()=>{say(w,'Happy haunting!',0,1500);mv(w,[[50,30],[80,20],[120,5]],2200,300,'ease-in');});
+    },
+    ()=>{ // ninja cat rearranges
+      const d=decorPick(),to=d&&spotPick(d),c=A('🐈‍⬛',-10,70,1);
+      go(c,25,70,1500,{hop:4});at(1600,()=>{say(c,'*ninja mode*',0,1400);pose(c,['scaleX(-1)','scaleX(-1) translateY(-15%)','scaleX(-1)'],500);});
+      at(3000,()=>{mv(c,[[25,70,'scaleX(-1)'],[40,35,'scaleX(-1) rotate(-180deg)'],[55,70,'scaleX(-1) rotate(-360deg)']],900,0,'ease-out');say(c,'HI-YA!',900,1000);});
+      if(d&&to){const [dx,dy]=pc(d.x,d.y),[tx,ty]=pc(to.x,to.y);at(4900,()=>go(c,dx-7,dy,900,{hop:4}));at(5900,()=>say(c,'Hmm…',0,1000));
+        moveThing(d,to,6600,1600,'A ninja cat moved your');at(6600,()=>go(c,tx-7,ty,1600,{hop:3}));say(c,'Perfect. *bows*',8400,1800);}
+      else{at(4900,()=>{go(c,50,70,600,{hop:4});say(c,'…nothing to rearrange.',600,1800);});}
+      at(11000,()=>{mv(c,[[c._x,c._y],[c._x+10,20,'rotate(360deg)'],[c._x+20,-20,'rotate(720deg)',0]],1000,0,'ease-in');});
+    },
+    ()=>{ // bigfoot snack
+      for(let i=0;i<7;i++)at(300+i*420,()=>{const p=A('👣',4+i*9,72+(i%2?-4:4),.4);p.style.opacity=.75;});
+      const b=A('🦍',-15,60,1.4);
+      at(3300,()=>go(b,28,60,1800,{hop:3}));say(b,'*sniff sniff*',5200,1400);
+      const ck=A('🍪',62,74,.5);
+      at(6800,()=>{say(b,'COOKIE!',0,1000);go(b,58,62,700,{hop:6});at(800,()=>{ck.remove();pose(b,['','rotate(-10deg)','rotate(10deg)','rotate(-10deg)',''],900);say(b,'nom nom nom',0,1400);});});
+      gift('n_sock',56,78,9800);
+      at(10600,()=>{say(b,'Big foot. Big snack. Bye.',0,1800);go(b,-20,60,2600,{hop:3});});
+    },
+    ()=>{ // monkey, banana, penguin
+      const m=A('🐒',-10,15,1);mv(m,[[-10,15],[15,30],[35,12],[55,30],[70,15]],2400,0,'ease-in-out');
+      let peel=null;
+      at(2600,()=>{say(m,'Banana break!',0,1300);const bn=A('🍌',74,24,.5);pose(m,['','rotate(-10deg)','rotate(10deg)',''],900);
+        at(1300,()=>{bn.remove();peel=A('🍌',70,20,.5);mv(peel,[[70,20],[60,74,'rotate(400deg)']],900,0,'ease-in');say(m,'oops',900,900);});});
+      const pg=A('🐧',115,72,.9);
+      at(5600,()=>{go(pg,64,72,1600,{hop:4,flip:false});say(pg,'La la la…',0,1200);});
+      at(7300,()=>{mv(pg,[[64,72],[52,64,'rotate(-200deg)'],[30,72,'rotate(-540deg)'],[18,72,'rotate(-720deg)']],1500,0,'ease-out');say(pg,'WHEEEE!',100,1400);});
+      say(pg,'…again! AGAIN!',9200,1600);
+      at(10800,()=>{mv(m,[[70,15],[100,25],[120,10]],1500);go(pg,-15,72,2200,{hop:4,flip:false});});
+      gift('n_peel',60,74,11400,{el:1});
+    },
+    ()=>{ // dinos
+      const h=A('🦕',-12,30,1.6);mv(h,[[-12,30],[8,32]],1800,0,'ease-out');say(h,'Is this… the dining room?',2000,1800);
+      at(4100,()=>{pose(h,['','rotate(-8deg)','rotate(8deg)',''],900);say(h,'*squeeeeze*',0,1300);});
+      const t=A('🦖',115,68,1.2),fr=A('🍟',58,38,.5);
+      at(5600,()=>{go(t,60,68,1500,{hop:4,flip:false});
+        at(1600,()=>{say(t,'Can’t… reach…',0,1700);pose(t,['','translateY(-12%)','','translateY(-12%)',''],1400);});
+        at(3500,()=>{say(h,'I got it, buddy.',0,1400);mv(fr,[[58,38],[30,28],[12,32,'',0]],900);});
+        at(5100,()=>{say(t,'😤',0,900);go(t,118,68,2000,{hop:4});});});
+      gift('n_egg',22,76,10200);
+      at(11300,()=>{say(h,'Bye! Watch my egg!',0,1600);mv(h,[[8,32],[-25,30]],1500,600);});
+    },
+    ()=>{ // watermelon bowling
+      const cans=[];[[0,0],[1,0],[2,0],[.5,1],[1.5,1],[1,2]].forEach(([c,r])=>cans.push(A('🥫',74+c*7,76-r*8,.45)));
+      const b=A('🐻',10,66,1),ball=A('🍉',18,74,.6);say(b,'Midnight bowling!',300,1500);
+      at(2200,()=>pose(b,['','rotate(-15deg)','rotate(10deg)',''],600));
+      at(2800,()=>mv(ball,[[18,74],[80,72,'rotate(720deg)']],1100,0,'ease-in'));
+      at(3900,()=>{cans.forEach((c,i)=>{const x=c._x,y=c._y;mv(c,[[x,y],[x+5+Math.random()*20,y-30-Math.random()*25,`rotate(${200+i*90}deg)`],[x+8+Math.random()*25,112,'rotate(720deg)']],1400,0,'ease-out');});mv(ball,[[80,72],[96,70,'rotate(900deg)']],900,0,'ease-out');
+        say(b,'STRIIIKE!',200,1600);pose(b,['','translateY(-20%)','','translateY(-20%)',''],1200);});
+      at(7000,()=>{const m=A('🐭',115,74,.6);go(m,86,74,900);say(m,'Who knocked down my HOUSE?!',1000,2000);
+        at(3200,()=>say(b,'…sorry!',0,1200));at(4500,()=>{go(b,-15,66,2200,{hop:4});go(m,115,74,1400);});});
+    },
+    ()=>{ // fairy rearranges
+      const f=A('🧚',-10,30,.9);mv(f,[[-10,30],[20,20],[40,35],[50,25]],2200,0,'ease-in-out');
+      for(let i=0;i<12;i++)at(300+i*180,()=>{const x=6+i*4,y=20+Math.random()*16;const s=A('✨',x,y,.35);mv(s,[[x,y,'',1],[x,y+25,'scale(.2)',0]],1200);});
+      say(f,'Sprinkle sprinkle!',2400,1400);
+      const d=decorPick(),to=d&&spotPick(d);
+      if(d&&to){const [dx,dy]=pc(d.x,d.y),[tx,ty]=pc(to.x,to.y);at(4200,()=>{mv(f,[[50,25],[dx,dy-18]],900);say(f,'This goes over THERE!',900,1800);});
+        moveThing(d,to,6300,2000,'A fairy floated your');at(6300,()=>mv(f,[[dx,dy-18],[tx,ty-18]],2000,0,'ease-in-out'));}
+      else at(4200,()=>say(f,'Everything is already perfect!',0,1800));
+      say(f,'Oops! My wand!',9000,1500);gift('n_wand',()=>f._x,()=>Math.min(85,f._y+24),9300);
+      at(10900,()=>mv(f,[[f._x,f._y],[120,8]],1800,0,'ease-in'));
+    },
+    ()=>{ // penguin waiter
+      const p=A('🐧',-10,70,1),pl=[0,1,2,3,4].map(i=>A('🍽️',-10,52-i*7,.5));
+      const fol=(x,dur,tf)=>{go(p,x,70,dur,{hop:3,flip:false});pl.forEach((e,i)=>go(e,x+(i%2?2:-2),52-i*7,dur,{hop:0,flip:false,tf:`rotate(${(i%2?1:-1)*tf}deg)`}));};
+      fol(30,2000,4);say(p,'Practice makes perfect…',600,1800);
+      at(2300,()=>{fol(45,1500,16);say(p,'whoa… whoa…',200,1300);});
+      at(4000,()=>{pl.forEach((e,i)=>{const x=e._x,y=e._y;mv(e,[[x,y],[x-20+i*10,30-i*4,`rotate(${i*120}deg)`],[x-25+i*12,78,`rotate(${i*300}deg)`]],900,0,'ease-in');});});
+      at(4900,()=>{const c=A('💥',45,74,1.2);mv(c,[[45,74,'scale(.3)'],[45,74,'scale(1.4)',0]],800);say(p,'!!!',0,800);});
+      say(p,'…nobody saw that.',6300,1600);
+      at(8200,()=>{pl.forEach((e,i)=>mv(e,[[e._x,e._y],[45+(i%2?2:-2),52-i*7]],600,i*120,'ease-out'));say(p,'Ta-da! ✨',900,1600);});
+      at(11000,()=>fol(118,2300,4));
+    },
+    ()=>{ // whoopee cushion prank
+      const t=randTable(),[tx,ty]=t?pc(t.x,t.y):[50,60];let c=null;
+      const m=A('🐭',-8,Math.min(88,ty+10),.7);go(m,tx-8,Math.min(88,ty+10),1800);say(m,'hee hee hee…',1900,1400);
+      at(2400,()=>{c=A('🫓',tx,ty,.45);sparkle(tx,ty);go(m,Math.max(4,tx-35),Math.min(88,ty+10),900);say(m,'shhh!',1000,1000);});
+      const b=A('🐻',115,ty-4,1);
+      at(4200,()=>{go(b,tx+3,ty-4,1800,{hop:3});say(b,'What a long day…',0,1500);});
+      at(6300,()=>{pose(b,['','translateY(8%)'],300);const z=A('💨',tx+9,ty,.9);mv(z,[[tx+9,ty,'scale(.2)'],[tx+22,ty-6,'scale(1.6)',0]],1000);say(b,'PFFFFFFT!',0,1400);});
+      say(b,'…it wasn’t me!',7900,1500);
+      at(9300,()=>{say(m,'HA HA HA HA!',0,1500);pose(m,['','rotate(-15deg)','rotate(15deg)','rotate(-15deg)',''],1200);});
+      at(11000,()=>{go(m,-15,m._y,1200);go(b,118,ty-4,2200,{hop:3});say(b,'Mice these days…',300,1600);});
+      gift('n_cushion',tx,ty,12000,{el:1});
+    },
+    ()=>{ // falling star
+      const mn=A('🌝',86,-20,2);mv(mn,[[86,-20],[86,10]],1500,0,'ease-out');say(mn,'Psst! Catch!',1700,1300);
+      const s=A('⭐',82,14,.7);s.style.opacity=0;
+      at(3100,()=>{s.style.opacity=1;mv(s,[[82,14],[60,80,'rotate(180deg)'],[35,20,'rotate(360deg)'],[8,70,'rotate(540deg)'],[30,86,'rotate(720deg)'],[60,40,'rotate(900deg)'],[78,82,'rotate(1080deg)'],[50,74,'rotate(1260deg)']],4600,0,'ease-out');
+        for(let i=0;i<8;i++)at(i*550,()=>{const x=s.offsetLeft/W()*100,y=s.offsetTop/st.clientHeight*100;const k=A('✨',x,y,.3);mv(k,[[x,y,'',1],[x,y+6,'scale(.2)',0]],900);});});
+      say(mn,'Oops! Keep it. Night night!',8100,2000);
+      gift('n_star',50,74,8000,{el:1});
+      at(10400,()=>mv(mn,[[86,10],[86,-30]],1500,0,'ease-in'));
+    },
+    ()=>{ // octopus juggler
+      const o=A('🐙',50,112,1.2);mv(o,[[50,112],[50,62]],1200,0,'ease-out');say(o,'Ladies and gentle-fish!',1300,1600);
+      const it=['🍴','🥄','🧂','🍽️'].map(e=>A(e,50,62,.45));it.forEach(e=>e.style.opacity=0);
+      at(3000,()=>{it.forEach((e,i)=>{e.style.opacity=1;const pts=[];for(let k=0;k<=12;k++){const a=(k/12)*Math.PI*4+i*Math.PI/2;pts.push([50+Math.cos(a)*14,38+Math.sin(a)*14,`rotate(${k*90}deg)`]);}mv(e,pts,3600);});});
+      at(6800,()=>{it.forEach((e,i)=>mv(e,[[e._x,e._y],[50,62,'',0]],400,i*80));say(o,'Thank you! Thank you!',300,1500);});
+      const d=decorPick(),to=d&&spotPick(d);
+      if(d&&to){const [dx,dy]=pc(d.x,d.y),[tx,ty]=pc(to.x,to.y);at(8500,()=>{go(o,dx,dy,1100,{hop:3,flip:false});say(o,'And for my next trick…',0,1500);});
+        moveThing(d,to,9900,1400,'An octopus rearranged your');at(9900,()=>go(o,tx,ty,1400,{hop:2,flip:false}));at(11500,()=>{say(o,'Ta-daaa!',0,1400);mv(o,[[tx,ty],[tx,ty+50,'',0]],1200,700,'ease-in');});}
+      else at(8600,()=>mv(o,[[50,62],[50,115]],1200,0,'ease-in'));
+    },
+    ()=>{ // counting sheep
+      const t=randTable(),[tx,ty]=t?pc(t.x,t.y):[50,62],bear=A('🐻',12,30,.9);say(bear,'Can’t sleep… I’ll count sheep.',300,2000);
+      ['One…','Two…','Three…','Fourrr…','zzzzz'].forEach((w,i)=>at(1900+i*1600,()=>{const s=A('🐑',-10,ty,.8);mv(s,[[-10,ty,'scaleX(-1)'],[tx-14,ty,'scaleX(-1)'],[tx,ty-28,'scaleX(-1) rotate(15deg)'],[tx+14,ty,'scaleX(-1)'],[115,ty,'scaleX(-1)']],1900);say(bear,w,500,1300);}));
+      at(10000,()=>{pose(bear,['','rotate(-12deg)'],800);for(let i=0;i<3;i++)at(i*600,()=>{const z=A('💤',16,22,.5);mv(z,[[16,22,'',1],[24,4,'',0]],1600);});});
+      at(10600,()=>{const s=A('🐑',115,ty,.8);mv(s,[[115,ty],[28,36]],1500);say(s,'Psst. That was all of us.',1600,2000);});
+    },
+    ()=>{ // frogs in a tiny car
+      const car=A('🚗',-15,72,1.1);mv(car,[[-15,72,'scaleX(-1)'],[45,72,'scaleX(-1)']],1600,0,'ease-out');say(car,'*beep beep*',1700,900);
+      const frogs=[];for(let i=0;i<8;i++)at(2800+i*560,()=>{const f=A('🐸',45,70,.55);const tx=8+((i*13)%84);mv(f,[[45,70],[(45+tx)/2,38],[tx,78+(i%3)*4]],600,0,'ease-out');frogs.push(f);});
+      say(car,'How many fit in there?!',7600,1600);
+      at(9300,()=>{const f=A('🐸',45,70,.95);mv(f,[[45,70],[58,40],[70,76]],700);say(f,'Wait for me!!',700,1500);});
+      gift('n_balloon',45,58,10600);
+      at(11600,()=>{mv(car,[[45,72,'scaleX(-1)'],[120,72,'scaleX(-1)']],1300,0,'ease-in');frogs.forEach((f,i)=>mv(f,[[f._x,f._y],[f._x,f._y-10],[120,74]],1400,i*60));});
+    },
+    ()=>{ // dancing robot
+      const r=A('🤖',-10,66,1);go(r,45,66,1800,{hop:0,flip:false});say(r,'BEEP. DANCE MODE: ON.',1900,1600);
+      at(3700,()=>{st.classList.add('disco');pose(r,['','rotate(-20deg)','translateY(-15%)','rotate(20deg)','scaleX(-1)','rotate(-20deg) translateY(-10%)','','rotate(360deg)',''],4000);});
+      at(7900,()=>{st.classList.remove('disco');const z=A('⚡',52,56,.6);mv(z,[[52,56,'scale(.3)'],[56,48,'scale(1.3)',0]],600);say(r,'ERROR… TOO… GROOVY…',100,1600);pose(r,['','rotate(10deg)','rotate(-10deg)','rotate(10deg)',''],1200);});
+      say(r,'Rebooting… beep.',10000,1400);gift('n_chip',50,78,10600);
+      at(11800,()=>go(r,118,66,2000,{hop:0,flip:false}));
+    },
+    ()=>{ // chickens on the loose
+      const cs=[0,1,2].map(i=>A('🐔',-10-i*8,60+i*8,.8)),dog=A('🐕',-40,72,1);
+      cs.forEach((c,i)=>mv(c,[[c._x,c._y],[30,40+i*15,'scaleX(-1)'],[60,70-i*12,'scaleX(-1) translateY(-20%)'],[85,50+i*10,'scaleX(-1)'],[50,30+i*18],[20,70-i*10]],5200,i*200,'ease-in-out'));
+      say(cs[0],'BAWK BAWK!',600,1200);
+      at(1000,()=>go(dog,40,72,1500,{hop:5}));say(dog,'Woof! Back to the farm!',2600,1600);
+      at(4500,()=>go(dog,22,64,1000,{hop:5}));
+      at(6400,()=>{for(let i=0;i<6;i++){const f=A('🪶',30,55,.4);mv(f,[[30,55],[10+i*9,40+Math.random()*30,`rotate(${i*70}deg)`,0]],1300,0,'ease-out');}say(cs[1],'BAWK?!',0,900);});
+      at(7300,()=>{cs.forEach((c,i)=>mv(c,[[c._x,c._y],[-20,60+i*6]],1200,i*150));go(dog,-20,68,1600,{hop:5});});
+      gift('n_feather',40,76,8200);
+      at(9400,()=>{const c=A('🐔',-15,70,.8);mv(c,[[-15,70,'scaleX(-1)'],[33,70,'scaleX(-1)']],1200);say(c,'…bawk? My feather!',1300,1600);at(3200,()=>mv(c,[[33,70],[-15,70]],1000));});
+    },
+    ()=>{ // melting snowman
+      const s=A('⛄',-12,62,1.2),lamp=A('🕯️',58,64,.6);let nose=null;
+      go(s,40,62,2500,{hop:2,flip:false});say(s,'Brrr! Nice and warm in here!',2600,1800);
+      at(5000,()=>{say(s,'…a little TOO warm…',0,1600);mv(s,[[40,62],[40,66,'scale(.85,.75)']],2000);});
+      at(7200,()=>{mv(s,[[40,66,'scale(.85,.75)'],[40,74,'scale(.6,.3)'],[40,78,'scale(.3,.1)',0]],2200);const p=A('💧',40,80,.9);mv(p,[[40,80,'scale(.3)',0],[40,80,'scale(1.5,.6)',1]],2200);nose=A('🥕',42,62,.45);mv(nose,[[42,62],[47,79,'rotate(80deg)']],2000,300,'ease-in');
+        say(p,'Splish! …see you next winter!',2600,2000);});
+      gift('n_carrot',47,79,10000,{el:1});
+      at(12400,()=>pose(lamp,['','scale(1.3)',''],600));
     },
   ];
-  let i;do{i=Math.floor(Math.random()*scenes.length);}while(i===NLAST&&scenes.length>1);NLAST=i;if(window.NIGHT_SCENE!=null)i=window.NIGHT_SCENE;
+  const keys=scenes.map((_,i)=>i).filter(i=>!NLAST.includes(i));
+  let i=keys[Math.floor(Math.random()*keys.length)];if(window.NIGHT_SCENE!=null)i=window.NIGHT_SCENE;NLAST=[...NLAST,i].slice(-8);
   st.animate([{opacity:0},{opacity:1}],{duration:900,fill:'forwards'});
   at(900,()=>{try{scenes[i]();}catch(e){console.warn(e);}});
-  at(15200,fin);
+  at(15200,()=>fin());
 }
-
 function rollClearance(){S.clear={};if(Math.random()<.6){const pool=[...S.ingOn].sort(()=>Math.random()-.5).slice(0,rint(1,2));pool.forEach(k=>S.clear[k]=rint(1,2));}}
 function nextDay(){if(NSHOW)NSHOW(true);S.day++;S.phase='prep';S.soldOut={};S.priced={};S.facts={};rollClearance();drawEvent();S.clock=S.openTime-60;S.stats=blankStats();closeModal();renderAll();if(evCard())showCard();else if(S.guide!==false&&S.day<=3)modal(dailyHTML());toast('🚚 The truck is here! Set your menu prices and stock up before you open.');}
 function pickType(){
@@ -2939,6 +3147,7 @@ function tap(d){
       return;
     }
     if(d.gid==='dining'&&tool==='paint')return toast('Only tables have tablecloths to paint.');
+    if(d.gid==='dining'&&FURN[p.key].gag)return doGag(p);
     if(d.gid==='truck'){const now=performance.now();if(LASTTAP.id===p.id&&now-LASTTAP.t<450){LASTTAP={id:0,t:0};return unloadBasket(p,true);}LASTTAP={id:p.id,t:now};return;}
     rotatePiece(d.gid,p);
   }else if(d.kind==='seed')autoPlant(d.key);
