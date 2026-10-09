@@ -549,6 +549,8 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.coll.locked{background:#EFE6D2;border-style:dashed;opacity:.8}.coll.locked summary{cursor:default}.coll.locked summary::before{content:''}
+
 .fertb{position:absolute;bottom:2px;left:2px;z-index:6;font-size:13px;background:#E9D5B5;border:1px solid #8A5A2E;border-radius:6px;padding:0 2px;line-height:1.2}
 .bld-pets{animation:wander 3.5s ease-in-out infinite}
 
@@ -1547,7 +1549,7 @@ function renderUpgrades(){
     h+=urow(r.emoji,`${r.name} · $${recipePrice(k)}`,`Recipe level ${lv} of 3${lv<3?` — improve to sell for $${priceAt(k,lv+1)} (+$${priceStep(k)} each, pays for itself after 15 sold)`:''}`,
       (lv<3?`<button class="btn small go" data-act="improve" data-arg="${k}">Improve $${cost}</button>`:''));}
   h+='<h3>Furniture &amp; decor</h3>';
-  for(const k in FURN){const f=FURN[k];if(f.for||f.flower)continue;h+=urow(f.emoji,f.name,f.seats?`Seats 1. Put it next to other tables to build a bigger table.`:`Decor: +${f.charm} charm (guests wait longer and tip more).`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
+  for(const k in FURN){const f=FURN[k];if(f.for||f.flower||f.prize)continue;h+=urow(f.emoji,f.name,f.seats?`Seats 1. Put it next to other tables to build a bigger table.`:`Decor: +${f.charm} charm (guests wait longer and tip more).`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
   h+='<h3>Magical seating</h3>';
   for(const k in FURN){const f=FURN[k];if(!f.for)continue;const T=TYPES[f.for];
     h+=urow(f.emoji,f.name,`For ${T.faces[0]} ${T.name.toLowerCase()} only (visits at ${T.minRep}★+). Seated here they tip extra; at a regular table they pay for their food but leave no tip.`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
@@ -2263,14 +2265,22 @@ const FINDS2=[
  ]),
 ];
 COLLS.push(...COLLS2);FINDS.push(...FINDS2);
+const DECOR={music:['d_band','🎷','Jazz band stand',3],ocean:['d_reef','🪸','Coral reef tank',4,I2],sports:['d_trophies','🏆','Trophy case',3],crafts:['d_painting','🖼️','Masterpiece painting',3],
+  gems:['d_chandelier','💎','Crystal chandelier',5],birds:['d_parrot','🦜','Singing parrot perch',3],fairy:['d_castle','🏰','Fairy-tale castle',4],holiday:['d_tree','🎄','Twinkly holiday tree',4],
+  weather:['d_rainbow','🌈','Rainbow fountain',4],ancient:['d_statue','🗿','Ancient statue',4]};
+for(const k in DECOR){const C=COLLS.find(c=>c.id===k),[key,em,name,charm,shape]=DECOR[k];C.decor={key,em,name,charm};delete C.reward;FURN[key]={name,emoji:em,shape:shape||MONO,charm,cost:0,color:'#F3E3C3',prize:true};}
+const AFTER={fairy:'toys',gems:'ancient',lab:'school',weather:'lab',birds:'bugs',west:'vehicles',oldtech:'robot',holiday:'breakfast',fashion:'crafts'};
+for(const k in AFTER)COLLS.find(c=>c.id===k).after=AFTER[k];
+function collOpen(cid){const C=COLLS.find(c=>c.id===cid);if(!C||!C.after)return true;return collDone(C.after)||FINDS.some(f=>f.c===cid&&S.farm.finds[f.id]);}
 let SHAKE=null;let FERT=false;
-function rollFind(){const F=S.farm,pool=FINDS.filter(f=>f.w>0),unf=pool.filter(f=>!F.finds[f.id]),src=unf.length&&Math.random()<.6?unf:pool;const tot=src.reduce((a,f)=>a+f.w,0);let r=Math.random()*tot;for(const f of src){r-=f.w;if(r<0)return f.id;}return src[0].id;}
+function rollFind(){const F=S.farm,pool=FINDS.filter(f=>f.w>0&&collOpen(f.c)),unf=pool.filter(f=>!F.finds[f.id]),src=unf.length&&Math.random()<.6?unf:pool;const tot=src.reduce((a,f)=>a+f.w,0);let r=Math.random()*tot;for(const f of src){r-=f.w;if(r<0)return f.id;}return src[0].id;}
 function collDone(cid){return FINDS.filter(f=>f.c===cid).every(f=>S.farm.finds[f.id]);}
 function gotFind(id,key){const F=S.farm,f=FINDS.find(z=>z.id===id),first=!F.finds[id];F.finds[id]=(F.finds[id]||0)+1;
   if(f.money)S.money+=f.money;if(f.barn)barnAdd(f.barn[0],f.barn[1]);if(f.glow&&key)F.glow[key]=1;
   F.findLog=F.findLog||[];F.findLog.unshift({d:S.day,id});if(F.findLog.length>60)F.findLog.length=60;
   toast(`${f.em} You found: ${f.name}! ${f.say}${first?' 🆕 New in your collection!':''}`,7000);
-  const C=COLLS.find(c=>c.id===f.c);if(first&&C&&collDone(C.id)){if(C.reward){S.money+=C.reward;toast(`🏅 You finished the ${C.em} ${C.name} collection! +$${C.reward}`,9000);}else toast(`🎉 You found all 10 ${C.name}! Go into the barn and build your ${C.build.em} ${C.build.name}!`,10000);}
+  const C=COLLS.find(c=>c.id===f.c);if(first&&C&&collDone(C.id)){if(C.decor){const d=C.decor;S.storeroom.push({key:d.key});toast(`🏅 You finished ${C.em} ${C.name}! A ${d.em} ${d.name} is waiting in your dining room storeroom — put it on the floor for +${d.charm} charm!`,10000);}else if(C.reward){S.money+=C.reward;toast(`🏅 You finished the ${C.em} ${C.name} collection! +$${C.reward}`,9000);}else toast(`🎉 You found all 10 ${C.name}! Go into the barn and build your ${C.build.em} ${C.build.name}!`,10000);
+    COLLS.filter(x=>x.after===C.id).forEach(x=>setTimeout(()=>toast(`🔓 New collection unlocked: ${x.em} ${x.name}! Keep digging!`,9000),600));}
   const ff=document.querySelector('.fieldfence');if(ff){const d=document.createElement('div');d.className='findpop';d.innerHTML=`${f.em}<small>${f.name}</small>`;ff.appendChild(d);setTimeout(()=>d.remove(),2800);}}
 function digCell(key){const F=S.farm;F.cells[key]='tilled';if(!F.dug[key]){F.dug[key]=1;if(Math.random()<.35)gotFind(rollFind(),key);}else if(Math.random()<.2)gotFind(rollFind(),key);}
 function hitRock(key,dmg){const F=S.farm,st=F.cells[key];F.hits[key]=(F.hits[key]||0)+dmg;SHAKE=key;setTimeout(()=>{SHAKE=null;},300);
@@ -2428,10 +2438,11 @@ function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
   $('#barnStore').innerHTML=keys.length?keys.map(k=>{const n=barnCount(k),d=Math.min(...S.barn.filter(l=>l.k===k).map(l=>l.d));const em=k==='milk'?'🥛':ING[k].emoji,nm=k==='milk'?'Milk':ING[k].name;
     return `<div class="crate"><span class="ce">${em}</span><b>${nm} ×${n}</b><small class="${d===1?'bad':''}">${d>50?'never spoils':d===1?'goes bad tonight!':`good for ${d} days`}</small>${k==='milk'?(F.churn?`<span class="bbtns"><button class="btn small" data-act="churn" data-arg="C">🧀</button><button class="btn small" data-act="churn" data-arg="G">🥛 Yogurt</button><button class="btn small" data-act="churn" data-arg="I">🍨</button></span>`:'<small>Buy a dairy churn to use milk.</small>'):`<button class="btn small go" data-act="toTruck" data-arg="${k}" ${prep?'':'disabled'}>🚚 To truck $${farmPrice(k,n)}</button><small>Truck price: <s>$${truckRate(k,n)}</s></small>`}</div>`;}).join('')
     :'<p class="empty">The shelves are empty. Harvested food, eggs, milk and honey land here.</p>';
-  {const tot=FINDS.filter(f=>F.finds[f.id]).length;$('#colCount').textContent=`${tot} of ${FINDS.length} found`;
+  {const tot=FINDS.filter(f=>F.finds[f.id]).length,lk=COLLS.filter(c=>!collOpen(c.id)).length;$('#colCount').textContent=`${tot} of ${FINDS.length} found${lk?` · ${lk} secret collection${lk>1?'s':''} still locked`:''}`;
    $('#finds').innerHTML=COLLS.map(C=>{const items=FINDS.filter(f=>f.c===C.id),got=items.filter(f=>F.finds[f.id]).length,done=got===items.length,b=C.build,built=b&&F.built[C.id];
-     const st=b?(built?`<p class="cdone">✅ ${b.em} ${b.name} built! ${b.perk}</p>`:done?`<button class="btn go buildbtn" data-act="buildColl" data-arg="${C.id}">🔨 Build the ${b.em} ${b.name}!</button>`:`<p class="cgoal">Find all 10 to build a ${b.em} <b>${b.name}</b>: ${b.perk}</p>`):(done?`<p class="cdone">🏅 Complete! You won $${C.reward}.</p>`:`<p class="cgoal">Find all 10 to win $${C.reward}!</p>`);
-     return `<details class="coll ${done?'full':''}" ${got&&!done?'open':''}><summary><span class="cem">${C.em}</span><b>${C.name}</b>${b?`<span class="cbuild">${b.em}</span>`:''}<span class="cbar"><i style="width:${got*10}%"></i></span><small>${got}/10</small></summary>${st}<div class="finds">${items.map(f=>F.finds[f.id]?`<div class="find"><span>${f.em}</span><b>${f.name}</b><small>×${F.finds[f.id]}</small></div>`:'<div class="find no"><span>❓</span><b>???</b></div>').join('')}</div></details>`;}).join('');
+     const st=b?(built?`<p class="cdone">✅ ${b.em} ${b.name} built! ${b.perk}</p>`:done?`<button class="btn go buildbtn" data-act="buildColl" data-arg="${C.id}">🔨 Build the ${b.em} ${b.name}!</button>`:`<p class="cgoal">Find all 10 to build a ${b.em} <b>${b.name}</b>: ${b.perk}</p>`):C.decor?(done?`<p class="cdone">🏅 Complete! Your ${C.decor.em} ${C.decor.name} went to the dining room storeroom.</p>`:`<p class="cgoal">Find all 10 to win a ${C.decor.em} <b>${C.decor.name}</b> for your dining room (+${C.decor.charm} charm)!</p>`):(done?`<p class="cdone">🏅 Complete! You won $${C.reward}.</p>`:`<p class="cgoal">Find all 10 to win $${C.reward}!</p>`);
+     if(!collOpen(C.id)){const P=COLLS.find(c=>c.id===C.after);return `<details class="coll locked"><summary><span class="cem">🔒</span><b>Secret collection</b><small>Finish ${P.em} ${P.name} to unlock</small></summary></details>`;}
+     return `<details class="coll ${done?'full':''}" ${got&&!done?'open':''}><summary><span class="cem">${C.em}</span><b>${C.name}</b>${b?`<span class="cbuild">${b.em}</span>`:C.decor?`<span class="cbuild">${C.decor.em}</span>`:''}<span class="cbar"><i style="width:${got*10}%"></i></span><small>${got}/10</small></summary>${st}<div class="finds">${items.map(f=>F.finds[f.id]?`<div class="find"><span>${f.em}</span><b>${f.name}</b><small>×${F.finds[f.id]}</small></div>`:'<div class="find no"><span>❓</span><b>???</b></div>').join('')}</div></details>`;}).join('');
    const lg=F.findLog||[];$('#findLog').innerHTML=lg.length?lg.map(e=>{const f=FINDS.find(z=>z.id===e.id);return f?`<div class="logrow"><span class="le">${f.em}</span><div><b>${f.name}</b> <small>Day ${e.d}</small><br><span>${f.say}</span></div></div>`:'';}).join(''):'<p class="empty">Nothing dug up yet. Dig the dirt on your farm to find things!</p>';}
   {const B=F.built||{},pos={pets:'left:50%;bottom:2px',dino:'left:60%;bottom:2px',car:'left:71%;bottom:2px',robot:'right:4%;bottom:2px',rocket:'right:22%;bottom:30px'};$('#builds').innerHTML=COLLS.filter(C=>C.build&&B[C.id]).map(C=>`<span class="bld bld-${C.id}" style="${pos[C.id]}" title="${C.build.name}">${C.build.em}</span>`).join('');}
   // farm store
