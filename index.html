@@ -549,6 +549,9 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.fertb{position:absolute;bottom:2px;left:2px;z-index:6;font-size:13px;background:#E9D5B5;border:1px solid #8A5A2E;border-radius:6px;padding:0 2px;line-height:1.2}
+.bld-pets{animation:wander 3.5s ease-in-out infinite}
+
 .kidf{font-size:.6em;display:inline-block;vertical-align:bottom;line-height:1}
 
 .coll .finds{grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}.coll .find span{font-size:46px;line-height:1.15}.coll .find{padding:8px 4px}.coll .find b{font-size:12px}.logrow .le{font-size:40px!important}.findpop{font-size:84px!important}
@@ -1629,7 +1632,7 @@ function dailyHTML(){
   <div class="modal-actions"><button class="btn primary" data-act="closeModal">Let's go!</button><button class="btn" data-act="help">Full how to play</button></div>`;}
 function helpHTML(){return `<h1>How to play</h1><ol>
 <li><b>Flip the event card.</b> From day 2, every morning starts with an event card. Some help you, some make the day harder. Tap today's card at the top to read it again.</li>
-<li><b>Farm in the morning.</b> In the 🌱 Farm tab, clear rocks, dig, plant seeds and water them every morning. Tap the red barn to go inside: drag new feed sacks into the bins, then feed your animals outside. Place your land squares on the meadow in any shape. Tap ✋ Move land to slide squares around — whatever is on a square (rocks, dug soil, glowing goo) moves with it. Build a fence so critters don’t eat your veggies at night, and tap the 🔨 to fix broken spots. Unlock sunflowers (for nuts) and fruit trees (they keep making fruit!) for new recipes. Build a wildflower garden and put flower vases next to tables for happier guests. Harvests and animal food go to the barn shelves. Sending farm food to the truck costs the farm price — less than half what the truck charges — send them to the truck, then unload them in the Pantry. Dishes made with farm food earn a 🌱 farm-fresh tip.</li>
+<li><b>Farm in the morning.</b> In the 🌱 Farm tab, clear rocks, dig, plant seeds and water them every morning. Tap the red barn to go inside: drag new feed sacks into the bins, then feed your animals outside. Place your land squares on the meadow in any shape. Tap ✋ Move land to slide squares around — whatever is on a square (rocks, dug soil, glowing goo) moves with it. Build a fence so critters don’t eat your veggies at night, and tap the 🔨 to fix broken spots. Spoiled food goes into the farm’s compost bin: tap 🪱 Compost, then tap a plant to make it grow an extra day. Unlock sunflowers (for nuts) and fruit trees (they keep making fruit!) for new recipes. Build a wildflower garden and put flower vases next to tables for happier guests. Harvests and animal food go to the barn shelves. Sending farm food to the truck costs the farm price — less than half what the truck charges — send them to the truck, then unload them in the Pantry. Dishes made with farm food earn a 🌱 farm-fresh tip.</li>
 <li><b>Stock up in the morning.</b> In <b>Pantry &amp; truck</b>, check what your menu needs, then buy baskets. They land on the truck — drag dry food onto the shelves and ❄️ cold food into the fridge. The truck leaves when you open and comes back the next morning.</li>
 <li><b>Watch for spoiling.</b> Cold food left on the dry shelves spoils overnight. Fridge food lasts 2 days and dry food 3 days (the number on each basket).</li>
 <li><b>Set up the room.</b> Drag tables and decor around the dining room. Tap to rotate. Every table seats 1 — put tables side by side to join them into a bigger table of any shape. Tap a tablecloth color, then tap a table to paint it.</li>
@@ -1994,7 +1997,273 @@ const FINDS=[
  {id:'tophat',c:'magic',em:'🎩',name:'Magician’s hat',w:3,say:'A bunny hopped out of it!'},
  {id:'lamp',c:'magic',em:'🪔',name:'Genie lamp',w:2,say:'You rubbed it… a puff of glitter! +$10',money:10},
 ];
-let SHAKE=null;
+const COLLS2=[
+ {id:'pets',em:'🐶',name:'Dog Stuff',build:{em:'🐕',name:'Farm dog',perk:'Your dog guards the farm and chases away most critters at night.',done:'🐕 WOOF! A friendly dog follows the smell of all that dog stuff right onto your farm. It\'s yours now!'}},
+ {id:'ocean',em:'🌊',name:'Ocean Treasures',reward:30},
+ {id:'sports',em:'⚽',name:'Sports Gear',reward:25},
+ {id:'music',em:'🎵',name:'Music Makers',reward:30},
+ {id:'kitchen',em:'🍳',name:'Kitchen Gadgets',reward:25},
+ {id:'fairy',em:'🏰',name:'Fairy Tales',reward:40},
+ {id:'school',em:'🎒',name:'School Supplies',reward:25},
+ {id:'lab',em:'🔬',name:'Science Lab',reward:40},
+ {id:'weather',em:'⛅',name:'Weather in a Jar',reward:35},
+ {id:'breakfast',em:'🥞',name:'Buried Breakfast',reward:20},
+ {id:'bugs',em:'🦋',name:'Bugs & Butterflies',reward:25},
+ {id:'birds',em:'🐦',name:'Bird Watching',reward:30},
+ {id:'west',em:'🤠',name:'Wild West',reward:35},
+ {id:'holiday',em:'🎁',name:'Holiday Fun',reward:30},
+ {id:'crafts',em:'🎨',name:'Arts & Crafts',reward:25},
+ {id:'gems',em:'💠',name:'Gems & Minerals',reward:60},
+ {id:'vehicles',em:'🚜',name:'Toy Vehicles',reward:25},
+ {id:'seeds',em:'🌰',name:'Mystery Seeds',reward:30},
+ {id:'oldtech',em:'📼',name:'Old Gadgets',reward:35},
+ {id:'fashion',em:'🕶️',name:'Fashion Mix-up',reward:25},
+];
+const F2=(c,list)=>list.map(([id,em,name,w,say,money])=>Object.assign({id,c,em,name,w,say},money?{money}:{}));
+const FINDS2=[
+ ...F2('pets',[
+  ['tball','🎾','Tennis ball',5,'Slobbery! Some dog played fetch here.'],
+  ['frisbee','🥏','Frisbee',4,'Zoom! It flies all the way across the farm.'],
+  ['leash','🦮','Leash',4,'A long leash… but no dog on the end. Yet!'],
+  ['nametag','🏷️','Dog name tag',4,'It says “BISCUIT.” Who is Biscuit?'],
+  ['dogbowl','🥣','Water bowl',5,'A bowl with paw prints on the side.'],
+  ['dogphoto','🖼️','Puppy photo',3,'A picture of a fluffy puppy. Awww!'],
+  ['rope','🧶','Chew rope',5,'Chewed, knotted, and very loved.'],
+  ['dogbed','🛏️','Tiny dog bed',3,'Comfy! It still smells like puppy.'],
+  ['squeaky','🍖','Squeaky toy steak',4,'SQUEAK! SQUEAK! It’s not a real steak.'],
+  ['dogvest','🐕‍🦺','Dog vest',3,'A tiny vest for a working dog.'],
+ ]),
+ ...F2('ocean',[
+  ['shell','🐚','Seashell',6,'Hold it to your ear… you can hear the ocean!'],
+  ['hermit','🦀','Hermit crab',4,'It scuttles back into its shell. Shy!'],
+  ['coral','🪸','Coral piece',4,'Pink and bumpy, from a faraway reef.'],
+  ['octo','🐙','Octopus toy',4,'Eight wiggly arms. High-eight!'],
+  ['sharktooth','🦈','Shark tooth',3,'A real shark tooth! Sharks grow new teeth all the time.'],
+  ['puffer','🐡','Pufferfish fossil',3,'It puffed up a long, long time ago.'],
+  ['lifering','🛟','Life ring',4,'Ready for an ocean rescue!'],
+  ['oceanjar','🌊','Ocean in a jar',3,'Somebody saved a wave. Splash!'],
+  ['globe','🏝️','Island snow globe',3,'Shake it… it snows on a beach!'],
+  ['shipcompass','🧭','Ship’s compass',3,'It always points north. Ahoy!'],
+ ]),
+ ...F2('sports',[
+  ['soccer','⚽','Soccer ball',5,'GOOOAL!'],
+  ['baseball','⚾','Baseball',5,'Signed by… a worm? Weird.'],
+  ['basket','🏀','Basketball',4,'A little flat, but it still bounces.'],
+  ['football','🏈','Football',4,'Hike! Somebody threw this too far.'],
+  ['bowling','🎳','Bowling pin',4,'Strike! Where did the rest of them go?'],
+  ['pingpong','🏓','Ping-pong paddle',4,'Ping… pong… ping… pong.'],
+  ['shuttle','🏸','Birdie',4,'A badminton birdie. It is not a real bird.'],
+  ['glove','🥊','Boxing glove',3,'Puffy and squishy, like a big red marshmallow.'],
+  ['skate','⛸️','Ice skate',3,'An ice skate… buried in a hot field?'],
+  ['trophy','🏆','Tiny trophy',2,'It says “#1 FARMER.” That’s you! +$5',5],
+ ]),
+ ...F2('music',[
+  ['guitar','🎸','Toy guitar',4,'Strum strum! It’s a little out of tune.'],
+  ['trumpet','🎺','Trumpet',4,'TOOT TOOT! The chickens jumped.'],
+  ['drum','🥁','Drum',4,'Boom, boom, tap!'],
+  ['violin','🎻','Violin',3,'Squeak… screech… you’ll get better!'],
+  ['banjo','🪕','Banjo',3,'Perfect for a farm song. Yee-haw!'],
+  ['sax','🎷','Saxophone',3,'Smooth and jazzy.'],
+  ['sheet','🎼','Sheet music',5,'The song is called “Happy Little Tomato.”'],
+  ['mic','🎤','Microphone',4,'Testing, testing, one, two, three!'],
+  ['radio','📻','Old radio',4,'It plays a polka. The cows are dancing.'],
+  ['bell','🔔','Brass bell',4,'Ding ding! Dinner time!'],
+ ]),
+ ...F2('kitchen',[
+  ['spoon','🥄','Golden spoon',3,'Shiny! Maybe it belonged to a king.'],
+  ['fork','🍴','Old fork',5,'Every restaurant needs more forks.'],
+  ['teapot','🫖','Teapot',3,'I’m a little teapot, short and stout!'],
+  ['pan','🍳','Frying pan',4,'It still has a tiny egg stuck to it.'],
+  ['salt','🧂','Salt shaker',5,'Shake shake! Just a pinch.'],
+  ['chop','🥢','Chopsticks',5,'You can pick up a worm with these. Don’t!'],
+  ['jamjar','🫙','Jam jar',4,'Empty… somebody already ate the jam.'],
+  ['takeout','🥡','Takeout box',5,'Leftover noodles from a LONG time ago.'],
+  ['timer','⏲️','Kitchen timer',4,'Tick tick tick… DING!'],
+  ['bucket','🪣','Mop bucket',5,'Splish splash, it’s clean-up time.'],
+ ]),
+ ...F2('fairy',[
+  ['slipper','👠','Glass slipper',2,'Somebody left the party before midnight!'],
+  ['beans','🫘','Magic beans',3,'Plant them? Maybe a giant beanstalk will grow!'],
+  ['wing','🧚','Fairy wing',3,'Sparkly and see-through. A fairy must be nearby.'],
+  ['scale','🐉','Dragon scale',3,'It’s warm. Very, VERY warm.'],
+  ['unicornhair','🦄','Unicorn hair',3,'Every color of the rainbow in one hair!'],
+  ['castle','🏰','Tiny castle',3,'A teeny castle. Is a teeny king inside?'],
+  ['storybook','📖','Storybook',4,'“Once upon a time, on a farm just like yours…”'],
+  ['wolf','🐺','Wolf whistle',3,'Huff and puff! Don’t blow the barn down.'],
+  ['broom','🧹','Witch’s broom',3,'It floats a tiny bit off the ground…'],
+  ['gingerbread','🍪','Gingerbread crumb',4,'Run, run, as fast as you can!'],
+ ]),
+ ...F2('school',[
+  ['pencil','✏️','Pencil',6,'Still sharp! Ready for a math test.'],
+  ['ruler','📏','Ruler',5,'Exactly 12 inches of fun.'],
+  ['protractor','📐','Triangle ruler',4,'Perfect for drawing pointy shapes.'],
+  ['crayon','🖍️','Crayon',6,'It’s the color “Farm Dirt Brown.”'],
+  ['clip','📎','Paper clip',6,'Holds papers together. And worms. Don’t ask.'],
+  ['backpack','🎒','Backpack',3,'Inside: a sandwich from last year. Pee-yew!'],
+  ['notebook','📓','Notebook',4,'Someone did their homework! Gold star.'],
+  ['abacus','🧮','Abacus',3,'Slide the beads: 4 + 4 = 8!'],
+  ['microscope','🔬','Microscope',2,'Look closer… the dirt is full of tiny life!'],
+  ['books','📚','Stack of books',3,'A library book… 40 years overdue!'],
+ ]),
+ ...F2('lab',[
+  ['petri','🧫','Petri dish',4,'Something is growing in it. Science!'],
+  ['dna','🧬','DNA model',3,'The twisty ladder that makes you, YOU.'],
+  ['flask','⚗️','Bubbling flask',3,'Bloop bloop. Don’t drink it!'],
+  ['thermo','🌡️','Thermometer',4,'It says the dirt is a cozy 65 degrees.'],
+  ['goggles','🥽','Safety goggles',4,'Safety first, scientist!'],
+  ['microbe','🦠','Microbe model',4,'Tiny germs, made big so we can see them.'],
+  ['atom','⚛️','Atom model',3,'Everything is made of atoms. Even pancakes!'],
+  ['volcano','🌋','Volcano model',3,'Add vinegar and baking soda… ERUPTION!'],
+  ['watersample','💧','Water sample',5,'Clean water — your plants say thank you.'],
+  ['rocksample','🪨','Rock sample',5,'A rock with layers, like a sandwich made by the Earth.'],
+ ]),
+ ...F2('weather',[
+  ['sunjar','☀️','Sunbeam in a jar',3,'It glows warm and yellow.'],
+  ['raincloud','🌧️','Rain cloud',3,'A tiny cloud that rains on your boots.'],
+  ['snowflake','❄️','Never-melting snowflake',3,'No two snowflakes are the same!'],
+  ['storm','⛈️','Storm in a bottle',3,'Rumble rumble! Keep the lid on tight.'],
+  ['tornado','🌪️','Tiny tornado',3,'Whirly! It spins your hat around.'],
+  ['umbrella','🌂','Umbrella',5,'Perfect for rainy farm days.'],
+  ['snowman','☃️','Snowman button',4,'A coal button from a melted snowman.'],
+  ['windwhistle','🌬️','Wind whistle',4,'Blow it and a breeze comes by!'],
+  ['lightning','⚡','Lightning bolt',3,'ZAP! It makes your hair stand up.'],
+  ['fog','🌫️','Fog jar',4,'You opened it and now everything is foggy.'],
+ ]),
+ ...F2('breakfast',[
+  ['pancake','🥞','Stone pancake',4,'Hard as a rock. Needs LOTS of syrup.'],
+  ['waffle','🧇','Frozen waffle',5,'Still frozen?! How?'],
+  ['bacon','🥓','Bacon bit',5,'Crispy… and covered in dirt.'],
+  ['croissant','🥐','Croissant',4,'Fancy and flaky. Ooh la la!'],
+  ['bagel','🥯','Bagel',5,'Everything bagel — now with everything, including dirt.'],
+  ['donut','🍩','Donut',4,'A worm is using it as a slide.'],
+  ['butter','🧈','Butter stick',4,'Wait… this is not a gold bar.'],
+  ['mug','☕','Coffee mug',5,'It says “World’s Best Farmer.”'],
+  ['orange','🍊','Orange',4,'Vitamin C! How did it get buried?'],
+  ['strawberry','🍓','Strawberry',4,'Still sweet! Somebody dropped their breakfast.'],
+ ]),
+ ...F2('bugs',[
+  ['butterfly','🦋','Butterfly',4,'It flutters away to visit your flowers.'],
+  ['caterpillar','🐛','Caterpillar',6,'Munch munch. One day it’ll be a butterfly!'],
+  ['beetle','🪲','Shiny beetle',5,'Its shell shines like a rainbow.'],
+  ['mosquito','🦟','Mosquito',5,'Bzzz… SWAT! Missed.'],
+  ['fly','🪰','Housefly',5,'Buzzing around your lunch again.'],
+  ['spider','🕷️','Garden spider',4,'Spiders eat pests. Good spider!'],
+  ['web','🕸️','Dewy spiderweb',4,'Sparkly with morning dew.'],
+  ['scorpion','🦂','Tiny scorpion',3,'Whoa! Don’t touch — just look.'],
+  ['firefly','✨','Firefly',3,'Blink… blink… a tiny flashlight with wings!'],
+  ['roly','🫘','Roly-poly bug',5,'It curled up into a tiny ball!'],
+ ]),
+ ...F2('birds',[
+  ['bluebird','🐦','Bluebird',5,'Tweet tweet! It sings you a song.'],
+  ['owl','🦉','Owl pellet',4,'Owls cough these up. Scientists study them!'],
+  ['eagle','🦅','Eagle feather',3,'A big, strong feather. Soar high!'],
+  ['swan','🦢','Swan statue',3,'Graceful and fancy.'],
+  ['flamingo','🦩','Flamingo lawn ornament',4,'Every farm needs a pink plastic flamingo.'],
+  ['peacock','🦚','Peacock feather',3,'It has a pattern that looks like an eye!'],
+  ['penguin','🐧','Penguin toy',4,'Waddle waddle!'],
+  ['dodo','🦤','Dodo bone',2,'Dodos lived long ago. A museum paid $10!',10],
+  ['rooster','🐓','Rooster weathervane',3,'It spins to show which way the wind blows.'],
+  ['dove','🕊️','Dove',4,'Peaceful and white. Coo coo.'],
+ ]),
+ ...F2('west',[
+  ['cowboyhat','🤠','Cowboy hat',4,'Yee-haw, partner!'],
+  ['cactus','🌵','Tiny cactus',5,'Ouch! Pointy but cute.'],
+  ['lasso','🪢','Lasso',4,'Rope it, round it up!'],
+  ['sheriff','🌟','Sheriff badge',3,'There’s a new sheriff in town — you!'],
+  ['boot','👢','Cowboy boot',4,'There’s a snake in my boot! Just kidding.'],
+  ['toyhorse','🐎','Toy horse',4,'Giddy-up!'],
+  ['bullhorn','🐂','Bull horn',3,'A big curvy horn from a longhorn.'],
+  ['sand','🏜️','Desert sand jar',4,'Sand from a faraway desert.'],
+  ['rattle','🐍','Rattlesnake rattle',3,'Shake shake shake… just the rattle, phew!'],
+  ['horseshoe','🐴','Lucky horseshoe',3,'Hang it over the barn door for luck! +$3',3],
+ ]),
+ ...F2('holiday',[
+  ['pumpkin','🎃','Mini pumpkin',4,'Perfect for carving a silly face.'],
+  ['ornament','🎄','Tree ornament',4,'Shiny and sparkly!'],
+  ['present','🎁','Buried present',3,'Inside: another present! Inside that: socks.'],
+  ['confetti','🎊','Confetti ball',4,'POP! Confetti everywhere!'],
+  ['popper','🎉','Party popper',4,'Let’s celebrate digging!'],
+  ['envelope','🧧','Red envelope',3,'Good luck money inside! +$5',5],
+  ['carp','🎏','Carp streamer',3,'It swims in the wind.'],
+  ['chime','🎐','Wind chime',4,'Tinkle tinkle in the breeze.'],
+  ['turkeyfeather','🦃','Turkey feather',4,'Gobble gobble!'],
+  ['balloon','🎈','Balloon',5,'Still full of air somehow!'],
+ ]),
+ ...F2('crafts',[
+  ['palette','🎨','Paint palette',4,'Every color! Time to paint the barn?'],
+  ['brush','🖌️','Paintbrush',5,'Swish swish. Make a masterpiece!'],
+  ['scissors','✂️','Safety scissors',5,'Snip snip! Always walk with scissors.'],
+  ['thread','🧵','Spool of thread',5,'For sewing on lost buttons.'],
+  ['needle','🪡','Sewing needle',4,'Careful, it’s pointy!'],
+  ['pushpin','📌','Push pin',5,'Pin your best drawing to the fridge.'],
+  ['pen','🖊️','Fancy pen',4,'Write a thank-you note to a worm.'],
+  ['safetypin','🧷','Safety pin',5,'Small but handy.'],
+  ['pinata','🪅','Piñata',3,'Whack it! Candy comes out!'],
+  ['camera','📷','Old camera',3,'Say cheese! Click!'],
+ ]),
+ ...F2('gems',[
+  ['ruby','🔴','Ruby',3,'Deep red and sparkly! +$5',5],
+  ['sapphire','🔷','Sapphire',3,'Blue like the ocean! +$5',5],
+  ['emerald','🟢','Emerald',3,'Green like your best crops! +$5',5],
+  ['amethyst','🟣','Amethyst',3,'Purple crystal. So pretty! +$4',4],
+  ['amber','🔶','Amber',3,'There’s a tiny bug trapped inside from long ago! +$4',4],
+  ['pearl','⚪','Pearl',3,'Smooth and round. Made by an oyster! +$4',4],
+  ['nugget','🥇','Gold nugget',2,'GOLD! You’re rich! +$15',15],
+  ['diamond','💠','Diamond',1,'The hardest stone on Earth! +$20',20],
+  ['obsidian','⚫','Obsidian',3,'Shiny black volcano glass.'],
+  ['moonstone','🌕','Moonstone',2,'It glows softly like the moon.'],
+ ]),
+ ...F2('vehicles',[
+  ['bike','🚲','Toy bike',4,'Ring ring!'],
+  ['scooter','🛴','Scooter',4,'Zoom around the barn!'],
+  ['skateboard','🛹','Skateboard',4,'Kickflip!'],
+  ['heli','🚁','Toy helicopter',3,'Whirr-whirr-whirr!'],
+  ['plane','✈️','Paper airplane',5,'It flies surprisingly far!'],
+  ['boat','🚢','Toy boat',4,'Full speed ahead… into a puddle.'],
+  ['tractor','🚜','Toy tractor',4,'A mini tractor for a mini farmer.'],
+  ['firetruck','🚒','Toy fire truck',4,'Wee-ooo, wee-ooo!'],
+  ['racecar','🏎️','Race car',3,'Vroom! Fastest car on the farm.'],
+  ['schoolbus','🚌','Toy school bus',4,'The wheels on the bus go round and round!'],
+ ]),
+ ...F2('seeds',[
+  ['acorn','🌰','Acorn',6,'A squirrel’s lost snack.'],
+  ['coconut','🥥','Coconut',3,'How did a coconut get HERE?'],
+  ['pineapple','🍍','Pineapple top',3,'You can grow a new pineapple from the top!'],
+  ['kiwi','🥝','Kiwi seed',4,'Fuzzy on the outside, green on the inside.'],
+  ['watermelon','🍉','Watermelon seed',5,'If you swallow one, does a watermelon grow in your tummy? Nope!'],
+  ['peapod','🫛','Pea pod',5,'Peas in a pod, best friends forever.'],
+  ['corn','🌽','Corn kernel',5,'Pop it and it turns into popcorn!'],
+  ['avocado','🥑','Avocado pit',4,'Big seed, tiny avocado.'],
+  ['pepperseed','🌶️','Hot pepper seed',4,'Spicy! Handle with care.'],
+  ['cherry','🍒','Cherry pit',4,'Ptoo! Somebody had a pit-spitting contest.'],
+ ]),
+ ...F2('oldtech',[
+  ['vhs','📼','VHS tape',4,'Ask a grown-up what this is. They’ll laugh.'],
+  ['cd','💿','Shiny CD',5,'It makes rainbows in the sunlight.'],
+  ['phone','☎️','Old phone',3,'Ring ring! It has a curly cord.'],
+  ['pager','📟','Pager',3,'Beep beep! Before cell phones, people had these.'],
+  ['fax','📠','Fax machine',2,'Screeeeech… beep… boop. It still works?!'],
+  ['watch','⌚','Wristwatch',4,'Tick tock. It’s farm o’clock!'],
+  ['alarm','⏰','Alarm clock',4,'BRRRRING! Time to milk the cows!'],
+  ['tv','📺','Tiny TV',3,'It only shows cartoons about cows.'],
+  ['keyboard','⌨️','Keyboard',4,'Some keys are missing. Q and Z are gone.'],
+  ['mouse','🖱️','Computer mouse',4,'Not the squeaky kind!'],
+ ]),
+ ...F2('fashion',[
+  ['glasses','👓','Grandpa’s glasses',4,'Now you can see the tiny worms better.'],
+  ['shades','🕶️','Cool sunglasses',4,'Looking cool, farmer!'],
+  ['bow','🎀','Hair bow',5,'Pretty and pink.'],
+  ['sunhat','👒','Sun hat',4,'Perfect for a hot farm day.'],
+  ['cap','🧢','Ball cap',5,'Worn backwards for extra coolness.'],
+  ['scarf','🧣','Scarf',4,'Warm and cozy for winter chores.'],
+  ['mittens','🧤','Mittens',4,'Just one. Where’s the other one?!'],
+  ['purse','👛','Coin purse',3,'Jingle jingle! +$4',4],
+  ['tie','👔','Silly tie',4,'It has tiny chickens on it.'],
+  ['flipflop','🩴','Flip-flop',5,'Flip flop, flip flop… just one again!'],
+ ]),
+];
+COLLS.push(...COLLS2);FINDS.push(...FINDS2);
+let SHAKE=null;let FERT=false;
 function rollFind(){const F=S.farm,pool=FINDS.filter(f=>f.w>0),unf=pool.filter(f=>!F.finds[f.id]),src=unf.length&&Math.random()<.6?unf:pool;const tot=src.reduce((a,f)=>a+f.w,0);let r=Math.random()*tot;for(const f of src){r-=f.w;if(r<0)return f.id;}return src[0].id;}
 function collDone(cid){return FINDS.filter(f=>f.c===cid).every(f=>S.farm.finds[f.id]);}
 function gotFind(id,key){const F=S.farm,f=FINDS.find(z=>z.id===id),first=!F.finds[id];F.finds[id]=(F.finds[id]||0)+1;
@@ -2003,7 +2272,7 @@ function gotFind(id,key){const F=S.farm,f=FINDS.find(z=>z.id===id),first=!F.find
   toast(`${f.em} You found: ${f.name}! ${f.say}${first?' 🆕 New in your collection!':''}`,7000);
   const C=COLLS.find(c=>c.id===f.c);if(first&&C&&collDone(C.id)){if(C.reward){S.money+=C.reward;toast(`🏅 You finished the ${C.em} ${C.name} collection! +$${C.reward}`,9000);}else toast(`🎉 You found all 10 ${C.name}! Go into the barn and build your ${C.build.em} ${C.build.name}!`,10000);}
   const ff=document.querySelector('.fieldfence');if(ff){const d=document.createElement('div');d.className='findpop';d.innerHTML=`${f.em}<small>${f.name}</small>`;ff.appendChild(d);setTimeout(()=>d.remove(),2800);}}
-function digCell(key){const F=S.farm;F.cells[key]='tilled';if(!F.dug[key]){F.dug[key]=1;if(Math.random()<.3)gotFind(rollFind(),key);}else if(Math.random()<.15)gotFind(rollFind(),key);}
+function digCell(key){const F=S.farm;F.cells[key]='tilled';if(!F.dug[key]){F.dug[key]=1;if(Math.random()<.35)gotFind(rollFind(),key);}else if(Math.random()<.2)gotFind(rollFind(),key);}
 function hitRock(key,dmg){const F=S.farm,st=F.cells[key];F.hits[key]=(F.hits[key]||0)+dmg;SHAKE=key;setTimeout(()=>{SHAKE=null;},300);
   if(F.hits[key]>=ROCK_HP[st]){F.cells[key]='dirt';delete F.hits[key];if(st==='boulder'&&Math.random()<.4)gotFind('geode');else if(st==='big'&&Math.random()<.3)gotFind('snail');}}
 function farmOK(){if(S.phase!=='prep'){toast('🌙 Farm chores happen in the morning. Come back tomorrow!');return false;}return true;}
@@ -2061,6 +2330,9 @@ function feedAnimal(id){if(!farmOK())return;const F=S.farm,a=F.animals.find(x=>x
   useFeed(t);a.fed=true;YUM=a.id;setTimeout(()=>{YUM=null;},1000);if(t==='golden'&&a.q<3)a.q++;if(t==='rainbow'&&!a.hue)a.hue=rint(40,320);
   if(!a.adult){a.g++;if(a.g>=A.grow){a.adult=true;toast(`🎉 Your ${A.name.toLowerCase()} grew up! It will make ${A.word} when you feed it.`);}else toast(`${A.baby} Yum! ${A.grow-a.g} more feeding${A.grow-a.g===1?'':'s'} to grow up.`);}
   else{const n=A.amt+A.per*a.q;barnAdd(A.makes,n);toast(`${A.adult} +${n} ${A.word} to the barn!`);}}
+function fertilize(p){const F=S.farm,c=cropOf(p);if(cropReady(p))return toast(`${c.emoji} That one is already ripe — pick it!`);if(p.fert)return toast('🪱 That plant already has compost. It will grow extra tonight!');
+  if(!(F.compost>0)){FERT=false;return toast('Your compost bin is empty! Spoiled food turns into compost.');}
+  F.compost--;p.fert=true;toast(`🪱 Compost added! Water your ${c.name.toLowerCase()} and it will grow an extra day tonight.`,5000);if(!F.compost)FERT=false;}
 function robotChores(sp){const F=S.farm;if(!(F.built&&F.built.robot))return;let fed=0,grew=0;const made={};
   F.animals.forEach(a=>{if(a.fed)return;const A=ANIMALS[a.type];const t=feedCount(F.feedSel)>0?F.feedSel:Object.keys(FEEDS).find(k=>feedCount(k)>0);if(!t)return;
     useFeed(t);a.fed=true;fed++;if(t==='golden'&&a.q<3)a.q++;if(t==='rainbow'&&!a.hue)a.hue=rint(40,320);
@@ -2084,16 +2356,16 @@ const FENCES=[
 function critterNight(sp){const F=S.farm;if(S.day<3)return;normalizeFences();
   clustersList().forEach(c=>{const f=F.fcell[c[0]]!=null?fenceOf(F.fcell[c[0]]):null,inC=p=>cellsOf(p).some(([x,y])=>c.includes(x+','+y));
     let tries=0;if(!f)tries=Math.random()<.45?1:0;else f.broken.forEach(()=>{if(Math.random()<.4)tries++;});
-    for(let i=0;i<tries;i++){const [em,who]=CRITTERS[rint(0,CRITTERS.length-1)];
+    for(let i=0;i<tries;i++){const [em,who]=CRITTERS[rint(0,CRITTERS.length-1)];if(F.built&&F.built.pets&&Math.random()<.75){sp.push(`🐕 Your farm dog barked and chased ${who.toLowerCase()} ${em} away!`);continue;}
       const veg=F.pieces.filter(p=>!CROPS[p.key].tree&&inC(p)),ripeT=F.pieces.filter(p=>CROPS[p.key].tree&&cropReady(p)&&inC(p));
       if(veg.length){const p=veg[rint(0,veg.length-1)];freeCells(p);sp.push(`${em} ${who} sneaked in${f?' through a broken fence':''} and ate your ${CROPS[p.key].name.toLowerCase()}! ${f?'Fix the fence with the 🔨.':'Buy a fence in the barn and drag it onto that patch.'}`);}
       else if(ripeT.length){const p=ripeT[0],cc=CROPS[p.key];p.age=cc.days-cc.regrow;p.ripe=0;sp.push(`${em} ${who} ate the ${cc.emoji} off your ${cc.name.toLowerCase()}!`);}}
     if(f){const T=FENCES[f.t];if(f.broken.length<3&&Math.random()<T.br*(evIs('rain')?1.4:1)){const ed=edgesOf(c).filter(e=>!f.broken.some(b=>b.x===e.x&&b.y===e.y&&b.s===e.s));if(ed.length){const e=ed[rint(0,ed.length-1)];f.broken.push({x:e.x,y:e.y,s:e.s,c:rint(0,CRITTERS.length-1)});sp.push(T.brk+' Tap the 🔨 on the farm to fix it.');}}}});}
 function farmNight(sp){const F=S.farm;if(!F)return;critterNight(sp);
   const night=(p,gone)=>{const c=cropOf(p),fl=!!FLOWERS[p.key];
-    if(cropReady(p)){p.ripe=(p.ripe||0)+1;if(p.ripe>2){if(c.tree){p.age=c.days-c.regrow;p.ripe=0;p.grown=true;sp.push(`${c.emoji} Fruit fell off your ${c.name.toLowerCase()} — pick it sooner!`);}else{gone(p);sp.push(fl?`🥀 ${c.name}s drooped — pick flowers sooner!`:`${c.emoji} ${c.name} rotted — harvest sooner!`);}}return;}
-    if(c.tree&&p.grown){p.age++;p.watered=false;return;}
-    if(p.watered||evIs('rain')){p.age++;p.wilt=0;}else{p.wilt++;if(evIs('drought')||p.wilt>=3){gone(p);sp.push(`🥀 ${c.name} dried up — remember to water!`);return;}sp.push(`🥀 ${c.name} is wilting — water it in the morning and it will perk up!`);}
+    if(cropReady(p)){p.ripe=(p.ripe||0)+1;if(p.ripe>2){if(c.tree){p.age=c.days-c.regrow;p.ripe=0;p.grown=true;sp.push(`${c.emoji} Fruit fell off your ${c.name.toLowerCase()} — pick it sooner!`);}else{gone(p);S.farm.compost=(S.farm.compost||0)+1;sp.push(fl?`🥀 ${c.name}s drooped — pick flowers sooner!`:`${c.emoji} ${c.name} rotted — harvest sooner!`);}}return;}
+    if(c.tree&&p.grown){p.age++;if(p.fert){p.age=Math.min(c.days,p.age+1);p.fert=false;}p.watered=false;return;}
+    if(p.watered||evIs('rain')){p.age++;p.wilt=0;if(p.fert){p.age=Math.min(c.days,p.age+1);p.fert=false;}}else{p.wilt++;if(evIs('drought')||p.wilt>=3){gone(p);S.farm.compost=(S.farm.compost||0)+1;sp.push(`🥀 ${c.name} dried up (it went in the compost bin) — remember to water!`);return;}sp.push(`🥀 ${c.name} is wilting — water it in the morning and it will perk up!`);}
     p.watered=false;};
   [...F.pieces].forEach(p=>night(p,freeCells));
   [...((S.garden&&S.garden.pieces)||[])].forEach(p=>night(p,q=>{S.garden.pieces=S.garden.pieces.filter(z=>z!==q);}));
@@ -2102,7 +2374,7 @@ function farmNight(sp){const F=S.farm;if(!F)return;critterNight(sp);
   
   F.animals.forEach(a=>a.fed=false);
   if(F.built&&F.built.rocket){S.money+=15;sp.push('🚀 Rocket rides earned you $15!');}
-  S.barn=(S.barn||[]).filter(l=>{l.d--;if(l.d<=0){sp.push(`${barnName(l.k)} in the barn went bad`);return false;}return true;});robotChores(sp);}
+  S.barn=(S.barn||[]).filter(l=>{l.d--;if(l.d<=0){sp.push(`${barnName(l.k)} in the barn went bad — into the compost bin 🪱`);F.compost=(F.compost||0)+1;return false;}return true;});robotChores(sp);}
 function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
   $('#farmOut').hidden=farmView!=='out';$('#farmIn').hidden=farmView!=='barn';
   $('#farmOut').classList.toggle('night',!prep);
@@ -2119,13 +2391,13 @@ function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
   paintGrid('farm',{max:72,
     cell:(x,y)=>{const k=x+','+y,st=F.cells[k];if(!st)return {cls:'grass'};const gl=F.glow[k]?' glow':'',sh=SHAKE===k?' shake':'';if(ROCK_HP[st]){const left=ROCK_HP[st]-(F.hits[k]||0);return {cls:'rock r-'+st+sh+(FARMMOVE?' mv':''),inner:`<span class="rk">🪨</span>${ROCK_HP[st]>1?`<span class="hp">👊${left}</span>`:''}`};}const ca=FARMMOVE&&cropAt(x,y),mv=FARMMOVE?(ca&&cropLocked(ca)?' mv lock':' mv'):'';return st==='tilled'?{cls:'tilled'+gl+mv}:{cls:'dirt'+gl+mv};},
     color:()=>'#5A381C',pieceCls:p=>(needsWater(p)&&S.phase==='prep'?'thirsty ':'')+(p.watered||evIs('rain')?'wet ':'')+(cropReady(p)?'ripe ':'')+(p.wilt?'dry ':'')+(glowN(p)?'giant':''),
-    label:p=>{const c=cropOf(p),r=cropReady(p);return `${c.tree?'':`<span class="cr">${cropIcon(p)}</span>`}${r?'':`<span class="marker">${c.emoji}</span>`}${r?'<span class="cbadge">✨ pick</span>':p.wilt?'<span class="cbadge wilt">🥀 wilting</span>':`<span class="cbadge">${c.days-p.age}d</span>`}${waterBadge(p)}`;},
+    label:p=>{const c=cropOf(p),r=cropReady(p);return `${c.tree?'':`<span class="cr">${cropIcon(p)}</span>`}${r?'':`<span class="marker">${c.emoji}</span>`}${p.fert&&!r?'<span class="fertb">🪱</span>':''}${r?'<span class="cbadge">✨ pick</span>':p.wilt?'<span class="cbadge wilt">🥀 wilting</span>':`<span class="cbadge">${c.days-p.age}d</span>`}${waterBadge(p)}`;},
     icon:p=>cropOf(p).tree?'':`<span class="cr">${cropIcon(p)}</span>`,
     after:pos=>fenceHTML(pos)+F.pieces.filter(p=>cropOf(p).tree).map(p=>{const c=cropOf(p),r=cropReady(p),mx=Math.min(...p.shape.map(q=>q[0])),my=Math.min(...p.shape.map(q=>q[1]));
       return `<div class="bigtree ${p.grown||r?'':'young'}" style="${pos(p.x+mx,p.y+my,2,2)}"><span>${p.grown||r?'🌳':cropIcon(p)}</span>${r?`<i class="fr">${c.emoji}${c.emoji}${c.emoji}</i>`:''}</div>`;}).join('')});
   const th=prep?[...F.pieces,...S.garden.pieces].filter(needsWater).length:0;
   const nb=F.fences.reduce((a,f)=>a+f.broken.length,0),nf=clustersList().filter(c=>F.fcell[c[0]]==null).length;
-  $('#farmTools').innerHTML=(nb?`<span class="thirstcount fixcount">🔨 ${nb} broken fence spot${nb>1?'s':''} — tap the hammers to fix</span>`:'')+(nf&&S.day>=2?`<span class="thirstcount fixcount">⚠️ ${nf} patch${nf>1?'es':''} with no fence</span>`:'')+(th?`<span class="thirstcount">💧 ${th} thirsty plant${th>1?'s':''}</span>`:'')+(F.tools.hose?`<button class="btn small" data-act="waterAll">🚿 Water all</button>`:'')+(F.tools.basket?`<button class="btn small" data-act="harvestAll">🧺 Harvest all</button>`:'');
+  $('#farmTools').innerHTML=((F.compost||0)>0||FERT?`<button class="btn small ${FERT?'go':''}" data-act="fertMode">🪱 Compost ×${F.compost||0}${FERT?' — tap a plant!':''}</button>`:'')+(nb?`<span class="thirstcount fixcount">🔨 ${nb} broken fence spot${nb>1?'s':''} — tap the hammers to fix</span>`:'')+(nf&&S.day>=2?`<span class="thirstcount fixcount">⚠️ ${nf} patch${nf>1?'es':''} with no fence</span>`:'')+(th?`<span class="thirstcount">💧 ${th} thirsty plant${th>1?'s':''}</span>`:'')+(F.tools.hose?`<button class="btn small" data-act="waterAll">🚿 Water all</button>`:'')+(F.tools.basket?`<button class="btn small" data-act="harvestAll">🧺 Harvest all</button>`:'');
   $('#seeds').innerHTML=F.seeds.map(k=>{const c=CROPS[k];return `<div class="palwrap"><div class="pal" data-new="seed" data-key="${k}" title="${c.name}"><span class="cnt">$${c.cost}</span>${miniShape(seedShape(k),'#3E8A2E',13)}<span class="nm">${c.emoji} ${c.name}</span><small class="sd">${c.tree?`${c.days} days, then fruit every ${c.regrow}`:`${c.days} days · ${c.shape.length*4} ${ING[c.ing].emoji}`}</small></div>${c.tree?'':`<button class="rotbtn" data-act="rotSeed" data-arg="${k}">⟳ Rotate</button>`}</div>`;}).join('');
   {const lv=F.shedLv||0;$('#g-shed').parentElement.parentElement.querySelector('.gridbox').style.maxWidth=(S.shed.w*66)+'px';
    paintGrid('shed',{max:66,color:p=>shedItem(p.key).color,pieceCls:p=>'pk pk-'+p.key[0],
@@ -2134,7 +2406,7 @@ function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
    else $('#shedHint').textContent='Drag a seed packet onto dug-up soil to plant it (🌸 flower seeds go in the flower garden; 🚧 fences go on a patch of land). Tap a piece to turn it. Drag pieces around to make room.';}
   const gOn=F.gardenLv>=0;$('#gardenBox').hidden=!gOn;$('#gardenLocked').hidden=gOn;$('#gardenLocked').textContent='🌸 Build a wildflower garden in the barn’s farm store to grow flowers for your dining room.';
   if(gOn){$('.gardenfence').style.maxWidth=(S.garden.w*84+44)+'px';paintGrid('garden',{max:84,color:()=>'#5A381C',pieceCls:p=>(needsWater(p)&&S.phase==='prep'?'thirsty ':'')+(p.watered||evIs('rain')?'wet ':'')+(cropReady(p)?'ripe ':'')+(p.wilt?'dry':''),
-    label:p=>{const c=cropOf(p),r=cropReady(p);return `<span class="cr">${cropIcon(p)}</span>${r?'':`<span class="marker">${c.emoji}</span>`}${r?'<span class="cbadge">✨ pick</span>':p.wilt?'<span class="cbadge wilt">🥀 wilting</span>':`<span class="cbadge">${c.days-p.age}d</span>`}${waterBadge(p)}`;},
+    label:p=>{const c=cropOf(p),r=cropReady(p);return `<span class="cr">${cropIcon(p)}</span>${r?'':`<span class="marker">${c.emoji}</span>`}${p.fert&&!r?'<span class="fertb">🪱</span>':''}${r?'<span class="cbadge">✨ pick</span>':p.wilt?'<span class="cbadge wilt">🥀 wilting</span>':`<span class="cbadge">${c.days-p.age}d</span>`}${waterBadge(p)}`;},
     icon:p=>`<span class="cr">${cropIcon(p)}</span>`});
   $('#flowerSeeds').innerHTML=F.flowers.map(k=>{const c=FLOWERS[k];return `<div class="palwrap"><div class="pal" data-new="flower" data-key="${k}" title="${c.name}"><span class="cnt">$${c.cost}</span>${miniShape(flowerShape(k),'#E86AA6',13)}<span class="nm">${c.emoji} ${c.name}</span><small class="sd">${c.days} days · +${c.charm} charm</small></div><button class="rotbtn" data-act="rotFlower" data-arg="${k}">⟳ Rotate</button></div>`;}).join('');}
   // animals
@@ -2161,7 +2433,7 @@ function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
      const st=b?(built?`<p class="cdone">✅ ${b.em} ${b.name} built! ${b.perk}</p>`:done?`<button class="btn go buildbtn" data-act="buildColl" data-arg="${C.id}">🔨 Build the ${b.em} ${b.name}!</button>`:`<p class="cgoal">Find all 10 to build a ${b.em} <b>${b.name}</b>: ${b.perk}</p>`):(done?`<p class="cdone">🏅 Complete! You won $${C.reward}.</p>`:`<p class="cgoal">Find all 10 to win $${C.reward}!</p>`);
      return `<details class="coll ${done?'full':''}" ${got&&!done?'open':''}><summary><span class="cem">${C.em}</span><b>${C.name}</b>${b?`<span class="cbuild">${b.em}</span>`:''}<span class="cbar"><i style="width:${got*10}%"></i></span><small>${got}/10</small></summary>${st}<div class="finds">${items.map(f=>F.finds[f.id]?`<div class="find"><span>${f.em}</span><b>${f.name}</b><small>×${F.finds[f.id]}</small></div>`:'<div class="find no"><span>❓</span><b>???</b></div>').join('')}</div></details>`;}).join('');
    const lg=F.findLog||[];$('#findLog').innerHTML=lg.length?lg.map(e=>{const f=FINDS.find(z=>z.id===e.id);return f?`<div class="logrow"><span class="le">${f.em}</span><div><b>${f.name}</b> <small>Day ${e.d}</small><br><span>${f.say}</span></div></div>`:'';}).join(''):'<p class="empty">Nothing dug up yet. Dig the dirt on your farm to find things!</p>';}
-  {const B=F.built||{},pos={dino:'left:46%;bottom:2px',car:'left:60%;bottom:2px',robot:'left:38%;bottom:4px',rocket:'right:30%;bottom:18px'};$('#builds').innerHTML=COLLS.filter(C=>C.build&&B[C.id]).map(C=>`<span class="bld bld-${C.id}" style="${pos[C.id]}" title="${C.build.name}">${C.build.em}</span>`).join('');}
+  {const B=F.built||{},pos={pets:'left:50%;bottom:2px',dino:'left:60%;bottom:2px',car:'left:71%;bottom:2px',robot:'right:4%;bottom:2px',rocket:'right:22%;bottom:30px'};$('#builds').innerHTML=COLLS.filter(C=>C.build&&B[C.id]).map(C=>`<span class="bld bld-${C.id}" style="${pos[C.id]}" title="${C.build.name}">${C.build.em}</span>`).join('');}
   // farm store
   const card=(em,name,desc,btn,owned)=>`<div class="scard ${owned?'owned':''}"><span class="se">${em}</span><b>${name}</b><small>${desc}</small>${btn}</div>`;
   const own='<button class="btn small" disabled>✓ Owned</button>';
@@ -2205,6 +2477,7 @@ function closeDay(early){
     if(i.frozen&&S.freezer&&gid!=='freezer'){spoiled.push(`${i.emoji} ${i.name} — melted outside the dessert freezer`);return false;}
     if(i.cold&&gid==='storage'){spoiled.push(`${i.emoji} ${i.name} — left out of the fridge`);return false;}
     if(!(gid==='fridge'&&evIs('extracold'))&&!(gid==='freezer'&&S.day%2===0))b.days--;if(b.days<=0){spoiled.push(`${i.emoji} ${i.name} — too old`);return false;}return true;});}
+  {const n=spoiled.length;if(n&&S.farm){S.farm.compost=(S.farm.compost||0)+n;spoiled.push(`🪱 ${n} spoiled basket${n>1?'s':''} went to your farm’s compost bin. Sprinkle compost on plants to make them grow faster!`);}}
   farmNight(spoiled);
   S.parties.forEach(p=>{if(p.tables&&p.state!=='walking')walkOut(p);});document.querySelectorAll('#f-dining [id^="w-"]').forEach(e=>e.remove());
   S.stats.kicked=kicked;S.stats.kickedEating=ke;S.parties=[];S.active=null;S.sel=null;
@@ -2420,6 +2693,7 @@ document.addEventListener('pointerdown',e=>{
   const c=e.target.closest('[data-cancel]');if(c){const p=S.parties.find(x=>x.id===+c.dataset.cancel);if(p)swapOrder(p);e.preventDefault();return;}
   const t=e.target.closest('[data-ticket]');if(t){pickTicket(+t.dataset.ticket);renderAll();return;}
   if(e.target.closest('.fbreak'))return;
+  {if(FERT&&S.phase==='prep'){const pc=e.target.closest('#g-farm .pc,#g-garden .pc');if(pc){e.preventDefault();const g=pc.closest('.grid').dataset.grid,p=S[g].pieces.find(q=>q.id===+pc.dataset.pid);if(p)fertilize(p);renderAll();return;}}}
   {const fp=e.target.closest('[data-fence]');if(fp){e.preventDefault();if(!farmOK())return;PD={fence:+fp.dataset.fence,sx:e.clientX,sy:e.clientY,started:false};return;}}
   {const lp=e.target.closest('[data-land]');if(lp){e.preventDefault();if(S.phase!=='prep'){farmOK();return;}startLandDrag(e,{sig:lp.dataset.land});return;}}
   {const wp=e.target.closest('#g-farm .pc,#g-garden .pc');if(wp&&S.phase==='prep'){const inF=!!e.target.closest('#g-farm'),pl=plantAt(e.clientX,e.clientY);if((!inF||(pl&&cropLocked(pl)))&&waterAt(e.clientX,e.clientY)){e.preventDefault();WS=true;renderAll();return;}}}
@@ -2601,6 +2875,7 @@ const ACT={
   growShed(){const F=S.farm,L=F.shedLv||0;if(L>=SHED_COST.length||!spend(SHED_COST[L]))return;F.shedLv=L+1;const [w,h]=SHED_SIZES[F.shedLv];S.shed.w=Math.max(S.shed.w,w);S.shed.h=Math.max(S.shed.h,h);toast('🛖 Your shed got bigger!');},
   fixFence(a){if(!farmOK())return;const [id,i]=String(a).split(':').map(Number);const f=fenceOf(id);if(!f||!f.broken[i])return;const T=FENCES[f.t];if(!spend(T.fix))return;f.broken.splice(i,1);toast(f.broken.length?`🔨 Fixed! ${f.broken.length} more on this fence.`:'🔨 All fixed! Critters can’t get in.');},
   buildColl(cid){const C=COLLS.find(c=>c.id===cid),F=S.farm;if(!C||!C.build||F.built[cid]||!collDone(cid))return;F.built[cid]=true;toast(C.build.done+' '+C.build.perk,10000);},
+  fertMode(){if(!farmOK())return;if(!(S.farm.compost>0)){FERT=false;return toast('Your compost bin is empty! Spoiled food turns into compost.');}FERT=!FERT;if(FERT)toast('🪱 Tap a growing plant to sprinkle compost on it.',4000);},
   farmMove(){if(!farmOK())return;FARMMOVE=!FARMMOVE;PD=null;},
   growField(){ACT.buyPlot();},
   buyPlot(){const F=S.farm;if(landTotal()+4>MAX_LAND)return toast('Your farm is full of land!');if(!spend(landCost()))return;for(let k=0;k<4;k++)F.landPile.push({st:randCell()});toast('🟫 4 new land squares! Drag them onto the meadow.');},
@@ -2625,7 +2900,7 @@ const ACT={
   cardDone(){closeModal();if(S.guide!==false&&S.phase==='prep'&&S.day<=3)modal(dailyHTML());},
   continue(){const sv=loadSave();if(sv){S=sv.S;uid=sv.uid;migrate();S.phase='prep';S.parties=[];S.active=null;S.sel=null;S.st={};}closeModal();renderAll();},
   nextDay(){nextDay();},
-  tab(a){if(a!=='farm'||tab!=='farm'){farmView='out';FARMMOVE=false;}tab=a;},
+  tab(a){if(a!=='farm'||tab!=='farm'){farmView='out';FARMMOVE=false;FERT=false;}tab=a;},
   rotIng(k){S.rot[k]=((S.rot[k]||0)+1)%4;},
   clearPlate(g){g=g||curSt();S.cur=g;clearSt(g);},
   serve(g){serve(g);},
