@@ -624,6 +624,13 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.pc.thirsty .blk{outline:3px dashed #E8483B!important;outline-offset:-3px;background:rgba(232,72,59,.10)!important}
+.k-crop.wet .blk,.k-flower.wet .blk{outline:3px solid #4AA3E8;outline-offset:-3px;background:rgba(40,110,210,.38)!important}
+
+.thirst{background:#FFE7E4!important;border:2px solid #E8483B;box-shadow:0 2px 0 rgba(160,40,30,.35)!important}
+.wdrop{background:#DCEEFF!important;color:#1E6FB8!important;border:1.5px solid #4AA3E8}
+.wdrop.rainy{background:#E8EEF6!important;color:#3A4A66!important}
+
 .coll.locked{background:#EFE6D2;border-style:dashed;opacity:.8}.coll.locked summary{cursor:default}.coll.locked summary::before{content:''}
 
 .fertb{position:absolute;bottom:2px;left:2px;z-index:6;font-size:13px;background:#E9D5B5;border:1px solid #8A5A2E;border-radius:6px;padding:0 2px;line-height:1.2}
@@ -1838,7 +1845,7 @@ function needsWater(p){const c=cropOf(p);return !cropReady(p)&&!(c.tree&&p.grown
 function splash(x,y){const d=document.createElement('div');d.className='splash';d.textContent='💦';d.style.left=x+'px';d.style.top=y+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),700);}
 function plantAt(x,y){const el=document.elementFromPoint(x,y);const pc=el&&el.closest('#g-farm .pc,#g-garden .pc');if(!pc)return null;return S[pc.closest('.grid').dataset.grid].pieces.find(q=>q.id===+pc.dataset.pid)||null;}
 function waterAt(x,y){const p=plantAt(x,y);if(!p||!needsWater(p))return false;p.watered=true;p.wilt=0;splash(x,y);return true;}
-function waterBadge(p){if(S.phase!=='prep')return '';if(needsWater(p))return '<span class="thirst">💧</span>';const c=cropOf(p);return !cropReady(p)&&!(c.tree&&p.grown)?'<span class="wdrop">✓💧</span>':'';}
+function waterBadge(p){if(S.phase!=='prep')return '';if(needsWater(p))return '<span class="thirst" title="Thirsty! Tap to water">🫗</span>';const c=cropOf(p);if(cropReady(p)||(c.tree&&p.grown))return '';return evIs('rain')&&!p.watered?'<span class="wdrop rainy">🌧️ rain</span>':'<span class="wdrop">✓ 💧</span>';}
 const SPROUT={tomato:'🌱',lettuce:'🍃',berry:'🌿',potato:'🍀',sunflower:'🌱',daisy:'🌱',tulip:'🍃',rose:'☘️',hibiscus:'🌿'};
 function cropIcon(p){const c=cropOf(p);if(cropReady(p))return c.emoji;if(c.tree)return p.grown?'🌳':p.age===0?'🌱':'🪴';
   return p.age===0?`<i class="spr spr-${p.key}">${SPROUT[p.key]||'🌱'}</i>`:`<i class="mini mini-${p.key}">${c.emoji}</i>`;}
@@ -2467,7 +2474,7 @@ function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
   $('#farmNote').textContent=`${Object.keys(F.cells).length} squares of land`;$('#g-farm').classList.toggle('moving',FARMMOVE);
   const crates=(S.barn||[]).length,us=unsorted(),bb=$('#barnBubble');
   bb.textContent=us?`🌾 ${us} new sack${us>1?'s':''} to put away!`:crates?`📦 Food is waiting!`:'Tap to go inside!';bb.classList.toggle('alert',!!(us||crates));
-  $('#farmHint').textContent=prep&&FARMMOVE?'✋ Drag a land square to move it — any shape you like! Drag one off the farm to pick it back up. A seed you just planted moves with its land, but once you water it (🔒) it’s locked in until harvest. Every separate patch needs its own fence — buy them in the barn and drag them on.':prep?'Drag a land square to move it anywhere (a planted square moves with its plant until you water it — then it’s locked in until harvest). Tap 🪨 rocks to smash them (big ones need more taps 👊), tap dirt to dig it — you might dig up something funny! then drag a seed packet onto the dark soil. Plants with a 💧 bubble are thirsty: tap one, or slide your finger across lots of them to water them all.':'🌙 Shh… the farm is sleeping. Farm chores happen in the morning before you open.';
+  $('#farmHint').textContent=prep&&FARMMOVE?'✋ Drag a land square to move it — any shape you like! Drag one off the farm to pick it back up. A seed you just planted moves with its land, but once you water it (🔒) it’s locked in until harvest. Every separate patch needs its own fence — buy them in the barn and drag them on.':prep?'Drag a land square to move it anywhere (a planted square moves with its plant until you water it — then it’s locked in until harvest). Tap 🪨 rocks to smash them (big ones need more taps 👊), tap dirt to dig it — you might dig up something funny! then drag a seed packet onto the dark soil. Plants with a 🫗 bubble are THIRSTY: tap one, or slide your finger across lots of them to water them. A blue ✓ 💧 means it’s already watered.':'🌙 Shh… the farm is sleeping. Farm chores happen in the morning before you open.';
   $('.fieldfence').style.maxWidth=(F.w*72+44)+'px';
   normalizeFences();
   {const fp={};F.fencePile.forEach(t=>fp[t]=(fp[t]||0)+1);$('#fencePile').innerHTML=F.fencePile.length?`<p class="mhint landmsg">🚧 These fences didn’t fit in the shed. Drag one onto a patch of land (or tap it).</p>`+Object.entries(fp).map(([t,n])=>`<div class="pal landpal" data-fence="${t}"><span class="cnt">${n}</span><span class="fsw" style="background:${FENCES[t].img}"></span><span class="nm">${FENCES[t].em} ${FENCES[t].name}</span></div>`).join(''):'';}
@@ -2483,7 +2490,7 @@ function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
       return `<div class="bigtree ${p.grown||r?'':'young'}" style="${pos(p.x+mx,p.y+my,2,2)}"><span>${p.grown||r?'🌳':cropIcon(p)}</span>${r?`<i class="fr">${c.emoji}${c.emoji}${c.emoji}</i>`:''}</div>`;}).join('')});
   const th=prep?[...F.pieces,...S.garden.pieces].filter(needsWater).length:0;
   const nb=F.fences.reduce((a,f)=>a+f.broken.length,0),nf=clustersList().filter(c=>F.fcell[c[0]]==null).length;
-  $('#farmTools').innerHTML=((F.compost||0)>0||FERT?`<button class="btn small ${FERT?'go':''}" data-act="fertMode">🪱 Compost ×${F.compost||0}${FERT?' — tap a plant!':''}</button>`:'')+(nb?`<span class="thirstcount fixcount">🔨 ${nb} broken fence spot${nb>1?'s':''} — tap the hammers to fix</span>`:'')+(nf&&S.day>=2?`<span class="thirstcount fixcount">⚠️ ${nf} patch${nf>1?'es':''} with no fence</span>`:'')+(th?`<span class="thirstcount">💧 ${th} thirsty plant${th>1?'s':''}</span>`:'')+(F.tools.hose?`<button class="btn small" data-act="waterAll">🚿 Water all</button>`:'')+(F.tools.basket?`<button class="btn small" data-act="harvestAll">🧺 Harvest all</button>`:'');
+  $('#farmTools').innerHTML=((F.compost||0)>0||FERT?`<button class="btn small ${FERT?'go':''}" data-act="fertMode">🪱 Compost ×${F.compost||0}${FERT?' — tap a plant!':''}</button>`:'')+(nb?`<span class="thirstcount fixcount">🔨 ${nb} broken fence spot${nb>1?'s':''} — tap the hammers to fix</span>`:'')+(nf&&S.day>=2?`<span class="thirstcount fixcount">⚠️ ${nf} patch${nf>1?'es':''} with no fence</span>`:'')+(th?`<span class="thirstcount">🫗 ${th} thirsty plant${th>1?'s':''}</span>`:'')+(F.tools.hose?`<button class="btn small" data-act="waterAll">🚿 Water all</button>`:'')+(F.tools.basket?`<button class="btn small" data-act="harvestAll">🧺 Harvest all</button>`:'');
   $('#seeds').innerHTML=F.seeds.map(k=>{const c=CROPS[k];return `<div class="palwrap"><div class="pal" data-new="seed" data-key="${k}" title="${c.name}"><span class="cnt">$${c.cost}</span>${miniShape(seedShape(k),'#3E8A2E',13)}<span class="nm">${c.emoji} ${c.name}</span><small class="sd">${c.tree?`${c.days} days, then fruit every ${c.regrow}`:`${c.days} days · ${c.shape.length*4} ${ING[c.ing].emoji}`}</small></div>${c.tree?'':`<button class="rotbtn" data-act="rotSeed" data-arg="${k}">⟳ Rotate</button>`}</div>`;}).join('');
   {const lv=F.shedLv||0;$('#g-shed').parentElement.parentElement.querySelector('.gridbox').style.maxWidth=(S.shed.w*66)+'px';
    paintGrid('shed',{max:66,color:p=>shedItem(p.key).color,pieceCls:p=>'pk pk-'+p.key[0],
