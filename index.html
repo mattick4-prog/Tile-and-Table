@@ -549,6 +549,13 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.chalk li.msec{display:block;cursor:default;font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#FFE9A8;border-bottom:1px solid rgba(243,241,232,.25);margin:8px 0 4px;padding-bottom:2px;break-after:avoid}
+.chalk li.msec:hover{background:none}.chalk li.msec:first-child{margin-top:0}
+.mhead{margin:18px 0 4px;font-size:22px}.mhead.kids{border-top:3px dashed var(--line);padding-top:14px}
+.msec2 h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0 8px}
+.msec2 .slots{font-size:13px;font-weight:800;background:#E8F5EE;color:#1F7A4D;border-radius:999px;padding:2px 10px}
+.msec2 .slots.full{background:#FFF3D6;color:#9A6A00}.msec2 .slots.over{background:#FFE1E1;color:#B3261E}
+.mlock{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.mlock span{background:rgba(0,0,0,.05);border:1px dashed var(--line);border-radius:999px;padding:3px 10px;font-size:13px;font-weight:700;opacity:.8}.mlock small{font-weight:600;opacity:.75}
 .nstage{position:absolute;inset:0;z-index:30;overflow:hidden;border-radius:10px;opacity:0}
 .nsky{position:absolute;inset:0;background:radial-gradient(circle at 82% 14%,rgba(255,248,200,.35) 0 6%,rgba(255,248,200,.08) 16%,transparent 30%),rgba(14,18,52,.66);transition:background .3s}
 .nstage.disco .nsky{animation:ndisco 1.2s linear infinite}
@@ -1132,6 +1139,9 @@ const REC={
   peachsmooth:{name:'Peach smoothie',emoji:'🥤',price:10,map:['QQ','QG','GG'],needs:'peach',also:'smoothie'},
   kidapple:{name:'Apple slices',emoji:'🍎',price:3,map:['XX','X.'],needs:'apple',kid:1},
   kidpeach:{name:'Peach cup',emoji:'🍑',price:4,map:['QQ','GG'],needs:'peach',kid:1},
+  kidjuice:{name:'Berry juice box',emoji:'🧃',price:3,map:['YY','Y.'],needs:'smoothie',kid:1},
+  kidbanana:{name:'Banana milk',emoji:'🥛',price:4,map:['AA','GG'],needs:'smoothie',kid:1},
+  kidlemon:{name:'Mini lemonade',emoji:'🍋',price:3,map:['W','W'],needs:'lemon',kid:1},
   feast:{name:'Dragon-sized feast',emoji:'🍖',price:45,map:['RRRRBBE','RRRRBBE','BBCCRRE','TTCCRRT','BBDDDBB','BBDDDBB'],plate:2},
 };
 const EQUIP={
@@ -1210,7 +1220,15 @@ const APPL={
   press:{name:'Burger press',emoji:'👑',shape:MONO,color:'#7E4A2A',eq:'deluxe'},
   fishcounter:{name:'Fish counter',emoji:'🐟',shape:I3,color:'#4F8CC4',eq:'sushi'},
 };
-const REC_APPL={toast:['toaster'],eggrice:['rice','stove'],burger:['grill'],salad:['saladbar'],noodle:['noodlepot'],spicy:['noodlepot','stove'],sundae:['freezer'],
+const COURSES=[['starter','🥗','Starters'],['main','🍽️','Entrées'],['drink','🥤','Drinks'],['dessert','🍰','Desserts']];
+const SLOTS={starter:2,main:4,drink:2,dessert:2},MENU_UP=[60,140,250];
+{const DR=['berrysmooth','tropical','bananaberry','peachsmooth','lemonade','kidjuice','kidbanana','kidlemon'],DS=['sundae','bigsundae','peachsundae','applepie','lemontart','honeyyog','appfrozen','kidcone','kidfruit','kidpeach'],ST=['fries','kidsalad','kidfries','kidapple'];
+ for(const k in REC){const r=REC[k];r.course=DR.includes(k)?'drink':DS.includes(k)?'dessert':(r.app||ST.includes(k))?'starter':'main';r.app=r.course==='starter'&&!r.kid?1:0;}}
+function secOf(k){return (REC[k].kid?'k':'')+REC[k].course;}
+function secSlots(sec){return SLOTS[sec.replace(/^k/,'')]+((S.up&&S.up.menuSlots)||0);}
+function secCount(sec){return Object.keys(REC).filter(k=>S.rec[k]&&S.rec[k].unlocked&&S.rec[k].onMenu&&secOf(k)===sec).length;}
+function secName(sec){const c=COURSES.find(c=>c[0]===sec.replace(/^k/,''));return (sec[0]==='k'?'Kids\' ':'')+c[2].toLowerCase();}
+const REC_APPL={kidjuice:['blender'],kidbanana:['blender'],toast:['toaster'],eggrice:['rice','stove'],burger:['grill'],salad:['saladbar'],noodle:['noodlepot'],spicy:['noodlepot','stove'],sundae:['freezer'],
   berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],apptoast:['toaster'],apphoney:['toaster'],honeyyog:['blender'],appfrozen:['freezer'],apptaco:['fishcounter'],appknots:['stove'],appsampler:['stove','toaster'],appwrap:['saladbar'],apppatty:['grill'],appmango:['blender'],appbanana:['blender'],appspring:['noodlepot'],appchips:['fryer'],appchicken:['fryer'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
 const PLATE_SIZES=[[5,4],[6,5],[7,6]], PLATE_COST=[120,260], PLATE_NAMES=['Small plate','Big plate','Serving platter'];
 const FREEZER_SIZES=[[4,3],[5,4],[6,5]], FREEZER_COST=[100,200];
@@ -1483,7 +1501,8 @@ function renderDining(){
 }
 function renderMenuBoard(){
   const so=S.soldOut||{};
-  $('#menuboard').innerHTML=menuList().map(k=>`<li class="${needsPricing(k)?'unset':''} ${so[k]?'sold':''}" data-act="soldOut" data-arg="${k}" role="button" tabindex="0" title="Tap to mark ${so[k]?'available again':'sold out'}"><span>${REC[k].emoji} ${REC[k].name}${REC[k].kid?' <small class="kidtag">kids</small>':''}${REC[k].app?' <small class="apptag">starter</small>':''}</span><i></i><b>${so[k]?'SOLD OUT':priceTag(k)}</b></li>`).join('')
+  const ml=menuList(),grp=[];['','k'].forEach(kp=>COURSES.forEach(([c,em,nm])=>{const ks=ml.filter(k=>secOf(k)===kp+c);if(ks.length)grp.push(`<li class="msec">${kp?'🧒 Kids · ':''}${nm}</li>`,...ks);}));
+  $('#menuboard').innerHTML=grp.map(k=>k.startsWith('<li')?k:`<li class="${needsPricing(k)?'unset':''} ${so[k]?'sold':''}" data-act="soldOut" data-arg="${k}" role="button" tabindex="0" title="Tap to mark ${so[k]?'available again':'sold out'}"><span>${REC[k].emoji} ${REC[k].name}</span><i></i><b>${so[k]?'SOLD OUT':priceTag(k)}</b></li>`).join('')
     +`<p class="chalkhint">Tap a dish to mark it sold out for today${Object.values(so).some(Boolean)?' — tap again to bring it back':''}.</p>`;
   const n=unpriced().length;$('#priceBtn').hidden=!n;$('#priceBtn').textContent=`✏️ Set today's prices (${n} to go)`;const pb=$('#priceBanner');pb.hidden=!n||S.phase!=='prep';pb.innerHTML=`✏️ <b>Set today's menu prices</b><span>${n} to go — tap here</span>`;
 }
@@ -1584,6 +1603,7 @@ function renderUpgrades(){
   h+='<h3>Plates</h3>'+urow('🍽️',`${PLATE_NAMES[pl2]} (${PLATE_SIZES[pl2].join('×')})`,'The plate you build dishes on.','<button class="btn small" disabled>Owned</button>');
   if(pl2<PLATE_COST.length){const nx=pl2+1;const unl=Object.keys(REC).filter(k=>REC[k].plate===nx).map(k=>REC[k].emoji+' '+REC[k].name).join(', ');
     h+=urow(nx===1?'🥘':'🍱',`${PLATE_NAMES[nx]} (${PLATE_SIZES[nx].join('×')})`,`Unlocks ${unl}.${nx===1?' Adds pizza dough to the truck.':''}`,`<button class="btn small go" data-act="growPlate">Buy $${PLATE_COST[pl2]}</button>`);}
+  {const ml=S.up.menuSlots||0;h+=urow('📋',`Bigger menu board${ml?` (level ${ml})`:''}`,`Every menu section holds ${ml<MENU_UP.length?`one more dish (${2+ml}→${3+ml} starters, ${4+ml}→${5+ml} entrées, and so on)`:'as many dishes as it can — fully upgraded!'}.`,ml<MENU_UP.length?`<button class="btn small go" data-act="growMenu">Buy $${MENU_UP[ml]}</button>`:'<button class="btn small" disabled>Max</button>');}
   h+=urow('🍽️','Second plate','Build two dishes at the same time. Tap a plate to pick it, then tap an order ticket to load it.',S.up.plate2?'<button class="btn small" disabled>Owned</button>':'<button class="btn small go" data-act="buyPlate2">Buy $150</button>');
   h+='<h3>Recipes</h3><p class="hint" style="margin:0 0 6px">Improve a recipe to sell it for more. Choose what\'s on today\'s menu in the 📋 Menu tab.</p>';
   for(const k in REC){const r=REC[k],s=S.rec[k];
@@ -1634,13 +1654,13 @@ function renderMenuTab(){
     if(prep)btn=`<button class="mbtn ${inM?'on':''}" data-act="toggleMenu" data-arg="${k}">${inM?'✓ On today\'s menu':'＋ Add to menu'}</button>`;
     else if(inM)btn=`<button class="mbtn ${so[k]?'sold':'on'}" data-act="soldOut" data-arg="${k}">${so[k]?'🚫 Sold out — tap to bring back':'✓ Serving — tap if sold out'}</button>`;
     else btn=`<button class="mbtn" disabled>Not on today's menu</button>`;
-    return `<div class="mcard ${inM?'in':''} ${so[k]&&inM?'sold':''} ${st.isNew?'isnew':''}">${st.isNew?'<span class="newtag">New!</span>':''}<div class="mtop"><span class="me">${r.emoji}</span><b>${r.name}${r.app?' <small class=\"apptag\">starter</small>':r.kid?' <small class=\"kidtag\">kids</small>':''}</b><em>${inM?(so[k]?'SOLD OUT':priceTag(k)):'$'+recipePrice(k)}</em></div><div class="mings">${ings}</div>${btn}</div>`;};
+    return `<div class="mcard ${inM?'in':''} ${so[k]&&inM?'sold':''} ${st.isNew?'isnew':''}">${st.isNew?'<span class="newtag">New!</span>':''}<div class="mtop"><span class="me">${r.emoji}</span><b>${r.name}</b><em>${inM?(so[k]?'SOLD OUT':priceTag(k)):'$'+recipePrice(k)}</em></div><div class="mings">${ings}</div>${btn}</div>`;};
   $('#menuTab').innerHTML=
     (prep&&np?`<button class="pbanner" data-act="setPrices">✏️ <b>Set today's menu prices</b><span>${np} to go — tap here</span></button>`:'')+
     `<p class="hint" style="margin:0 0 10px">${prep?'Pick the dishes you want to cook today, then set their prices. You can change this every morning.':'The menu is set for today. If you run out of something, tap a dish to mark it sold out.'}</p>`+
     `<p class="tipbox">💡 Smaller menus waste less food — you only need ingredients for the dishes you pick. ${on>10?`You have <b>${on}</b> dishes on today's menu.`:''}</p>`+
-    `<div class="mgrid">${[...unl.filter(k=>S.rec[k].isNew),...unl.filter(k=>!S.rec[k].isNew)].map(card).join('')}</div>`+
-    (locked.length?`<h3>Still locked</h3><div class="mgrid">${locked.map(k=>`<div class="mcard locked"><div class="mtop"><span class="me">${REC[k].emoji}</span><b>${REC[k].name}</b><em>🔒</em></div><small>${lockText(k)} See Upgrades.</small></div>`).join('')}</div>`:'');
+    ['','k'].map(kp=>`<h2 class="mhead ${kp?'kids':''}">${kp?'🧒 Kids\' menu':'📋 Main menu'}</h2>`+COURSES.map(([c,em,nm])=>{const sec=kp+c,u=unl.filter(k=>secOf(k)===sec),lk=locked.filter(k=>secOf(k)===sec);if(!u.length&&!lk.length)return '';const n=secCount(sec),m=secSlots(sec);
+      return `<div class="msec2"><h3>${em} ${nm} <span class="slots ${n>m?'over':n===m?'full':''}">${n} of ${m} on the menu</span></h3><div class="mgrid">${[...u.filter(k=>S.rec[k].isNew),...u.filter(k=>!S.rec[k].isNew)].map(card).join('')}</div>${lk.length?`<div class="mlock">${lk.map(k=>`<span title="${lockText(k)} See Upgrades.">🔒 ${REC[k].emoji} ${REC[k].name} <small>${lockText(k).replace(/^Needs /,'needs ').replace(/\.$/,'')}</small></span>`).join('')}</div>`:''}</div>`;}).join('')).join('');
 }
 function renderTabs(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts'].forEach(t=>$('#tab-'+t).hidden=t!==tab);}
 function renderLive(){if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
@@ -2913,18 +2933,21 @@ function autoSeat(){
   }
 }
 function orderFood(p){
-  const T=TYPES[p.type];const avail=menuList().filter(k=>!(S.soldOut&&S.soldOut[k]));const apps=avail.filter(k=>REC[k].app);const all=avail.filter(k=>!REC[k].app);
-  const kidMenu=all.filter(k=>REC[k].kid);let menu=T.kidOK?all:all.filter(k=>!REC[k].kid);if(!menu.length)menu=all;
+  const T=TYPES[p.type];const avail=menuList().filter(k=>!(S.soldOut&&S.soldOut[k]));const apps=avail.filter(k=>REC[k].app);
+  const adult=avail.filter(k=>!REC[k].kid&&REC[k].course!=='starter'),kidMenu=avail.filter(k=>REC[k].kid);
+  let menu=T.kidOK?[...adult,...kidMenu]:adult;if(!menu.length)menu=avail.filter(k=>!REC[k].app);if(!menu.length)menu=avail;
   if(evIs('picky')&&menu.length>2)menu=[...menu].sort((a,b)=>recipePrice(b)-recipePrice(a)).slice(0,2);
   if(!menu.length){leaveAngry(p,'found nothing on the menu');return;}
   const n=T.dishes||p.size;p.dishes=[];
-  const byPrice=[...menu].sort((a,b)=>recipePrice(a)-recipePrice(b));
+  const CW={main:5,drink:1.4,dessert:1.4,starter:.8};
+  const pickPool=list=>{const by={};list.forEach(k=>{const c=REC[k].course;(by[c]=by[c]||[]).push(k);});const cs=Object.keys(by);let t=cs.reduce((a,c)=>a+CW[c],0)*Math.random();for(const c of cs){t-=CW[c];if(t<=0)return by[c];}return by[cs[0]];};
   for(let i=0;i<n;i++){let rk;
-    if(p.kids&&i>=p.size-p.kids)rk=kidMenu.length?kidMenu[rint(0,kidMenu.length-1)]:byPrice[0];
-    else if(T.pick==='cheap')rk=byPrice[0];
-    else if(T.pick==='pricey')rk=byPrice[byPrice.length-1-(Math.random()<.35&&byPrice.length>1?1:0)];
-    else if(T.prefer&&menu.some(k=>T.prefer.includes(k))){const opts=menu.filter(k=>T.prefer.includes(k));rk=opts[rint(0,opts.length-1)];}
-    else rk=menu[rint(0,menu.length-1)];
+    if(p.kids&&i>=p.size-p.kids){const pool=kidMenu.length?pickPool(kidMenu):[[...menu].sort((a,b)=>recipePrice(a)-recipePrice(b))[0]];rk=pool[rint(0,pool.length-1)];}
+    else if(T.prefer&&menu.some(k=>T.prefer.includes(k))&&Math.random()<.75){const opts=menu.filter(k=>T.prefer.includes(k));rk=opts[rint(0,opts.length-1)];}
+    else{const pool=pickPool(menu),byPrice=[...pool].sort((a,b)=>recipePrice(a)-recipePrice(b));
+      if(T.pick==='cheap')rk=byPrice[0];
+      else if(T.pick==='pricey')rk=byPrice[byPrice.length-1-(Math.random()<.35&&byPrice.length>1?1:0)];
+      else rk=pool[rint(0,pool.length-1)];}
     p.dishes.push({rec:rk,done:false,face:p.faces[i%p.faces.length],kidface:isKidIdx(p,i%p.faces.length)});}
   if(apps.length&&Math.random()<(p.size>=3?.6:.35))p.dishes.unshift({rec:apps[rint(0,apps.length-1)],done:false,face:'🍽️',app:true});
   p.maxPat=p.pat=(40+22*p.dishes.length)*T.pat*patBonus();p.state='waiting';
@@ -3195,6 +3218,7 @@ const ACT={
   openForce(){closeModal();openDay(true);},
   tool(a){tool=a;S.sel=null;},
   paintColor(c){paintColor=c;tool='paint';},
+  growMenu(){const l=S.up.menuSlots||0;if(l>=MENU_UP.length||!spend(MENU_UP[l]))return;S.up.menuSlots=l+1;toast('📋 Bigger menu board! Every section holds one more dish.');},
   growPlate(){const l=S.up.plate;if(l>=PLATE_COST.length||!spend(PLATE_COST[l]))return;stations().forEach(clearSt);
     S.up.plate++;[S.plate.w,S.plate.h]=PLATE_SIZES[l+1];if(S.plate2){S.plate2.w=S.plate.w;S.plate2.h=S.plate.h;}if(S.up.plate===1&&!S.ingOn.includes('D'))S.ingOn.push('D');
     const f=refreshUnlocks();toast(`🍽️ ${PLATE_NAMES[l+1]}! New recipes to add in the 📋 Menu tab: ${f.map(k=>REC[k].emoji+' '+REC[k].name).join(', ')||'nothing yet — buy the equipment it needs'}.`);},
@@ -3275,7 +3299,7 @@ const ACT={
   buyIng(k){if(S.phase!=='prep')return toast('The truck is gone until tomorrow morning.');if(evIs('shortage')&&S.ev.ing===k)return toast('🚫 The truck is out of that today.');if(evIs('late')&&S.ev.left<=0)return toast('⏰ The truck can\'t sell any more baskets today.');const price=truckPrice(k);const spot=findSpot('truck',ING[k].basket);if(!spot)return toast('The truck bed is full. Drag some baskets onto your shelves first.');if(!spend(price))return;addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{paid:price});if(evIs('late')){S.ev.left--;toast(`⏰ ${S.ev.left} basket${S.ev.left===1?'':'s'} left today.`);}},
   buyEq(k){const e=EQUIP[k];if(S.eq[k])return;if(!spend(e.cost))return;S.eq[k]=true;e.ing.forEach(i=>{if(!S.ingOn.includes(i))S.ingOn.push(i);});
     refreshUnlocks();addAppliance(k);if(k==='sweets'&&!S.freezer){S.freezer={w:4,h:3,pieces:[]};}toast(`${e.emoji} ${e.name} installed! New recipes are waiting in the 📋 Menu tab.`);},
-  toggleMenu(k){if(S.rec[k])S.rec[k].isNew=false;if(S.phase!=='prep')return toast('The menu is set for today. Change it tomorrow morning.');const s=S.rec[k];if(s.onMenu&&menuList().length<=1)return toast('Keep at least one dish on the menu.');s.onMenu=!s.onMenu;},
+  toggleMenu(k){if(S.rec[k])S.rec[k].isNew=false;if(S.phase!=='prep')return toast('The menu is set for today. Change it tomorrow morning.');const s=S.rec[k];if(s.onMenu&&menuList().length<=1)return toast('Keep at least one dish on the menu.');if(!s.onMenu){const sec=secOf(k),n=secCount(sec),m=secSlots(sec);if(n>=m)return toast(`📋 Your ${secName(sec)} are full (${n} of ${m}). Take one off first${(S.up.menuSlots||0)<MENU_UP.length?' — or buy a bigger menu board in Upgrades':''}.`,4500);}s.onMenu=!s.onMenu;},
   improve(k){const s=S.rec[k];if(s.level>=3)return;if(!spend(improveCost(k)))return;s.level++;if(S.priced)delete S.priced[k];toast(`${REC[k].emoji} ${REC[k].name} improved — now $${recipePrice(k)}.`);},
   buyFurn(k){if(!spend(FURN[k].cost))return;S.storeroom.push(FURN[k].seats?{key:k,cloth:FURN[k].cloth}:{key:k});toast(`${FURN[k].name} is in the storeroom. Drag it onto the floor.`);},
   growDining(){const l=S.up.dining;if(l>=DINING_COST.length||!spend(DINING_COST[l]))return;S.up.dining++;[S.dining.w,S.dining.h]=DINING_SIZES[l+1];toast('The dining room got bigger!');},
