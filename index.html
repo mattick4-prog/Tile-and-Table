@@ -549,6 +549,27 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.arcade{display:flex;flex-direction:column;align-items:center;margin:0 auto}
+.arc-hall{width:70px;height:46px;background:repeating-linear-gradient(0deg,#C99B6B 0 10px,#B98A5C 10px 20px);border-left:6px solid var(--woodD);border-right:6px solid var(--woodD)}
+.arc-room{position:relative;width:min(340px,90%);aspect-ratio:1;border:6px solid var(--woodD);border-radius:12px;background:radial-gradient(circle at 20% 30%,#FF5DA2 0 3px,transparent 4px) 0 0/34px 34px,radial-gradient(circle at 70% 70%,#47E3FF 0 3px,transparent 4px) 0 0/34px 34px,radial-gradient(circle at 60% 15%,#FFE14D 0 2px,transparent 3px) 0 0/26px 26px,#2A2154;box-shadow:inset 0 0 30px rgba(0,0,0,.45)}
+.arc-room::before{content:'';position:absolute;top:-6px;left:calc(50% - 35px);width:70px;height:8px;background:#C99B6B}
+.arc-room.ndisco{animation:ndisco2 .6s linear 4}
+.arc-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);height:100%}
+.arc-cell{position:relative;display:flex;align-items:center;justify-content:center}
+.arc-tbl::before{content:'';position:absolute;inset:13%;background:linear-gradient(#D9A066,#B97E46);border-radius:12px;box-shadow:0 5px 0 #7A4E28,0 8px 10px rgba(0,0,0,.35)}
+.arc-tbl:not(.has)::after{content:'';position:absolute;inset:26%;border:2px dashed rgba(255,255,255,.45);border-radius:8px}
+.arc-item{position:relative;z-index:1;font-size:clamp(28px,7vw,44px);line-height:1;background:none;border:0;padding:0;cursor:pointer;animation:arcbob 2.2s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(255,240,150,.7))}
+@keyframes arcbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.arc-away{position:absolute;top:9%;right:9%;z-index:2;width:22px;height:22px;border-radius:50%;border:0;background:#fff;color:#2A1E1A;font-size:12px;font-weight:900;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.4);padding:0}
+.arc-mid{flex-direction:column;color:#fff;text-align:center;gap:2px}
+.arc-sign{font-weight:900;letter-spacing:3px;font-size:12px;color:#FF7AD9;text-shadow:0 0 6px #FF3DBE,0 0 12px #FF3DBE}
+.arc-mid b{color:#FFE14D;font-size:17px}.arc-mid small{font-size:11px;opacity:.8}
+.arc-guest{position:absolute;z-index:6;transform:translate(-50%,-50%);font-size:clamp(24px,6vw,36px);line-height:1;pointer-events:none;filter:drop-shadow(0 3px 2px rgba(0,0,0,.4))}
+.arc-guest.kid{font-size:clamp(17px,4.2vw,25px)}
+.ngag.small{font-size:22px}.ngag.coin{font-size:15px;font-weight:900;color:#FFE14D;text-shadow:0 1px 2px #000}
+.arc-side{max-width:560px;text-align:center;margin-top:8px}.arc-hint{margin:4px 0 8px;font-size:14px}
+.arc-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+
 .chalk li.msec{display:block;cursor:default;font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#FFE9A8;border-bottom:1px solid rgba(243,241,232,.25);margin:8px 0 4px;padding-bottom:2px;break-after:avoid}
 .chalk li.msec:hover{background:none}.chalk li.msec:first-child{margin-top:0}
 .mhead{margin:18px 0 4px;font-size:22px}.mhead.kids{border-top:3px dashed var(--line);padding-top:14px}
@@ -904,6 +925,7 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
         <div class="swatches" id="swatches"></div>
       </div>
       <div class="gridbox"><div class="grid floor" id="g-dining"></div><div class="floats" id="f-dining"></div></div>
+      <div class="arcade" id="arcade"><div class="arc-hall"></div><div class="arc-room"><div class="arc-grid" id="arcGrid"></div><div class="floats" id="f-arcade"></div></div><div class="arc-side" id="arcSide"></div></div>
       <div class="tray"><span>Storeroom</span><div id="storeroom" class="tray-items"></div></div>
       <p class="hint" id="diningHint"></p>
       <div class="chalk"><h3>Today's menu</h3><ul id="menuboard"></ul><div class="pbwrap"><button class="btn primary" id="priceBtn" data-act="setPrices" hidden></button></div></div>
@@ -1272,7 +1294,7 @@ let S, uid=1, D=null, paused=false, tab='dining', booting=true, tool='rotate', p
 function ensureFarm(){if(S&&S.farm){S.farm.built=S.farm.built||{};S.farm.findLog=S.farm.findLog||[];}if(S&&!Number.isFinite(S.money)){S.money=Math.max(150,(S.day||1)*60);if(S.stats&&!Number.isFinite(S.stats.spent))S.stats.spent=0;setTimeout(()=>toast('💰 Fixed a money glitch — your cash was reset to $'+S.money+'.'),300);}if(!S.farm)S.farm=newFarm();if(!S.barn)S.barn=[];const F=S.farm;if(F.w<MAP_W||F.h<MAP_H){F.w=MAP_W;F.h=MAP_H;}delete F.plots;F.landPile=F.landPile||[];if(!F.fence)F.fence={built:false,t:-1,broken:[]};if(F.fence.t==null)F.fence.t=F.fence.built?(F.fence.lv>1?4:2):-1;F.fence.built=F.fence.t>=0;F.fences=F.fences||[];F.fencePile=F.fencePile||[];F.fcell=F.fcell||{};if(F.fenceMax==null){F.fenceMax=F.fence.t;if(F.fence.t>=0){const cls=clustersList().sort((a,b)=>b.length-a.length);if(cls.length){F.fenceSeq=1;F.fences.push({id:1,t:F.fence.t,broken:[]});cls[0].forEach(k=>F.fcell[k]=1);}else F.fencePile.push(F.fence.t);}F.fence={built:false,t:-1,broken:[]};}F.hits=F.hits||{};F.dug=F.dug||{};F.finds=F.finds||{};F.glow=F.glow||{};if(F.gardenLv==null)F.gardenLv=-1;F.flowers=F.flowers||['daisy'];if(!S.garden)S.garden={w:3,h:2,pieces:[]};F.sacks=F.sacks||{};if(F.bin==null)F.bin=0;if(!S.feedbin){const [w,h]=BIN_SIZES[F.bin];S.feedbin={w,h,pieces:[]};}if(F.feed){for(const t in F.feed)if(F.feed[t]>0)F.sacks[t]=(F.sacks[t]||0)+Math.ceil(F.feed[t]/FEEDS[t].scoops);delete F.feed;}
   if(S.shed)S.shed.pieces.filter(p=>p.n>1).forEach(p=>{while(p.n>1){const sp=findSpot('shed',p.shape);if(!sp)break;addPiece('shed','seedpk',p.key,sp.x,sp.y,sp.shape,{n:1});p.n--;}});
   if(!S.shed){S.shed={w:5,h:3,pieces:[]};F.shedLv=0;addShed('c:tomato');addShed('c:tomato');F.seeds.forEach(k=>{if(k!=='tomato')addShed('c:'+k);});if(F.gardenLv>=0)F.flowers.forEach(k=>addShed('f:'+k));const fp=(F.fencePile||[]).splice(0);fp.forEach(t=>{if(!addShed('x:'+t))F.fencePile.push(t);});}}
-function blankStats(){return {earned:0,tips:0,dishes:0,happy:0,angry:0,lost:0,kicked:0,kickedEating:0,spent:0};}
+function blankStats(){return {earned:0,tips:0,dishes:0,happy:0,angry:0,lost:0,kicked:0,kickedEating:0,spent:0,arcade:0};}
 function newGame(){
   uid=1;
   S={money:80,rep:3,day:1,phase:'prep',clock:600,openTime:660,closeTime:1200,
@@ -1665,7 +1687,7 @@ function renderMenuTab(){
 function renderTabs(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts'].forEach(t=>$('#tab-'+t).hidden=t!==tab);}
 function renderLive(){if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
 function renderShelf(){const t=S.trophies||[],el=$('#shelf');el.hidden=!t.length;el.innerHTML=t.map(k=>`<span title="${TROPHIES[k].name}">${TROPHIES[k].emoji}</span>`).join('');}
-function renderAll(){if(S)ensureFarm();renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
+function renderAll(){if(S)ensureFarm();renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
 
 /* ---------- toasts, floats, modal ---------- */
 function toast(msg,ms){const t=document.createElement('div');t.className='toast';t.textContent=msg;$('#toasts').appendChild(t);while($('#toasts').children.length>3)$('#toasts').firstChild.remove();setTimeout(()=>t.remove(),ms||3200);}
@@ -2559,7 +2581,7 @@ function closeDay(early){
   S.phase='summary';renderAll();
   const st=S.stats;
   nightShow(()=>modal(`<h2>${early?'Closed early':'Closing time!'} — day ${S.day}</h2>${early?`<p class="warn" style="margin:0 0 8px">⭐ You closed early, so no stars were earned today${lostStars>0?` (you would have gained ${lostStars.toFixed(1)})`:''}.</p>`:''}<p>The sign flips to CLOSED.${kicked+ke?` ${kicked+ke} party${kicked+ke>1?'ies were':' was'} kicked out.`:' Everyone made it out happy.'}</p>
-  <div class="sumgrid"><span>Money earned</span><span>$${st.earned}</span><span>…of that, tips</span><span>$${st.tips}</span><span>Dishes served</span><span>${st.dishes}</span>${st.facts?`<span>Math facts solved</span><span>${st.facts} (${st.factsFirst||0} on the first try)</span>`:''}<span>Happy guests</span><span>${st.happy}</span><span>Walked out angry</span><span>${st.angry}</span><span>Left because the line was full</span><span>${st.lost}</span><span>Kicked out before eating</span><span>${kicked}</span><span>Kicked out mid-meal (paid, no tip)</span><span>${ke}</span><span>Stars now</span><span>${S.rep.toFixed(1)} ★</span></div>
+  <div class="sumgrid"><span>Money earned</span><span>$${st.earned}</span><span>…of that, tips</span><span>$${st.tips}</span>${st.arcade?`<span>…of that, arcade 🕹️</span><span>$${st.arcade}</span>`:''}<span>Dishes served</span><span>${st.dishes}</span>${st.facts?`<span>Math facts solved</span><span>${st.facts} (${st.factsFirst||0} on the first try)</span>`:''}<span>Happy guests</span><span>${st.happy}</span><span>Walked out angry</span><span>${st.angry}</span><span>Left because the line was full</span><span>${st.lost}</span><span>Kicked out before eating</span><span>${kicked}</span><span>Kicked out mid-meal (paid, no tip)</span><span>${ke}</span><span>Stars now</span><span>${S.rep.toFixed(1)} ★</span></div>
   ${spoiled.length?`<h3>🌙 Overnight news</h3><ul class="spoil">${spoiled.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p>✓ Nothing spoiled overnight.</p>'}
   <div class="modal-actions"><button class="btn primary" data-act="nextDay">Start day ${S.day+1}</button><button class="btn" data-act="seeReceipts">🧾 See today's receipts (${(S.receipts||[]).length})</button></div>`));
 }
@@ -2591,7 +2613,7 @@ function nightShow(done){
   const fin=(quiet)=>{if(over)return;over=true;timers.forEach(clearTimeout);NSHOW=null;if(NHIDE!=null){NHIDE=null;try{renderDining();}catch(e){}}
     st.animate([{opacity:1},{opacity:0}],{duration:500,fill:'forwards'});
     setTimeout(()=>{st.remove();if(quiet===true)return;done();
-      const lines=[...notes,...gifts.map(k=>`🎁 Something was left behind: <b>${FURN[k].emoji} ${FURN[k].name}</b>! It’s in your storeroom — put it on the floor and tap it.`)];
+      const lines=[...notes,...gifts.map(k=>`🎁 Something was left behind: <b>${FURN[k].emoji} ${FURN[k].name}</b>! It’s in your storeroom — set it up in the 🕹️ arcade (down the hall from the dining room) and guests will pay to play with it!`)];
       if(lines.length){const a=document.querySelector('#modalCard .modal-actions');if(a&&modalOpen())a.insertAdjacentHTML('beforebegin',`<div class="nnote">${lines.map(l=>`<p>🌙 ${l}</p>`).join('')}</div>`);else lines.forEach(l=>toast(l.replace(/<[^>]+>/g,''),6000));}},500);};
   NSHOW=fin;st.querySelector('.nskip').onclick=()=>fin();
   const W=()=>st.clientWidth||300,fs=Math.max(26,Math.min(56,W()/9)),G=S.dining;
@@ -2868,6 +2890,37 @@ function nightShow(done){
   at(900,()=>{try{scenes[i]();}catch(e){console.warn(e);}});
   at(15200,()=>fin());
 }
+/* ---- night-visitor arcade ---- */
+const ARC_DOOR=1,ARC_MID=4;
+function arcEnsure(){if(S&&!Array.isArray(S.arcade))S.arcade=Array(9).fill(null);}
+function arcSlots(){return S.arcade.map((k,i)=>k?i:-1).filter(i=>i>=0);}
+function renderArcade(){const g=$('#arcGrid'),sd=$('#arcSide');if(!g||!S)return;arcEnsure();
+  const n=arcSlots().length,free=7-n,store=[...new Set(S.storeroom.filter(o=>FURN[o.key]&&FURN[o.key].nite).map(o=>o.key))];
+  g.innerHTML=S.arcade.map((k,i)=>i===ARC_DOOR?'<div class="arc-cell arc-door"></div>':i===ARC_MID?`<div class="arc-cell arc-mid"><span class="arc-sign">ARCADE</span><b>🪙 $${(S.stats&&S.stats.arcade)||0}</b><small>today</small></div>`
+    :`<div class="arc-cell arc-tbl ${k?'has':''}">${k?`<button class="arc-item" data-act="arcPlay" data-arg="${i}" title="${FURN[k].name} — tap to play">${FURN[k].emoji}</button><button class="arc-away" data-act="arcAway" data-arg="${i}" title="Put it back in the storeroom" aria-label="Put it back in the storeroom">↩</button>`:''}</div>`).join('');
+  sd.innerHTML=`<p class="arc-hint">${n?`Guests pay <b>$1 for each machine</b> they play here. Tap a machine to try it yourself!`:`Night visitors sometimes leave funny things behind. Put them on these tables and guests will pay <b>$1 for each machine</b> they play!`}</p>`+
+    (store.length?`<div class="arc-chips">${store.map(k=>`<button class="btn small" data-act="arcPlace" data-arg="${k}" ${free?'':'disabled'}>${FURN[k].emoji} ${FURN[k].name} → arcade</button>`).join('')}</div>`:'');}
+function arcPos(i){return [((i%3)+.5)/3*100,(Math.floor(i/3)+.5)/3*100];}
+function arcFloat(i,ems,big){const box=$('#f-arcade');if(!box||!Element.prototype.animate)return;const [x,y]=arcPos(i);
+  ems.forEach((em,j)=>{const e=document.createElement('div');e.className='ngag'+(big?'':' small');e.textContent=em;e.style.left=x+'%';e.style.top=y+'%';box.appendChild(e);const dx=(j-(ems.length-1)/2)*26;
+    e.animate([{transform:'translate(-50%,-50%) scale(.4)',opacity:0},{transform:`translate(calc(-50% + ${dx/2}px),-110%) scale(1.15)`,opacity:1,offset:.3},{transform:`translate(calc(-50% + ${dx}px),-240%) scale(.9)`,opacity:0}],{duration:1300,delay:j*120,fill:'forwards',easing:'ease-out'});setTimeout(()=>e.remove(),1800);});}
+function arcGag(i,player){const k=S.arcade[i];if(!k)return;const f=FURN[k];if(player)toast(`${f.emoji} ${f.gag}`,3500);
+  if(f.sp==='disco'){const r=document.querySelector('.arc-room');if(r){r.classList.remove('ndisco');void r.offsetWidth;r.classList.add('ndisco');setTimeout(()=>r.classList.remove('ndisco'),2500);}}
+  if(f.sp==='recolor'&&player){tableRecolor(randTable());renderDining();}
+  arcFloat(i,[f.fx,f.emoji,f.fx],true);}
+function arcWalk(face,kid,stops,delay){const box=$('#f-arcade');if(!box||!Element.prototype.animate||tab!=='dining')return;
+  const e=document.createElement('div');e.className='arc-guest'+(kid?' kid':'');e.textContent=face;e.style.left='50%';e.style.top='-6%';e.style.opacity=0;box.appendChild(e);
+  const near=i=>{const [x,y]=arcPos(i);return [x+(50-x)*.42,y+(50-y)*.42];};
+  const pts=[[50,-6],[50,22],...stops.map(near),[50,22],[50,-6]];const seg=900,t0=delay;
+  setTimeout(()=>{e.style.opacity=1;e.animate(pts.map((p,j)=>({left:p[0]+'%',top:p[1]+'%',offset:j/(pts.length-1)})),{duration:seg*(pts.length-1),fill:'forwards',easing:'ease-in-out'});
+    stops.forEach((s,j)=>setTimeout(()=>{arcGag(s,false);const [x,y]=near(s);const c=document.createElement('div');c.className='ngag coin';c.textContent='+$1';c.style.left=x+'%';c.style.top=y+'%';box.appendChild(c);
+      c.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:'translate(-50%,-220%)',opacity:0}],{duration:1100,fill:'forwards'});setTimeout(()=>c.remove(),1200);},seg*(j+2)));
+    setTimeout(()=>e.remove(),seg*(pts.length-1)+200);},t0);}
+function arcadeVisit(p){if(!S.arcade)return;const slots=arcSlots();if(!slots.length)return;
+  const who=(p.faces||[]).map((f,i)=>({f,kid:isKidIdx(p,i)})).filter(w=>Math.random()<(w.kid?.55:.2));if(!who.length)return;
+  let total=0;who.forEach((w,wi)=>{const n=rint(1,Math.min(5,slots.length));total+=n;arcWalk(w.f,w.kid,[...slots].sort(()=>Math.random()-.5).slice(0,n),1500+wi*1300);});
+  S.money+=total;S.stats.earned+=total;S.stats.arcade=(S.stats.arcade||0)+total;renderArcade();}
+
 function rollClearance(){S.clear={};if(Math.random()<.6){const pool=[...S.ingOn].sort(()=>Math.random()-.5).slice(0,rint(1,2));pool.forEach(k=>S.clear[k]=rint(1,2));}}
 function nextDay(){if(NSHOW)NSHOW(true);S.day++;S.phase='prep';S.soldOut={};S.priced={};S.facts={};rollClearance();drawEvent();S.clock=S.openTime-60;S.stats=blankStats();closeModal();renderAll();if(evCard())showCard();else if(S.guide!==false&&S.day<=3)modal(dailyHTML());toast('🚚 The truck is here! Set your menu prices and stock up before you open.');}
 function pickType(){
@@ -2983,7 +3036,7 @@ function finishParty(p){
   p.bill={base,tip,note,frac,rep:dr,stars:clamp(Math.round(1+frac*4.5),1,5)};
   if(p.type==='critic')toast(frac>.5?'🦉 The critic loved it! Your stars jump.':'🦉 The critic scribbles notes… that took a while.');
   if(p.type==='unicorn'&&frac>.5)toast('🦄 The unicorn is delighted! Sparkles everywhere. ✨');
-  p.state='eating';p.t=18*T.eat;
+  p.state='eating';p.t=18*T.eat;arcadeVisit(p);
   autoFill();
 }
 function comment(p){const f=p.bill.frac;
@@ -3218,6 +3271,9 @@ const ACT={
   openForce(){closeModal();openDay(true);},
   tool(a){tool=a;S.sel=null;},
   paintColor(c){paintColor=c;tool='paint';},
+  arcPlace(k){arcEnsure();const i=S.arcade.findIndex((x,j)=>!x&&j!==ARC_DOOR&&j!==ARC_MID);if(i<0)return toast('All the arcade tables are full. Put one away first (↩).');const si=S.storeroom.findIndex(o=>o.key===k);if(si<0)return;S.storeroom.splice(si,1);S.arcade[i]=k;toast(`🕹️ ${FURN[k].emoji} ${FURN[k].name} is set up in the arcade!`);},
+  arcAway(i){i=+i;const k=S.arcade&&S.arcade[i];if(!k)return;S.arcade[i]=null;S.storeroom.push({key:k});toast(`${FURN[k].emoji} ${FURN[k].name} went back to the storeroom.`);},
+  arcPlay(i){if(S.arcade&&S.arcade[+i])arcGag(+i,true);},
   growMenu(){const l=S.up.menuSlots||0;if(l>=MENU_UP.length||!spend(MENU_UP[l]))return;S.up.menuSlots=l+1;toast('📋 Bigger menu board! Every section holds one more dish.');},
   growPlate(){const l=S.up.plate;if(l>=PLATE_COST.length||!spend(PLATE_COST[l]))return;stations().forEach(clearSt);
     S.up.plate++;[S.plate.w,S.plate.h]=PLATE_SIZES[l+1];if(S.plate2){S.plate2.w=S.plate.w;S.plate2.h=S.plate.h;}if(S.up.plate===1&&!S.ingOn.includes('D'))S.ingOn.push('D');
