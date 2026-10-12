@@ -549,6 +549,8 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.trashi{font-size:clamp(18px,3vw,30px);animation:trashwig 2.5s ease-in-out infinite;display:inline-block}@keyframes trashwig{0%,90%,100%{transform:rotate(0)}93%{transform:rotate(-12deg)}96%{transform:rotate(12deg)}}
+.pc.d-trash{cursor:pointer}
 .buylist.icons{gap:8px}.buyt{display:flex;flex-direction:column;align-items:center;gap:4px}.buyt.unused{opacity:.45}
 .buyi{width:56px;height:56px;border:2px solid var(--line);background:var(--panel);border-radius:14px;font-size:30px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;position:relative}
 .buyi:hover{transform:translateY(-2px);box-shadow:0 4px 0 var(--line)}.buyi .cold{position:absolute;right:2px;top:1px;font-size:11px}
@@ -1842,7 +1844,7 @@ function renderDining(){
     pieceCls:p=>{const f=FURN[p.key];return (p.id===NHIDE?'nhide ':'')+(S.ev&&S.ev.broken===p.id?'broken ':'')+(f.for?'spc s-'+p.key:f.seats?'tbl t-'+p.key:'deco d-'+p.key)+(canSet.has(p.id)?' can':'');},
     nb:(p,x,y)=>{if(FURN[p.key].join){const pc=new Set();S.dining.pieces.filter(q=>q.key===p.key).forEach(q=>cellsOf(q).forEach(c=>pc.add(c+'')));const h=(dx,dy)=>pc.has([x+dx,y+dy]+'');return [h(0,-1)?'nu':'',h(0,1)?'nd':'',h(-1,0)?'nl':'',h(1,0)?'nr':''].join(' ');}if(!FURN[p.key].seats||FURN[p.key].for)return '';const h=(dx,dy)=>tc.has([x+dx,y+dy]+'');return [h(0,-1)?'nu':'',h(0,1)?'nd':'',h(-1,0)?'nl':'',h(1,0)?'nr':''].join(' ');},
     outer:p=>{if(!FURN[p.key].seats||FURN[p.key].for)return '';const sd=chairSide(p,tc);return sd?`<i class="chair ${sd}"></i>`:'';},
-    label:p=>{const f=FURN[p.key];if(!f.seats)return f.flower?`${f.emoji}<span class="vbadge">${p.fresh||1}d</span>`:f.emoji;if(S.ev&&S.ev.broken===p.id)return '⚠️';const fi=first.get(p.id);if(!fi)return '';
+    label:p=>{const f=FURN[p.key];if(f.trash)return `<span class="trashi">${p.em||'🗑️'}</span>`;if(!f.seats)return f.flower?`${f.emoji}<span class="vbadge">${p.fresh||1}d</span>`:f.emoji;if(S.ev&&S.ev.broken===p.id)return '⚠️';const fi=first.get(p.id);if(!fi)return '';
       if(f.for)return `<span class="se">${f.emoji}</span>`+(partyAt(p.id)?'':`<span class="seat">${TYPES[f.for].faces[0]} only</span>`);
       return '';},
     icon:p=>{const f=FURN[p.key];if(f.for)return `<span class="se">${f.emoji}</span>`;return f.seats?'':(p.key==='tank'?'🫧':'');},
@@ -2907,6 +2909,7 @@ function openDay(force){
   if(S.truck.pieces.length){const back=S.truck.pieces.reduce((a,p)=>a+(p.paid!=null?p.paid:(p.cheap?Math.ceil(ING[p.key].cost/2):ING[p.key].cost)),0);S.money+=back;S.truck.pieces=[];toast(`Returned the leftover baskets: +$${back}.`);}
   toast('🚚💨 The truck drove off. It comes back tomorrow morning.');
   otherShops().forEach(id=>{const sh=S.shops[id];if(sh&&!S.sent[id]&&mgrOf(id)&&sh.truck.pieces.length&&shopMenu(id).length){S.sent[id]=true;toast(`🚚 Sent the ${SHOPS[id].name} truck to ${mgrOf(id).name}.`);}});
+  {const tr=S.dining.pieces.filter(p=>p.key==='trash').length;if(tr)toast(`🗑️ ${tr} piece${tr>1?'s':''} of trash still on the floor — guests are less patient in a messy room. Tap to clean!`,5000);}
   S.phase='open';S.repStart=S.rep;S.clock=S.openTime;S.nextArrival=S.openTime+6;S.stats=blankStats();S.receipts=[];S.newRc=0;
   toast(`Doors open! Closing at ${fmtH(S.closeTime)}.`);renderAll();
 }
@@ -2943,6 +2946,10 @@ const NITE={n_hat:['🎩','Mouse’s top hat','A tiny mouse pops out: “Ta-da!�
  n_peel:['🍌','Banana peel','Wheee! *slip*','💫'],n_egg:['🥚','Dino egg','*wobble wobble* … crack? Not yet!','🦕'],n_wand:['🪄','Fairy wand','Bibbidi-bobbidi! A tablecloth changes color.','✨','recolor'],
  n_cushion:['🫓','Whoopee cushion','PFFFFFFT! 😂 Excuse you!','💨'],n_star:['🌟','Fallen star','Make a wish!','⭐'],n_balloon:['🎈','Frog balloon','It floats up… and back down. Ribbit!','🐸'],
  n_chip:['💾','Robot dance chip','BEEP BOOP. Dance mode: ON.','🤖','disco'],n_feather:['🪶','Chicken feather','Tickle tickle! Hee hee hee!','🐔'],n_carrot:['🥕','Snowman’s nose','A tiny voice: “Hi! It’s me, the snowman!”','⛄']};
+FURN.trash={name:'Trash',emoji:'🗑️',shape:MONO,charm:-2,cost:0,color:'#E8E0D0',prize:true,trash:true};
+const TRASH=['🥤','📰','🍌','🥡','🍬','🧻','🍂','🥫','🍕','🧃'];
+function dropTrash(n){let put=0;for(let i=0;i<n;i++){const free=[];for(let y=0;y<S.dining.h;y++)for(let x=0;x<S.dining.w;x++)if(fits('dining',MONO,x,y))free.push([x,y]);if(!free.length)break;const [x,y]=free[Math.floor(Math.random()*free.length)];addPiece('dining','furn','trash',x,y,null,{em:TRASH[Math.floor(Math.random()*TRASH.length)]});put++;}return put;}
+function cleanTrash(p){S.dining.pieces=S.dining.pieces.filter(q=>q!==p);const r=Math.random();if(r<.15){const c=rint(1,3);S.money+=c;toast(`🧹 All clean! You found $${c} under the ${p.em||'trash'}!`);}else toast(`🧹 Cleaned up the ${p.em||'trash'}!${S.dining.pieces.some(q=>q.key==='trash')?'':' The floor is spotless ✨'}`);}
 for(const k in NITE){const [em,name,gag,fx,sp]=NITE[k];FURN[k]={name,emoji:em,shape:MONO,cost:0,color:'#E9E0FF',prize:true,nite:true,gag,fx,sp};}
 function tableRecolor(t){const c=t&&clusterOf(t.id);if(!c)return;const ts=c.tables||c.ids.map(id=>S.dining.pieces.find(q=>q.id===id)).filter(Boolean);const cur=ts[0]&&ts[0].cloth;const opts=CLOTHS.map(x=>x[1]).filter(x=>x!==cur);const col=opts[Math.floor(Math.random()*opts.length)];ts.forEach(q=>{if(!FURN[q.key].for)q.cloth=col;});}
 function randTable(){const ts=S.dining.pieces.filter(p=>FURN[p.key].seats&&!FURN[p.key].for);return ts[Math.floor(Math.random()*ts.length)]||null;}
@@ -2982,7 +2989,7 @@ function nightShow(done){
     if(!o.el){const e=A(FURN[k].emoji,X,Y-25,.55);mv(e,[[X,Y-25,'',0],[X,Y,'rotate(360deg)',1]],600,0,'ease-in');}
     at(600,()=>sparkle(X,Y));if(!owned(k)){S.storeroom.push({key:k});gifts.push(k);}});
   const pc=(x,y)=>[(x+.5)/G.w*100,(y+.5)/G.h*100];
-  const decorPick=()=>{const ds=S.dining.pieces.filter(p=>!FURN[p.key].seats&&p.shape.length===1);return ds[Math.floor(Math.random()*ds.length)]||null;};
+  const decorPick=()=>{const all=S.dining.pieces.filter(p=>!FURN[p.key].trash),tb=all.filter(p=>FURN[p.key].seats),ds=Math.random()<.65&&tb.length?tb:all;return ds[Math.floor(Math.random()*ds.length)]||null;};
   const spotPick=d=>{const c=[];for(let y=0;y<G.h;y++)for(let x=0;x<G.w;x++)if(Math.abs(x-d.x)+Math.abs(y-d.y)>1&&fits('dining',d.shape,x,y,d.id))c.push({x,y});return c[Math.floor(Math.random()*c.length)]||null;};
   const moveThing=(p,to,ms,dur,msg)=>at(ms,()=>{if(!S.dining.pieces.includes(p)||!fits('dining',p.shape,to.x,to.y,p.id))return;const [x0,y0]=pc(p.x,p.y),[x1,y1]=pc(to.x,to.y);p.x=to.x;p.y=to.y;NHIDE=p.id;renderDining();
     const e=A(FURN[p.key].emoji,x0,y0,.6);mv(e,[[x0,y0],[(x0+x1)/2,Math.min(y0,y1)-8,'rotate(-12deg)'],[x1,y1]],dur,0,'ease-in-out');notes.push(`${msg} ${FURN[p.key].emoji} ${FURN[p.key].name.toLowerCase()}.`);
@@ -3225,6 +3232,16 @@ function nightShow(done){
       gift('n_feather',40,76,8200);
       at(9400,()=>{const c=A('🐔',-15,70,.8);mv(c,[[-15,70,'scaleX(-1)'],[33,70,'scaleX(-1)']],1200);say(c,'…bawk? My feather!',1300,1600);at(3200,()=>mv(c,[[33,70],[-15,70]],1000));});
     },
+    ()=>{ // ant moving crew
+      const d=decorPick(),to=d&&spotPick(d),ants=[0,1,2,3,4].map(i=>A('🐜',-6-i*5,84,.45));
+      ants.forEach((a,i)=>go(a,20-i*4,84,1800,{hop:8}));say(ants[0],'Moving day, crew!',1900,1600);
+      if(d&&to){const [dx,dy]=pc(d.x,d.y),[tx,ty]=pc(to.x,to.y);
+        at(3600,()=>{ants.forEach((a,i)=>go(a,dx-8+i*4,dy+8,1500,{hop:6}));});say(ants[2],'HEAVE…',5300,1000);say(ants[4],'…HO!',6200,1000);
+        moveThing(d,to,6600,2600,'An ant moving crew carried your');at(6600,()=>ants.forEach((a,i)=>go(a,tx-8+i*4,ty+8,2600,{hop:4})));
+        say(ants[1],'Perfect. Next!',9600,1500);at(11000,()=>ants.forEach((a,i)=>go(a,115+i*5,84,2400,{hop:8})));}
+      else{const cr=A('🍪',50,80,.4);at(3600,()=>{ants.forEach((a,i)=>go(a,46+i*3,84,1500,{hop:6}));});at(5400,()=>{say(ants[0],'COOKIE CRUMB!',0,1400);});at(7200,()=>{ants.forEach((a,i)=>go(a,115+i*5,84,3000,{hop:6}));mv(cr,[[50,80],[120,80]],3000);});}
+      trashP=.8;
+    },
     ()=>{ // melting snowman
       const s=A('⛄',-12,62,1.2),lamp=A('🕯️',58,64,.6);let nose=null;
       go(s,40,62,2500,{hop:2,flip:false});say(s,'Brrr! Nice and warm in here!',2600,1800);
@@ -3236,9 +3253,10 @@ function nightShow(done){
     },
   ];
   const keys=scenes.map((_,i)=>i).filter(i=>!NLAST.includes(i));
-  let i=keys[Math.floor(Math.random()*keys.length)];if(window.NIGHT_SCENE!=null)i=window.NIGHT_SCENE;NLAST=[...NLAST,i].slice(-8);
+  let trashP=.45;let i=keys[Math.floor(Math.random()*keys.length)];if(window.NIGHT_SCENE!=null)i=window.NIGHT_SCENE;NLAST=[...NLAST,i].slice(-8);
   st.animate([{opacity:0},{opacity:1}],{duration:900,fill:'forwards'});
   at(900,()=>{try{scenes[i]();}catch(e){console.warn(e);}});
+  at(13600,()=>{if(Math.random()<trashP){const before=new Set(S.dining.pieces.map(p=>p.id));const n=dropTrash(rint(1,3));if(n){renderDining();S.dining.pieces.filter(p=>!before.has(p.id)).forEach(p=>{const [x,y]=pc(p.x,p.y);const e=A(p.em,x,y-30,.5);mv(e,[[x,y-30,'',0],[x,y,'rotate(200deg)',1]],500,0,'ease-in');});notes.push(`🗑️ The night visitors left ${n} piece${n>1?'s':''} of trash on the floor! Tap ${n>1?'them':'it'} to clean up — guests don’t like a messy dining room.`);}}});
   at(15200,()=>fin());
 }
 /* ---- night-visitor arcade ---- */
@@ -3566,6 +3584,7 @@ function drop(d){
     if(t&&t.ok){if(t.gid!==d.gid){S[d.gid].pieces=S[d.gid].pieces.filter(q=>q!==d.p);S[t.gid].pieces.push(d.p);}d.p.x=t.x;d.p.y=t.y;if(d.kind==='food')S.cur=t.gid;}
     else if(!d.over){
       if(d.kind==='food'){S[d.gid].pieces=S[d.gid].pieces.filter(q=>q!==d.p);refund(d.key);}
+      else if(d.kind==='furn'&&FURN[d.key].trash){cleanTrash(d.p);}
       else if(d.kind==='furn'){S.dining.pieces=S.dining.pieces.filter(q=>q!==d.p);S.storeroom.push(d.p.fresh?{key:d.key,fresh:d.p.fresh}:{key:d.key,cloth:d.p.cloth,style:d.p.style});toast(`${FURN[d.key].name} moved to the storeroom.`);}
     }
   }else if(t&&t.ok){
@@ -3586,6 +3605,7 @@ function tap(d){
       if(tool==='paint'){if(FURN[p.key].for)return toast('Magical seats keep their own look.');clusterOf(p.id).tables.forEach(t=>t.cloth=paintColor);return;}
       return;
     }
+    if(d.gid==='dining'&&FURN[p.key].trash)return cleanTrash(p);
     if(d.gid==='dining'&&FURN[p.key].gag)return doGag(p);
     if(d.gid==='dining'&&tool==='paint')return toast('Only tables have tablecloths to paint.');
     if(d.gid==='truck'){const now=performance.now();if(LASTTAP.id===p.id&&now-LASTTAP.t<450){LASTTAP={id:0,t:0};return unloadBasket(p,true);}LASTTAP={id:p.id,t:now};return rotatePiece(d.gid,p);}
