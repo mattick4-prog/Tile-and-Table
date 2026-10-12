@@ -624,6 +624,9 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.museum{position:relative;overflow:hidden;min-height:180px}.musguest{position:absolute;font-size:30px;z-index:5;pointer-events:none;filter:drop-shadow(0 3px 2px rgba(0,0,0,.3))}
+.tw-night{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:#1D2A57;color:#FFF7C2;border-radius:14px;padding:10px 14px;margin-bottom:10px;font-weight:800}.tw-night b{color:#FFE14D}.tw-night .btn{margin-left:auto}
+.tw-b.glow .tw-house{filter:drop-shadow(0 0 14px #FFD54A) drop-shadow(0 0 6px #FFD54A);animation:arcbob 1.6s ease-in-out infinite}
 .pc.d-soda .blk{background:linear-gradient(#EF4B55,#B71C24)!important;border-radius:10px 10px 4px 4px;box-shadow:inset 0 0 0 3px rgba(255,255,255,.5),0 4px 0 rgba(0,0,0,.3)!important;inset:8%!important}
 .walker.sodaw span{font-size:clamp(18px,3vw,28px)}.walker.sodaw.kid span{font-size:clamp(13px,2.2vw,20px)}
 .trashi{font-size:clamp(18px,3vw,30px);animation:trashwig 2.5s ease-in-out infinite;display:inline-block}@keyframes trashwig{0%,90%,100%{transform:rotate(0)}93%{transform:rotate(-12deg)}96%{transform:rotate(12deg)}}
@@ -1252,7 +1255,7 @@ h2{font-size:19px}
       <div class="menucard"><div id="upgrades" class="upsec"></div></div>
     </div>
     <div class="panel tabpanel" id="tab-town" hidden><div id="town"></div></div>
-    <div class="panel tabpanel" id="tab-museum" hidden><div id="museum"></div><p style="margin-top:12px"><button class="btn" data-act="tab" data-arg="town">← Back to town</button></p></div>
+    <div class="panel tabpanel" id="tab-museum" hidden><div id="museum"></div></div>
     <div class="panel tabpanel" id="tab-receipts" hidden>
       <div class="phead"><h2>Today's receipts</h2><span class="hours">Newest first</span></div>
       <div id="rclist"></div>
@@ -1561,11 +1564,24 @@ function makeGold(k){const s=S.rec[k];s.gold=true;s.onMenu=false;s.unlocked=fals
    ${nx?`<p class="gnext">✨ New recipe unlocked: <b>${REC[nx].emoji} ${REC[nx].name}</b> ($${REC[nx].price}) — find it in the 📋 Menu tab.</p>`:'<p class="gnext">That was its final, most amazing version. Legendary!</p>'}
    <div class="modal-actions"><button class="btn primary" data-act="closeModal">Hooray!</button><button class="btn" data-act="tab" data-arg="museum">🏛️ Visit the museum</button></div></div>`);}
 function museumDay(){const mus=S.museum||[];if(!mus.length)return null;let v=0;mus.forEach(()=>{v+=rint(1,3);});v+=Math.floor((S.rep||3)-2);v=Math.max(1,v);const money=v*TICKET;S.money+=money;S.museumLast={v,money,day:S.day};return S.museumLast;}
+let MUS_T=null;const MUS_SAY=['Ooooh!','So shiny!','Wow, golden!','I want one!','Fancy!','Sparkly!','Yum… I mean, wow!','Amazing!'];
+function museumTick(){const box=document.querySelector('#museum .museum');if(tab!=='museum'||!box||!S.museumLast||!(S.museum||[]).length||!Element.prototype.animate)return;
+  const peds=[...box.querySelectorAll('.ped')];if(!peds.length)return;const ped=peds[Math.floor(Math.random()*peds.length)];const br=box.getBoundingClientRect(),pr=ped.getBoundingClientRect();
+  const tx=(pr.left+pr.width/2-br.left)/br.width*100,ty=(pr.bottom-br.top-6)/br.height*100;const faces=TYPES.regular.faces;const f=faces[Math.floor(Math.random()*faces.length)];
+  const e=document.createElement('div');e.className='musguest';e.textContent=f;box.appendChild(e);const fromL=Math.random()<.5;const sx=fromL?-6:106;
+  e.animate([{left:sx+'%',top:ty+'%',transform:`translate(-50%,-100%) ${fromL?'scaleX(-1)':''}`},{left:(tx+(fromL?-6:6))+'%',top:ty+'%',transform:`translate(-50%,-100%) ${fromL?'scaleX(-1)':''}`}],{duration:1800,fill:'forwards',easing:'ease-out'});
+  setTimeout(()=>{if(!e.isConnected)return;const b=document.createElement('div');b.className='nsay';b.textContent=MUS_SAY[Math.floor(Math.random()*MUS_SAY.length)];b.style.left=tx+'%';b.style.top=`calc(${ty}% - 50px)`;b.style.fontSize='12px';box.appendChild(b);setTimeout(()=>b.remove(),1500);
+    const c=document.createElement('div');c.className='ngag coin';c.textContent=`+$${TICKET}`;c.style.left=tx+'%';c.style.top=`calc(${ty}% - 30px)`;box.appendChild(c);c.animate([{transform:'translate(-50%,0)',opacity:1},{transform:'translate(-50%,-50px)',opacity:0}],{duration:1300,fill:'forwards'});setTimeout(()=>c.remove(),1400);
+    ped.querySelector('.pdish')?.animate([{transform:'scale(1)'},{transform:'scale(1.25)'},{transform:'scale(1)'}],{duration:700});},1900);
+  setTimeout(()=>{if(!e.isConnected)return;e.animate([{left:(tx+(fromL?-6:6))+'%',top:ty+'%',transform:`translate(-50%,-100%) ${fromL?'':'scaleX(-1)'}`},{left:(fromL?-6:106)+'%',top:ty+'%',transform:`translate(-50%,-100%) ${fromL?'':'scaleX(-1)'}`}],{duration:1800,fill:'forwards',easing:'ease-in'});setTimeout(()=>e.remove(),1900);},3600);}
+function museumStart(){if(MUS_T)return;let n=0;MUS_T=setInterval(()=>{if(tab!=='museum'){clearInterval(MUS_T);MUS_T=null;return;}const v=(S.museumLast&&S.museumLast.v)||0;if(!v)return;if(n%(v+3)<v)museumTick();n++;},1400);setTimeout(museumTick,300);}
 function renderMuseum(){const el=$('#museum');if(!el||!S)return;const mus=S.museum||[],ml=S.museumLast;
   el.innerHTML=`<div class="phead"><h2>🏛️ Golden Dish Museum</h2><span class="hours">Tickets $${TICKET} each</span></div>
-   <p class="hint" style="margin:0 0 10px">Improve a dish ${GOLD_UPS} times in ⬆️ Upgrades and it turns <b>golden</b>: it retires here, visitors pay to see it every day, and a fancier version of the recipe unlocks.${ml?` Last time: <b>${ml.v} visitors</b> paid <b>$${ml.money}</b>.`:''}</p>
+   <p class="hint" style="margin:0 0 10px">${S.phase==='summary'&&ml?`🌙 Tonight <b>${ml.v} visitors</b> came to see your golden dishes and paid <b>$${ml.money}</b>!`:`Improve a dish ${GOLD_UPS} times in ⬆️ Upgrades and it turns <b>golden</b>: it retires here, visitors pay to see it every day, and a fancier version of the recipe unlocks.${ml?` Last time: <b>${ml.v} visitors</b> paid <b>$${ml.money}</b>.`:''}`}</p>
    ${mus.length?`<div class="museum">${mus.map(o=>`<div class="ped"><div class="pdish">${REC[o.k].emoji}</div><div class="pstand"></div><b>Golden ${REC[o.k].name.charAt(0).toLowerCase()+REC[o.k].name.slice(1)}</b><small>${SHOPS[o.shop]?SHOPS[o.shop].em+' '+SHOPS[o.shop].name:''} · day ${o.day}</small></div>`).join('')}</div>`
-   :`<div class="museum empty"><div class="ped ghost"><div class="pdish">❔</div><div class="pstand"></div><b>Your first golden dish goes here!</b><small>Improve any recipe ${GOLD_UPS} times.</small></div></div>`}`;}
+   :`<div class="museum empty"><div class="ped ghost"><div class="pdish">❔</div><div class="pstand"></div><b>Your first golden dish goes here!</b><small>Improve any recipe ${GOLD_UPS} times.</small></div></div>`}
+   <p style="margin-top:12px">${S.phase==='summary'?`<button class="btn primary" data-act="leaveMuseum">🌅 Leave the museum &amp; start day ${S.day+1}</button>`:`<button class="btn" data-act="leaveMuseum">← Back to town</button>`}</p>`;
+  if(tab==='museum')museumStart();}
 const FREEZER_SIZES=[[4,3],[5,4],[6,5]], FREEZER_COST=[100,200];
 const THEMES={
   diner:{name:'Classic diner',emoji:'🍒',cost:0,wall:'#22605A',stripe:'#1D5550',a:'#FBFBF8',b:'#2B2B2B'},
@@ -1715,7 +1731,7 @@ const TOWN_ORDER=[['diner','cafe','bakery','farm'],['noodle','drinks','seafood',
 const BLD_LOOK={diner:['#C8102E','#FFF3E0','tri','🍒'],cafe:['#6B4F3A','#FFF8EC','tri','☕'],bakery:['#E8A417','#FFF9E6','round','🥐'],noodle:['#8E2424','#FFF3E6','pagoda','🏮'],drinks:['#E05A9C','#FFF0F6','flat','🧋'],seafood:['#1E5AAA','#E8F6FF','tri','🦞'],farm:['#B5382C','#B5382C','barn','🐓'],museum:['#B8860B','#FBF6E6','temple','🚩']};
 function bldHTML(id){const [rc,wc,roof,top]=BLD_LOOK[id]||['#888','#fff','tri',''];let em,name,stat='',cls='';
   if(id==='farm'){em='🌾';name='Your farm';const F=S.farm;const ripe=F?F.pieces.filter(cropReady).length:0,th=F&&S.phase==='prep'?F.pieces.filter(needsWater).length:0,wd=F&&F.weeds?Object.keys(F.weeds).length:0;stat=[ripe?`✨ ${ripe} ripe`:'',th?`💧 ${th} thirsty`:'',wd?`🌿 ${wd} weeds`:''].filter(Boolean).join(' · ')||'🐔 All good';}
-  else if(id==='museum'){em='🏛️';name='Golden Dish Museum';const n=(S.museum||[]).length;stat=n?`🏆 ${n} golden dish${n>1?'es':''}`:'Opens with your first golden dish';cls=n?'':'dim';}
+  else if(id==='museum'){em='🏛️';name='Golden Dish Museum';const n=(S.museum||[]).length;stat=n?(S.phase==='summary'&&S.museumLast?`🌙 ${S.museumLast.v} visitors tonight`:`🏆 ${n} golden dish${n>1?'es':''}`):'Opens with your first golden dish';cls=n?(S.phase==='summary'?'glow':''):'dim';}
   else{const s=SHOPS[id],own=S.owned.includes(id),act=id===shopId(),m=mgrOf(id);em=s.em;name=s.name;
     if(!own){cls='sale';stat=`🪧 For sale · $${s.cost.toLocaleString()}`;}
     else if(act){cls='here';stat='👩‍🍳 You’re cooking here';}
@@ -1731,6 +1747,7 @@ function renderTown(){const el=$('#town');if(!el||!S)return;const prep=S.phase==
   const walkers=['🐶','🐱','🐰','🦊','🐻','🐧','🐼','🐸'];const cars=[['🚗',16,0],['🚌',26,1],['🚙',19,0],['🚲',30,1],['🚕',22,0]];
   el.innerHTML=`<div class="phead"><h2>🏙️ Your town</h2><span class="hours">Best stars: ${bs.toFixed(1)} ★</span></div>
    <p class="hint" style="margin:0 0 8px">${prep?'Tap a building to go inside. Tap one of your other shops to run it today, hire its manager or load its truck.':'Tap a building to go inside. You can switch shops tomorrow morning.'}</p>
+   ${night?`<div class="tw-night"><span>🌙 The restaurant is closed for the night.</span>${(S.museum||[]).length?'<b>🏛️ Tap the glowing museum to see tonight’s visitors.</b>':''}<button class="btn primary" data-act="nextDay">☀️ Start day ${S.day+1}</button></div>`:''}
    <div class="tw ${night?'night':''}">
     <div class="tw-sky">${night?'<span class="tw-moon">🌙</span><span class="tw-stars">✦ · ✧ · ✦ · ✧ · ✦ · ✧</span>':'<span class="tw-sun">🌞</span>'}<span class="tw-cloud c1">☁️</span><span class="tw-cloud c2">☁️</span><span class="tw-cloud c3">☁️</span>${night?'':'<span class="tw-bird">🐦</span>'}</div>
     <div class="tw-hills"></div>
@@ -3070,7 +3087,7 @@ function closeDay(early){
   ${mday?`<p class="gnext">🏛️ <b>${mday.v} visitors</b> came to see your golden dishes and paid <b>$${mday.money}</b> for tickets!</p>`:''}
   ${mreps.length?`<h3>🏙️ Reports from your other shops</h3>${mreps.map(reportHTML).join('')}`:''}
   ${spoiled.length?`<h3>🌙 Overnight news</h3><ul class="spoil">${spoiled.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p>✓ Nothing spoiled overnight.</p>'}
-  <div class="modal-actions"><button class="btn primary" data-act="nextDay">Start day ${S.day+1}</button><button class="btn" data-act="seeReceipts">🧾 See today's receipts (${(S.receipts||[]).length})</button></div>`));
+  <div class="modal-actions"><button class="btn primary" data-act="nextDay">Start day ${S.day+1}</button>${(S.museum||[]).length?'<button class="btn" data-act="museumNight">🏛️ Visit the museum</button>':''}<button class="btn" data-act="seeReceipts">🧾 See today's receipts (${(S.receipts||[]).length})</button></div>`));
 }
 /* ---- night show: silly 15-second scenes in the dining room after closing ---- */
 const NITE={n_hat:['🎩','Mouse’s top hat','A tiny mouse pops out: “Ta-da!”','🐭'],n_bell:['🛎️','Ghost’s bell','Ding! … “Table for one?” 👻','👻'],n_fry:['🍟','Golden french fry','Still crunchy. Nobody knows how.','✨'],
@@ -3884,7 +3901,9 @@ const ACT={
   cardDone(){closeModal();if(S.guide!==false&&S.phase==='prep'&&S.day<=3)modal(dailyHTML());},
   continue(){const sv=loadSave();if(sv){S=sv.S;uid=sv.uid;migrate();S.phase='prep';S.parties=[];S.active=null;S.sel=null;S.st={};}closeModal();renderAll();},
   nextDay(){nextDay();},
-  tab(a){if(a!=='farm'||tab!=='farm'){farmView='out';FARMMOVE=false;FERT=false;}tab=a;window.scrollTo(0,0);},
+  tab(a){if(tab==='museum'&&a!=='museum'&&S.phase==='summary'){nextDay();window.scrollTo(0,0);return;}if(a!=='farm'||tab!=='farm'){farmView='out';FARMMOVE=false;FERT=false;}tab=a;window.scrollTo(0,0);},
+  museumNight(){closeModal();tab='town';toast('🏛️ Tap the glowing museum to watch tonight’s visitors!',4000);},
+  leaveMuseum(){if(S.phase==='summary')return nextDay();tab='town';},
   kjump(){const k=document.querySelector('.kside');if(k)setTimeout(()=>k.scrollIntoView({behavior:'smooth',block:'start'}),50);},
   rotIng(k){S.rot[k]=((S.rot[k]||0)+1)%4;},
   clearPlate(g){g=g||curSt();S.cur=g;clearSt(g);},
