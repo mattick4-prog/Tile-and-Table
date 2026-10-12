@@ -395,7 +395,7 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom,0px))}
 .topbar .logo{order:-2}
 .awning{height:14px;-webkit-mask-size:28px 14px;mask-size:28px 14px;-webkit-mask-image:radial-gradient(circle at 14px 0,#000 14px,transparent 14.5px);mask-image:radial-gradient(circle at 14px 0,#000 14px,transparent 14.5px);background:repeating-linear-gradient(90deg,var(--red) 0 28px,#fff 28px 56px)}
 .layout{padding:6px 8px 16px;gap:10px;max-width:none}
-.layout>.tabs{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:40;margin:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:#2A1E1A;display:grid;grid-template-columns:repeat(8,1fr);gap:1px;box-shadow:0 -4px 14px rgba(0,0,0,.25)}
+.layout>.tabs{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:40;margin:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:#2A1E1A;display:grid;grid-template-columns:repeat(7,1fr);gap:1px;box-shadow:0 -4px 14px rgba(0,0,0,.25)}
 .layout>.tabs .tab{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 0;border-radius:12px;font-size:9.5px;letter-spacing:-.2px;min-width:0;background:transparent;color:#fff;position:relative}
 .layout>.tabs .tab i{font-style:normal;font-size:20px;line-height:1.1}
 .layout>.tabs .tab.on{background:#FFF8E1;color:#2A1E1A}
@@ -624,6 +624,52 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.buylist.icons{gap:8px}.buyt{display:flex;flex-direction:column;align-items:center;gap:4px}.buyt.unused{opacity:.45}
+.buyi{width:56px;height:56px;border:2px solid var(--line);background:var(--panel);border-radius:14px;font-size:30px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;position:relative}
+.buyi:hover{transform:translateY(-2px);box-shadow:0 4px 0 var(--line)}.buyi .cold{position:absolute;right:2px;top:1px;font-size:11px}
+.buyt [data-tip]:hover::after{left:0;transform:none}
+.buy1i{border:2px solid var(--mint);background:#DDF5EC;color:#1E5C4A;border-radius:10px;font:inherit;font-weight:900;font-size:13px;padding:2px 10px;cursor:pointer;position:relative}
+[data-tip]{position:relative}[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#2A1E1A;color:#fff;padding:6px 10px;border-radius:10px;font-size:12px;font-weight:700;white-space:pre;z-index:60;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.3);text-align:left;line-height:1.35}
+.goldpop{text-align:center}.gbig{font-size:72px;filter:drop-shadow(0 0 14px #FFD54A) sepia(.6) saturate(2.5) hue-rotate(-10deg);animation:arcbob 1.6s ease-in-out infinite}.gnext{background:#FFF6D6;border-radius:10px;padding:8px}
+.museum{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;background:linear-gradient(#F7F1E1,#EFE4C6);border:4px solid #C9A646;border-radius:16px;padding:16px}
+.ped{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}.ped b{font-size:13px}.ped small{font-size:11px;opacity:.75}
+.pdish{font-size:46px;filter:drop-shadow(0 0 10px #FFD54A) sepia(.55) saturate(2.4) hue-rotate(-12deg);animation:arcbob 2.4s ease-in-out infinite}
+.pstand{width:70px;height:34px;background:linear-gradient(#FFFFFF,#D8D2C4);border-radius:4px 4px 0 0;box-shadow:inset 0 -6px 0 #BFB6A2;margin-top:-4px}.ped.ghost{opacity:.55}.ped.ghost .pdish{filter:none}
+.townmap{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(#BFE7FF 0 70px,#8FD07A 70px);padding:64px 10px 8px;border:4px solid #5E9E4E}
+.tm-sky{position:absolute;left:0;right:0;top:0;height:70px;pointer-events:none}.tm-sky .cl{position:absolute;font-size:28px;opacity:.9;animation:drift 40s linear infinite}.tm-sky .c1{top:6px;left:-10%}.tm-sky .c2{top:22px;left:-30%;animation-duration:55s}.sunny{position:absolute;right:16px;top:8px;font-size:32px}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(130vw)}}
+.tm-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;position:relative;z-index:1}
+.tm-road{height:40px;margin:10px -10px;background:#5B5B5B;position:relative;overflow:hidden;border-top:4px solid #CFCFCF;border-bottom:4px solid #CFCFCF}
+.tm-road::after{content:'';position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;background:repeating-linear-gradient(90deg,#FFE14D 0 26px,transparent 26px 50px)}
+.tm-car{position:absolute;top:4px;font-size:24px;animation:carride 14s linear infinite;z-index:1}@keyframes carride{from{left:-10%}to{left:110%}}
+.tm-grass{text-align:center;font-size:22px;letter-spacing:12px;margin-top:6px}
+.tbld{position:relative;display:flex;flex-direction:column;align-items:center;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:#2A1E1A}
+.tbld .tb-roof{width:86%;height:34px;background:var(--rc);clip-path:polygon(50% 0,100% 100%,0 100%);filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))}
+.tbld .tb-body{position:relative;width:76%;height:78px;background:var(--wc);border:3px solid var(--rc);border-top:0;border-radius:0 0 6px 6px;display:flex;align-items:flex-start;justify-content:center;box-shadow:0 6px 0 rgba(0,0,0,.18)}
+.tbld .tb-em{font-size:34px;margin-top:6px}.tbld .tb-door{position:absolute;bottom:0;left:50%;width:20px;height:26px;margin-left:-10px;background:var(--rc);border-radius:8px 8px 0 0;opacity:.85}
+.tbld .tb-name{margin-top:8px;background:#fff;border:2px solid var(--rc);border-radius:999px;padding:2px 10px;font-weight:900;font-size:13px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.tbld .tb-stat{font-size:11px;font-weight:800;margin-top:3px;background:rgba(255,255,255,.75);border-radius:8px;padding:1px 6px;min-height:15px;text-align:center}
+.tbld:hover .tb-body{transform:translateY(-3px)}.tbld:hover .tb-roof{transform:translateY(-3px)}
+.tbld.here .tb-name{background:var(--rc);color:#fff}.tbld.here::before{content:'📍';position:absolute;top:-22px;font-size:24px;animation:arcbob 1.2s ease-in-out infinite;z-index:2}
+.tbld .tb-smoke{position:absolute;top:-30px;right:12%;font-size:16px;opacity:.8;animation:arcbob 2s ease-in-out infinite}
+.tbld.sale .tb-roof,.tbld.sale .tb-body{filter:grayscale(.75) brightness(1.05);border-style:dashed}.tbld.sale .tb-em{opacity:.55}
+.tb-sale{position:absolute;top:30px;left:50%;transform:translateX(-50%) rotate(-6deg);background:#FFF;border:2px solid #C8102E;color:#C8102E;font-weight:900;font-size:10px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.tbld.dim{opacity:.7}.b-farm .tb-body{background:repeating-linear-gradient(90deg,#B5382C 0 10px,#A33024 10px 12px)}.b-farm .tb-em{background:#F7E7CF;border-radius:10px;padding:0 4px}
+.b-museum .tb-body{background:repeating-linear-gradient(90deg,#FBF6E6 0 10px,#E9DFC2 10px 14px)}
+.trip{position:fixed;left:50%;top:84px;transform:translateX(-50%);width:min(560px,94vw);z-index:300;pointer-events:none}
+.trip-road{position:relative;height:74px;background:linear-gradient(#9FD88A 0 18px,#5B5B5B 18px 58px,#9FD88A 58px);border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.3);overflow:hidden;border:3px solid #fff}
+.trip-road::after{content:'';position:absolute;left:0;right:0;top:37px;height:3px;background:repeating-linear-gradient(90deg,#FFE14D 0 18px,transparent 18px 34px)}
+.trip-end{position:absolute;top:6px;font-size:34px;display:flex;flex-direction:column;align-items:center;z-index:2}.trip-end small{font-size:10px;font-weight:900;background:#fff;border-radius:6px;padding:0 4px;margin-top:-4px}.trip-end.from{left:6px}.trip-end.to{right:6px}
+.trip-truck{position:absolute;top:20px;left:12%;z-index:3;display:flex;align-items:flex-end}.trip-truck .tk{font-size:34px;display:inline-block}.trip-truck .cargo{position:absolute;left:6px;top:-12px;font-size:16px;letter-spacing:-4px}.trip-truck .dust{font-size:16px;opacity:.7;order:-1;margin-right:-6px}
+.trip-done{position:absolute;right:60px;top:20px;background:#fff;border-radius:999px;padding:3px 10px;font-weight:900;font-size:13px;z-index:4;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.lvstars{color:#E8A417;font-size:11px;letter-spacing:-1px;margin-left:4px}
+.tripdest{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+
+.weed{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:clamp(20px,4vw,34px);z-index:2;pointer-events:none;filter:drop-shadow(0 2px 1px rgba(0,0,0,.35))}.weed.big{font-size:clamp(26px,5vw,42px)}
+.arcnote{display:flex;align-items:center;gap:10px;justify-content:space-between;pointer-events:auto;border-left-color:#FF3DBE}.arcnote button{border:0;border-radius:999px;background:#2A2154;color:#fff;font:inherit;font-weight:900;padding:6px 12px;cursor:pointer;white-space:nowrap}
+.arc-hall{position:relative}.arc-busy{position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);white-space:nowrap;background:#FF3DBE;color:#fff;font-weight:900;font-size:13px;border-radius:999px;padding:3px 10px;box-shadow:0 0 10px rgba(255,61,190,.6);animation:arcbob 1.2s ease-in-out infinite}
+.arcsay{font-size:12px!important;z-index:7}
+.pc.s-pool.nu .blk,.pc.s-pool.nd .blk,.pc.s-pool.nl .blk,.pc.s-pool.nr .blk{background:linear-gradient(135deg,#7FD6F5,#2E9BD6);border-radius:0}.pc.s-pool:not(.nu):not(.nl) .blk{border-top-left-radius:12px}
 .tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 .tcard{background:var(--paper);border:3px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:6px}
 .tcard p{margin:0;font-size:14px}.tcard.active{border-color:var(--mint);box-shadow:0 0 0 3px rgba(43,168,138,.25)}
@@ -1000,14 +1046,13 @@ h2{font-size:19px}
 
 <main class="layout">
   <nav class="tabs">
+    <button class="tab" data-act="tab" data-arg="town"><i>🏙️</i>Town</button>
     <button class="tab on" data-act="tab" data-arg="dining"><i>🍽️</i>Dining<span id="dbadge" class="badge"></span></button>
     <button class="tab" data-act="tab" data-arg="kitchen"><i>🍳</i>Kitchen<span id="kbadge" class="badge"></span></button>
     <button class="tab" data-act="tab" data-arg="menu"><i>📋</i>Menu<span id="mbadge" class="badge"></span></button>
-    <button class="tab" data-act="tab" data-arg="farm"><i>🌱</i>Farm</button>
     <button class="tab" data-act="tab" data-arg="pantry"><i>📦</i>Pantry</button>
     <button class="tab" data-act="tab" data-arg="upgrades"><i>⬆️</i>Upgrades</button>
     <button class="tab" data-act="tab" data-arg="receipts"><i>🧾</i>Receipts<span id="rbadge" class="badge"></span></button>
-    <button class="tab" data-act="tab" data-arg="town"><i>🏙️</i>Town</button>
   </nav>
   <section>
     <div class="panel dining tabpanel" id="tab-dining">
@@ -1158,13 +1203,14 @@ h2{font-size:19px}
       <div id="supply" class="supply" hidden></div>
       <p class="warn" id="meltNote" hidden>🍨 Ice cream is outside the dessert freezer. Move it into the freezer or it melts tonight.</p>
       <p class="warn" id="warmNote" hidden>🌡️ Cold food is sitting on the dry shelves. Move it into the fridge or it spoils tonight.</p>
-      <p class="hint">Swipe the empty space on the right (↕) to scroll. Double-tap a basket on the truck to put it away, or drag baskets off the truck — hold a basket near the bottom of the screen to scroll down to the fridge. ❄️ baskets belong in the fridge. Tap a basket to rotate it. Every square of a basket holds 4 pieces — as you cook, squares disappear. The white number is pieces left; the dark tag is days until it spoils.</p>
+      <p class="hint">Swipe the empty space on the right (↕) to scroll. Tap a basket on the truck to turn it, double-tap it to put it away, or drag baskets off the truck — hold a basket near the bottom of the screen to scroll down to the fridge. ❄️ baskets belong in the fridge. Tap a basket to rotate it. Every square of a basket holds 4 pieces — as you cook, squares disappear. The white number is pieces left; the dark tag is days until it spoils.</p>
     </div>
 
     <div class="panel tabpanel" id="tab-upgrades" hidden>
       <div class="menucard"><div id="upgrades" class="upsec"></div></div>
     </div>
     <div class="panel tabpanel" id="tab-town" hidden><div id="town"></div></div>
+    <div class="panel tabpanel" id="tab-museum" hidden><div id="museum"></div><p style="margin-top:12px"><button class="btn" data-act="tab" data-arg="town">← Back to town</button></p></div>
     <div class="panel tabpanel" id="tab-receipts" hidden>
       <div class="phead"><h2>Today's receipts</h2><span class="hours">Newest first</span></div>
       <div id="rclist"></div>
@@ -1380,7 +1426,7 @@ const FURN={
   tank:{name:'Fish tank',emoji:'🐠',shape:I2,charm:3,cost:60,color:'#3BA7C4'},
   lamp:{name:'Candle lamp',emoji:'🕯️',shape:MONO,charm:1,cost:20,color:'#F2B134'},
   piano:{name:'Little piano',emoji:'🎹',shape:I2,charm:4,cost:90,color:'#2A1E1A'},
-  pool:{name:'Mermaid pool',emoji:'🌊',shape:I2,seats:2,cost:120,color:'#2E9BD6',for:'mermaid'},
+  pool:{name:'Mermaid pool',emoji:'🌊',shape:MONO,seats:1,join:true,cost:60,color:'#2E9BD6',for:'mermaid'},
   tree:{name:'Treehouse table',emoji:'🌳',shape:O4,seats:1,cost:130,color:'#4E8A3A',for:'bigfoot'},
   lair:{name:'Dragon lava rock',emoji:'🌋',shape:L3,seats:1,cost:160,color:'#7A2A1A',for:'dragon'},
   cloud:{name:'Rainbow cloud',emoji:'🌈',shape:I2,seats:1,cost:180,color:'#F3E9FF',for:'unicorn'},
@@ -1403,7 +1449,7 @@ const TYPES={
   peacock:{name:'Peacock influencer',faces:['🦚'],size:[1,2],pat:.8,tip:.8,rep:2.5,eat:1.2,w:1,minRep:2.5,prefer:['bananaberry','tropical','berrysmooth'],desc:'Posts about your place and loves photo-ready smoothies. A good visit boosts your stars, a bad one hurts.'},
   critic:{name:'Owl food critic',faces:['🦉'],size:[1,1],pat:.8,tip:.5,rep:5,eat:1,w:.6,minRep:3.3,pick:'pricey',desc:'Orders your fanciest dish. Fast service = big star boost. Slow = ouch.'},
   bat:{name:'Night bats',faces:['🦇'],size:[1,2],pat:1.2,tip:1.2,rep:1,eat:3.5,w:0,late:true,desc:'Only come out in the evening and linger a long time. Watch the closing time.'},
-  mermaid:{name:'Mermaid',faces:['🧜‍♀️','🧜‍♂️'],mix:true,special:true,size:[1,2],pat:1.3,tip:1.6,rep:1.5,eat:1.2,w:.8,minRep:2.5,prefer:['fishbowl','noodle','spicy','eggrice'],desc:'Magical guest. Loves seafood and noodles. Patient and generous.'},
+  mermaid:{name:'Mermaid',faces:['🧜‍♀️','🧜‍♂️'],mix:true,special:true,size:[1,3],pat:1.3,tip:1.6,rep:1.5,eat:1.2,w:.8,minRep:2.5,prefer:['fishbowl','noodle','spicy','eggrice'],desc:'Magical guest. Loves seafood and noodles. Patient and generous.'},
   dragon:{name:'Dragon',faces:['🐉'],special:true,size:[1,1],pat:.6,tip:3,rep:2,eat:1.4,w:.5,minRep:3,dishes:2,prefer:['feast','chicken','spicy','burger'],desc:'Magical guest. Always orders two dishes and tips a hoard of gold, but has almost no patience.'},
   unicorn:{name:'Unicorn',faces:['🦄'],special:true,size:[1,1],pat:1,tip:1.6,rep:4,eat:1,w:.4,minRep:3.5,prefer:['bigsundae','sundae','bananaberry','deluxe'],desc:'Magical and very rare. Craves sweets. A happy unicorn makes your stars sparkle.'},
   fairy:{name:'Fairies',faces:['🧚‍♀️','🧚‍♂️','🧚'],mix:true,special:true,size:[1,3],pat:1.2,tip:1.4,rep:1.5,eat:.8,w:.4,minRep:2,prefer:['kidcone','kidfruit','sundae','berrysmooth','toast','bigsundae'],kidOK:1,desc:'Tiny, sparkly and often in groups. Love sweets.'},
@@ -1451,6 +1497,31 @@ function secName(sec){const c=COURSES.find(c=>c[0]===sec.replace(/^k/,''));retur
 const REC_APPL={dinercoffee:["cofpot"],chocmilk:["cofpot"],custard:["stove"],pudding:["cofpot"],fishsand:["fishcounter", "toaster"],soupcup:["stove"],eggbites:["toaster"],grillsoup:["toaster", "stove"],club:["roaster", "toaster"],quiche:["oven"],gardenbowl:["saladbar"],hottea:["kettle"],lemontea:["kettle"],aulait:["cofpot"],hotcocoa:["cofpot"],bananabread:["oven"],parfait:["blender"],pretzel:["oven"],minicroiss:["oven"],muffinbites:["oven"],croissant:["oven", "stove"],bagel:["toaster"],pizzabread:["oven"],meatpie:["oven", "grill"],bakecocoa:["cofpot"],cider:["stove"],honeymilk:["stove"],cinnroll:["oven"],cookies:["oven"],cupcake:["oven"],honeybun:["oven"],cobbler:["oven"],bdaycake:["oven"],kidcracker:["oven"],kidmuffin:["oven"],kidbagel:["oven"],eggdrop:["noodlepot"],dumplings:["noodlepot"],ramen:["noodlepot", "stove"],friedrice:["rice", "stove"],teriyaki:["rice", "roaster"],lomein:["noodlepot", "shrimptank"],greentea:["kettle"],bubbletea:["kettle"],lassi:["blender"],mochi:["freezer"],fortune:["oven"],mangorice:["rice"],kiddumpling:["noodlepot"],kidtea:["kettle"],fruitskewer:["blender"],acai:["blender"],smoothiebowl:["blender"],pbtoast:["toaster"],latte:["espresso"],mocha:["espresso"],hotchoc:["espresso"],milkshake:["blender", "freezer"],matcha:["kettle"],affogato:["espresso", "freezer"],bananasplit:["freezer"],babyccino:["espresso"],chowder:["fishcounter", "stove"],hushpup:["fryer"],shrimpcock:["shrimptank"],fishchips:["fishcounter", "fryer"],shrimpbasket:["shrimptank", "fryer"],grillfish:["fishcounter"],surfturf:["shrimptank", "grill"],icedtea:["kettle"],lemoniced:["kettle"],punch:["blender"],ricepud:["rice"],sandcastle:["freezer"],lemonpie:["oven"],kidshrimp:["shrimptank"],kidjuice:['blender'],kidbanana:['blender'],toast:['toaster'],eggrice:['rice','stove'],burger:['grill'],salad:['saladbar'],noodle:['noodlepot'],spicy:['noodlepot','stove'],sundae:['freezer'],
   berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],apptoast:['toaster'],apphoney:['toaster'],honeyyog:['blender'],appfrozen:['freezer'],apptaco:['fishcounter'],appknots:['stove'],appsampler:['stove','toaster'],appwrap:['saladbar'],apppatty:['grill'],appmango:['blender'],appbanana:['blender'],appspring:['noodlepot'],appchips:['fryer'],appchicken:['fryer'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
 const PLATE_SIZES=[[5,4],[6,5],[7,6]], PLATE_COST=[120,260], PLATE_NAMES=['Small plate','Big plate','Serving platter'];
+/* ---- golden dishes: successor variants ---- */
+const GOLD_UPS=5,TICKET=2;
+{const MONOI=Object.keys(ING).filter(i=>ING[i].piece.length===1);const NM=[['Deluxe','Royal'],['Super','Mega']];
+ const rotM=(m,times)=>{let g=m.map(r=>[...r]);for(let t=0;t<times;t++){const h=g.length,w=g[0].length,n=[];for(let x=0;x<w;x++){const row=[];for(let y=h-1;y>=0;y--)row.push(g[y][x]);n.push(row);}g=n;}return g.map(r=>r.join(''));};
+ const top=(m,n,pl)=>{let g=m.map(r=>[...r]);const ing=[...m.join('')].find(c=>MONOI.includes(c));if(!ing)return m;const [PW,PH]=PLATE_SIZES[pl||0];
+   for(let a=0;a<n;a++){let done=false;for(let y=0;y<g.length&&!done;y++)for(let x=0;x<g[0].length&&!done;x++)if(g[y][x]==='.'){g[y][x]=ing;done=true;}
+     if(!done){if(g[0].length<PW){g=g.map((r,y)=>[...r,y===0?ing:'.']);}else if(g.length<PH){g.push(g[0].map((_,x)=>x===0?ing:'.'));}else break;}}
+   return g.map(r=>r.join(''));};
+ const base=Object.keys(REC);
+ for(const k of base){const r=REC[k],[PW,PH]=PLATE_SIZES[r.plate||0];
+   for(let t=1;t<=2;t++){let m=t===1?rotM(r.map,2):rotM(r.map,1);if(m[0].length>PW||m.length>PH)m=r.map;m=top(m,t,r.plate);
+     const nm=NM[r.kid?1:0][t-1];REC[k+'_g'+t]={...r,name:`${nm} ${r.name.charAt(0).toLowerCase()+r.name.slice(1)}`,price:Math.round(r.price*(t===1?1.4:1.9)),map:m,variant:t,base:k};
+     if(REC_APPL[k])REC_APPL[k+'_g'+t]=REC_APPL[k];}}}
+function nextOf(k){const r=REC[k],b=r.base||k,t=(r.variant||0)+1;return REC[b+'_g'+t]?b+'_g'+t:null;}
+function makeGold(k){const s=S.rec[k];s.gold=true;s.onMenu=false;s.unlocked=false;s.isNew=false;S.museum=S.museum||[];S.museum.push({k,shop:shopId(),day:S.day});if(S.priced)delete S.priced[k];
+  const nx=nextOf(k);if(nx){const ns=S.rec[nx]||(S.rec[nx]={level:1});ns.earned=true;ns.unlocked=recReady(nx);ns.level=1;ns.onMenu=false;ns.isNew=true;}
+  modal(`<div class="goldpop"><div class="gbig">${REC[k].emoji}</div><h2>🏆 ${REC[k].name} is GOLDEN!</h2><p>You perfected it! It retires to the <b>🏛️ Golden Dish Museum</b>, where visitors pay $${TICKET} each to see it — money for you every day.</p>
+   ${nx?`<p class="gnext">✨ New recipe unlocked: <b>${REC[nx].emoji} ${REC[nx].name}</b> ($${REC[nx].price}) — find it in the 📋 Menu tab.</p>`:'<p class="gnext">That was its final, most amazing version. Legendary!</p>'}
+   <div class="modal-actions"><button class="btn primary" data-act="closeModal">Hooray!</button><button class="btn" data-act="tab" data-arg="museum">🏛️ Visit the museum</button></div></div>`);}
+function museumDay(){const mus=S.museum||[];if(!mus.length)return null;let v=0;mus.forEach(()=>{v+=rint(1,3);});v+=Math.floor((S.rep||3)-2);v=Math.max(1,v);const money=v*TICKET;S.money+=money;S.museumLast={v,money,day:S.day};return S.museumLast;}
+function renderMuseum(){const el=$('#museum');if(!el||!S)return;const mus=S.museum||[],ml=S.museumLast;
+  el.innerHTML=`<div class="phead"><h2>🏛️ Golden Dish Museum</h2><span class="hours">Tickets $${TICKET} each</span></div>
+   <p class="hint" style="margin:0 0 10px">Improve a dish ${GOLD_UPS} times in ⬆️ Upgrades and it turns <b>golden</b>: it retires here, visitors pay to see it every day, and a fancier version of the recipe unlocks.${ml?` Last time: <b>${ml.v} visitors</b> paid <b>$${ml.money}</b>.`:''}</p>
+   ${mus.length?`<div class="museum">${mus.map(o=>`<div class="ped"><div class="pdish">${REC[o.k].emoji}</div><div class="pstand"></div><b>Golden ${REC[o.k].name.charAt(0).toLowerCase()+REC[o.k].name.slice(1)}</b><small>${SHOPS[o.shop]?SHOPS[o.shop].em+' '+SHOPS[o.shop].name:''} · day ${o.day}</small></div>`).join('')}</div>`
+   :`<div class="museum empty"><div class="ped ghost"><div class="pdish">❔</div><div class="pstand"></div><b>Your first golden dish goes here!</b><small>Improve any recipe ${GOLD_UPS} times.</small></div></div>`}`;}
 const FREEZER_SIZES=[[4,3],[5,4],[6,5]], FREEZER_COST=[100,200];
 const THEMES={
   diner:{name:'Classic diner',emoji:'🍒',cost:0,wall:'#22605A',stripe:'#1D5550',a:'#FBFBF8',b:'#2B2B2B'},
@@ -1540,7 +1611,7 @@ function bestStars(){let b=S.rep||0;for(const id in S.shops){const s=S.shops[id]
 function mgrOf(id){return MGRS.find(m=>m.id===(S.mgr||{})[id]);}
 function mgrShop(mid){return Object.keys(S.mgr||{}).find(id=>S.mgr[id]===mid);}
 function mgrSpeed(m){return m.speed+Math.min(5,Math.floor(((S.mgrDays||{})[m.id]||0)/5));}
-function shopReady(id,k){const sh=S.shops[id];if(!sh)return recReady(k);const r=REC[k],ff=farmFlags(),has=e=>!!sh.eq[e]||!!ff[e];return (!r.needs||has(r.needs))&&(!r.also||has(r.also))&&(!r.plate||sh.up.plate>=r.plate);}
+function shopReady(id,k){const sh=S.shops[id];if(!sh)return recReady(k);const r=REC[k],ff=farmFlags(),has=e=>!!sh.eq[e]||!!ff[e],sr=sh.rec[k];if(r.variant&&!(sr&&sr.earned))return false;if(sr&&sr.gold)return false;return (!r.needs||has(r.needs))&&(!r.also||has(r.also))&&(!r.plate||sh.up.plate>=r.plate);}
 function shopMenu(id){const sh=S.shops[id];if(!sh)return menuList();return Object.keys(REC).filter(k=>inShop(k,id)&&sh.rec[k]&&sh.rec[k].onMenu&&shopReady(id,k));}
 function truckStock(tr){const m={};tr.pieces.forEach(p=>{m[p.key]=(m[p.key]||0)+p.uses;});return m;}
 function setMtruck(){if(!S)return;const id=MSEL&&S.shops[MSEL]?MSEL:null;Object.defineProperty(S,'mtruck',{value:id?S.shops[id].truck:{w:6,h:3,pieces:[]},writable:true,configurable:true,enumerable:false});}
@@ -1591,32 +1662,48 @@ function renderSupply(){const el=$('#supply');if(!el||!S)return;const os=otherSh
     <h3>🧺 What it needs <small>(pieces for one of each dish — pack plenty!)</small></h3>
     <div class="needlist">${Object.keys(need).map(i=>{const n=st[i]||0;const cls=n===0?'out':n<need[i]*4?'low':'ok';return `<div class="needrow ${cls}"><span class="nm"><b>${ING[i].emoji} ${ING[i].name}</b></span><span class="have">${n} on truck</span><span class="st">${n===0?(ING[i].farmOnly?'Get it from the farm 🌱':'Need some'):n<need[i]*4?'A little low':'Packed ✓'}</span></div>`;}).join('')||'<p class="mhint">Put dishes on the menu to see what to pack.</p>'}</div>
     <div class="truckwrap"><div class="gridbox"><div class="grid truckbed" id="g-mtruck"></div></div><div class="cab"></div></div>
-    ${sent||!prep?'':`<div class="buylist">${ings.filter(i=>!ING[i].farmOnly).map(i=>{const I=ING[i];return `<button class="buy" data-act="mBuy" data-arg="${i}"><span class="em">${I.emoji}</span><span><b>${I.name} · $${truckPrice(i)}</b><small>${I.uses} pieces${need[i]?'':' · not on its menu'}</small></span>${miniShape(I.basket,I.color,9)}</button>`;}).join('')}</div>
+    ${sent||!prep?'':`<div class="buylist icons">${ings.filter(i=>!ING[i].farmOnly).map(i=>{const I=ING[i];return `<div class="buyt ${need[i]?'':'unused'}"><button class="buyi" data-act="mBuy" data-arg="${i}" aria-label="${I.name} $${truckPrice(i)}" data-tip="${I.name} · $${truckPrice(i)}\n${I.uses} pieces${need[i]?'':'\nnot on its menu'}">${I.emoji}</button></div>`;}).join('')}</div>
     <p class="hint">Buy baskets straight onto this truck, or drag baskets here from your own truck or shelves (farm food too!). Tap a basket to turn it.</p>
     <button class="btn primary" data-act="mSend" ${m&&menu.length&&sh.truck.pieces.length?'':'disabled'}>🚚 Send the truck to ${SHOPS[id].name}</button>`}
    </div>`;
   paintGrid('mtruck',{max:52,color:p=>ING[p.key].color,label:basketLabel,icon:basketIcon});}
+const TOWN_ORDER=[['diner','cafe','bakery','farm'],['noodle','drinks','seafood','museum']];
+const BLD_LOOK={diner:['#C8102E','#FFF3E0'],cafe:['#6B4F3A','#FFF8EC'],bakery:['#E8A417','#FFF9E6'],noodle:['#8E2424','#FFF3E6'],drinks:['#E05A9C','#FFF0F6'],seafood:['#1E5AAA','#E8F6FF'],farm:['#B5382C','#F7E7CF'],museum:['#B8860B','#FBF6E6']};
+function bldHTML(id){const look=BLD_LOOK[id]||['#888','#fff'];let em,name,stat='',cls='';
+  if(id==='farm'){em='🌾';name='Your farm';const F=S.farm;const ripe=F?F.pieces.filter(cropReady).length:0,th=F&&S.phase==='prep'?F.pieces.filter(needsWater).length:0,wd=F&&F.weeds?Object.keys(F.weeds).length:0;stat=[ripe?`✨ ${ripe} ripe`:'',th?`💧 ${th} thirsty`:'',wd?`🌿 ${wd} weeds`:''].filter(Boolean).join(' · ')||'🐔 All good';}
+  else if(id==='museum'){em='🏛️';name='Golden Dish Museum';const n=(S.museum||[]).length;stat=n?`🏆 ${n} golden dish${n>1?'es':''}`:'Opens with your first golden dish';cls=n?'':'dim';}
+  else{const s=SHOPS[id],own=S.owned.includes(id),act=id===shopId(),m=mgrOf(id);em=s.em;name=s.name;
+    if(!own){cls='sale';stat=`🪧 For sale · $${s.cost.toLocaleString()}`;}
+    else if(act){cls='here';stat='👩‍🍳 You’re cooking here';}
+    else if(S.sent[id])stat=`🚚 Open · ${m?m.em+' '+m.name:''}`;
+    else stat=m?`${m.em} ${m.name} · truck ${S.shops[id].truck.pieces.length?'loaded':'empty'}`:'😴 Closed · no manager';}
+  return `<button class="tbld ${cls} b-${id}" data-act="bld" data-arg="${id}" style="--rc:${look[0]};--wc:${look[1]}"><span class="tb-roof"></span><span class="tb-body"><span class="tb-em">${em}</span><span class="tb-door"></span>${cls==='here'?'<span class="tb-smoke">💨</span>':''}${cls==='sale'?`<span class="tb-sale">FOR SALE</span>`:''}</span><span class="tb-name">${name}</span><span class="tb-stat">${stat}</span></button>`;}
 function renderTown(){const el=$('#town');if(!el||!S)return;const prep=S.phase==='prep',bs=bestStars();
-  const card=id=>{const s=SHOPS[id],own=S.owned.includes(id),act=id===shopId(),sh=S.shops[id],m=mgrOf(id);
-    if(!own)return `<div class="tcard locked"><div class="thead"><span class="tem">${s.em}</span><b>${s.name}</b></div><p>${s.blurb}</p><button class="btn go" data-act="buyShop" data-arg="${id}" ${S.money>=s.cost?'':'disabled'}>Open it for $${s.cost.toLocaleString()}</button>${S.money<s.cost?`<small class="tsave">Save up $${(s.cost-S.money).toLocaleString()} more</small>`:''}</div>`;
-    const rep=act?S.rep:sh.rep;
-    return `<div class="tcard ${act?'active':''}"><div class="thead"><span class="tem">${s.em}</span><b>${s.name}</b><span class="tstars">${rep.toFixed(1)} ★</span></div>
-      ${act?`<p class="tyou">👩‍🍳 You’re cooking here today${m?` · ${m.em} ${m.name} gets the day off`:''}</p>`:
-      `<p>${m?`Manager: <b>${m.em} ${m.name}</b> ($${m.wage}/day)`:'No manager yet'} <button class="btn small" data-act="hireMenu" data-arg="${id}">${m?'Change':'Hire a manager'}</button></p>
-       <p>${S.sent[id]?'🚚 Truck sent — report at closing time':sh.truck.pieces.length?`🧺 ${sh.truck.pieces.length} basket${sh.truck.pieces.length>1?'s':''} on its truck <button class="btn small" data-act="loadTruck" data-arg="${id}">Load / send →</button>`:`Truck is empty <button class="btn small" data-act="loadTruck" data-arg="${id}">Load it →</button>`}</p>
-       ${prep?`<button class="btn go" data-act="runShop" data-arg="${id}">🍳 Run it myself today</button>`:''}`}</div>`;};
   el.innerHTML=`<div class="phead"><h2>🏙️ Your town</h2><span class="hours">Best stars: ${bs.toFixed(1)} ★</span></div>
-   <p class="hint" style="margin:0 0 10px">${prep?'Pick which shop you run yourself today. Your other shops can run with a manager — load and send their trucks in the 📦 Pantry tab.':'You can switch shops tomorrow morning.'}</p>
-   <div class="tgrid">${Object.keys(SHOPS).map(card).join('')}</div>
+   <p class="hint" style="margin:0 0 8px">${prep?'Tap a building to go inside. Tap one of your other shops to run it today, hire its manager or load its truck.':'Tap a building to go inside. You can switch shops tomorrow morning.'}</p>
+   <div class="townmap" id="townmap"><div class="tm-sky"><span class="cl c1">☁️</span><span class="cl c2">☁️</span><span class="sunny">🌞</span></div>
+    <div class="tm-row">${TOWN_ORDER[0].map(bldHTML).join('')}</div><div class="tm-road"><span class="tm-car">🚗</span></div><div class="tm-row">${TOWN_ORDER[1].map(bldHTML).join('')}</div><div class="tm-grass">🌳 🌷 🌳 🌼 🌳</div></div>
    <h3>🧑‍💼 Managers</h3><p class="hint" style="margin:0 0 8px">Better managers want to work for a restaurant with more stars. They also get a little faster the more days they work.</p>
    <div class="mgrid2">${MGRS.map(m=>{const at=mgrShop(m.id),ok=bs>=m.need;return `<div class="mgr ${ok?'':'locked'}"><span class="mem">${m.em}</span><div><b>${m.name}</b> <small>$${m.wage}/day</small><p>${m.desc}</p><small>${!ok?`🔒 Needs ${m.need} ★`:at?`Works at ${SHOPS[at].em} ${SHOPS[at].name}`:'Looking for a job!'}${(S.mgrDays[m.id]||0)?` · ${S.mgrDays[m.id]} day${S.mgrDays[m.id]>1?'s':''} worked`:''}</small></div></div>`;}).join('')}</div>`;}
+function shopMenuHTML(id){const s=SHOPS[id],sh=S.shops[id],m=mgrOf(id),prep=S.phase==='prep';
+  return `<h2>${s.em} ${s.name}</h2><p>${s.blurb}</p><p><b>${sh.rep.toFixed(1)} ★</b> · ${m?`Manager: ${m.em} ${m.name} ($${m.wage}/day)`:'No manager yet'}</p>
+   <p>${S.sent[id]?'🚚 Its truck is out — the report comes at closing time.':sh.truck.pieces.length?`🧺 ${sh.truck.pieces.length} basket${sh.truck.pieces.length>1?'s':''} on its truck.`:'Its truck is empty.'}</p>
+   <div class="modal-actions">${prep?`<button class="btn primary" data-act="runShop" data-arg="${id}">🍳 Run it myself today</button>`:''}<button class="btn" data-act="hireMenu" data-arg="${id}">🧑‍💼 ${m?'Change manager':'Hire a manager'}</button>${prep&&!S.sent[id]?`<button class="btn" data-act="loadTruck" data-arg="${id}">🚚 Load its truck</button>`:''}<button class="btn" data-act="closeModal">Close</button></div>`;}
+function truckTrip(cargo,dest){if(!document.body.animate)return;const s=SHOPS[dest]||{em:'🏪',name:'your shop'};const o=document.createElement('div');o.className='trip';
+  o.innerHTML=`<div class="trip-road"><span class="trip-end from">🛖<small>Farm</small></span><span class="trip-end to">${s.em}<small>${s.name}</small></span><div class="trip-truck"><span class="cargo">${cargo}</span><span class="tk">🚚</span><span class="dust">💨</span></div></div>`;
+  document.body.appendChild(o);const tr=o.querySelector('.trip-truck');
+  o.animate([{opacity:0,transform:'translate(-50%,-20px)'},{opacity:1,transform:'translate(-50%,0)'}],{duration:300,fill:'forwards'});
+  tr.animate([{left:'12%'},{left:'14%',offset:.1},{left:'78%',offset:.85},{left:'80%'}],{duration:2600,delay:300,fill:'forwards',easing:'ease-in-out'});
+  tr.querySelector('.tk').animate([{transform:'scaleX(-1) translateY(0)'},{transform:'scaleX(-1) translateY(-3px)'},{transform:'scaleX(-1) translateY(0)'}],{duration:220,iterations:12,delay:300});
+  setTimeout(()=>{const d=document.createElement('div');d.className='trip-done';d.textContent='📦 Delivered!';o.querySelector('.trip-road').appendChild(d);},2900);
+  setTimeout(()=>{o.animate([{opacity:1},{opacity:0}],{duration:400,fill:'forwards'});setTimeout(()=>o.remove(),420);},3800);}
 function hireHTML(id){const bs=bestStars(),cur=mgrOf(id);return `<h2>Hire a manager for ${shopName(id)}</h2><div class="mgrid2">${MGRS.map(m=>{const ok=bs>=m.need,at=mgrShop(m.id);return `<div class="mgr ${ok?'':'locked'}"><span class="mem">${m.em}</span><div><b>${m.name}</b> <small>$${m.wage}/day</small><p>${m.desc}</p>${!ok?`<small>🔒 Needs ${m.need} ★ (you have ${bs.toFixed(1)})</small>`:cur&&cur.id===m.id?'<small>✓ Already working here</small>':`<button class="btn small go" data-act="hire" data-arg="${id}:${m.id}">Hire${at&&at!==id?` (moves from ${SHOPS[at].name})`:''}</button>`}</div></div>`;}).join('')}</div><div class="modal-actions">${cur?`<button class="btn" data-act="fire" data-arg="${id}">Let ${cur.name} go</button>`:''}<button class="btn primary" data-act="closeModal">Done</button></div>`;}
-function eqDesc(k){const e=EQUIP[k];const ad=(e.ing||[]).map(i=>ING[i].emoji+' '+ING[i].name.toLowerCase()).join(', ');const rs=Object.keys(REC).filter(r=>inShop(r)&&(REC[r].needs===k||REC[r].also===k)).map(r=>REC[r].emoji+' '+REC[r].name);return (ad?`Adds ${ad}. `:'')+(rs.length?`Unlocks ${rs.join(', ')}.`:'')+(e.requires?` Needs the ${e.requires.map(r=>EQUIP[r].name.toLowerCase()).join(' and ')}.`:'')+(k==='sweets'?' Comes with a dessert freezer in your pantry.':'');}
+function eqDesc(k){const e=EQUIP[k];const ad=(e.ing||[]).map(i=>ING[i].emoji+' '+ING[i].name.toLowerCase()).join(', ');const rs=Object.keys(REC).filter(r=>inShop(r)&&!REC[r].variant&&(REC[r].needs===k||REC[r].also===k)).map(r=>REC[r].emoji+' '+REC[r].name);return (ad?`Adds ${ad}. `:'')+(rs.length?`Unlocks ${rs.join(', ')}.`:'')+(e.requires?` Needs the ${e.requires.map(r=>EQUIP[r].name.toLowerCase()).join(' and ')}.`:'')+(k==='sweets'?' Comes with a dessert freezer in your pantry.':'');}
 function eqHere(k){const e=EQUIP[k];if(e.farm)return false;if(S.eq[k])return true;return Object.keys(REC).some(r=>inShop(r)&&(REC[r].needs===k||REC[r].also===k))||Object.keys(EQUIP).some(o=>(EQUIP[o].requires||[]).includes(k)&&eqHere(o));}
 
 /* ---------- state ---------- */
 let S, uid=1, D=null, paused=false, tab='dining', booting=true, tool='rotate', paintColor='#C8102E';
-function ensureFarm(){if(S&&S.farm){S.farm.built=S.farm.built||{};S.farm.findLog=S.farm.findLog||[];}if(S&&!Number.isFinite(S.money)){S.money=Math.max(150,(S.day||1)*60);if(S.stats&&!Number.isFinite(S.stats.spent))S.stats.spent=0;setTimeout(()=>toast('💰 Fixed a money glitch — your cash was reset to $'+S.money+'.'),300);}if(!S.farm)S.farm=newFarm();if(!S.barn)S.barn=[];const F=S.farm;if(F.w<MAP_W||F.h<MAP_H){F.w=MAP_W;F.h=MAP_H;}delete F.plots;F.landPile=F.landPile||[];if(!F.fence)F.fence={built:false,t:-1,broken:[]};if(F.fence.t==null)F.fence.t=F.fence.built?(F.fence.lv>1?4:2):-1;F.fence.built=F.fence.t>=0;F.fences=F.fences||[];F.fencePile=F.fencePile||[];F.fcell=F.fcell||{};if(F.fenceMax==null){F.fenceMax=F.fence.t;if(F.fence.t>=0){const cls=clustersList().sort((a,b)=>b.length-a.length);if(cls.length){F.fenceSeq=1;F.fences.push({id:1,t:F.fence.t,broken:[]});cls[0].forEach(k=>F.fcell[k]=1);}else F.fencePile.push(F.fence.t);}F.fence={built:false,t:-1,broken:[]};}F.hits=F.hits||{};F.dug=F.dug||{};F.finds=F.finds||{};F.glow=F.glow||{};if(F.gardenLv==null)F.gardenLv=-1;F.flowers=F.flowers||['daisy'];if(!S.garden)S.garden={w:3,h:2,pieces:[]};F.sacks=F.sacks||{};if(F.bin==null)F.bin=0;if(!S.feedbin){const [w,h]=BIN_SIZES[F.bin];S.feedbin={w,h,pieces:[]};}if(F.feed){for(const t in F.feed)if(F.feed[t]>0)F.sacks[t]=(F.sacks[t]||0)+Math.ceil(F.feed[t]/FEEDS[t].scoops);delete F.feed;}
+function ensureFarm(){if(S&&S.farm){S.farm.weeds=S.farm.weeds||{};S.farm.built=S.farm.built||{};S.farm.findLog=S.farm.findLog||[];}if(S&&!Number.isFinite(S.money)){S.money=Math.max(150,(S.day||1)*60);if(S.stats&&!Number.isFinite(S.stats.spent))S.stats.spent=0;setTimeout(()=>toast('💰 Fixed a money glitch — your cash was reset to $'+S.money+'.'),300);}if(!S.farm)S.farm=newFarm();if(!S.barn)S.barn=[];const F=S.farm;if(F.w<MAP_W||F.h<MAP_H){F.w=MAP_W;F.h=MAP_H;}delete F.plots;F.landPile=F.landPile||[];if(!F.fence)F.fence={built:false,t:-1,broken:[]};if(F.fence.t==null)F.fence.t=F.fence.built?(F.fence.lv>1?4:2):-1;F.fence.built=F.fence.t>=0;F.fences=F.fences||[];F.fencePile=F.fencePile||[];F.fcell=F.fcell||{};if(F.fenceMax==null){F.fenceMax=F.fence.t;if(F.fence.t>=0){const cls=clustersList().sort((a,b)=>b.length-a.length);if(cls.length){F.fenceSeq=1;F.fences.push({id:1,t:F.fence.t,broken:[]});cls[0].forEach(k=>F.fcell[k]=1);}else F.fencePile.push(F.fence.t);}F.fence={built:false,t:-1,broken:[]};}F.hits=F.hits||{};F.dug=F.dug||{};F.finds=F.finds||{};F.glow=F.glow||{};if(F.gardenLv==null)F.gardenLv=-1;F.flowers=F.flowers||['daisy'];if(!S.garden)S.garden={w:3,h:2,pieces:[]};F.sacks=F.sacks||{};if(F.bin==null)F.bin=0;if(!S.feedbin){const [w,h]=BIN_SIZES[F.bin];S.feedbin={w,h,pieces:[]};}if(F.feed){for(const t in F.feed)if(F.feed[t]>0)F.sacks[t]=(F.sacks[t]||0)+Math.ceil(F.feed[t]/FEEDS[t].scoops);delete F.feed;}
   if(S.shed)S.shed.pieces.filter(p=>p.n>1).forEach(p=>{while(p.n>1){const sp=findSpot('shed',p.shape);if(!sp)break;addPiece('shed','seedpk',p.key,sp.x,sp.y,sp.shape,{n:1});p.n--;}});
   if(!S.shed){S.shed={w:5,h:3,pieces:[]};F.shedLv=0;addShed('c:tomato');addShed('c:tomato');F.seeds.forEach(k=>{if(k!=='tomato')addShed('c:'+k);});if(F.gardenLv>=0)F.flowers.forEach(k=>addShed('f:'+k));const fp=(F.fencePile||[]).splice(0);fp.forEach(t=>{if(!addShed('x:'+t))F.fencePile.push(t);});}}
 function blankStats(){return {earned:0,tips:0,dishes:0,happy:0,angry:0,lost:0,kicked:0,kickedEating:0,spent:0,arcade:0};}
@@ -1628,7 +1715,7 @@ function newGame(){
      storeroom:[{key:'plant'},{key:'single',cloth:'#E8A417'},{key:'single',cloth:'#E8A417'}],rec:{},ingOn:['B','C','R','E','T'],rot:{},
      parties:[],nextArrival:0,active:null,sel:null,stats:blankStats(),math:{on:true,tables:[2,3,4,5,6,7,8,9,10]},facts:{},clear:{},payQ:[]};
   S.shopId='diner';S.owned=['diner'];S.shops={};S.mgr={};S.sent={};S.mgrDays={};S.ingOn.push('V');
-  for(const k in REC){const ok=inShop(k,'diner')&&!REC[k].needs&&!REC[k].plate;S.rec[k]={unlocked:ok,level:1,onMenu:ok};}
+  for(const k in REC){const ok=inShop(k,'diner')&&!REC[k].variant&&!REC[k].needs&&!REC[k].plate;S.rec[k]={unlocked:ok,level:1,onMenu:ok};}
   [[2,1],[3,1]].forEach(([x,y])=>addPiece('dining','furn','single',x,y));
   [[2,3],[3,3]].forEach(([x,y])=>addPiece('dining','furn','single',x,y,null,{cloth:'#2BA88A'}));
   [[5,1],[6,1],[5,2],[6,2]].forEach(([x,y])=>addPiece('dining','furn','single',x,y,null,{cloth:'#1E5AAA'}));
@@ -1651,7 +1738,7 @@ function fits(gid,shape,x,y,ignore){
   for(const [a,b] of shape){const cx=a+x,cy=b+y;
     if(cx<0||cy<0||cx>=g.w||cy>=g.h) return false;
     if(gid==='dining'&&cx===0&&cy===0) return false;
-    if(gid==='farm'&&S.farm.cells[cx+','+cy]!=='tilled') return false;
+    if(gid==='farm'&&(S.farm.cells[cx+','+cy]!=='tilled'||(S.farm.weeds&&S.farm.weeds[cx+','+cy]))) return false;
     if(gid==='garden'&&S.farm.gardenLv<0) return false;
     if(S.ev&&gid==='dining'&&S.ev.sticky&&S.ev.sticky[0]===cx&&S.ev.sticky[1]===cy) return false;
     if(S.ev&&gid==='fridge'&&S.ev.blocked&&S.ev.blocked.includes(cx+','+cy)) return false;
@@ -1661,10 +1748,10 @@ function fits(gid,shape,x,y,ignore){
 function findSpot(gid,shape){let s=shape;const g=S[gid];for(let r=0;r<4;r++){for(let y=0;y<g.h;y++)for(let x=0;x<g.w;x++)if(fits(gid,s,x,y))return {x,y,shape:s};s=rot(s);}return null;}
 function seedKitchen(){addPiece('kitchen','appl','stove',0,0);addPiece('kitchen','appl','sink',4,0);addPiece('kitchen','appl','toaster',0,3);addPiece('kitchen','appl','rice',1,3);}
 function addAppliance(eq){for(const a in APPL){if(APPL[a].eq!==eq)continue;let spot=findSpot('kitchen',APPL[a].shape);while(!spot){S.kitchen.h++;spot=findSpot('kitchen',APPL[a].shape);}addPiece('kitchen','appl',a,spot.x,spot.y,spot.shape);}}
-function recReady(k){const r=REC[k];return (!r.needs||!!S.eq[r.needs])&&(!r.also||!!S.eq[r.also])&&(!r.plate||S.up.plate>=r.plate);}
+function recReady(k){const r=REC[k],sr=S.rec&&S.rec[k];if(r.variant&&!(sr&&sr.earned))return false;if(sr&&sr.gold)return false;return (!r.needs||!!S.eq[r.needs])&&(!r.also||!!S.eq[r.also])&&(!r.plate||S.up.plate>=r.plate);}
 function refreshUnlocks(){const fresh=[];for(const k in REC)if(inShop(k)&&recReady(k)&&!S.rec[k].unlocked){S.rec[k].unlocked=true;S.rec[k].onMenu=false;S.rec[k].isNew=true;fresh.push(k);}return fresh;}
 function lockText(k){const r=REC[k],p=[];if(r.needs&&!S.eq[r.needs])p.push('the '+EQUIP[r.needs].name.toLowerCase());if(r.also&&!S.eq[r.also])p.push('the '+EQUIP[r.also].name.toLowerCase());if(r.plate&&S.up.plate<r.plate)p.push('the '+PLATE_NAMES[r.plate].toLowerCase());return 'Needs '+p.join(' and ')+'.';}
-function migrate(){ensureFarm();ensureShops();if(S.up.freezer==null)S.up.freezer=0;if(S.eq.sweets&&!S.freezer)S.freezer={w:4,h:3,pieces:[]};if(S.up.plate2&&!S.plate2)S.plate2={w:S.plate.w,h:S.plate.h,pieces:[]};S.st={};S.cur='plate';if(S.fridge){const fz=FRIDGE_SIZES[S.up.fridge||0];S.fridge.w=Math.max(S.fridge.w,fz[0]);S.fridge.h=Math.max(S.fridge.h,fz[1]);}[S.storage,S.fridge,S.truck].forEach(g=>g&&g.pieces.forEach(b=>{if(b.kind==='basket')shrink(b);}));if(S.up.plate==null)S.up.plate=0;if(!S.kitchen){S.kitchen={w:6,h:4,pieces:[]};seedKitchen();for(const k in S.eq)if(S.eq[k])addAppliance(k);}
+function migrate(){ensureFarm();if(S.dining)S.dining.pieces.filter(p=>p.key==='pool'&&p.shape.length>1).forEach(p=>{const cs=cellsOf(p);p.shape=[[0,0]];p.x=cs[0][0];p.y=cs[0][1];cs.slice(1).forEach(([x,y])=>addPiece('dining','furn','pool',x,y,[[0,0]]));});ensureShops();if(S.up.freezer==null)S.up.freezer=0;if(S.eq.sweets&&!S.freezer)S.freezer={w:4,h:3,pieces:[]};if(S.up.plate2&&!S.plate2)S.plate2={w:S.plate.w,h:S.plate.h,pieces:[]};S.st={};S.cur='plate';if(S.fridge){const fz=FRIDGE_SIZES[S.up.fridge||0];S.fridge.w=Math.max(S.fridge.w,fz[0]);S.fridge.h=Math.max(S.fridge.h,fz[1]);}[S.storage,S.fridge,S.truck].forEach(g=>g&&g.pieces.forEach(b=>{if(b.kind==='basket')shrink(b);}));if(S.up.plate==null)S.up.plate=0;if(!S.kitchen){S.kitchen={w:6,h:4,pieces:[]};seedKitchen();for(const k in S.eq)if(S.eq[k])addAppliance(k);}
   for(const k in REC)if(!S.rec[k])S.rec[k]={unlocked:false,level:1,onMenu:false};refreshUnlocks();}
 const PKEY='tile-and-table-players';
 const AVATARS=['🐶','🐱','🐰','🐻','🐼','🦊','🐨','🐸','🐷','🐯','🦁','🐵','🐧','🐢','🦄','🐉','🧜‍♀️','🧚','👽','🤖'];
@@ -1701,7 +1788,7 @@ function charm(){return S.dining.pieces.reduce((a,p)=>a+(FURN[p.key].charm||0),0
 function patBonus(){return (S.relaxed?1.6:1)*(S.up.comfy?1.25:1)*(1+charm()*0.03)*(evIs('cushions')?1.3:1)*(evIs('grumpy')?.75:1);}
 function priceStep(k){return Math.max(1,Math.round(REC[k].price*0.25));}
 function priceAt(k,lv){return REC[k].price+priceStep(k)*(lv-1);}
-function improveCost(k){return priceStep(k)*15;}
+function improveCost(k){return priceStep(k)*(10+5*((S.rec[k]&&S.rec[k].level)||1));}
 function recipePrice(k){let p=priceAt(k,S.rec[k].level);const e=S&&S.ev;if(e){if(e.id==='bump'&&e.dish===k)p+=2;if(e.id==='coupon')p-=1;if(e.id==='wrongtag'&&e.dish===k)p-=2;}return Math.max(2,p);}
 function mathOn(){return !S.math||S.math.on!==false;}
 function mathTables(){return (S.math&&S.math.tables&&S.math.tables.length)?S.math.tables:[2,3,4,5,6,7,8,9,10];}
@@ -1714,7 +1801,7 @@ function menuList(){return Object.keys(REC).filter(k=>inShop(k)&&(S.rec[k].unloc
 function tables(){return S.dining.pieces.filter(p=>FURN[p.key].seats);}
 function adj(a,b){const cb=new Set(cellsOf(b).map(c=>c+''));return cellsOf(a).some(([x,y])=>cb.has([x+1,y]+'')||cb.has([x-1,y]+'')||cb.has([x,y+1]+'')||cb.has([x,y-1]+''));}
 function clusters(){const ts=tables().filter(t=>!(S.ev&&S.ev.broken===t.id)),seen=new Set(),out=[];for(const t of ts){if(seen.has(t.id))continue;const grp=[t];seen.add(t.id);
-  if(!FURN[t.key].for)for(let i=0;i<grp.length;i++)for(const u of ts)if(!seen.has(u.id)&&!FURN[u.key].for&&adj(grp[i],u)){seen.add(u.id);grp.push(u);}
+  if(!FURN[t.key].for||FURN[t.key].join)for(let i=0;i<grp.length;i++)for(const u of ts)if(!seen.has(u.id)&&(FURN[t.key].for?u.key===t.key:!FURN[u.key].for)&&adj(grp[i],u)){seen.add(u.id);grp.push(u);}
   out.push({tables:grp,ids:grp.map(g=>g.id),seats:grp.reduce((a,g)=>a+FURN[g.key].seats,0),for:FURN[t.key].for||null});}return out;}
 function seatOK(c,type){return !c.for||c.for===type;}
 function seatsFor(type){return Math.max(0,...clusters().filter(c=>seatOK(c,type)).map(c=>c.seats));}
@@ -1829,7 +1916,7 @@ function renderDining(){
     color:p=>FURN[p.key].color,
     pstyle:p=>FURN[p.key].seats&&!FURN[p.key].for?`;--cloth:${p.cloth||'#C8102E'}`:'',
     pieceCls:p=>{const f=FURN[p.key];return (p.id===NHIDE?'nhide ':'')+(S.ev&&S.ev.broken===p.id?'broken ':'')+(f.for?'spc s-'+p.key:f.seats?'tbl t-'+p.key:'deco d-'+p.key)+(canSet.has(p.id)?' can':'');},
-    nb:(p,x,y)=>{if(!FURN[p.key].seats||FURN[p.key].for)return '';const h=(dx,dy)=>tc.has([x+dx,y+dy]+'');return [h(0,-1)?'nu':'',h(0,1)?'nd':'',h(-1,0)?'nl':'',h(1,0)?'nr':''].join(' ');},
+    nb:(p,x,y)=>{if(FURN[p.key].join){const pc=new Set();S.dining.pieces.filter(q=>q.key===p.key).forEach(q=>cellsOf(q).forEach(c=>pc.add(c+'')));const h=(dx,dy)=>pc.has([x+dx,y+dy]+'');return [h(0,-1)?'nu':'',h(0,1)?'nd':'',h(-1,0)?'nl':'',h(1,0)?'nr':''].join(' ');}if(!FURN[p.key].seats||FURN[p.key].for)return '';const h=(dx,dy)=>tc.has([x+dx,y+dy]+'');return [h(0,-1)?'nu':'',h(0,1)?'nd':'',h(-1,0)?'nl':'',h(1,0)?'nr':''].join(' ');},
     outer:p=>{if(!FURN[p.key].seats||FURN[p.key].for)return '';const sd=chairSide(p,tc);return sd?`<i class="chair ${sd}"></i>`:'';},
     label:p=>{const f=FURN[p.key];if(!f.seats)return f.flower?`${f.emoji}<span class="vbadge">${p.fresh||1}d</span>`:f.emoji;if(S.ev&&S.ev.broken===p.id)return '⚠️';const fi=first.get(p.id);if(!fi)return '';
       if(f.for)return `<span class="se">${f.emoji}</span>`+(partyAt(p.id)?'':`<span class="seat">${TYPES[f.for].faces[0]} only</span>`);
@@ -1923,7 +2010,7 @@ function renderTruck(){
   const need=menuNeeds();const order=ingList().filter(k=>!(evIs('shortage')&&S.ev.ing===k)).sort((a,b)=>(need[b]?1:0)-(need[a]?1:0));
   const cl=Object.keys(S.clear||{}).filter(k=>S.clear[k]>0);
   $('#clearance').innerHTML=cl.length?`<div class="clearhead">🏷️ Clearance today — half price, but it spoils after today!</div><div class="buylist">${cl.map(k=>{const i=ING[k];return `<button class="buy clr" data-act="buyClear" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · <s>$${i.cost}</s> $${Math.ceil(i.cost/2)}</b><small>${S.clear[k]} left · ${i.uses} pieces · use it today</small></span></button>`;}).join('')}</div>`:'';
-  $('#buylist').innerHTML=order.map(k=>{const i=ING[k];return `<div class="buywrap ${need[k]?'':'unused'}"><button class="buy" data-act="buyIng" data-arg="${k}"><span class="em">${i.emoji}</span><span><b>${i.name} · $${truckPrice(k)}</b><small>${i.uses} pieces · ${i.frozen?'🧊 goes in the dessert freezer':i.dessert&&S.freezer?'🧊 dessert freezer or ❄️ fridge':i.cold?'❄️ goes in the fridge':'dry shelf'}${need[k]?'':' · not on your menu'}</small></span>${miniShape(i.basket,i.color,9)}</button>${i.basket.length>1?`<button class=\"buy1\" data-act=\"buyOne\" data-arg=\"${k}\">＋ Just 1 block · $${blockPrice(k)}<small>4 pieces</small></button>`:''}</div>`;}).join('');
+  $('#buylist').classList.add('icons');$('#buylist').innerHTML=order.map(k=>{const i=ING[k],where=i.frozen?'🧊 goes in the dessert freezer':i.dessert&&S.freezer?'🧊 dessert freezer or ❄️ fridge':i.cold?'❄️ goes in the fridge':'dry shelf';return `<div class="buyt ${need[k]?'':'unused'}"><button class="buyi" data-act="buyIng" data-arg="${k}" aria-label="${i.name} $${truckPrice(k)}" data-tip="${i.name} · $${truckPrice(k)}\n${i.uses} pieces · ${where}${need[k]?'':'\nnot on your menu'}">${i.emoji}</button>${i.basket.length>1?`<button class="buy1i" data-act="buyOne" data-arg="${k}" data-tip="Just 1 block of ${i.name.toLowerCase()}\n$${blockPrice(k)} · 4 pieces">+1</button>`:''}</div>`;}).join('');
 }
 function renderShopping(){
   const need=menuNeeds();const menu=menuList();
@@ -1949,21 +2036,22 @@ function renderUpgrades(){
     h+=urow(e.emoji,e.name,eqDesc(k),own?'<button class="btn small" disabled>Owned</button>':`<button class="btn small go" data-act="buyEq" data-arg="${k}" ${miss.length?'disabled':''}>Buy $${e.cost}</button>`);}
   const pl2=S.up.plate;
   h+='<h3>Plates</h3>'+urow('🍽️',`${PLATE_NAMES[pl2]} (${PLATE_SIZES[pl2].join('×')})`,'The plate you build dishes on.','<button class="btn small" disabled>Owned</button>');
-  if(pl2<PLATE_COST.length){const nx=pl2+1;const unl=Object.keys(REC).filter(k=>inShop(k)&&REC[k].plate===nx).map(k=>REC[k].emoji+' '+REC[k].name).join(', ');
+  if(pl2<PLATE_COST.length){const nx=pl2+1;const unl=Object.keys(REC).filter(k=>inShop(k)&&!REC[k].variant&&REC[k].plate===nx).map(k=>REC[k].emoji+' '+REC[k].name).join(', ');
     h+=urow(nx===1?'🥘':'🍱',`${PLATE_NAMES[nx]} (${PLATE_SIZES[nx].join('×')})`,`Unlocks ${unl}.${nx===1?' Adds pizza dough to the truck.':''}`,`<button class="btn small go" data-act="growPlate">Buy $${PLATE_COST[pl2]}</button>`);}
   {const ml=S.up.menuSlots||0;h+=urow('📋',`Bigger menu board${ml?` (level ${ml})`:''}`,`Every menu section holds ${ml<MENU_UP.length?`one more dish (${2+ml}→${3+ml} starters, ${4+ml}→${5+ml} entrées, and so on)`:'as many dishes as it can — fully upgraded!'}.`,ml<MENU_UP.length?`<button class="btn small go" data-act="growMenu">Buy $${MENU_UP[ml]}</button>`:'<button class="btn small" disabled>Max</button>');}
   h+=urow('🍽️','Second plate','Build two dishes at the same time. Tap a plate to pick it, then tap an order ticket to load it.',S.up.plate2?'<button class="btn small" disabled>Owned</button>':'<button class="btn small go" data-act="buyPlate2">Buy $150</button>');
   h+='<h3>Recipes</h3><p class="hint" style="margin:0 0 6px">Improve a recipe to sell it for more. Choose what\'s on today\'s menu in the 📋 Menu tab.</p>';
-  for(const k in REC){if(!inShop(k))continue;const r=REC[k],s=S.rec[k];
+  h+=`<p class="hint" style="margin:0 0 6px">🏆 Improve a dish ${GOLD_UPS} times and it turns <b>golden</b> — it retires to the 🏛️ museum (visitors pay to see it every day) and a fancier recipe unlocks.</p>`;
+  for(const k in REC){if(!inShop(k))continue;const r=REC[k],s=S.rec[k];if(s.gold||(r.variant&&!s.earned))continue;
     if(!s.unlocked){h+=urow(r.emoji,r.name,lockText(k),'');continue;}
-    const lv=s.level,cost=improveCost(k);
-    h+=urow(r.emoji,`${r.name} · $${recipePrice(k)}`,`Recipe level ${lv} of 3${lv<3?` — improve to sell for $${priceAt(k,lv+1)} (+$${priceStep(k)} each, pays for itself after 15 sold)`:''}`,
-      (lv<3?`<button class="btn small go" data-act="improve" data-arg="${k}">Improve $${cost}</button>`:''));}
+    const lv=s.level,cost=improveCost(k),left=GOLD_UPS+1-lv;
+    h+=urow(r.emoji,`${r.name} · $${recipePrice(k)} <span class="lvstars">${'★'.repeat(lv-1)}${'☆'.repeat(GOLD_UPS-lv+1)}</span>`,lv>GOLD_UPS?'One more improvement makes it GOLDEN 🏆 — it retires to the museum and a fancier recipe unlocks!':`Level ${lv}: improve to sell for $${priceAt(k,lv+1)}. ${left} more improvement${left>1?'s':''} until it turns golden 🏆`,
+      `<button class="btn small go" data-act="improve" data-arg="${k}">${lv>GOLD_UPS?'Make it golden! 🏆':'Improve'} $${cost}</button>`);}
   h+='<h3>Furniture &amp; decor</h3>';
   for(const k in FURN){const f=FURN[k];if(f.for||f.flower||f.prize)continue;h+=urow(f.emoji,f.name,f.seats?`Seats 1. Put it next to other tables to build a bigger table.`:`Decor: +${f.charm} charm (guests wait longer and tip more).`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
   h+='<h3>Magical seating</h3>';
   for(const k in FURN){const f=FURN[k];if(!f.for)continue;const T=TYPES[f.for];
-    h+=urow(f.emoji,f.name,`For ${T.faces[0]} ${T.name.toLowerCase()} only (visits at ${T.minRep}★+). Seated here they tip extra; at a regular table they pay for their food but leave no tip.`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
+    h+=urow(f.emoji,f.name,`For ${T.faces[0]} ${T.name.toLowerCase()} only (visits at ${T.minRep}★+).${f.join?' Each pool seats 1 — push pools together to make one big pool, or pull them apart.':''} Seated here they tip extra; at a regular table they pay for their food but leave no tip.`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
   h+='<h3>Restaurant themes</h3><p class="hint" style="margin:0 0 6px">Change the whole look of your restaurant. Buy a theme once, then switch any time.</p>';
   for(const k in THEMES){const t=THEMES[k],own=k==='diner'||(S.themes||[]).includes(k),on=(S.theme||'diner')===k;
     h+=urow(t.emoji,t.name,`<span class="swatch" style="background:${t.wall}"></span><span class="swatch" style="background:${t.a}"></span><span class="swatch" style="background:${t.b}"></span>`,on?'<button class="btn small" disabled>✓ Using</button>':own?`<button class="btn small" data-act="useTheme" data-arg="${k}">Use</button>`:`<button class="btn small go" data-act="buyTheme" data-arg="${k}">Buy $${t.cost}</button>`);}
@@ -1992,7 +2080,7 @@ function renderReceipts(){
 }
 function renderMenuTab(){
   const prep=S.phase==='prep',so=S.soldOut||{};
-  const unl=Object.keys(REC).filter(k=>inShop(k)&&S.rec[k].unlocked),locked=Object.keys(REC).filter(k=>inShop(k)&&!S.rec[k].unlocked);
+  const unl=Object.keys(REC).filter(k=>inShop(k)&&S.rec[k].unlocked),locked=Object.keys(REC).filter(k=>inShop(k)&&!S.rec[k].unlocked&&!S.rec[k].gold&&!REC[k].variant);
   const on=menuList().length,np=unpriced().length;
   $('#menuNote').textContent=`${on} dish${on===1?'':'es'} on the menu`;
   const nNew=unl.filter(k=>S.rec[k].isNew).length;$('#mbadge').textContent=nNew?'NEW':prep&&np?'✏️':'';
@@ -2002,7 +2090,7 @@ function renderMenuTab(){
     if(prep)btn=`<button class="mbtn ${inM?'on':''}" data-act="toggleMenu" data-arg="${k}">${inM?'✓ On today\'s menu':'＋ Add to menu'}</button>`;
     else if(inM)btn=`<button class="mbtn ${so[k]?'sold':'on'}" data-act="soldOut" data-arg="${k}">${so[k]?'🚫 Sold out — tap to bring back':'✓ Serving — tap if sold out'}</button>`;
     else btn=`<button class="mbtn" disabled>Not on today's menu</button>`;
-    return `<div class="mcard ${inM?'in':''} ${so[k]&&inM?'sold':''} ${st.isNew?'isnew':''}">${st.isNew?'<span class="newtag">New!</span>':''}<div class="mtop"><span class="me">${r.emoji}</span><b>${r.name}</b><em>${inM?(so[k]?'SOLD OUT':priceTag(k)):'$'+recipePrice(k)}</em></div><div class="mings">${ings}</div>${btn}</div>`;};
+    return `<div class="mcard ${inM?'in':''} ${so[k]&&inM?'sold':''} ${st.isNew?'isnew':''}">${st.isNew?'<span class="newtag">New!</span>':''}<div class="mtop"><span class="me">${r.emoji}</span><b>${r.name}${st.level>1?`<span class="lvstars">${'★'.repeat(st.level-1)}</span>`:''}</b><em>${inM?(so[k]?'SOLD OUT':priceTag(k)):'$'+recipePrice(k)}</em></div><div class="mings">${ings}</div>${btn}</div>`;};
   $('#menuTab').innerHTML=
     (prep&&np?`<button class="pbanner" data-act="setPrices">✏️ <b>Set today's menu prices</b><span>${np} to go — tap here</span></button>`:'')+
     `<p class="hint" style="margin:0 0 10px">${prep?'Pick the dishes you want to cook today, then set their prices. You can change this every morning.':'The menu is set for today. If you run out of something, tap a dish to mark it sold out.'}</p>`+
@@ -2010,10 +2098,10 @@ function renderMenuTab(){
     ['','k'].map(kp=>`<h2 class="mhead ${kp?'kids':''}">${kp?'🧒 Kids\' menu':'📋 Main menu'}</h2>`+COURSES.map(([c,em,nm])=>{const sec=kp+c,u=unl.filter(k=>secOf(k)===sec),lk=locked.filter(k=>secOf(k)===sec);if(!u.length&&!lk.length)return '';const n=secCount(sec),m=secSlots(sec);
       return `<div class="msec2"><h3>${em} ${nm} <span class="slots ${n>m?'over':n===m?'full':''}">${n} of ${m} on the menu</span></h3><div class="mgrid">${[...u.filter(k=>S.rec[k].isNew),...u.filter(k=>!S.rec[k].isNew)].map(card).join('')}</div>${lk.length?`<div class="mlock">${lk.map(k=>`<span title="${lockText(k)} See Upgrades.">🔒 ${REC[k].emoji} ${REC[k].name} <small>${lockText(k).replace(/^Needs /,'needs ').replace(/\.$/,'')}</small></span>`).join('')}</div>`:''}</div>`;}).join('')).join('');
 }
-function renderTabs(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts','town'].forEach(t=>{const e=$('#tab-'+t);if(e)e.hidden=t!==tab;});}
+function renderTabs(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab||(b.dataset.arg==='town'&&(tab==='farm'||tab==='museum'))));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts','town','museum'].forEach(t=>{const e=$('#tab-'+t);if(e)e.hidden=t!==tab;});}
 function renderLive(){if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
 function renderShelf(){const t=S.trophies||[],el=$('#shelf');el.hidden=!t.length;el.innerHTML=t.map(k=>`<span title="${TROPHIES[k].name}">${TROPHIES[k].emoji}</span>`).join('');}
-function renderAll(){if(S){ensureFarm();ensureShops();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
+function renderAll(){if(S){ensureFarm();ensureShops();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderMuseum();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
 
 /* ---------- toasts, floats, modal ---------- */
 function toast(msg,ms){const t=document.createElement('div');t.className='toast';t.textContent=msg;$('#toasts').appendChild(t);while($('#toasts').children.length>3)$('#toasts').firstChild.remove();setTimeout(()=>t.remove(),ms||3200);}
@@ -2045,7 +2133,7 @@ function dailyHTML(){
   <div class="modal-actions"><button class="btn primary" data-act="closeModal">Let's go!</button><button class="btn" data-act="help">Full how to play</button></div>`;}
 function helpHTML(){return `<h1>How to play</h1><ol>
 <li><b>Flip the event card.</b> From day 2, every morning starts with an event card. Some help you, some make the day harder. Tap today's card at the top to read it again.</li>
-<li><b>Farm in the morning.</b> In the 🌱 Farm tab, clear rocks, dig, plant seeds and water them every morning. Tap the red barn to go inside: drag new feed sacks into the bins, then feed your animals outside. Place your land squares on the meadow in any shape. Tap ✋ Move land to slide squares around — whatever is on a square (rocks, dug soil, glowing goo) moves with it. Build a fence so critters don’t eat your veggies at night, and tap the 🔨 to fix broken spots. Spoiled food goes into the farm’s compost bin: tap 🪱 Compost, then tap a plant to make it grow an extra day. Unlock sunflowers (for nuts) and fruit trees (they keep making fruit!) for new recipes. Build a wildflower garden and put flower vases next to tables for happier guests. Harvests and animal food go to the barn shelves. Sending farm food to the truck costs the farm price — less than half what the truck charges — send them to the truck, then unload them in the Pantry. Dishes made with farm food earn a 🌱 farm-fresh tip.</li>
+<li><b>Farm in the morning.</b> Tap the 🌾 farm in the 🏙️ Town, clear rocks, dig, plant seeds and water them every morning. Tap the red barn to go inside: drag new feed sacks into the bins, then feed your animals outside. Place your land squares on the meadow in any shape. Tap ✋ Move land to slide squares around — whatever is on a square (rocks, dug soil, glowing goo) moves with it. Build a fence so critters don’t eat your veggies at night, and tap the 🔨 to fix broken spots. Spoiled food goes into the farm’s compost bin: tap 🪱 Compost, then tap a plant to make it grow an extra day. Unlock sunflowers (for nuts) and fruit trees (they keep making fruit!) for new recipes. Build a wildflower garden and put flower vases next to tables for happier guests. Harvests and animal food go to the barn shelves. Sending farm food to the truck costs the farm price — less than half what the truck charges — send them to the truck, then unload them in the Pantry. Dishes made with farm food earn a 🌱 farm-fresh tip.</li>
 <li><b>Your town.</b> Save up to open more shops in the 🏙️ Town tab — a café, bakery, noodle house, drink shop and seafood shack, each with its own menu, kitchen and dining room. Each morning pick which one you run. Hire managers for the others, then load and send their trucks in the 📦 Pantry tab. You get their reports at closing time.</li>
 <li><b>Stock up in the morning.</b> In <b>Pantry &amp; truck</b>, check what your menu needs, then buy baskets. They land on the truck — drag dry food onto the shelves and ❄️ cold food into the fridge. The truck leaves when you open and comes back the next morning.</li>
 <li><b>Watch for spoiling.</b> Cold food left on the dry shelves spoils overnight. Fridge food lasts 2 days and dry food 3 days (the number on each basket).</li>
@@ -2110,7 +2198,7 @@ const EVENTS=[
    go(){let n=0;['storage','fridge','freezer'].filter(g=>S[g]).forEach(g=>{S[g].pieces=S[g].pieces.filter(b=>{if(b.days<=1){n++;return false;}return true;});});if(!n)return false;S.ev.n=n;}},
  {id:'special',good:1,em:'👨‍🍳',area:'Food',t:'Chef\'s special',d:e=>`${dn(e.dish)} is today's chef's special. Every one you serve earns double!`,go(){const m=menuList();S.ev.dish=m[rint(0,m.length-1)];}},
  {id:'trial',good:1,em:'📜',area:'Food',t:'New recipe card',d:e=>`A friend lent you their recipe for ${dn(e.dish)}. It's on your menu just for today — its ingredients are on the truck.`,
-   go(){const c=Object.keys(REC).filter(k=>inShop(k)&&!S.rec[k].unlocked&&(!REC[k].plate||S.up.plate>=REC[k].plate));if(!c.length)return false;S.ev.dish=c[rint(0,c.length-1)];}},
+   go(){const c=Object.keys(REC).filter(k=>inShop(k)&&!REC[k].variant&&!S.rec[k].gold&&!S.rec[k].unlocked&&(!REC[k].plate||S.up.plate>=REC[k].plate));if(!c.length)return false;S.ev.dish=c[rint(0,c.length-1)];}},
  {id:'stove',good:0,day:4,em:'🔥',area:'Kitchen',t:'Broken stove',d:e=>`The stove won't turn on. These are sold out today: ${e.locked.map(dn).join(', ')}.`,go(){if(!lockDishes(k=>(REC_APPL[k]||[]).includes('stove')))return false;}},
  {id:'flicker',good:0,day:4,em:'⚡',area:'Kitchen',t:'Power flicker',d:e=>`The ${APPL[e.appl].emoji} ${APPL[e.appl].name.toLowerCase()} lost power. Sold out today: ${e.locked.map(dn).join(', ')}.`,
    go(){const own=shuffle([...new Set(S.kitchen.pieces.map(p=>p.key))].filter(a=>a!=='sink'));for(const a of own){S.ev.appl=a;if(lockDishes(k=>(REC_APPL[k]||[]).includes(a)))return;}return false;}},
@@ -2213,7 +2301,7 @@ function autoSack(k){if(!(S.farm.sacks[k]>0))return;let s=sackShape(k);for(let r
   toast('The feed bins are full! Use some feed or buy a bigger bin in the farm store.');}
 function unsorted(){const F=S.farm;return Object.values(F.sacks||{}).reduce((a,b)=>a+b,0);}
 const MAP_W=8,MAP_H=8,MAX_LAND=48;let FARMMOVE=false,PD=null;
-const LAND_MAPS=['hits','dug','glow'];
+const LAND_MAPS=['hits','dug','glow','weeds'];
 const LAND_LOOK={dirt:['🟫','Land'],tilled:['🟤','Dug soil'],rock:['🪨','Land + rock'],big:['🪨','Land + big rock'],boulder:['🪨','Land + boulder']};
 function landTotal(){return Object.keys(S.farm.cells).length+S.farm.landPile.length;}
 function landCost(){return 25+15*Math.max(0,Math.floor((landTotal()-12)/4));}
@@ -2705,7 +2793,13 @@ function barnAdd(k,n,d){if(n<=0)return;S.barn=S.barn||[];d=d||(k==='H'||k==='Z'?
 function barnCount(k){return (S.barn||[]).filter(l=>l.k===k).reduce((a,l)=>a+l.n,0);}
 function barnTake(k,n){let left=n;(S.barn||[]).filter(l=>l.k===k).sort((a,b)=>a.d-b.d).forEach(l=>{const t=Math.min(l.n,left);l.n-=t;left-=t;});S.barn=(S.barn||[]).filter(l=>l.n>0);return n-left;}
 function barnName(k){return k==='milk'?'🥛 Milk':ING[k].emoji+' '+ING[k].name;}
-function farmTap(x,y){if(!farmOK())return;const F=S.farm,key=x+','+y,st=F.cells[key];if(!st)return;
+function sproutWeeds(){const F=S.farm;if(!F||!F.cells)return 0;F.weeds=F.weeds||{};let n=0;
+  const empty=Object.keys(F.cells).filter(k=>(F.cells[k]==='dirt'||F.cells[k]==='tilled')&&!F.weeds[k]&&!cropAt(...k.split(',').map(Number)));
+  const want=Math.min(empty.length,Math.max(0,Math.round(empty.length*.18)+(Math.random()<.5?1:0)),6);
+  shuffle(empty).slice(0,want).forEach(k=>{F.weeds[k]=Math.random()<.2?2:1;n++;});return n;}
+function pullWeed(key){const F=S.farm;F.weeds[key]--;SHAKE=key;setTimeout(()=>{SHAKE=null;},300);if(F.weeds[key]>0)return toast('🌾 This big weed is stubborn — tap it again!');delete F.weeds[key];
+  const r=Math.random();if(r<.22)gotFind(rollFind(),key);else if(r<.34){const c=rint(1,4);S.money+=c;toast(`🪙 You pulled a weed and found $${c} in the dirt!`);}else if(r<.4){addShed('c:tomato');toast('🌱 A tomato seed packet was tangled in the roots!');}}
+function farmTap(x,y){if(!farmOK())return;const F=S.farm,key=x+','+y,st=F.cells[key];if(!st)return;if(F.weeds&&F.weeds[key])return pullWeed(key);
   if(ROCK_HP[st]){hitRock(key,F.tools.pickaxe?3:1);if(F.tools.pickaxe)[[1,0],[0,1],[1,1]].forEach(([a,b])=>{const k=(x+a)+','+(y+b);if(F.cells[k]==='rock')hitRock(k,1);});}
   else if(st==='dirt'){if(F.tools.tractor){for(let i=0;i<F.w;i++)if(F.cells[i+','+y]==='dirt')digCell(i+','+y);}else digCell(key);}
   else if(st==='tilled')toast('🌱 Drag a seed packet onto the dark soil to plant.');}
@@ -2743,9 +2837,9 @@ function cropTap(p){if(!farmOK())return;const c=cropOf(p);
   toast(`${c.emoji} ${c.name}: ${c.days-p.age} more day${c.days-p.age===1?'':'s'} to grow.`);}
 function farmPrice(k,n){return Math.max(1,Math.round(ING[k].cost*n/ING[k].uses*.4*(S.farm&&S.farm.built&&S.farm.built.car?.75:1)));}
 function truckRate(k,n){return Math.max(1,Math.round(ING[k].cost*n/ING[k].uses));}
-function sendToTruck(k){if(S.phase!=='prep')return toast('The truck only comes in the morning.');let n=barnCount(k);if(!n)return;let sent=0,paid=0,broke=false;
-  while(n>0){const m=Math.min(n,ING[k].uses),pr=farmPrice(k,m);const spot=findSpot('truck',ING[k].basket);if(!spot)break;if(S.money<pr){broke=true;break;}S.money-=pr;S.stats.spent+=pr;paid+=pr;const b=addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{farm:true,paid:pr});b.uses=m;shrink(b);n-=m;sent+=m;}
-  barnTake(k,sent);toast(sent?`🚚 ${sent} ${ING[k].emoji} loaded on the truck for $${paid} (farm price — the truck charges $${truckRate(k,sent)}). Unload it in the Pantry!${broke?' Not enough money for the rest.':''}`:broke?`You need $${farmPrice(k,Math.min(n,ING[k].uses))} to send that.`:'The truck is full. Unload it in the Pantry first.');}
+function sendToTruck(k,dest){if(S.phase!=='prep')return toast('The truck only comes in the morning.');dest=dest||shopId();let gid='truck';if(dest!==shopId()){MSEL=dest;setMtruck();gid='mtruck';if(S.sent[dest])return toast('That shop’s truck already left today.');}let n=barnCount(k);if(!n)return;let sent=0,paid=0,broke=false;
+  while(n>0){const m=Math.min(n,ING[k].uses),pr=farmPrice(k,m);const spot=findSpot(gid,ING[k].basket);if(!spot)break;if(S.money<pr){broke=true;break;}S.money-=pr;S.stats.spent+=pr;paid+=pr;const b=addPiece(gid,'basket',k,spot.x,spot.y,spot.shape,gid==='truck'?{farm:true,paid:pr}:{supply:1,paid:0});b.uses=m;shrink(b);n-=m;sent+=m;}
+  barnTake(k,sent);if(sent)truckTrip(ING[k].emoji.repeat(Math.min(3,Math.ceil(sent/4))),dest);toast(sent?`🚚 ${sent} ${ING[k].emoji} sent to ${SHOPS[dest].name} for $${paid} (farm price — the truck charges $${truckRate(k,sent)}). ${dest===shopId()?'Unload it in the Pantry!':'It’s waiting on that shop’s supply truck.'}${broke?' Not enough money for the rest.':''}`:broke?`You need $${farmPrice(k,Math.min(n,ING[k].uses))} to send that.`:'The truck is full. Unload it in the Pantry first.');}
 function feedAnimal(id){if(!farmOK())return;const F=S.farm,a=F.animals.find(x=>x.id===id);if(!a)return;const A=ANIMALS[a.type];
   if(a.fed)return toast(`${a.adult?A.adult:A.baby} Already fed today.`);
   const t=F.feedSel;if(feedCount(t)<1)return toast(F.sacks[t]>0?`${FEEDS[t].emoji} Your new sack is still by the barn door. Go inside the barn and put it in the feed bins!`:`Out of ${FEEDS[t].name.toLowerCase()}. Buy more in the barn's farm store.`);
@@ -2811,7 +2905,7 @@ function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
    $('#landPile').innerHTML=n?`<p class="mhint landmsg">🟫 You have <b>${n}</b> land square${n>1?'s':''} to place! Drag them onto the meadow (or tap one) and build any shape you like.</p>`+Object.entries(groups).map(([g,c])=>{const st=g.replace('*',''),L=LAND_LOOK[st]||LAND_LOOK.dirt;return `<div class="pal landpal" data-land="${g}"><span class="cnt">${c}</span><span class="lsw l-${st}${g.endsWith('*')?' glow':''}">${ROCK_HP[st]?'🪨':''}</span><span class="nm">${g.endsWith('*')?'✨ Glowing ':''}${L[1]}</span></div>`;}).join(''):'';}
   $('.binwrap').style.maxWidth=(S.feedbin.w*70+28)+'px';
   paintGrid('farm',{max:72,
-    cell:(x,y)=>{const k=x+','+y,st=F.cells[k];if(!st)return {cls:'grass'};const gl=F.glow[k]?' glow':'',sh=SHAKE===k?' shake':'';if(ROCK_HP[st]){const left=ROCK_HP[st]-(F.hits[k]||0);return {cls:'rock r-'+st+sh+(FARMMOVE?' mv':''),inner:`<span class="rk">🪨</span>${ROCK_HP[st]>1?`<span class="hp">👊${left}</span>`:''}`};}const ca=FARMMOVE&&cropAt(x,y),mv=FARMMOVE?(ca&&cropLocked(ca)?' mv lock':' mv'):'';return st==='tilled'?{cls:'tilled'+gl+mv}:{cls:'dirt'+gl+mv};},
+    cell:(x,y)=>{const k=x+','+y,st=F.cells[k];if(!st)return {cls:'grass'};const gl=F.glow[k]?' glow':'',sh=SHAKE===k?' shake':'';if(ROCK_HP[st]){const left=ROCK_HP[st]-(F.hits[k]||0);return {cls:'rock r-'+st+sh+(FARMMOVE?' mv':''),inner:`<span class="rk">🪨</span>${ROCK_HP[st]>1?`<span class="hp">👊${left}</span>`:''}`};}const ca=FARMMOVE&&cropAt(x,y),mv=FARMMOVE?(ca&&cropLocked(ca)?' mv lock':' mv'):'';const wd=F.weeds&&F.weeds[k]?`<span class="weed ${F.weeds[k]>1?'big':''}">${F.weeds[k]>1?'🌾':'🌿'}</span>`:'';return st==='tilled'?{cls:'tilled'+gl+mv+sh,inner:wd}:{cls:'dirt'+gl+mv+sh,inner:wd};},
     color:()=>'#5A381C',pieceCls:p=>(needsWater(p)&&S.phase==='prep'?'thirsty ':'')+(p.watered||evIs('rain')?'wet ':'')+(cropReady(p)?'ripe ':'')+(p.wilt?'dry ':'')+(glowN(p)?'giant':''),
     label:p=>{const c=cropOf(p),r=cropReady(p);return `${c.tree?'':`<span class="cr">${cropIcon(p)}</span>`}${r?'':`<span class="marker">${c.emoji}</span>`}${p.fert&&!r?'<span class="fertb">🪱</span>':''}${r?'<span class="cbadge">✨ pick</span>':p.wilt?'<span class="cbadge wilt">🥀 wilting</span>':`<span class="cbadge">${c.days-p.age}d</span>`}${waterBadge(p)}`;},
     icon:p=>cropOf(p).tree?'':`<span class="cr">${cropIcon(p)}</span>`,
@@ -2908,10 +3002,12 @@ function closeDay(early){
   ['plate','plate2'].forEach(g=>{if(S[g]){S[g].pieces.forEach(p=>refund(p.key));S[g].pieces=[];}});S.st={};
   const mreps=otherShops().filter(id=>S.sent[id]).map(runManaged).filter(Boolean);S.sent={};
   otherShops().forEach(id=>{const sh=S.shops[id];if(!sh)return;sh.truck.pieces=sh.truck.pieces.filter(b=>{b.days--;if(b.days<=0){spoiled.push(`${ING[b.key].emoji} ${ING[b.key].name} on the ${SHOPS[id].name} truck — too old`);return false;}return true;});});
+  const mday=museumDay();
   S.phase='summary';renderAll();
   const st=S.stats;
   nightShow(()=>modal(`<h2>${early?'Closed early':'Closing time!'} — day ${S.day}</h2>${early?`<p class="warn" style="margin:0 0 8px">⭐ You closed early, so no stars were earned today${lostStars>0?` (you would have gained ${lostStars.toFixed(1)})`:''}.</p>`:''}<p>The sign flips to CLOSED.${kicked+ke?` ${kicked+ke} party${kicked+ke>1?'ies were':' was'} kicked out.`:' Everyone made it out happy.'}</p>
   <div class="sumgrid"><span>Money earned</span><span>$${st.earned}</span><span>…of that, tips</span><span>$${st.tips}</span>${st.arcade?`<span>…of that, arcade 🕹️</span><span>$${st.arcade}</span>`:''}<span>Dishes served</span><span>${st.dishes}</span>${st.facts?`<span>Math facts solved</span><span>${st.facts} (${st.factsFirst||0} on the first try)</span>`:''}<span>Happy guests</span><span>${st.happy}</span><span>Walked out angry</span><span>${st.angry}</span><span>Left because the line was full</span><span>${st.lost}</span><span>Kicked out before eating</span><span>${kicked}</span><span>Kicked out mid-meal (paid, no tip)</span><span>${ke}</span><span>Stars now</span><span>${S.rep.toFixed(1)} ★</span></div>
+  ${mday?`<p class="gnext">🏛️ <b>${mday.v} visitors</b> came to see your golden dishes and paid <b>$${mday.money}</b> for tickets!</p>`:''}
   ${mreps.length?`<h3>🏙️ Reports from your other shops</h3>${mreps.map(reportHTML).join('')}`:''}
   ${spoiled.length?`<h3>🌙 Overnight news</h3><ul class="spoil">${spoiled.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p>✓ Nothing spoiled overnight.</p>'}
   <div class="modal-actions"><button class="btn primary" data-act="nextDay">Start day ${S.day+1}</button><button class="btn" data-act="seeReceipts">🧾 See today's receipts (${(S.receipts||[]).length})</button></div>`));
@@ -3241,21 +3337,31 @@ function arcGag(i,player){const k=S.arcade[i];if(!k)return;const f=FURN[k];if(pl
   if(f.sp==='disco'){const r=document.querySelector('.arc-room');if(r){r.classList.remove('ndisco');void r.offsetWidth;r.classList.add('ndisco');setTimeout(()=>r.classList.remove('ndisco'),2500);}}
   if(f.sp==='recolor'&&player){tableRecolor(randTable());renderDining();}
   arcFloat(i,[f.fx,f.emoji,f.fx],true);}
-function arcWalk(face,kid,stops,delay){const box=$('#f-arcade');if(!box||!Element.prototype.animate||tab!=='dining')return;
-  const e=document.createElement('div');e.className='arc-guest'+(kid?' kid':'');e.textContent=face;e.style.left='50%';e.style.top='-6%';e.style.opacity=0;box.appendChild(e);
-  const near=i=>{const [x,y]=arcPos(i);return [x+(50-x)*.42,y+(50-y)*.42];};
-  const pts=[[50,-6],[50,22],...stops.map(near),[50,22],[50,-6]];const seg=900,t0=delay;
-  setTimeout(()=>{e.style.opacity=1;e.animate(pts.map((p,j)=>({left:p[0]+'%',top:p[1]+'%',offset:j/(pts.length-1)})),{duration:seg*(pts.length-1),fill:'forwards',easing:'ease-in-out'});
-    stops.forEach((s,j)=>setTimeout(()=>{arcGag(s,false);const [x,y]=near(s);const c=document.createElement('div');c.className='ngag coin';c.textContent='+$1';c.style.left=x+'%';c.style.top=y+'%';box.appendChild(c);
-      c.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:'translate(-50%,-220%)',opacity:0}],{duration:1100,fill:'forwards'});setTimeout(()=>c.remove(),1200);},seg*(j+2)));
-    setTimeout(()=>e.remove(),seg*(pts.length-1)+200);},t0);}
+function arcWatch(){ACT.tab('dining');renderAll();setTimeout(()=>{const e=$('#arcade');if(e)e.scrollIntoView({block:'center',behavior:'smooth'});},60);}
+function arcNotify(faces){const t=document.createElement('div');t.className='toast arcnote';t.innerHTML=`<span>🕹️ ${faces.join(' ')} ${faces.length>1?'are':'is'} heading to the arcade!</span><button type="button">👀 Watch</button>`;
+  t.querySelector('button').onclick=()=>{arcWatch();t.remove();};$('#toasts').appendChild(t);while($('#toasts').children.length>3)$('#toasts').firstChild.remove();setTimeout(()=>t.remove(),6500);}
+let ARC_N=0;
+function arcHall(){const h=document.querySelector('.arc-hall');if(h)h.innerHTML=ARC_N?`<span class="arc-busy">🕹️ ${ARC_N} playing</span>`:'';}
+const ARC_SAY=['Wheee!','Hee hee!','Again!','Whoa!','So funny!','Ooooh!','Haha!','Cool!','Yay!','One more!'];
+function arcWalk(face,kid,stops,delay){const box=$('#f-arcade');if(!box||!Element.prototype.animate)return;
+  const near=i=>{const [x,y]=arcPos(i);return [x+(50-x)*.4,y+(50-y)*.4];};const seg=1100,stay=1500;
+  setTimeout(()=>{ARC_N++;arcHall();const e=document.createElement('div');e.className='arc-guest'+(kid?' kid':'');e.textContent=face;e.style.left='50%';e.style.top='-6%';box.appendChild(e);
+    const go=(x,y,d)=>{e.animate([{left:e.style.left,top:e.style.top},{left:x+'%',top:y+'%'}],{duration:d,fill:'forwards',easing:'ease-in-out'});e.style.left=x+'%';e.style.top=y+'%';};
+    let t=0;const at=(ms,fn)=>setTimeout(fn,ms);
+    at(t,()=>go(50,22,seg));t+=seg;
+    stops.forEach(s=>{const [x,y]=near(s);at(t,()=>go(x,y,seg));t+=seg;
+      at(t,()=>{const it=document.querySelector(`.arc-item[data-arg="${s}"]`);if(it&&it.animate)it.animate([{transform:'scale(1)'},{transform:'scale(1.35) rotate(-12deg)'},{transform:'scale(1.2) rotate(12deg)'},{transform:'scale(1)'}],{duration:900,iterations:1});
+        arcGag(s,false);e.animate([{transform:'translate(-50%,-50%)'},{transform:'translate(-50%,-80%)'},{transform:'translate(-50%,-50%)'},{transform:'translate(-50%,-75%)'},{transform:'translate(-50%,-50%)'}],{duration:800});
+        const b=document.createElement('div');b.className='nsay arcsay';b.textContent=ARC_SAY[rint(0,ARC_SAY.length-1)];b.style.left=x+'%';b.style.top=`calc(${y}% - 26px)`;box.appendChild(b);setTimeout(()=>b.remove(),1300);
+        const c=document.createElement('div');c.className='ngag coin';c.textContent='+$1';c.style.left=x+'%';c.style.top=y+'%';box.appendChild(c);
+        c.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:'translate(-50%,-260%)',opacity:0}],{duration:1300,fill:'forwards'});setTimeout(()=>c.remove(),1400);});t+=stay;});
+    at(t,()=>go(50,22,seg));t+=seg;at(t,()=>go(50,-8,seg));t+=seg;at(t,()=>{e.remove();ARC_N=Math.max(0,ARC_N-1);arcHall();});},delay);}
 function arcadeVisit(p){if(!S.arcade)return;const slots=arcSlots();if(!slots.length)return;
   const who=(p.faces||[]).map((f,i)=>({f,kid:isKidIdx(p,i)})).filter(w=>Math.random()<(w.kid?.55:.2));if(!who.length)return;
-  let total=0;who.forEach((w,wi)=>{const n=rint(1,Math.min(5,slots.length));total+=n;arcWalk(w.f,w.kid,[...slots].sort(()=>Math.random()-.5).slice(0,n),1500+wi*1300);});
-  S.money+=total;S.stats.earned+=total;S.stats.arcade=(S.stats.arcade||0)+total;renderArcade();}
-
+  let total=0;who.forEach((w,wi)=>{const n=rint(1,Math.min(5,slots.length));total+=n;arcWalk(w.f,w.kid,[...slots].sort(()=>Math.random()-.5).slice(0,n),2200+wi*1600);});
+  S.money+=total;S.stats.earned+=total;S.stats.arcade=(S.stats.arcade||0)+total;renderArcade();arcNotify(who.map(w=>w.f));}
 function rollClearance(){S.clear={};if(Math.random()<.6){const pool=[...S.ingOn].sort(()=>Math.random()-.5).slice(0,rint(1,2));pool.forEach(k=>S.clear[k]=rint(1,2));}}
-function nextDay(){if(NSHOW)NSHOW(true);S.day++;S.phase='prep';S.soldOut={};S.priced={};S.facts={};rollClearance();drawEvent();S.clock=S.openTime-60;S.stats=blankStats();closeModal();renderAll();if(evCard())showCard();else if(S.guide!==false&&S.day<=3)modal(dailyHTML());toast('🚚 The truck is here! Set your menu prices and stock up before you open.');}
+function nextDay(){if(NSHOW)NSHOW(true);S.day++;tab='town';{const nw=sproutWeeds();if(nw)setTimeout(()=>toast(`🌿 ${nw} weed${nw>1?'s':''} sprouted on your farm overnight. Pull them — you might find something!`,5000),400);}S.phase='prep';S.soldOut={};S.priced={};S.facts={};rollClearance();drawEvent();S.clock=S.openTime-60;S.stats=blankStats();closeModal();renderAll();if(evCard())showCard();else if(S.guide!==false&&S.day<=3)modal(dailyHTML());toast('🚚 The truck is here! Set your menu prices and stock up before you open.');}
 function pickType(){
   const ms=seatsFor('regular');
   const pool=[];for(const k in TYPES){const T=TYPES[k];let w=T.w;
@@ -3558,7 +3664,7 @@ function tap(d){
     }
     if(d.gid==='dining'&&FURN[p.key].gag)return doGag(p);
     if(d.gid==='dining'&&tool==='paint')return toast('Only tables have tablecloths to paint.');
-    if(d.gid==='truck'){const now=performance.now();if(LASTTAP.id===p.id&&now-LASTTAP.t<450){LASTTAP={id:0,t:0};return unloadBasket(p,true);}LASTTAP={id:p.id,t:now};return;}
+    if(d.gid==='truck'){const now=performance.now();if(LASTTAP.id===p.id&&now-LASTTAP.t<450){LASTTAP={id:0,t:0};return unloadBasket(p,true);}LASTTAP={id:p.id,t:now};return rotatePiece(d.gid,p);}
     rotatePiece(d.gid,p);
   }else if(d.kind==='seed')autoPlant(d.key);
   else if(d.kind==='sack')autoSack(d.key);
@@ -3605,9 +3711,11 @@ const ACT={
   openForce(){closeModal();openDay(true);},
   tool(a){tool=a;S.sel=null;},
   paintColor(c){paintColor=c;tool='paint';},
-  runShop(id){if(S.phase!=='prep')return toast('You can switch shops in the morning.');runShop(id);toast(`👩‍🍳 Today you’re running ${shopName(id)}!`);},
+  runShop(id){if(S.phase!=='prep')return toast('You can switch shops in the morning.');closeModal();runShop(id);tab='dining';toast(`👩‍🍳 Today you’re running ${shopName(id)}!`);},
   buyShop(id){const s=SHOPS[id];if(!s||S.owned.includes(id))return;if(!spend(s.cost))return;S.owned.push(id);S.shops[id]=freshShop(id);
     modal(`<h2>🎉 You opened ${s.em} ${s.name}!</h2><p>${s.blurb}</p><p>It has its own dining room, kitchen, pantry, menu and upgrades. Every morning you can <b>run it yourself</b> from the 🏙️ Town tab, or <b>hire a manager</b> and send it a truck of food from the 📦 Pantry tab.</p><div class="modal-actions">${S.phase==='prep'?`<button class="btn primary" data-act="runShop" data-arg="${id}">🍳 Run it myself today</button>`:''}<button class="btn" data-act="hireMenu" data-arg="${id}">🧑‍💼 Hire a manager</button></div>`);},
+  bld(id){if(id==='farm'){tab='farm';return;}if(id==='museum'){tab='museum';return;}if(id===shopId()){tab='dining';return;}if(!S.owned.includes(id))return ACT.buyAsk(id);modal(shopMenuHTML(id));},
+  buyAsk(id){const s=SHOPS[id];modal(`<h2>${s.em} ${s.name}</h2><p>${s.blurb}</p><p>It comes with its own dining room, kitchen, pantry, menu and upgrades.</p><div class="modal-actions"><button class="btn primary" data-act="buyShop" data-arg="${id}" ${S.money>=s.cost?'':'disabled'}>Open it for $${s.cost.toLocaleString()}</button><button class="btn" data-act="closeModal">Not yet</button></div>${S.money<s.cost?`<p class="tsave">Save up $${(s.cost-S.money).toLocaleString()} more.</p>`:''}`);},
   hireMenu(id){modal(hireHTML(id));},
   hire(a){const [id,mid]=String(a).split(':');const m=MGRS.find(x=>x.id===mid);if(!m||bestStars()<m.need)return;const at=mgrShop(mid);if(at)delete S.mgr[at];S.mgr[id]=mid;toast(`${m.em} ${m.name} now runs ${SHOPS[id].name}!`);modal(hireHTML(id));},
   fire(id){const m=mgrOf(id);delete S.mgr[id];if(m)toast(`${m.em} ${m.name} is looking for a new job.`);modal(hireHTML(id));},
@@ -3649,7 +3757,8 @@ const ACT={
   rotSeed(k){S.rot['seed_'+k]=((S.rot['seed_'+k]||0)+1)%4;},
   waterAll(){if(!farmOK())return;[...S.farm.pieces,...S.garden.pieces].forEach(p=>{if(!cropReady(p))p.watered=true;});toast('🚿 Everything is watered!');},
   harvestAll(){if(!farmOK())return;const r=S.farm.pieces.filter(cropReady);if(!r.length)return toast('Nothing is ready to pick yet.');harvestAsk(r);},
-  toTruck(k){sendToTruck(k);},
+  toTruck(k){const os=otherShops().filter(id=>!S.sent[id]);if(!os.length||S.phase!=='prep')return sendToTruck(k);modal(`<h2>🚚 Where should the ${ING[k].emoji} ${ING[k].name.toLowerCase()} go?</h2><div class="tripdest">${[shopId(),...os].map(id=>`<button class="btn ${id===shopId()?'primary':''}" data-act="toTruckAt" data-arg="${k}|${id}">${SHOPS[id].em} ${SHOPS[id].name}${id===shopId()?' (here today)':' (supply truck)'}</button>`).join('')}</div><div class="modal-actions"><button class="btn" data-act="closeModal">Cancel</button></div>`);},
+  toTruckAt(a){const [k,id]=String(a).split('|');closeModal();sendToTruck(k,id);},
   feedSel(t){S.farm.feedSel=t;},
   feedAnimal(id){feedAnimal(+id);},
   buySeed(k){const c=CROPS[k];if(!spend(c.unlock))return;S.farm.seeds.push(k);let n=0;if(c.eq){S.eq[c.eq]=true;n=refreshUnlocks().length;}addShed('c:'+k);toast(`${c.emoji} ${c.name} ${c.tree?'saplings':'seeds'} unlocked — 1 free packet is in your shed!${n?` ${n} new recipe${n>1?'s':''} — check the 📋 Menu tab!`:''}`);},
@@ -3700,11 +3809,11 @@ const ACT={
   buyOne(k){if(S.phase!=='prep')return toast('The truck is gone until tomorrow morning.');if(evIs('shortage')&&S.ev.ing===k)return toast('🚫 The truck is out of that today.');if(evIs('late')&&S.ev.left<=0)return toast('⏰ The truck can\'t sell any more baskets today.');
     const price=blockPrice(k);const spot=findSpot('truck',MONO);if(!spot)return toast('The truck bed is full. Drag some baskets onto your shelves first.');if(!spend(price))return;
     addPiece('truck','basket',k,spot.x,spot.y,MONO,{paid:price,uses:4});if(evIs('late')){S.ev.left--;toast(`⏰ ${S.ev.left} basket${S.ev.left===1?'':'s'} left today.`);}},
-  buyIng(k){if(S.phase!=='prep')return toast('The truck is gone until tomorrow morning.');if(evIs('shortage')&&S.ev.ing===k)return toast('🚫 The truck is out of that today.');if(evIs('late')&&S.ev.left<=0)return toast('⏰ The truck can\'t sell any more baskets today.');const price=truckPrice(k);const spot=findSpot('truck',ING[k].basket);if(!spot)return toast('The truck bed is full. Drag some baskets onto your shelves first.');if(!spend(price))return;addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{paid:price});if(evIs('late')){S.ev.left--;toast(`⏰ ${S.ev.left} basket${S.ev.left===1?'':'s'} left today.`);}},
+  buyIng(k){if(window.matchMedia&&matchMedia('(hover: none)').matches)setTimeout(()=>{if(S.truck.pieces.some(p=>p.key===k))toast(`${ING[k].emoji} ${ING[k].name} · $${truckPrice(k)} · ${ING[k].uses} pieces`,1600);},0);if(S.phase!=='prep')return toast('The truck is gone until tomorrow morning.');if(evIs('shortage')&&S.ev.ing===k)return toast('🚫 The truck is out of that today.');if(evIs('late')&&S.ev.left<=0)return toast('⏰ The truck can\'t sell any more baskets today.');const price=truckPrice(k);const spot=findSpot('truck',ING[k].basket);if(!spot)return toast('The truck bed is full. Drag some baskets onto your shelves first.');if(!spend(price))return;addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{paid:price});if(evIs('late')){S.ev.left--;toast(`⏰ ${S.ev.left} basket${S.ev.left===1?'':'s'} left today.`);}},
   buyEq(k){const e=EQUIP[k];if(S.eq[k])return;if(!spend(e.cost))return;S.eq[k]=true;e.ing.forEach(i=>{if(!S.ingOn.includes(i))S.ingOn.push(i);});
     refreshUnlocks();addAppliance(k);if(k==='sweets'&&!S.freezer){S.freezer={w:4,h:3,pieces:[]};}toast(`${e.emoji} ${e.name} installed! New recipes are waiting in the 📋 Menu tab.`);},
   toggleMenu(k){if(S.rec[k])S.rec[k].isNew=false;if(S.phase!=='prep')return toast('The menu is set for today. Change it tomorrow morning.');const s=S.rec[k];if(s.onMenu&&menuList().length<=1)return toast('Keep at least one dish on the menu.');if(!s.onMenu){const sec=secOf(k),n=secCount(sec),m=secSlots(sec);if(n>=m)return toast(`📋 Your ${secName(sec)} are full (${n} of ${m}). Take one off first${(S.up.menuSlots||0)<MENU_UP.length?' — or buy a bigger menu board in Upgrades':''}.`,4500);}s.onMenu=!s.onMenu;},
-  improve(k){const s=S.rec[k];if(s.level>=3)return;if(!spend(improveCost(k)))return;s.level++;if(S.priced)delete S.priced[k];toast(`${REC[k].emoji} ${REC[k].name} improved — now $${recipePrice(k)}.`);},
+  improve(k){const s=S.rec[k];if(!s||s.gold||!s.unlocked)return;if(!spend(improveCost(k)))return;if(s.level>=GOLD_UPS){makeGold(k);return;}s.level++;if(S.priced)delete S.priced[k];toast(`${REC[k].emoji} ${REC[k].name} improved — now $${recipePrice(k)}. ${GOLD_UPS+1-s.level} more to go until it's GOLDEN!`);},
   buyFurn(k){if(!spend(FURN[k].cost))return;S.storeroom.push(FURN[k].seats?{key:k,cloth:FURN[k].cloth}:{key:k});toast(`${FURN[k].name} is in the storeroom. Drag it onto the floor.`);},
   growDining(){const l=S.up.dining;if(l>=DINING_COST.length||!spend(DINING_COST[l]))return;S.up.dining++;[S.dining.w,S.dining.h]=DINING_SIZES[l+1];toast('The dining room got bigger!');},
   growPantry(){const l=S.up.pantry;if(l>=PANTRY_COST.length||!spend(PANTRY_COST[l]))return;S.up.pantry++;[S.storage.w,S.storage.h]=PANTRY_SIZES[l+1];toast('More shelf space!');},
