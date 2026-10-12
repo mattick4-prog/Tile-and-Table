@@ -624,6 +624,7 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.fhintwrap{display:flex;align-items:flex-start;gap:8px;justify-content:flex-end}.fhintwrap .mhint{flex:1;margin:0}.infobtn{flex:0 0 auto;width:32px;height:32px;border-radius:50%;border:2px solid var(--line);background:#fff;font-size:16px;line-height:1;cursor:pointer;padding:0;box-shadow:0 2px 0 rgba(0,0,0,.15)}
 #g-farm .cell:not(.grass){touch-action:none}#g-feedbin,#g-shed{touch-action:pan-y}
 .trotbtn{position:absolute;top:-10px;right:-10px;z-index:6;width:30px;height:30px;border-radius:50%;border:3px solid #fff;background:#2BA88A;color:#fff;font-size:18px;font-weight:900;line-height:1;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.35);padding:0;animation:arcbob 1.2s ease-in-out infinite}
 .pc.rotsel .blk{outline:3px dashed #2BA88A;outline-offset:-2px}.pc.rotsel{z-index:5}
@@ -1192,7 +1193,7 @@ html,body{overscroll-behavior-y:none}
           <div class="farmsign"><b>🌱 Your farm</b><span id="farmNote"></span></div>
         </div>
         <div class="mbody">
-          <p class="mhint" id="farmHint"></p>
+          <div class="fhintwrap"><button class="infobtn" data-act="farmInfo" title="How the farm works" aria-label="How the farm works">ℹ️</button><p class="mhint" id="farmHint" hidden></p></div>
           <div class="farmtools" id="farmTools"></div>
           <div id="landPile" class="palette landrow"></div>
           <div id="fencePile" class="palette landrow"></div>
@@ -1785,7 +1786,7 @@ function eqDesc(k){const e=EQUIP[k];const ad=(e.ing||[]).map(i=>ING[i].emoji+' '
 function eqHere(k){const e=EQUIP[k];if(e.farm)return false;if(S.eq[k])return true;return Object.keys(REC).some(r=>inShop(r)&&(REC[r].needs===k||REC[r].also===k))||Object.keys(EQUIP).some(o=>(EQUIP[o].requires||[]).includes(k)&&eqHere(o));}
 
 /* ---------- state ---------- */
-let S, uid=1, D=null, paused=false, tab='dining', booting=true, tool='rotate', paintColor='#C8102E';
+let S, uid=1, D=null, paused=false, tab='town', booting=true, tool='rotate', paintColor='#C8102E';
 function ensureFarm(){if(S&&S.farm){S.farm.weeds=S.farm.weeds||{};S.farm.built=S.farm.built||{};S.farm.findLog=S.farm.findLog||[];}if(S&&!Number.isFinite(S.money)){S.money=Math.max(150,(S.day||1)*60);if(S.stats&&!Number.isFinite(S.stats.spent))S.stats.spent=0;setTimeout(()=>toast('💰 Fixed a money glitch — your cash was reset to $'+S.money+'.'),300);}if(!S.farm)S.farm=newFarm();if(!S.barn)S.barn=[];const F=S.farm;if(F.w<MAP_W||F.h<MAP_H){F.w=MAP_W;F.h=MAP_H;}delete F.plots;F.landPile=F.landPile||[];if(!F.fence)F.fence={built:false,t:-1,broken:[]};if(F.fence.t==null)F.fence.t=F.fence.built?(F.fence.lv>1?4:2):-1;F.fence.built=F.fence.t>=0;F.fences=F.fences||[];F.fencePile=F.fencePile||[];F.fcell=F.fcell||{};if(F.fenceMax==null){F.fenceMax=F.fence.t;if(F.fence.t>=0){const cls=clustersList().sort((a,b)=>b.length-a.length);if(cls.length){F.fenceSeq=1;F.fences.push({id:1,t:F.fence.t,broken:[]});cls[0].forEach(k=>F.fcell[k]=1);}else F.fencePile.push(F.fence.t);}F.fence={built:false,t:-1,broken:[]};}F.hits=F.hits||{};F.dug=F.dug||{};F.finds=F.finds||{};F.glow=F.glow||{};if(F.gardenLv==null)F.gardenLv=-1;F.flowers=F.flowers||['daisy'];if(!S.garden)S.garden={w:3,h:2,pieces:[]};F.sacks=F.sacks||{};if(F.bin==null)F.bin=0;if(!S.feedbin){const [w,h]=BIN_SIZES[F.bin];S.feedbin={w,h,pieces:[]};}if(F.feed){for(const t in F.feed)if(F.feed[t]>0)F.sacks[t]=(F.sacks[t]||0)+Math.ceil(F.feed[t]/FEEDS[t].scoops);delete F.feed;}
   if(S.shed)S.shed.pieces.filter(p=>p.n>1).forEach(p=>{while(p.n>1){const sp=findSpot('shed',p.shape);if(!sp)break;addPiece('shed','seedpk',p.key,sp.x,sp.y,sp.shape,{n:1});p.n--;}});
   if(!S.shed){S.shed={w:5,h:3,pieces:[]};F.shedLv=0;addShed('c:tomato');addShed('c:tomato');F.seeds.forEach(k=>{if(k!=='tomato')addShed('c:'+k);});if(F.gardenLv>=0)F.flowers.forEach(k=>addShed('f:'+k));const fp=(F.fencePile||[]).splice(0);fp.forEach(t=>{if(!addShed('x:'+t))F.fencePile.push(t);});}}
@@ -2981,7 +2982,7 @@ function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
   $('#farmNote').textContent=`${Object.keys(F.cells).length} squares of land`;$('#g-farm').classList.toggle('moving',FARMMOVE);
   const crates=(S.barn||[]).length,us=unsorted(),bb=$('#barnBubble');
   bb.textContent=us?`🌾 ${us} new sack${us>1?'s':''} to put away!`:crates?`📦 Food is waiting!`:'Tap to go inside!';bb.classList.toggle('alert',!!(us||crates));
-  $('#farmHint').textContent=prep&&FARMMOVE?'✋ Drag a land square to move it — any shape you like! Drag one off the farm to pick it back up. A seed you just planted moves with its land, but once you water it (🔒) it’s locked in until harvest. Every separate patch needs its own fence — buy them in the barn and drag them on.':prep?'Drag a land square to move it anywhere (a planted square moves with its plant until you water it — then it’s locked in until harvest). Tap 🪨 rocks to smash them (big ones need more taps 👊), tap dirt to dig it — you might dig up something funny! then drag a seed packet onto the dark soil. Plants with a 🫗 bubble are THIRSTY: tap one, or slide your finger across lots of them to water them. A blue ✓ 💧 means it’s already watered.':'🌙 Shh… the farm is sleeping. Farm chores happen in the morning before you open.';
+  $('#farmHint').hidden=!window.FARMINFO;$('#farmHint').textContent=prep&&FARMMOVE?'✋ Drag a land square to move it — any shape you like! Drag one off the farm to pick it back up. A seed you just planted moves with its land, but once you water it (🔒) it’s locked in until harvest. Every separate patch needs its own fence — buy them in the barn and drag them on.':prep?'Drag a land square to move it anywhere (a planted square moves with its plant until you water it — then it’s locked in until harvest). Tap 🪨 rocks to smash them (big ones need more taps 👊), tap dirt to dig it — you might dig up something funny! then drag a seed packet onto the dark soil. Plants with a 🫗 bubble are THIRSTY: tap one, or slide your finger across lots of them to water them. A blue ✓ 💧 means it’s already watered.':'🌙 Shh… the farm is sleeping. Farm chores happen in the morning before you open.';
   $('.fieldfence').style.maxWidth=(F.w*72+44)+'px';
   normalizeFences();
   {const fp={};F.fencePile.forEach(t=>fp[t]=(fp[t]||0)+1);$('#fencePile').innerHTML=F.fencePile.length?`<p class="mhint landmsg">🚧 These fences didn’t fit in the shed. Drag one onto a patch of land (or tap it).</p>`+Object.entries(fp).map(([t,n])=>`<div class="pal landpal" data-fence="${t}"><span class="cnt">${n}</span><span class="fsw" style="background:${FENCES[t].img}"></span><span class="nm">${FENCES[t].em} ${FENCES[t].name}</span></div>`).join(''):'';}
@@ -3858,6 +3859,7 @@ const ACT={
   mBuy(k){if(S.phase!=='prep'||mLocked())return toast('The truck is gone until tomorrow morning.');setMtruck();const price=truckPrice(k);const spot=findSpot('mtruck',ING[k].basket);if(!spot)return toast('This truck is full!');if(!spend(price))return;addPiece('mtruck','basket',k,spot.x,spot.y,spot.shape,{supply:1,paid:price});},
   mSend(){const id=MSEL,sh=S.shops[id];if(!sh||mLocked())return;if(!mgrOf(id))return toast('Hire a manager first (🏙️ Town tab).');if(!shopMenu(id).length)return toast('Put some dishes on its menu first.');if(!sh.truck.pieces.length)return toast('The truck is empty!');S.sent[id]=true;toast(`🚚 The truck is on its way to ${SHOPS[id].name}! ${mgrOf(id).em} ${mgrOf(id).name} will sell until the food runs out.`);},
   rotTruck(id){const p=S.truck.pieces.find(q=>q.id===+id);if(p)rotatePiece('truck',p);},
+  farmInfo(){window.FARMINFO=!window.FARMINFO;},
   arcPlace(k){const i=arcFree();if(i<0)return toast('All the arcade tables are full. Put one away first (↩).');arcPut(k,i);},
   arcPick(i){i=+i;const ks=[...new Set(S.storeroom.filter(o=>FURN[o.key]&&FURN[o.key].nite).map(o=>o.key))];if(!ks.length)return toast('🌙 Night visitors sometimes leave funny things behind. When they do, put them on these tables!');if(ks.length===1)return arcPut(ks[0],i);modal(`<h2>🕹️ What goes on this table?</h2><div class="arc-chips">${ks.map(k=>`<button class="btn" data-act="arcPlaceAt" data-arg="${i}:${k}">${FURN[k].emoji} ${FURN[k].name}</button>`).join('')}</div><div class="modal-actions"><button class="btn" data-act="closeModal">Never mind</button></div>`);},
   arcPlaceAt(a){const [i,k]=String(a).split(':');closeModal();arcPut(k,+i);},
@@ -3884,7 +3886,7 @@ const ACT={
   askNewGame(){const p=curPlayer();modal(`<h2>Start over?</h2><p>This replaces ${esc(p.name)}'s restaurant with a brand new one.</p><div class="modal-actions"><button class="btn primary" data-act="newGame">Yes, start over</button><button class="btn" data-act="pickPlayer" data-arg="${CUR}">Cancel</button></div>`);},
   askDelete(){const p=curPlayer();modal(`<h2>Delete ${esc(p.name)}?</h2><p>Their restaurant will be gone for good.</p><div class="modal-actions"><button class="btn primary" data-act="deletePlayer">Delete</button><button class="btn" data-act="pickPlayer" data-arg="${CUR}">Cancel</button></div>`);},
   deletePlayer(){lsDel(saveKey());PLAYERS=PLAYERS.filter(p=>p.id!==CUR);savePlayers();CUR=null;titleScreen();},
-  newGame(){newGame();closeModal();renderAll();save();modal(dailyHTML());},
+  newGame(){newGame();tab='town';closeModal();renderAll();save();modal(dailyHTML());},
   daily(){modal(dailyHTML());},
   hvAns(n){n=+n;if(!HV)return;if(n!==HV.ans){HV.picked.push(n);showHv();const c=$('.register');if(c){c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');}return;}
     const l=HV.list;S.stats.facts=(S.stats.facts||0)+1;if(!HV.picked.length)S.stats.factsFirst=(S.stats.factsFirst||0)+1;HV=null;closeModal();doHarvest(l);},
@@ -3931,7 +3933,7 @@ const ACT={
   continue(){const sv=loadSave();if(sv){S=sv.S;uid=sv.uid;migrate();const ph=S.phase;S.parties=[];S.active=null;S.sel=null;S.st={};S.payQ=[];REG=null;S._autoPaused=false;
     ['plate','plate2'].forEach(g=>{if(S[g]){S[g].pieces.forEach(p=>refund(p.key));S[g].pieces=[];}});
     if(ph==='open'){S.nextArrival=S.clock+4;if(!paused)paused=true;setTimeout(()=>modal(`<h2>👋 Welcome back!</h2><p>Your day was saved right where you left off — it’s <b>${fmt(S.clock)}</b>. Guests who were inside headed home, but your money, food and everything else are just how you left them.</p><div class="modal-actions"><button class="btn primary" data-act="resumeDay">▶ Keep playing</button></div>`),60);}
-    else if(ph!=='summary')S.phase='prep';}
+    else if(ph!=='summary')S.phase='prep';tab=ph==='open'?'dining':'town';}
     closeModal();renderAll();armBack();},
   resumeDay(){closeModal();if(paused)ACT.pause();},
   stayIn(){closeModal();if(paused&&S&&S.phase==='open')ACT.pause();},
