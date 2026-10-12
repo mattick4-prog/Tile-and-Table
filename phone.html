@@ -624,6 +624,35 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.tw-streetsign{position:absolute;top:4px;z-index:3;background:#1E7A3E;color:#fff;font-weight:900;font-size:11px;padding:1px 8px;border-radius:4px;border:2px solid #fff;box-shadow:0 2px 0 rgba(0,0,0,.3)}
+.tw-stop{position:absolute;bottom:2px;left:40%;font-size:20px}
+.tw-parkland{position:relative;height:240px;margin:0;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.12) 0 2px,transparent 3px) 0 0/22px 22px,linear-gradient(#93D47C,#7DC566);border-top:4px solid #5E9E4E;overflow:hidden}
+.tw.night .tw-parkland{filter:brightness(.6)}
+.tw-parksign{position:absolute;left:50%;top:6px;transform:translateX(-50%);z-index:3;background:#5A3A1C;color:#FFF3D6;font-weight:900;font-size:13px;padding:3px 12px;border-radius:8px;border:3px solid #8A5A2E;box-shadow:0 3px 0 rgba(0,0,0,.2);white-space:nowrap}
+.tw-path{position:absolute;left:-5%;right:-5%;top:52%;height:22px;background:#E6D3A8;border-radius:50%;transform:rotate(-4deg);box-shadow:inset 0 0 0 3px #D4BE8C}
+.tw-lake{position:absolute;left:3%;top:22%;width:38%;height:62%;border-radius:48% 52% 45% 55%/55% 45% 55% 45%;background:radial-gradient(ellipse at 40% 35%,#9FE0FF,#3FA2E0 60%,#2A7FC0);border:5px solid #C9B47E;box-shadow:inset 0 6px 12px rgba(255,255,255,.35),0 4px 0 rgba(0,0,0,.12);overflow:hidden;z-index:1}
+.tw-wave{position:absolute;inset:0;background:repeating-linear-gradient(170deg,transparent 0 14px,rgba(255,255,255,.25) 14px 16px);animation:twwave 6s linear infinite}
+@keyframes twwave{from{background-position:0 0}to{background-position:0 64px}}
+.tw-boat{position:absolute;top:22%;font-size:26px;animation:twboat 16s ease-in-out infinite alternate}
+@keyframes twboat{from{left:6%}to{left:72%}}
+.tw-duck{position:absolute;font-size:18px;animation:twduck 11s ease-in-out infinite alternate}.tw-duck.d1{top:58%}.tw-duck.d2{top:66%;animation-delay:-4s;font-size:14px}
+@keyframes twduck{from{left:70%}to{left:12%}}
+.tw-pad{position:absolute;font-size:14px}.tw-fish{position:absolute;left:40%;top:45%;font-size:14px;opacity:0;animation:twfish 7s ease-in-out infinite}
+@keyframes twfish{0%,80%,100%{opacity:0;transform:translateY(0)}86%{opacity:1;transform:translateY(-14px) rotate(-30deg)}92%{opacity:1;transform:translateY(-4px) rotate(30deg)}}
+.tw-dock{position:absolute;left:40%;top:46%;font-size:22px;z-index:2}
+.tw-pi{position:absolute;font-size:24px;z-index:2;line-height:1}
+.tw-play{position:absolute;right:3%;top:20%;width:30%;height:60%;z-index:1}
+.tw-sand{position:absolute;inset:18% 0 0 0;background:#F1DCA2;border:4px solid #C9A060;border-radius:14px}
+.tw-kid{animation:twkid 3s ease-in-out infinite}.tw-kid.k2{animation-delay:-1.5s}
+@keyframes twkid{0%,100%{transform:translate(0,0)}25%{transform:translate(8px,-6px)}50%{transform:translate(14px,0)}75%{transform:translate(6px,-4px)}}
+.tw-kite{position:absolute;right:30%;top:8%;font-size:24px;z-index:3;animation:twkite 4s ease-in-out infinite}
+@keyframes twkite{0%,100%{transform:translate(0,0) rotate(-8deg)}50%{transform:translate(12px,-8px) rotate(10deg)}}
+.tw-squirrel{left:-6%;top:86%;font-size:18px;animation:twsq 18s linear infinite}
+@keyframes twsq{0%{left:-6%;transform:scaleX(-1)}45%{left:104%;transform:scaleX(-1)}50%{left:104%;transform:scaleX(1)}95%{left:-6%;transform:scaleX(1)}100%{left:-6%;transform:scaleX(-1)}}
+.tw-park{display:none}
+.tw-main{position:absolute;left:6%;top:4px;z-index:3}
+@media (max-width:640px){.tw-parkland{height:300px}.tw-lake{width:58%;height:42%;top:16%}.tw-play{width:42%;height:38%;top:58%;right:3%}.tw-dock{left:58%;top:40%}.tw-ft{left:74%!important;top:24%!important}.tw-bench{left:6%!important;top:66%!important}.tw-bear{left:10%!important;top:61%!important}}
+
 .backrooms{display:flex;gap:18px;align-items:flex-start;justify-content:center;flex-wrap:wrap;margin-top:4px}
 .backrooms .arcade{flex:0 1 360px}
 .sroom{flex:1 1 260px;max-width:380px;margin-top:46px;display:flex;flex-direction:column}
@@ -1844,10 +1873,24 @@ function renderTown(){const el=$('#town');if(!el||!S)return;const prep=S.phase==
     ${farmScene()}
     <div class="tw-lots">${TOWN_ORDER[0].map(bldHTML).join('')}</div>
     <div class="tw-walk"><span class="tw-lamp l1">🏮</span><span class="tw-lamp l2">🏮</span><span class="tw-tl">🚦</span>${walkers.slice(0,4).map((w,i)=>`<span class="tw-ped ${i%2?'l':'r'}" style="animation-duration:${22+i*6}s;animation-delay:-${i*7}s">${w}</span>`).join('')}</div>
-    <div class="tw-road"><span class="tw-cross"></span>${cars.map(([c,d,dir],i)=>`<span class="tw-car ${dir?'l':'r'} ln${dir}" style="animation-duration:${d}s;animation-delay:-${i*5}s">${c}</span>`).join('')}</div>
+    <div class="tw-road"><span class="tw-streetsign tw-main">Main Street</span><span class="tw-cross"></span>${cars.map(([c,d,dir],i)=>`<span class="tw-car ${dir?'l':'r'} ln${dir}" style="animation-duration:${d}s;animation-delay:-${i*5}s">${c}</span>`).join('')}</div>
     <div class="tw-walk"><span class="tw-mail">📮</span><span class="tw-hyd">🧯</span>${walkers.slice(4).map((w,i)=>`<span class="tw-ped ${i%2?'r':'l'}" style="animation-duration:${25+i*5}s;animation-delay:-${i*9}s">${w}</span>`).join('')}</div>
     <div class="tw-lots">${TOWN_ORDER[1].map(bldHTML).join('')}</div>
-    <div class="tw-park"><span>🌳</span><span>🌷</span><span>🪑</span><span class="tw-fount">⛲</span><span>🌼</span><span>🌳</span><span>🐿️</span><span>🌲</span></div>
+    <div class="tw-walk"><span class="tw-ped r" style="animation-duration:28s">🐨</span><span class="tw-ped l" style="animation-duration:33s;animation-delay:-12s">🐷</span><span class="tw-stop">🚏</span><span class="tw-lamp" style="left:30%">🏮</span><span class="tw-lamp" style="left:70%">🏮</span></div>
+    <div class="tw-road"><span class="tw-streetsign" style="left:6%">Park Lane</span><span class="tw-cross" style="left:calc(30% - 30px)"></span>${[['🚐',21,0],['🚓',17,1],['🛵',24,0],['🚙',27,1]].map(([c,d,dir],i)=>`<span class="tw-car ${dir?'l':'r'} ln${dir}" style="animation-duration:${d}s;animation-delay:-${i*6}s">${c}</span>`).join('')}</div>
+    <div class="tw-walk"><span class="tw-ped l" style="animation-duration:31s">🐹</span><span class="tw-ped r" style="animation-duration:26s;animation-delay:-9s">🦆</span><span class="tw-lamp" style="left:50%">🏮</span></div>
+    <div class="tw-parkland">
+      <span class="tw-parksign">🌳 Town Park</span>
+      <span class="tw-path"></span>
+      <span class="tw-lake"><span class="tw-wave"></span><span class="tw-boat">⛵</span><span class="tw-duck d1">🦆</span><span class="tw-duck d2">🦆</span><span class="tw-pad" style="left:62%;top:58%">🪷</span><span class="tw-pad" style="left:24%;top:66%">🪷</span><span class="tw-fish">🐟</span></span>
+      <span class="tw-dock">🎣</span>
+      <span class="tw-pi tw-ft" style="left:47%;top:30%;font-size:38px">⛲</span>
+      <span class="tw-pi tw-bench" style="left:56%;top:68%">🪑</span><span class="tw-pi tw-bear" style="left:60%;top:63%;font-size:18px">🐻</span>
+      <span class="tw-pi" style="left:66%;top:20%">🌳</span><span class="tw-pi" style="left:91%;top:15%">🌲</span><span class="tw-pi" style="left:4%;top:10%">🌳</span><span class="tw-pi" style="left:40%;top:78%">🌷</span><span class="tw-pi" style="left:52%;top:85%">🌼</span>
+      <span class="tw-play"><span class="tw-sand"></span><span class="tw-pi" style="left:8%;top:5%;font-size:34px">🛝</span><span class="tw-pi" style="left:52%;top:0%;font-size:34px">🎠</span><span class="tw-pi tw-kid k1" style="left:30%;top:48%">🐰</span><span class="tw-pi tw-kid k2" style="left:62%;top:58%">🐶</span><span class="tw-pi" style="left:18%;top:62%;font-size:16px">⚽</span></span>
+      <span class="tw-pi" style="left:79%;top:72%">🍦</span><span class="tw-pi" style="left:72%;top:80%;font-size:18px">🧺</span>
+      <span class="tw-kite">🪁</span><span class="tw-pi tw-squirrel">🐿️</span>
+    </div>
    </div>
    <h3>🧑‍💼 Managers</h3><p class="hint" style="margin:0 0 8px">Better managers want to work for a restaurant with more stars. They also get a little faster the more days they work.</p>
    <div class="mgrid2">${MGRS.map(m=>{const at=mgrShop(m.id),ok=bs>=m.need;return `<div class="mgr ${ok?'':'locked'}"><span class="mem">${m.em}</span><div><b>${m.name}</b> <small>$${m.wage}/day</small><p>${m.desc}</p><small>${!ok?`🔒 Needs ${m.need} ★`:at?`Works at ${SHOPS[at].em} ${SHOPS[at].name}`:'Looking for a job!'}${(S.mgrDays[m.id]||0)?` · ${S.mgrDays[m.id]} day${S.mgrDays[m.id]>1?'s':''} worked`:''}</small></div></div>`;}).join('')}</div>`;}
