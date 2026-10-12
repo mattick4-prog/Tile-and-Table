@@ -624,6 +624,36 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.tw-farm{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:center;flex-wrap:wrap;gap:10px 16px;width:calc(100% - 20px);margin:10px 10px -26px;padding:10px 12px 34px;border:0;border-radius:16px;cursor:pointer;font:inherit;color:#2A1E1A;
+  background:linear-gradient(#A8DC8E,#8CCB72);box-shadow:inset 0 -10px 0 rgba(0,0,0,.05);border-bottom:6px dotted #A0703C;transition:transform .15s}
+.tw-farm:hover{transform:translateY(-2px)}
+.tw.night .tw-farm{filter:brightness(.7)}
+.tf-barn{position:relative;display:flex;flex-direction:column;align-items:center;width:150px}
+.tf-roof{width:150px;height:46px;background:#8A2A20;clip-path:polygon(18% 0,82% 0,100% 100%,0 100%);box-shadow:inset 0 -6px 0 rgba(0,0,0,.2)}
+.tf-wall{position:relative;width:128px;height:84px;background:repeating-linear-gradient(90deg,#C0392B 0 12px,#A93226 12px 14px);border:3px solid #7B241C;border-top:0}
+.tf-loft{position:absolute;top:8px;left:50%;width:30px;height:20px;margin-left:-15px;background:#F3E9D6;border:3px solid #fff;border-radius:4px}
+.tf-door{position:absolute;bottom:0;left:50%;width:50px;height:46px;margin-left:-25px;border:3px solid #fff;background:#7B241C;background-image:linear-gradient(45deg,transparent 46%,#fff 46% 54%,transparent 54%),linear-gradient(-45deg,transparent 46%,#fff 46% 54%,transparent 54%)}
+.tf-silo{position:absolute;right:-30px;bottom:0;width:28px;height:128px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#B7BDC3,#F0F2F4,#B7BDC3);box-shadow:inset 0 -8px 0 rgba(0,0,0,.08)}
+.tf-rooster{position:absolute;top:-22px;font-size:24px;z-index:2}
+.tf-land{display:flex;flex-direction:column;align-items:center;gap:4px;margin-left:22px}
+.tf-map{--tc:20px;display:grid;gap:1px;padding:4px;background:#6E9E52;border-radius:8px;border:3px solid #8A5A2E}
+.tf-map.empty{font-size:18px;letter-spacing:2px;--tc:auto}
+.tf-c{width:var(--tc);height:var(--tc);display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1;border-radius:3px;position:relative}
+.tf-c.t-grass{background:transparent}.tf-c.t-dirt{background:#B98A5C}.tf-c.t-tilled{background:#7A4A26}.tf-c.t-rock{background:#B98A5C;font-size:11px}
+.tf-tree{position:absolute;left:0;top:0;width:calc(var(--tc)*2);height:calc(var(--tc)*2);display:flex;align-items:center;justify-content:center;font-size:30px;font-style:normal;z-index:2}
+.tf-flowers{font-size:14px;letter-spacing:1px}
+.tf-pens{display:flex;flex-wrap:wrap;gap:8px;max-width:330px}
+.tf-pen{position:relative;min-width:66px;height:52px;padding:4px 6px;display:flex;align-items:center;justify-content:center;gap:2px;flex-wrap:wrap;background:#C5E3A6;border:4px solid #A0703C;border-radius:6px;box-shadow:inset 0 0 0 2px #D9B17E}
+.tf-pen.p-hive{background:#FFF1C4}.tf-pen.p-pasture{background:#B6DC8E}.tf-pen.p-coop{background:#E9D7B0}
+.tf-pen i{font-style:normal;font-size:20px;display:inline-block;animation:tfwander 5s ease-in-out infinite}.tf-pen small{font-size:10px;opacity:.6}
+@keyframes tfwander{0%,100%{transform:translateX(0)}25%{transform:translateX(5px) translateY(-2px)}50%{transform:translateX(0) scaleX(-1)}75%{transform:translateX(-5px) scaleX(-1) translateY(-2px)}}
+.tf-dog,.tf-bot{font-style:normal;font-size:24px;align-self:flex-end;animation:tfwander 6s ease-in-out infinite}
+.tf-sign{position:absolute;left:14px;top:10px;display:flex;flex-direction:column;background:#FFF8E6;border:3px solid #8A5A2E;border-radius:10px;padding:2px 10px;text-align:left;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.tf-sign b{font-size:13px}.tf-sign small{font-size:11px;font-weight:800}
+.tw-farm+.tw-lots{position:relative;z-index:3}
+.penh b.penico{font-size:26px;line-height:1}.penbig{font-size:28px;line-height:1}
+@media (max-width:640px){.tw-farm{padding-top:52px}.tf-barn{transform:scale(.85);transform-origin:bottom center}}
+
 .fhintwrap{display:flex;align-items:flex-start;gap:8px;justify-content:flex-end}.fhintwrap .mhint{flex:1;margin:0}.infobtn{flex:0 0 auto;width:32px;height:32px;border-radius:50%;border:2px solid var(--line);background:#fff;font-size:16px;line-height:1;cursor:pointer;padding:0;box-shadow:0 2px 0 rgba(0,0,0,.15)}
 #g-farm .cell:not(.grass){touch-action:none}#g-feedbin,#g-shed{touch-action:pan-y}
 .trotbtn{position:absolute;top:-10px;right:-10px;z-index:6;width:30px;height:30px;border-radius:50%;border:3px solid #fff;background:#2BA88A;color:#fff;font-size:18px;font-weight:900;line-height:1;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.35);padding:0;animation:arcbob 1.2s ease-in-out infinite}
@@ -1735,7 +1765,26 @@ function renderSupply(){const el=$('#supply');if(!el||!S)return;const os=otherSh
     <button class="btn primary" data-act="mSend" ${m&&menu.length&&sh.truck.pieces.length?'':'disabled'}>🚚 Send the truck to ${SHOPS[id].name}</button>`}
    </div>`;
   paintGrid('mtruck',{max:52,color:p=>ING[p.key].color,label:basketLabel,icon:basketIcon});}
-const TOWN_ORDER=[['diner','cafe','bakery','farm'],['noodle','drinks','seafood','museum']];
+const TOWN_ORDER=[['diner','cafe','bakery'],['noodle','drinks','seafood','museum']];
+function farmScene(){const F=S.farm;if(!F)return '';
+  const ks=Object.keys(F.cells||{});let map='';
+  if(ks.length){const xs=ks.map(k=>+k.split(',')[0]),ys=ks.map(k=>+k.split(',')[1]);const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+    const crop={};F.pieces.forEach(p=>{const c=cropOf(p);const cs=cellsOf(p);if(c.tree){crop[cs[0][0]+','+cs[0][1]]=`<i class="tf-tree">${cropIcon(p)}</i>`;cs.slice(1).forEach(([x,y])=>crop[x+','+y]=' ');}else cs.forEach(([x,y],i)=>crop[x+','+y]=cropIcon(p));});
+    for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const k=x+','+y,st=F.cells[k];map+=`<span class="tf-c ${st?'t-'+(ROCK_HP[st]?'rock':st):'t-grass'}" style="grid-column:${x-x0+1};grid-row:${y-y0+1}">${crop[k]!=null?crop[k]:st&&ROCK_HP[st]?'🪨':F.weeds&&F.weeds[k]?'🌿':''}</span>`;}
+    map=`<span class="tf-map" style="grid-template-columns:repeat(${x1-x0+1},var(--tc));grid-template-rows:repeat(${y1-y0+1},var(--tc))">${map}</span>`;}
+  else map='<span class="tf-map empty">🟫🟫🟫</span>';
+  const pens=Object.keys(PENS).filter(k=>F.pens&&F.pens[k]).map(k=>{const P=PENS[k],A=ANIMALS[P.animal],list=F.animals.filter(a=>a.type===P.animal);
+    return `<span class="tf-pen p-${k}" title="${P.name}">${list.length?list.map((a,i)=>`<i style="animation-delay:-${i*1.3}s;animation-duration:${4+i}s">${a.adult?A.adult:A.baby}</i>`).join(''):'<small>empty</small>'}</span>`;}).join('');
+  const flowers=((S.garden&&S.garden.pieces)||[]).slice(0,6).map(p=>(FLOWERS[p.key]||{}).emoji||'🌼').join('');
+  const pets=(F.built&&F.built.pets?'<i class="tf-dog">🐕</i>':'')+(F.built&&F.built.robot?'<i class="tf-bot">🤖</i>':'');
+  const ripe=F.pieces.filter(cropReady).length,th=S.phase==='prep'?F.pieces.filter(needsWater).length:0,wd=F.weeds?Object.keys(F.weeds).length:0;
+  const stat=[ripe?`✨ ${ripe} ripe`:'',th?`💧 ${th} thirsty`:'',wd?`🌿 ${wd} weeds`:''].filter(Boolean).join(' · ')||'🐔 All good';
+  return `<button class="tw-farm" data-act="bld" data-arg="farm" aria-label="Your farm">
+    <span class="tf-barn"><span class="tf-rooster">🐓</span><span class="tf-roof"></span><span class="tf-wall"><span class="tf-loft"></span><span class="tf-door"></span></span><span class="tf-silo"></span></span>
+    <span class="tf-land">${map}${flowers?`<span class="tf-flowers">${flowers}</span>`:''}</span>
+    ${pens?`<span class="tf-pens">${pens}</span>`:''}${pets}
+    <span class="tf-sign"><b>🌾 Your farm</b><small>${stat}</small></span></button>`;}
+
 const BLD_LOOK={diner:['#C8102E','#FFF3E0','tri','🍒'],cafe:['#6B4F3A','#FFF8EC','tri','☕'],bakery:['#E8A417','#FFF9E6','round','🥐'],noodle:['#8E2424','#FFF3E6','pagoda','🏮'],drinks:['#E05A9C','#FFF0F6','flat','🧋'],seafood:['#1E5AAA','#E8F6FF','tri','🦞'],farm:['#B5382C','#B5382C','barn','🐓'],museum:['#B8860B','#FBF6E6','temple','🚩']};
 function bldHTML(id){const [rc,wc,roof,top]=BLD_LOOK[id]||['#888','#fff','tri',''];let em,name,stat='',cls='';
   if(id==='farm'){em='🌾';name='Your farm';const F=S.farm;const ripe=F?F.pieces.filter(cropReady).length:0,th=F&&S.phase==='prep'?F.pieces.filter(needsWater).length:0,wd=F&&F.weeds?Object.keys(F.weeds).length:0;stat=[ripe?`✨ ${ripe} ripe`:'',th?`💧 ${th} thirsty`:'',wd?`🌿 ${wd} weeds`:''].filter(Boolean).join(' · ')||'🐔 All good';}
@@ -1760,6 +1809,7 @@ function renderTown(){const el=$('#town');if(!el||!S)return;const prep=S.phase==
     <div class="tw-sky">${night?'<span class="tw-moon">🌙</span><span class="tw-stars">✦ · ✧ · ✦ · ✧ · ✦ · ✧</span>':'<span class="tw-sun">🌞</span>'}<span class="tw-cloud c1">☁️</span><span class="tw-cloud c2">☁️</span><span class="tw-cloud c3">☁️</span>${night?'':'<span class="tw-bird">🐦</span>'}</div>
     <div class="tw-hills"></div>
     <div class="tw-welcome">🏙️ Welcome to ${esc(pl.name||'your')}${pl.name?'’s':''} Town!</div>
+    ${farmScene()}
     <div class="tw-lots">${TOWN_ORDER[0].map(bldHTML).join('')}</div>
     <div class="tw-walk"><span class="tw-lamp l1">🏮</span><span class="tw-lamp l2">🏮</span><span class="tw-tl">🚦</span>${walkers.slice(0,4).map((w,i)=>`<span class="tw-ped ${i%2?'l':'r'}" style="animation-duration:${22+i*6}s;animation-delay:-${i*7}s">${w}</span>`).join('')}</div>
     <div class="tw-road"><span class="tw-cross"></span>${cars.map(([c,d,dir],i)=>`<span class="tw-car ${dir?'l':'r'} ln${dir}" style="animation-duration:${d}s;animation-delay:-${i*5}s">${c}</span>`).join('')}</div>
@@ -3015,7 +3065,7 @@ function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
   const HOUSE={coop:'🛖',goatpen:'🪵',hive:'🌸',pasture:'🌾'};
   $('#feedSel').innerHTML=Object.keys(FEEDS).map(t=>{const n=feedCount(t),w=F.sacks[t]||0;return `<button class="fchip ${F.feedSel===t?'on':''}" data-act="feedSel" data-arg="${t}">${FEEDS[t].emoji} ${FEEDS[t].name} <b>×${n}</b>${w?` <small>(+${w} sack${w>1?'s':''} in barn)</small>`:''}</button>`;}).join('');
   $('#pens').innerHTML=pens.length?pens.map(k=>{const P=PENS[k],A=ANIMALS[P.animal],list=F.animals.filter(a=>a.type===P.animal);
-    return `<div class="pen ${k}"><div class="penh"><b>${P.name}</b><small>${list.length}/${P.slots}</small></div><span class="penhouse">${HOUSE[k]}</span><div class="anis">${list.map(a=>`<button class="ani ${a.adult?'':'baby'} ${a.fed?'fed':''} ${YUM===a.id?'yum':''}" data-act="feedAnimal" data-arg="${a.id}"><span class="ae" style="${a.hue?`filter:hue-rotate(${a.hue}deg) saturate(1.5) drop-shadow(0 3px 0 rgba(0,0,0,.15))`:''}">${a.adult?A.adult:A.baby}</span><small>${a.adult?`makes ${A.amt+A.per*a.q} ${A.word}`:`grown ${a.g}/${A.grow}`}</small>${a.q?`<small>${'⭐'.repeat(a.q)}</small>`:''}<em>${a.fed?'💕 fed':prep?'😋 hungry!':'💤'}</em></button>`).join('')||'<span class="penempty">Empty! Buy baby animals in the barn’s farm store.</span>'}</div></div>`;}).join('')
+    return `<div class="pen ${k}"><div class="penh"><b class="penico" title="${P.name}" aria-label="${P.name}">${A.adult}</b><small>${list.length}/${P.slots}</small></div><span class="penhouse">${HOUSE[k]}</span><div class="anis">${list.map(a=>`<button class="ani ${a.adult?'':'baby'} ${a.fed?'fed':''} ${YUM===a.id?'yum':''}" data-act="feedAnimal" data-arg="${a.id}"><span class="ae" style="${a.hue?`filter:hue-rotate(${a.hue}deg) saturate(1.5) drop-shadow(0 3px 0 rgba(0,0,0,.15))`:''}">${a.adult?A.adult:A.baby}</span><small>${a.adult?`makes ${A.amt+A.per*a.q} ${A.word}`:`grown ${a.g}/${A.grow}`}</small>${a.q?`<small>${'⭐'.repeat(a.q)}</small>`:''}<em>${a.fed?'💕 fed':prep?'😋 hungry!':'💤'}</em></button>`).join('')||'<span class="penempty">Empty! Buy baby animals in the barn’s farm store.</span>'}</div></div>`;}).join('')
     :'<p class="mhint">No animals yet. Tap the red barn and build a pen in the farm store.</p>';
   $('#feedRow').hidden=!pens.length;
   // inside the barn: sacks + bins
@@ -3042,7 +3092,7 @@ function renderFarm(){const F=S.farm;if(!F)return;const prep=S.phase==='prep';
   let h='<h4>🌾 Feed</h4><div class="scards">';for(const t in FEEDS){const f=FEEDS[t];h+=card(f.emoji,f.name,`A sack of ${f.scoops} scoops. ${f.desc}`,`<button class="btn small go" data-act="buyFeed" data-arg="${t}">Buy sack $${f.cost*f.scoops}</button>`);}
   h+=card('🪵','Bigger feed bin',F.bin<BIN_COST.length?`Room for more sacks: ${BIN_SIZES[F.bin+1].join('×')}.`:'Biggest bin!',F.bin<BIN_COST.length?`<button class="btn small go" data-act="growBin">Build $${BIN_COST[F.bin]}</button>`:own,F.bin>=BIN_COST.length)+'</div>';
   h+='<h4>🐾 Animals</h4><div class="scards">';for(const k in PENS){const P=PENS[k],A=ANIMALS[P.animal],n=F.animals.filter(a=>a.type===P.animal).length;
-    h+=card(HOUSE[k],P.name,`Fenced land for ${P.slots} ${A.name.toLowerCase()}${P.slots>1&&A.name!=='Bees'?'s':''}. Grown-ups make ${A.word}.`,F.pens[k]?'<button class="btn small" disabled>✓ Built</button>':`<button class="btn small go" data-act="buyPen" data-arg="${k}">Build $${P.cost}</button>`,F.pens[k]);
+    h+=card(HOUSE[k],`<span class="penbig" title="${P.name}" aria-label="${P.name}">${A.adult}</span>`,`Fenced land for ${P.slots} ${A.name.toLowerCase()}${P.slots>1&&A.name!=='Bees'?'s':''}. Grown-ups make ${A.word}.`,F.pens[k]?'<button class="btn small" disabled>✓ Built</button>':`<button class="btn small go" data-act="buyPen" data-arg="${k}">Build $${P.cost}</button>`,F.pens[k]);
     if(F.pens[k])h+=card(A.baby,`Baby ${A.name.toLowerCase()}`,`Feed it ${A.grow} times to grow up. (${n}/${P.slots})`,n<P.slots?`<button class="btn small go" data-act="buyAnimal" data-arg="${P.animal}">Buy $${A.cost}</button>`:'<button class="btn small" disabled>Pen full</button>');}
   h+=card('🧈','Dairy churn','Turn cow milk into cheese, yogurt or ice cream.',F.churn?own:'<button class="btn small go" data-act="buyChurn">Buy $100</button>',F.churn)+'</div>';
   h+='<h4>🌱 Seeds</h4><div class="scards">';
