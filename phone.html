@@ -637,27 +637,65 @@ h2{font-size:19px}
 .ped{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}.ped b{font-size:13px}.ped small{font-size:11px;opacity:.75}
 .pdish{font-size:46px;filter:drop-shadow(0 0 10px #FFD54A) sepia(.55) saturate(2.4) hue-rotate(-12deg);animation:arcbob 2.4s ease-in-out infinite}
 .pstand{width:70px;height:34px;background:linear-gradient(#FFFFFF,#D8D2C4);border-radius:4px 4px 0 0;box-shadow:inset 0 -6px 0 #BFB6A2;margin-top:-4px}.ped.ghost{opacity:.55}.ped.ghost .pdish{filter:none}
-.townmap{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(#BFE7FF 0 70px,#8FD07A 70px);padding:64px 10px 8px;border:4px solid #5E9E4E}
-.tm-sky{position:absolute;left:0;right:0;top:0;height:70px;pointer-events:none}.tm-sky .cl{position:absolute;font-size:28px;opacity:.9;animation:drift 40s linear infinite}.tm-sky .c1{top:6px;left:-10%}.tm-sky .c2{top:22px;left:-30%;animation-duration:55s}.sunny{position:absolute;right:16px;top:8px;font-size:32px}
-@keyframes drift{from{transform:translateX(0)}to{transform:translateX(130vw)}}
-.tm-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;position:relative;z-index:1}
-.tm-road{height:40px;margin:10px -10px;background:#5B5B5B;position:relative;overflow:hidden;border-top:4px solid #CFCFCF;border-bottom:4px solid #CFCFCF}
-.tm-road::after{content:'';position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;background:repeating-linear-gradient(90deg,#FFE14D 0 26px,transparent 26px 50px)}
-.tm-car{position:absolute;top:4px;font-size:24px;animation:carride 14s linear infinite;z-index:1}@keyframes carride{from{left:-10%}to{left:110%}}
-.tm-grass{text-align:center;font-size:22px;letter-spacing:12px;margin-top:6px}
-.tbld{position:relative;display:flex;flex-direction:column;align-items:center;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:#2A1E1A}
-.tbld .tb-roof{width:86%;height:34px;background:var(--rc);clip-path:polygon(50% 0,100% 100%,0 100%);filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))}
-.tbld .tb-body{position:relative;width:76%;height:78px;background:var(--wc);border:3px solid var(--rc);border-top:0;border-radius:0 0 6px 6px;display:flex;align-items:flex-start;justify-content:center;box-shadow:0 6px 0 rgba(0,0,0,.18)}
-.tbld .tb-em{font-size:34px;margin-top:6px}.tbld .tb-door{position:absolute;bottom:0;left:50%;width:20px;height:26px;margin-left:-10px;background:var(--rc);border-radius:8px 8px 0 0;opacity:.85}
-.tbld .tb-name{margin-top:8px;background:#fff;border:2px solid var(--rc);border-radius:999px;padding:2px 10px;font-weight:900;font-size:13px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
-.tbld .tb-stat{font-size:11px;font-weight:800;margin-top:3px;background:rgba(255,255,255,.75);border-radius:8px;padding:1px 6px;min-height:15px;text-align:center}
-.tbld:hover .tb-body{transform:translateY(-3px)}.tbld:hover .tb-roof{transform:translateY(-3px)}
-.tbld.here .tb-name{background:var(--rc);color:#fff}.tbld.here::before{content:'📍';position:absolute;top:-22px;font-size:24px;animation:arcbob 1.2s ease-in-out infinite;z-index:2}
-.tbld .tb-smoke{position:absolute;top:-30px;right:12%;font-size:16px;opacity:.8;animation:arcbob 2s ease-in-out infinite}
-.tbld.sale .tb-roof,.tbld.sale .tb-body{filter:grayscale(.75) brightness(1.05);border-style:dashed}.tbld.sale .tb-em{opacity:.55}
-.tb-sale{position:absolute;top:30px;left:50%;transform:translateX(-50%) rotate(-6deg);background:#FFF;border:2px solid #C8102E;color:#C8102E;font-weight:900;font-size:10px;padding:1px 6px;border-radius:4px;white-space:nowrap}
-.tbld.dim{opacity:.7}.b-farm .tb-body{background:repeating-linear-gradient(90deg,#B5382C 0 10px,#A33024 10px 12px)}.b-farm .tb-em{background:#F7E7CF;border-radius:10px;padding:0 4px}
-.b-museum .tb-body{background:repeating-linear-gradient(90deg,#FBF6E6 0 10px,#E9DFC2 10px 14px)}
+.tw{position:relative;border-radius:20px;overflow:hidden;border:4px solid #4E8A3A;background:linear-gradient(#9ED8FF 0,#CDEBFF 120px,#8FD07A 120px);padding:0 0 4px;box-shadow:0 6px 0 rgba(0,0,0,.12)}
+.tw.night{background:linear-gradient(#1D2A57 0,#3B4C86 120px,#4E7A4A 120px)}
+.tw-sky{position:absolute;inset:0 0 auto 0;height:120px;pointer-events:none;overflow:hidden}
+.tw-sun{position:absolute;right:22px;top:10px;font-size:38px;filter:drop-shadow(0 0 14px #FFE14D)}.tw-moon{position:absolute;right:26px;top:12px;font-size:34px;filter:drop-shadow(0 0 10px #FFF7C2)}
+.tw-stars{position:absolute;left:8%;top:18px;color:#FFF7C2;letter-spacing:22px;font-size:12px}
+.tw-cloud{position:absolute;font-size:30px;opacity:.95;animation:drift 50s linear infinite}.tw-cloud.c1{top:8px;left:-12%}.tw-cloud.c2{top:30px;left:-35%;font-size:22px;animation-duration:70s}.tw-cloud.c3{top:14px;left:-60%;font-size:26px;animation-duration:60s}
+.tw.night .tw-cloud{opacity:.25}
+.tw-bird{position:absolute;top:40px;left:-5%;font-size:14px;animation:drift 25s linear infinite}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(140vw)}}
+.tw-hills{position:absolute;left:0;right:0;top:78px;height:50px;pointer-events:none;background:radial-gradient(60% 100% at 15% 100%,#7CC36A 98%,transparent 100%),radial-gradient(50% 90% at 55% 100%,#6DB55C 98%,transparent 100%),radial-gradient(55% 100% at 92% 100%,#7CC36A 98%,transparent 100%)}
+.tw.night .tw-hills{filter:brightness(.55)}
+.tw-welcome{position:relative;z-index:2;margin:12px auto 0;width:max-content;max-width:90%;background:#5A3A1C;color:#FFF3D6;font-weight:900;font-size:14px;padding:4px 14px;border-radius:8px;border:3px solid #8A5A2E;box-shadow:0 4px 0 rgba(0,0,0,.2);text-align:center}
+.tw-lots{position:relative;z-index:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px 8px;padding:14px 10px 0}
+.tw-walk{position:relative;height:30px;background:repeating-linear-gradient(90deg,#D9D4C7 0 28px,#CFC9BA 28px 30px);border-top:3px solid #BDB6A4;overflow:hidden}
+.tw.night .tw-walk{filter:brightness(.7)}
+.tw-ped{position:absolute;bottom:2px;font-size:20px;animation:pedR 26s linear infinite}.tw-ped.l{animation-name:pedL}
+@keyframes pedR{0%{left:-6%;transform:scaleX(-1) translateY(0)}25%{transform:scaleX(-1) translateY(-2px)}50%{transform:scaleX(-1) translateY(0)}75%{transform:scaleX(-1) translateY(-2px)}100%{left:104%;transform:scaleX(-1)}}
+@keyframes pedL{0%{left:104%;transform:translateY(0)}25%{transform:translateY(-2px)}50%{transform:translateY(0)}75%{transform:translateY(-2px)}100%{left:-6%}}
+.tw-lamp,.tw-tl,.tw-mail,.tw-hyd{position:absolute;bottom:2px;font-size:20px}.tw-lamp.l1{left:24%}.tw-lamp.l2{left:74%}.tw-tl{left:49%}.tw-mail{left:12%}.tw-hyd{left:86%;font-size:16px}
+.tw.night .tw-lamp{filter:drop-shadow(0 0 10px #FFD54A) brightness(1.5)}
+.tw-road{position:relative;height:58px;background:#55585C;overflow:hidden;border-top:3px solid #9A9A9A;border-bottom:3px solid #9A9A9A}
+.tw-road::after{content:'';position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;background:repeating-linear-gradient(90deg,#FFE14D 0 26px,transparent 26px 50px)}
+.tw-cross{position:absolute;left:calc(50% - 30px);width:60px;top:0;bottom:0;background:repeating-linear-gradient(90deg,#F4F4F4 0 8px,transparent 8px 16px);opacity:.85;z-index:1}
+.tw-car{position:absolute;font-size:26px;z-index:2;animation:carR 18s linear infinite}.tw-car.ln0{top:1px}.tw-car.ln1{top:27px}.tw-car.l{animation-name:carL}
+@keyframes carR{from{left:-12%;transform:scaleX(-1)}to{left:110%;transform:scaleX(-1)}}@keyframes carL{from{left:110%}to{left:-12%}}
+.tw-park{display:flex;justify-content:space-around;align-items:flex-end;font-size:24px;padding:10px 6px 6px;margin-top:12px;background:linear-gradient(transparent 60%,rgba(0,0,0,.05));border-top:6px dotted #A0703C}
+.tw-fount{font-size:32px}
+.tw-b{position:relative;display:flex;flex-direction:column;align-items:center;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:#2A1E1A}
+.tw-house{position:relative;display:flex;flex-direction:column;align-items:center;width:100%;transition:transform .15s}
+.tw-b:hover .tw-house{transform:translateY(-4px)}
+.tw-top{position:relative;z-index:3;font-size:22px;height:24px;margin-bottom:-6px}
+.tw-roof{position:relative;z-index:2;width:90%;height:36px;background:var(--rc);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.r-flat .tw-roof{width:82%;height:16px;clip-path:none;border-radius:4px 4px 0 0;box-shadow:inset 0 -4px 0 rgba(0,0,0,.2)}
+.r-round .tw-roof{width:82%;height:30px;clip-path:none;border-radius:60px 60px 0 0}
+.r-pagoda .tw-roof{height:40px;clip-path:polygon(50% 0,64% 30%,80% 30%,100% 100%,0 100%,20% 30%,36% 30%)}
+.r-barn .tw-roof{width:88%;height:34px;clip-path:polygon(20% 0,80% 0,100% 100%,0 100%);background:#8A2A20}
+.r-temple .tw-roof{width:92%;height:28px;clip-path:polygon(50% 0,100% 100%,0 100%);background:linear-gradient(#E6D8AE,#C9B680);border-bottom:3px solid #B8860B}
+.tw-wall{position:relative;z-index:1;width:78%;height:86px;background:var(--wc);border:3px solid var(--rc);border-top:0;box-shadow:0 5px 0 rgba(0,0,0,.18);display:block}
+.tw-sign{position:absolute;top:4px;left:50%;transform:translateX(-50%);background:#fff;border:2px solid var(--rc);border-radius:8px;padding:0 6px;font-size:20px;line-height:1.2}
+.tw-wins{position:absolute;top:34px;left:8%;right:8%;display:flex;justify-content:space-between}.tw-wins i{width:20px;height:18px;background:#BFE6FF;border:3px solid #fff;outline:2px solid var(--rc);border-radius:3px}
+.tw.night .tw-wins i{background:#FFE58A;box-shadow:0 0 10px #FFD54A}
+.tw-awn{position:absolute;top:26px;left:-4%;right:-4%;height:10px;background:repeating-linear-gradient(90deg,var(--rc) 0 10px,#fff 10px 20px);border-radius:0 0 8px 8px}
+.tw-door{position:absolute;bottom:0;left:50%;width:22px;height:30px;margin-left:-11px;background:var(--rc);border-radius:10px 10px 0 0;box-shadow:inset 0 0 0 3px rgba(255,255,255,.35)}
+.tw-step{width:40%;height:6px;background:#BDB6A4;border-radius:0 0 4px 4px}
+.k-farm .tw-wall{background:repeating-linear-gradient(90deg,#B5382C 0 12px,#A33024 12px 14px);border-color:#8A2A20;width:70%;margin-right:14%}
+.tw-barnx{position:absolute;bottom:0;left:50%;width:34px;height:40px;margin-left:-17px;background:#F3E9D6;border:3px solid #fff;background-image:linear-gradient(45deg,transparent 46%,#fff 46% 54%,transparent 54%),linear-gradient(-45deg,transparent 46%,#fff 46% 54%,transparent 54%);background-color:#8A2A20}
+.tw-silo{position:absolute;right:-26px;bottom:0;width:22px;height:104px;background:linear-gradient(90deg,#C9CED3,#F0F2F4,#B7BDC3);border-radius:12px 12px 0 0;box-shadow:inset 0 -6px 0 rgba(0,0,0,.1)}
+.tw-hay{position:absolute;left:-18px;bottom:-4px;font-size:20px}
+.k-museum .tw-wall{background:#FBF6E6;border-color:#C9B680}.tw-cols{position:absolute;inset:6px 8px 0;background:repeating-linear-gradient(90deg,#FFFFFF 0 10px,#E4DAC0 10px 12px,transparent 12px 20px)}
+.k-museum .tw-door{background:#B8860B}.k-museum .tw-step{width:90%;height:10px;background:linear-gradient(#E6DFCF,#CFC6AF)}
+.tw-name{margin-top:6px;background:#fff;border:2px solid var(--rc);border-radius:999px;padding:2px 10px;font-weight:900;font-size:13px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;position:relative;z-index:2}
+.tw-stat{font-size:11px;font-weight:800;margin-top:3px;background:rgba(255,255,255,.85);border-radius:8px;padding:1px 6px;min-height:15px;text-align:center;position:relative;z-index:2}
+.tw-b.here .tw-name{background:var(--rc);color:#fff}
+.tw-pin{position:absolute;top:-14px;left:12%;font-size:24px;z-index:4;animation:arcbob 1.2s ease-in-out infinite}
+.tw-smoke{position:absolute;top:2px;right:16%;font-size:16px;opacity:.85;z-index:4;animation:arcbob 2s ease-in-out infinite}
+.tw-b.sale .tw-roof,.tw-b.sale .tw-wall,.tw-b.sale .tw-top{filter:grayscale(.8) brightness(1.08)}.tw-b.sale .tw-wall{border-style:dashed}
+.tw-salesign{position:absolute;bottom:26px;left:50%;transform:translateX(-50%) rotate(-6deg);z-index:3;background:#FFF;border:2px solid #C8102E;color:#C8102E;font-weight:900;font-size:10px;padding:1px 6px;border-radius:4px;white-space:nowrap;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.tw-b.dim .tw-house{opacity:.8}
+.tw-b::after{content:'🌳';position:absolute;bottom:38px;right:-4px;font-size:22px;z-index:0;pointer-events:none}.tw-b:nth-child(2n)::after{content:'🌲';right:auto;left:-4px}.k-farm::after,.k-museum::after{content:'🌷';bottom:36px;font-size:16px}
 .trip{position:fixed;left:50%;top:84px;transform:translateX(-50%);width:min(560px,94vw);z-index:300;pointer-events:none}
 .trip-road{position:relative;height:74px;background:linear-gradient(#9FD88A 0 18px,#5B5B5B 18px 58px,#9FD88A 58px);border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.3);overflow:hidden;border:3px solid #fff}
 .trip-road::after{content:'';position:absolute;left:0;right:0;top:37px;height:3px;background:repeating-linear-gradient(90deg,#FFE14D 0 18px,transparent 18px 34px)}
@@ -1670,8 +1708,8 @@ function renderSupply(){const el=$('#supply');if(!el||!S)return;const os=otherSh
    </div>`;
   paintGrid('mtruck',{max:52,color:p=>ING[p.key].color,label:basketLabel,icon:basketIcon});}
 const TOWN_ORDER=[['diner','cafe','bakery','farm'],['noodle','drinks','seafood','museum']];
-const BLD_LOOK={diner:['#C8102E','#FFF3E0'],cafe:['#6B4F3A','#FFF8EC'],bakery:['#E8A417','#FFF9E6'],noodle:['#8E2424','#FFF3E6'],drinks:['#E05A9C','#FFF0F6'],seafood:['#1E5AAA','#E8F6FF'],farm:['#B5382C','#F7E7CF'],museum:['#B8860B','#FBF6E6']};
-function bldHTML(id){const look=BLD_LOOK[id]||['#888','#fff'];let em,name,stat='',cls='';
+const BLD_LOOK={diner:['#C8102E','#FFF3E0','tri','🍒'],cafe:['#6B4F3A','#FFF8EC','tri','☕'],bakery:['#E8A417','#FFF9E6','round','🥐'],noodle:['#8E2424','#FFF3E6','pagoda','🏮'],drinks:['#E05A9C','#FFF0F6','flat','🧋'],seafood:['#1E5AAA','#E8F6FF','tri','🦞'],farm:['#B5382C','#B5382C','barn','🐓'],museum:['#B8860B','#FBF6E6','temple','🚩']};
+function bldHTML(id){const [rc,wc,roof,top]=BLD_LOOK[id]||['#888','#fff','tri',''];let em,name,stat='',cls='';
   if(id==='farm'){em='🌾';name='Your farm';const F=S.farm;const ripe=F?F.pieces.filter(cropReady).length:0,th=F&&S.phase==='prep'?F.pieces.filter(needsWater).length:0,wd=F&&F.weeds?Object.keys(F.weeds).length:0;stat=[ripe?`✨ ${ripe} ripe`:'',th?`💧 ${th} thirsty`:'',wd?`🌿 ${wd} weeds`:''].filter(Boolean).join(' · ')||'🐔 All good';}
   else if(id==='museum'){em='🏛️';name='Golden Dish Museum';const n=(S.museum||[]).length;stat=n?`🏆 ${n} golden dish${n>1?'es':''}`:'Opens with your first golden dish';cls=n?'':'dim';}
   else{const s=SHOPS[id],own=S.owned.includes(id),act=id===shopId(),m=mgrOf(id);em=s.em;name=s.name;
@@ -1679,12 +1717,27 @@ function bldHTML(id){const look=BLD_LOOK[id]||['#888','#fff'];let em,name,stat='
     else if(act){cls='here';stat='👩‍🍳 You’re cooking here';}
     else if(S.sent[id])stat=`🚚 Open · ${m?m.em+' '+m.name:''}`;
     else stat=m?`${m.em} ${m.name} · truck ${S.shops[id].truck.pieces.length?'loaded':'empty'}`:'😴 Closed · no manager';}
-  return `<button class="tbld ${cls} b-${id}" data-act="bld" data-arg="${id}" style="--rc:${look[0]};--wc:${look[1]}"><span class="tb-roof"></span><span class="tb-body"><span class="tb-em">${em}</span><span class="tb-door"></span>${cls==='here'?'<span class="tb-smoke">💨</span>':''}${cls==='sale'?`<span class="tb-sale">FOR SALE</span>`:''}</span><span class="tb-name">${name}</span><span class="tb-stat">${stat}</span></button>`;}
-function renderTown(){const el=$('#town');if(!el||!S)return;const prep=S.phase==='prep',bs=bestStars();
+  const inner=id==='farm'?`<span class="tw-silo"></span><span class="tw-barnx"></span><span class="tw-hay">🌾</span>`
+    :id==='museum'?`<span class="tw-cols"></span><span class="tw-door"></span>`
+    :`<span class="tw-sign">${em}</span><span class="tw-wins"><i></i><i></i></span><span class="tw-awn"></span><span class="tw-door"></span>`;
+  return `<button class="tw-b k-${id} r-${roof} ${cls}" data-act="bld" data-arg="${id}" style="--rc:${rc};--wc:${wc}" aria-label="${name}">
+    <span class="tw-house"><span class="tw-top">${top}</span><span class="tw-roof"></span><span class="tw-wall">${inner}</span><span class="tw-step"></span>${cls==='here'?'<span class="tw-smoke">💨</span><span class="tw-pin">📍</span>':''}${cls==='sale'?'<span class="tw-salesign">FOR SALE</span>':''}</span>
+    <span class="tw-name">${name}</span><span class="tw-stat">${stat}</span></button>`;}
+function renderTown(){const el=$('#town');if(!el||!S)return;const prep=S.phase==='prep',bs=bestStars(),night=S.phase==='summary',pl=(typeof curPlayer==='function'&&curPlayer())||{};
+  const walkers=['🐶','🐱','🐰','🦊','🐻','🐧','🐼','🐸'];const cars=[['🚗',16,0],['🚌',26,1],['🚙',19,0],['🚲',30,1],['🚕',22,0]];
   el.innerHTML=`<div class="phead"><h2>🏙️ Your town</h2><span class="hours">Best stars: ${bs.toFixed(1)} ★</span></div>
    <p class="hint" style="margin:0 0 8px">${prep?'Tap a building to go inside. Tap one of your other shops to run it today, hire its manager or load its truck.':'Tap a building to go inside. You can switch shops tomorrow morning.'}</p>
-   <div class="townmap" id="townmap"><div class="tm-sky"><span class="cl c1">☁️</span><span class="cl c2">☁️</span><span class="sunny">🌞</span></div>
-    <div class="tm-row">${TOWN_ORDER[0].map(bldHTML).join('')}</div><div class="tm-road"><span class="tm-car">🚗</span></div><div class="tm-row">${TOWN_ORDER[1].map(bldHTML).join('')}</div><div class="tm-grass">🌳 🌷 🌳 🌼 🌳</div></div>
+   <div class="tw ${night?'night':''}">
+    <div class="tw-sky">${night?'<span class="tw-moon">🌙</span><span class="tw-stars">✦ · ✧ · ✦ · ✧ · ✦ · ✧</span>':'<span class="tw-sun">🌞</span>'}<span class="tw-cloud c1">☁️</span><span class="tw-cloud c2">☁️</span><span class="tw-cloud c3">☁️</span>${night?'':'<span class="tw-bird">🐦</span>'}</div>
+    <div class="tw-hills"></div>
+    <div class="tw-welcome">🏙️ Welcome to ${esc(pl.name||'your')}${pl.name?'’s':''} Town!</div>
+    <div class="tw-lots">${TOWN_ORDER[0].map(bldHTML).join('')}</div>
+    <div class="tw-walk"><span class="tw-lamp l1">🏮</span><span class="tw-lamp l2">🏮</span><span class="tw-tl">🚦</span>${walkers.slice(0,4).map((w,i)=>`<span class="tw-ped ${i%2?'l':'r'}" style="animation-duration:${22+i*6}s;animation-delay:-${i*7}s">${w}</span>`).join('')}</div>
+    <div class="tw-road"><span class="tw-cross"></span>${cars.map(([c,d,dir],i)=>`<span class="tw-car ${dir?'l':'r'} ln${dir}" style="animation-duration:${d}s;animation-delay:-${i*5}s">${c}</span>`).join('')}</div>
+    <div class="tw-walk"><span class="tw-mail">📮</span><span class="tw-hyd">🧯</span>${walkers.slice(4).map((w,i)=>`<span class="tw-ped ${i%2?'r':'l'}" style="animation-duration:${25+i*5}s;animation-delay:-${i*9}s">${w}</span>`).join('')}</div>
+    <div class="tw-lots">${TOWN_ORDER[1].map(bldHTML).join('')}</div>
+    <div class="tw-park"><span>🌳</span><span>🌷</span><span>🪑</span><span class="tw-fount">⛲</span><span>🌼</span><span>🌳</span><span>🐿️</span><span>🌲</span></div>
+   </div>
    <h3>🧑‍💼 Managers</h3><p class="hint" style="margin:0 0 8px">Better managers want to work for a restaurant with more stars. They also get a little faster the more days they work.</p>
    <div class="mgrid2">${MGRS.map(m=>{const at=mgrShop(m.id),ok=bs>=m.need;return `<div class="mgr ${ok?'':'locked'}"><span class="mem">${m.em}</span><div><b>${m.name}</b> <small>$${m.wage}/day</small><p>${m.desc}</p><small>${!ok?`🔒 Needs ${m.need} ★`:at?`Works at ${SHOPS[at].em} ${SHOPS[at].name}`:'Looking for a job!'}${(S.mgrDays[m.id]||0)?` · ${S.mgrDays[m.id]} day${S.mgrDays[m.id]>1?'s':''} worked`:''}</small></div></div>`;}).join('')}</div>`;}
 function shopMenuHTML(id){const s=SHOPS[id],sh=S.shops[id],m=mgrOf(id),prep=S.phase==='prep';
