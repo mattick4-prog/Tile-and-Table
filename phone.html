@@ -624,6 +624,25 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+/* ---- appliance info view ---- */
+.cpready .vbtns{flex-wrap:wrap;justify-content:center}.cpready .vbtns .btn{white-space:nowrap}@media (max-width:600px){.cpready .vbtns .btn{font-size:15px;padding:10px 14px}}
+.cpready.info .vinfo{font-size:15px;color:#4A3A2A;font-weight:700}
+.ipic{display:inline-grid;gap:3px;padding:14px;border-radius:18px;margin:2px auto}
+.ipic.v-pan{border-radius:50%;padding:30px;background:radial-gradient(circle,#3A3F45 0 62%,#24282C 63% 70%,transparent 71%)}
+.ipic.v-tray{background:linear-gradient(#8A949C,#6E7880);box-shadow:inset 0 0 0 5px #A9B3BA}
+.ipic.v-basket{background:repeating-linear-gradient(45deg,rgba(255,255,255,.18) 0 2px,transparent 2px 9px),linear-gradient(#C9952F,#9C6F1E);border-radius:16px 16px 28px 28px}
+.ipic.v-pot,.ipic.v-bowl{border-radius:50%;padding:30px;background:radial-gradient(circle,#D9E1E6 0 62%,#9AA6AE 63% 70%,transparent 71%)}
+.ipic.v-glass{background:linear-gradient(#E9F6FF,#CFE8F7);box-shadow:inset 0 0 0 4px #A9D3EE;border-radius:10px 10px 30px 30px}
+.ipic.v-board{background:linear-gradient(#D9A86A,#B98445)}
+.ipic.v-grill{background:repeating-linear-gradient(0deg,#1E1E1E 0 6px,#4A4A4A 6px 9px)}
+.ipic span{width:34px;height:34px;border-radius:6px;border:1px dashed rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:19px}
+.ipic.v-glass span,.ipic.v-board span,.ipic.v-pot span,.ipic.v-bowl span{border-color:rgba(0,0,0,.15)}
+.ipic span.f{border:2px solid rgba(0,0,0,.25)}
+.idishes{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:560px}
+.idishes button{border:2px solid #D9CFBF;background:#fff;border-radius:999px;padding:5px 12px;font:inherit;font-weight:800;font-size:14px;cursor:pointer}
+.idishes button.on{border-color:#2BA88A;background:#E6F6F0}
+.idishes .none{color:#7A6A55;font-size:13px}
+
 /* ---- appliance view (cooking / ready / serve) ---- */
 .cpbody[hidden]{display:none!important}
 .cpready{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 6px 6px;text-align:center}
@@ -1462,7 +1481,7 @@ html,body{overscroll-behavior-y:none}
           <h3 style="margin-top:12px">Appliances you own</h3>
           <div id="applList" class="applist"></div>
           <p class="hint" id="kitchenNote"></p>
-          <p class="hint">Glowing appliances have orders waiting (the red number). Tap one — its pan, tray, basket or glass pops up with your prep bins. Build the dish, then tap Cook it! When it dings 🔔, tap it to serve — don't wait too long or it burns! Before opening you can drag appliances around and tap to rotate them.</p>
+          <p class="hint">Glowing appliances have orders waiting (the red number). Tap one — its pan, tray, basket or glass pops up with your prep bins. Build the dish, then tap Cook it! When it dings 🔔, tap it to serve — don't wait too long or it burns! Any time, tap an appliance to peek inside and see which dishes it makes. Before opening you can also drag appliances around.</p>
         </div>
       <div class="cookpanel" id="cookpanel" hidden><div class="cpcard"><div class="cphead"><b id="cptitle"></b><button class="cpx" data-act="cpClose" aria-label="Close">✕</button></div><div class="cpready" id="cpready" hidden></div><div class="cpbody">
         <div class="station">
@@ -4202,7 +4221,7 @@ function tap(d){
     if(d.gid==='dining'&&FURN[p.key].gag)return doGag(p);
     if(d.gid==='dining'&&tool==='paint')return toast('Only tables have tablecloths to paint.');
     if(d.gid==='truck'){const now=performance.now();if(LASTTAP.id===p.id&&now-LASTTAP.t<450){LASTTAP={id:0,t:0};ROTSEL=null;return unloadBasket(p,true);}LASTTAP={id:p.id,t:now};ROTSEL=ROTSEL===p.id?null:p.id;return;}
-    if(d.gid==='kitchen'&&S.phase==='open'){applTap(p);return;}
+    if(d.gid==='kitchen'){if(S.phase==='open')applTap(p);else openInfo(p.id);return;}
     rotatePiece(d.gid,p);
   }else if(d.kind==='seed')autoPlant(d.key);
   else if(d.kind==='sack')autoSack(d.key);
@@ -4403,9 +4422,32 @@ Object.assign(ACT,{
   lockList(){window.LOCKOPEN=!window.LOCKOPEN;},
 });
 
+/* ---------- appliance info (any time) ---------- */
+let CPINFO=null,CPIDISH=null,CPIKEY='';
+function openInfo(id){CPINFO=id;CPAP=null;CPOPEN=false;CPIDISH=null;CPIKEY='';}
+function infoView(){const el=$('#cpready'),body=$('.cpbody');const a=S.kitchen.pieces.find(q=>q.id===CPINFO);if(!a){CPINFO=null;return false;}
+  const A=APPL[a.key],[w,h]=surfaceOf(a.key),n=S.kitchen.pieces.filter(q=>q.key===a.key).length;
+  const ds=Object.keys(REC).filter(k=>inShop(k)&&!REC[k].variant&&S.rec[k]&&S.rec[k].unlocked&&cookOf(k)===a.key);
+  if(CPIDISH&&!ds.includes(CPIDISH))CPIDISH=null;if(!CPIDISH&&ds.length)CPIDISH=ds[0];
+  const key=[a.id,CPIDISH,S.phase,n,S.money>=extraCost(a.key)].join('|');el.hidden=false;body.hidden=true;
+  $('#cptitle').innerHTML=`${A.emoji} ${A.name}${n>1?' ×'+n:''}`;
+  if(CPIKEY===key)return true;CPIKEY=key;el.className='cpready info';
+  const t=new Map();if(CPIDISH){const m=REC[CPIDISH].map,ox=Math.floor((w-m[0].length)/2),oy=Math.floor((h-m.length)/2);m.forEach((r,y)=>[...r].forEach((ch,x)=>{if(ch!=='.')t.set((x+ox)+','+(y+oy),ch);}));}
+  let cells='';for(let y=0;y<h;y++)for(let x=0;x<w;x++){const ch=t.get(x+','+y);cells+=ch?`<span class="f" style="background:${ING[ch].color}">${ie(ch)}</span>`:'<span></span>';}
+  el.innerHTML=`<div class="ipic v-${VESSEL[a.key]||'pan'}" style="grid-template-columns:repeat(${w},34px)">${cells}</div>
+   <div class="vinfo">${cookTime(a.key)?`⏱️ Cooks in ${cookTime(a.key)} seconds`:'⚡ No waiting — served right away'} · Surface ${w}×${h}</div>
+   <div class="idishes">${ds.length?ds.map(k=>`<button class="${k===CPIDISH?'on':''}" data-act="infoDish" data-arg="${k}">${REC[k].emoji} ${REC[k].name}</button>`).join(''):'<span class="none">No dishes on your list use this yet.</span>'}</div>
+   <div class="vsub">${S.phase==='open'?'Tap an order ticket or a glowing appliance to start cooking.':'Tap a dish to see how it fits. Open the restaurant to start cooking!'}</div>
+   <div class="vbtns">${S.phase==='prep'?`<button class="btn" data-act="rotAppl" data-arg="${a.id}">⟳ Rotate</button>`:''}${cookTime(a.key)?`<button class="btn go" data-act="buyAppl" data-arg="${a.key}" ${S.money>=extraCost(a.key)?'':'disabled'}>＋ Another one $${extraCost(a.key)}</button>`:''}<button class="btn primary" data-act="cpClose">Close</button></div>`;
+  return true;}
+Object.assign(ACT,{
+  infoDish(k){CPIDISH=k;CPIKEY='';},
+  rotAppl(id){const a=S.kitchen.pieces.find(q=>q.id===+id);if(a&&S.phase==='prep')rotatePiece('kitchen',a);},
+});
+
 /* ---------- appliance view ---------- */
 let CPAP=null,CPKEY='';
-function openAppl(id){CPAP=id;CPOPEN=false;CPKEY='';}
+function openAppl(id){CPAP=id;CPOPEN=false;CPINFO=null;CPKEY='';}
 function applView(){const el=$('#cpready'),body=$('.cpbody');const a=S.kitchen.pieces.find(q=>q.id===CPAP);
   if(!a||!a.cook){CPAP=null;el.hidden=true;body.hidden=false;return false;}
   const c=a.cook,A=APPL[a.key],st=c.burnt?'burnt':c.ready?'ready':'cooking',key=a.id+'|'+st;el.hidden=false;body.hidden=true;
@@ -4428,10 +4470,10 @@ function surfaceOf(a,extra){let [w,h]=APPL_SIZE[a]||[4,4];const ks=Object.keys(R
   for(const k of ks){const m=REC[k].map;w=Math.max(w,m[0].length);h=Math.max(h,m.length);}return [Math.min(w,8),Math.min(h,7)];}
 function fitPlate(g){const d=stDish(g);if(!d||S[g].pieces.length)return;const [w,h]=surfaceOf(cookOf(d.rec),d.rec);S[g].w=w;S[g].h=h;}
 let CPOPEN=false;
-function openCook(){CPOPEN=true;CPAP=null;}
-function renderCookPanel(){const el=$('#cookpanel');if(!el||!S)return;if(CPAP!=null&&tab==='kitchen'){if(applView()){el.hidden=false;return;}}else{const rv=$('#cpready');if(rv){rv.hidden=true;$('.cpbody').hidden=false;}}const d=stDish(curSt()),p=stParty(curSt());const show=tab==='kitchen'&&CPOPEN&&!!d;if(!show&&CPOPEN&&!d&&!stations().some(g=>stDish(g)))CPOPEN=false;el.hidden=!show;
+function openCook(){CPOPEN=true;CPAP=null;CPINFO=null;}
+function renderCookPanel(){const el=$('#cookpanel');if(!el||!S)return;if(CPAP!=null&&tab==='kitchen'){if(applView()){el.hidden=false;return;}}else if(CPINFO!=null&&tab==='kitchen'){if(infoView()){el.hidden=false;return;}}else{const rv=$('#cpready');if(rv){rv.hidden=true;$('.cpbody').hidden=false;}}const d=stDish(curSt()),p=stParty(curSt());const show=tab==='kitchen'&&CPOPEN&&!!d;if(!show&&CPOPEN&&!d&&!stations().some(g=>stDish(g)))CPOPEN=false;el.hidden=!show;
   if(show){const a=cookOf(d.rec);$('#cptitle').innerHTML=`${APPL[a].emoji} ${APPL[a].name} · ${d.mystery&&!d.solved?'❓':REC[d.rec].emoji+' '+REC[d.rec].name} <small style="font-weight:700;color:#6E5E55">for ${d.face||faces(p)}</small>`;}}
-Object.assign(ACT,{cpClose(){CPOPEN=false;CPAP=null;}});
+Object.assign(ACT,{cpClose(){CPOPEN=false;CPAP=null;CPINFO=null;}});
 
 /* ---------- cooking spots ---------- */
 const VESSEL={stove:'pan',grill:'grill',press:'grill',toaster:'tray',oven:'tray',roaster:'tray',fryer:'basket',rice:'pot',noodlepot:'pot',drinkfridge:'glass',blender:'glass',espresso:'glass',cofpot:'glass',kettle:'glass',freezer:'bowl',saladbar:'bowl',shrimptank:'bowl',board:'board',fishcounter:'board'};
@@ -4478,7 +4520,7 @@ function cookTick(dt){if(!S.kitchen)return;let ch=false;
   if(ch){renderKitchen();renderDishInfo();}}
 function applTap(ap){const c=ap.cook,A=APPL[ap.key];
   if(!c){const d=activeDish();if(d&&cookOf(d.rec)===ap.key){if(plateMatches(d.rec,curSt())){serve(curSt());return;}openCook();return;}
-    if(loadFor(ap.key))return;return;}
+    if(!waitingFor(ap.key).length&&!(stDish(curSt())&&S[curSt()].pieces.length)){openInfo(ap.id);return;}loadFor(ap.key);return;}
   openAppl(ap.id);}
 function ckHTML(p){const c=p.cook;if(!c)return '';return `<span class="ckw">${c.burnt?'💨':c.ready?'🔔':REC[c.rec].emoji}${c.ready||c.burnt?'':`<i class="ckb"><b style="width:${Math.min(100,c.t/c.need*100)}%"></b></i>`}</span>`;}
 function renderCookStrip(){const el=$('#cookstrip');if(!el||!S.kitchen)return;const bs=S.kitchen.pieces.filter(a=>a.cook);el.hidden=!bs.length;
@@ -4564,7 +4606,7 @@ document.addEventListener('click',e=>{
     const q=e.target.closest('[data-party]');if(q){const id=+q.dataset.party;S.sel=S.sel===id?null:id;renderLive();}
   }
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&(CPOPEN||CPAP!=null)&&!modalOpen()){CPOPEN=false;CPAP=null;renderCookPanel();return;}if(e.key==='Enter'&&e.target.id==='pname'){ACT.createPlayer();return;}if(e.key==='Escape'&&modalOpen()&&S&&S.phase!=='summary'&&!REG)closeModal();if(e.key==='Enter'&&e.target.matches('[data-ticket]')){pickTicket(+e.target.dataset.ticket);renderAll();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&(CPOPEN||CPAP!=null||CPINFO!=null)&&!modalOpen()){CPOPEN=false;CPAP=null;CPINFO=null;renderCookPanel();return;}if(e.key==='Enter'&&e.target.id==='pname'){ACT.createPlayer();return;}if(e.key==='Escape'&&modalOpen()&&S&&S.phase!=='summary'&&!REG)closeModal();if(e.key==='Enter'&&e.target.matches('[data-ticket]')){pickTicket(+e.target.dataset.ticket);renderAll();}});
 
 /* ---------- boot ---------- */
 newGame(); // placeholder board behind the title screen
