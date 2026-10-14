@@ -548,6 +548,26 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+/* ---- building bar, jumps, ship amount ---- */
+.godiner{display:none!important}
+.bldbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;gap:6px;padding:6px 8px;border-radius:999px;background:rgba(42,30,26,.92);box-shadow:0 6px 18px rgba(0,0,0,.3);max-width:calc(100vw - 16px);overflow-x:auto;scrollbar-width:none}
+.bldbar::-webkit-scrollbar{display:none}
+.bldbar[hidden]{display:none!important}
+.bldbar button{flex:none;display:flex;align-items:center;gap:5px;border:0;border-radius:999px;padding:7px 12px;font:inherit;font-weight:800;font-size:14px;background:#FFF8E6;color:#2A1E1A;cursor:pointer;white-space:nowrap}
+.bldbar button.here{background:#F2B134;box-shadow:inset 0 0 0 2px #fff}
+.bldbar button.card{background:#E9DDFB;color:#3A2470}
+.bldbar button i{font-style:normal;font-size:18px}
+body{padding-bottom:70px}
+.flash{animation:flashy 1.3s ease-in-out}
+@keyframes flashy{0%,100%{box-shadow:none}30%,70%{box-shadow:0 0 0 5px #F2B134,0 0 18px #F2B134}}
+.needrow[data-act]{cursor:pointer}.needrow[data-act]:hover{filter:brightness(.97)}
+.needrow .go{font-size:12px;font-weight:900;color:#1E8B71;white-space:nowrap}
+.jumpnav{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.jumpnav button{border:2px solid var(--line);background:#fff;color:#2A1E1A;border-radius:999px;padding:6px 12px;font:inherit;font-weight:800;font-size:13px;cursor:pointer}
+.shipq{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0}
+.shipq b{font-size:34px;min-width:64px;text-align:center}
+.shipp{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:8px}
+
 /* ---- quiet mode + town shortcut ---- */
 #toasts{display:none!important}
 .godiner{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:70;border:0;border-radius:999px;padding:12px 22px;font:inherit;font-weight:900;font-size:17px;color:#fff;background:linear-gradient(#E0263F,#B50D27);box-shadow:0 4px 0 #7E0A1C,0 8px 18px rgba(0,0,0,.3);cursor:pointer;white-space:nowrap}
@@ -1383,7 +1403,7 @@ html,body{overscroll-behavior-y:none}
     <div class="stats">
       <button class="stat who" data-act="switchPlayer" title="Switch player"><span class="k">Player 👥</span><b id="who">—</b></button>
       <div class="stat"><span class="k">Day</span><b id="day">1</b></div>
-      <button class="stat evchip" id="evChip" data-act="showCard" hidden><span class="k">Today's card</span><b id="evName"></b></button>
+      <button class="stat evchip" id="evChip" data-act="dayCard" hidden><span class="k">Today's card</span><b id="evName"></b></button>
       <div class="stat"><span class="k">Time</span><b id="clock">—</b></div>
       <div class="stat cash"><span class="k">Cash</span><b id="money">$0</b></div>
       <div class="stat"><span class="k">Stars</span><b class="stars" id="stars"></b></div>
@@ -1554,6 +1574,7 @@ html,body{overscroll-behavior-y:none}
       <div id="shopping" class="shop"></div>
       <div id="truckArea">
         <div class="phead"><h2>Delivery truck</h2><span class="hours" id="truckNote"></span></div>
+        <div class="jumpnav"><button data-act="jump" data-arg="#shopping">⬆ What you need</button><button data-act="jump" data-arg=".storerow">⬇ Shelves &amp; fridge</button></div>
         <div class="truckwrap"><div class="gridbox"><div class="grid truckbed" id="g-truck"></div></div><div class="cab"></div></div>
         <div id="clearance"></div>
         <div id="buylist" class="buylist"></div>
@@ -1785,8 +1806,8 @@ const EQUIP={
 };
 const FURN={
   single:{name:'Table',emoji:'🍽️',shape:MONO,seats:1,cost:12,color:'#FFFFFF',cloth:'#C8102E'},
-  booth:{name:'Booth seat',emoji:'🛋️',shape:MONO,seats:1,cost:16,color:'#FFFFFF',cloth:'#C8102E'},
-  counter:{name:'Counter seat',emoji:'🥤',shape:MONO,seats:1,cost:14,color:'#FFFFFF',cloth:'#C8102E'},
+  booth:{name:'Booth seat',emoji:'🛋️',shape:MONO,seats:1,cost:12,color:'#FFFFFF',cloth:'#C8102E'},
+  counter:{name:'Counter seat',emoji:'🥤',shape:MONO,seats:1,cost:12,color:'#FFFFFF',cloth:'#C8102E'},
   soda:{name:'Soda machine',emoji:'🥤',shape:MONO,charm:1,cost:80,color:'#D6303A',soda:true,gag:'Fizzzz! A free sip for the chef.',fx:'🫧'},
   coffee:{name:'Coffee station',emoji:'☕',shape:MONO,charm:1,cost:90,color:'#6B4226',soda:true,adults:true,drink:'☕',dprice:2,gag:'Gurgle-gurgle… a fresh cup for the chef!',fx:'♨️'},
   plant:{name:'Potted plant',emoji:'🪴',shape:MONO,charm:1,cost:15,color:'#5FA35A'},
@@ -2477,8 +2498,8 @@ function renderShopping(){
   const need=menuNeeds();const menu=menuList();
   const rows=Object.keys(need).map(k=>{const i=ING[k],n=uses(k),tr=truckUses(k);
     const st=i.farmOnly&&n===0?['out','Get it from the farm 🌱']:n===0?['out','Need to buy']:n<5?['low','Running low']:['ok','Stocked ✓'];
-    return `<div class="needrow ${st[0]}"><span class="nm"><b>${i.name}${i.cold?' ❄️':''}</b></span><span class="have">${n} piece${n===1?'':'s'}${tr?`<small>+${tr} on truck</small>`:''}</span><span class="st">${st[1]}</span></div>`;}).join('');
-  $('#shopping').innerHTML=`<h3>Your menu today</h3><div class="menudishes">${menu.map(k=>(()=>{const pn=piecesNeeded(k);return `<div class="dcard"><div class="dtop"><span class="de">${REC[k].emoji}</span><b>${REC[k].name}</b><em>${priceTag(k)}</em></div><div class="dings">${Object.keys(pn).map(i=>`<span class="ding" title="${ING[i].name}">${ING[i].emoji}<small>×${pn[i]}</small></span>`).join('')}</div></div>`;})()).join('')}</div><h3>What you need for it</h3><div class="needlist">${rows}</div>`;
+    return `<div class="needrow ${st[0]}" ${S.phase==='prep'&&!i.farmOnly?`data-act="jumpBuy" data-arg="${k}" role="button" title="Tap to jump to buying ${i.name.toLowerCase()}"`:''}><span class="nm"><b>${i.name}${i.cold?' ❄️':''}</b></span><span class="have">${n} piece${n===1?'':'s'}${tr?`<small>+${tr} on truck</small>`:''}</span><span class="st">${st[1]}</span></div>`;}).join('');
+  $('#shopping').innerHTML=`<h3>Your menu today</h3><div class="menudishes">${menu.map(k=>(()=>{const pn=piecesNeeded(k);return `<div class="dcard"><div class="dtop"><span class="de">${REC[k].emoji}</span><b>${REC[k].name}</b><em>${priceTag(k)}</em></div><div class="dings">${Object.keys(pn).map(i=>`<span class="ding" title="${ING[i].name}">${ING[i].emoji}<small>×${pn[i]}</small></span>`).join('')}</div></div>`;})()).join('')}</div><h3>What you need for it <small style="font-weight:700;color:#5A4A40">— tap one to jump to buying it</small></h3><div class="jumpnav">${S.phase==='prep'?'<button data-act="jump" data-arg="#truckArea">⬇ Buy food</button>':''}<button data-act="jump" data-arg=".storerow">⬇ Shelves &amp; fridge</button></div><div class="needlist">${rows}</div>`;
 }
 function renderStorage(){
   paintGrid('storage',{max:64,color:p=>ING[p.key].color,label:basketLabel,icon:basketIcon,pcls:p=>ING[p.key].cold?'warm':''});
@@ -2509,7 +2530,7 @@ function renderUpgrades(){
     h+=urow(r.emoji,`${r.name} · $${recipePrice(k)} <span class="lvstars">${'★'.repeat(lv-1)}${'☆'.repeat(GOLD_UPS-lv+1)}</span>`,lv>GOLD_UPS?'One more improvement makes it GOLDEN 🏆 — it retires to the museum and a fancier recipe unlocks!':`Level ${lv}: improve to sell for $${priceAt(k,lv+1)}. ${left} more improvement${left>1?'s':''} until it turns golden 🏆`,
       `<button class="btn small go" data-act="improve" data-arg="${k}">${lv>GOLD_UPS?'Make it golden! 🏆':'Improve'} $${cost}</button>`);}
   h+='<h3>Furniture &amp; decor</h3>';
-  for(const k in FURN){const f=FURN[k];if(f.for||f.flower||f.prize)continue;h+=urow(f.emoji,f.name,f.soda&&f.adults?`Grown-ups walk over and buy a cup of coffee for $${f.dprice} while they eat. Put it where everyone can reach it.`:f.soda?`Guests walk over and buy a fizzy soda for $${SODA} while they eat (more with kids!). Put it where everyone can reach it.`:f.seats?`Seats 1. Put it next to other tables to build a bigger table.`:`Decor: +${f.charm} charm (guests wait longer and tip more).`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
+  for(const k in FURN){const f=FURN[k];if(f.for||f.flower||f.prize)continue;h+=urow(f.emoji,f.name,f.soda&&f.adults?`Grown-ups walk over and buy a cup of coffee for $${f.dprice} while they eat. Put it where everyone can reach it.`:f.soda?`Guests walk over and buy a fizzy soda for $${SODA} while they eat (more with kids!). Put it where everyone can reach it.`:f.seats?`Seats 1 — same as every table, just a different look. Put it next to other tables to build a bigger table.`:`Decor: +${f.charm} charm (guests wait longer and tip more).`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
   h+='<h3>Magical seating</h3>';
   for(const k in FURN){const f=FURN[k];if(!f.for)continue;const T=TYPES[f.for];
     h+=urow(f.emoji,f.name,`For ${T.faces[0]} ${T.name.toLowerCase()} only (visits at ${T.minRep}★+).${f.join?' Each pool seats 1 — push pools together to make one big pool, or pull them apart.':''} Seated here they tip extra; at a regular table they pay for their food but leave no tip.`,`<button class="btn small go" data-act="buyFurn" data-arg="${k}">Buy $${f.cost}</button>`);}
@@ -2567,7 +2588,7 @@ var INSIDE=true;
 function renderTabs(){if(['town','farm','museum'].includes(tab))INSIDE=false;else if(tab!=='msgs')INSIDE=true;document.querySelectorAll('.tab').forEach(b=>{b.hidden=!INSIDE&&!['town','msgs'].includes(b.dataset.arg);});document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab||(b.dataset.arg==='town'&&(tab==='farm'||tab==='museum'))));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts','town','museum','msgs'].forEach(t=>{const e=$('#tab-'+t);if(e)e.hidden=t!==tab;});}
 function renderLive(){cookLive();renderCookPanel();if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
 function renderShelf(){const t=S.trophies||[],el=$('#shelf');el.hidden=!t.length;el.innerHTML=t.map(k=>`<span title="${TROPHIES[k].name}">${TROPHIES[k].emoji}</span>`).join('');}
-function renderAll(){if(S){ensureFarm();ensureShops();if(CUR&&!booting)armBack();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderMuseum();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderCookPanel();renderMsgs();renderGoDiner();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
+function renderAll(){if(S){ensureFarm();ensureShops();if(CUR&&!booting)armBack();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderMuseum();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderCookPanel();renderMsgs();renderBldBar();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
 
 /* ---------- toasts, floats, modal ---------- */
 function toast(msg,ms){if(typeof TOAST_KEEP==='undefined'||!TOAST_KEEP.test(msg))return;msgLog(msg);}
@@ -2692,7 +2713,7 @@ function drawEvent(){S.ev=null;if(S.day<2)return;
     const c=pool[rint(0,pool.length-1)];S.ev={id:c.id};if(c.go&&c.go()===false){S.ev=null;continue;}S.lastEv=c.id;return;}
   S.ev=null;}
 function evCard(){return S.ev?EVENTS.find(c=>c.id===S.ev.id):null;}
-function showCard(){const c=evCard();if(!c)return;msgLog(`${c.em} ${c.good?'Good news':'Uh oh'} — ${c.t}: ${c.d(S.ev)}`);return;
+function showCard(){const c=evCard();if(!c)return;if(!showCard.force){msgLog(`${c.em} ${c.good?'Good news':'Uh oh'} — ${c.t}: ${c.d(S.ev)}`);return;}showCard.force=false;
   modal(`<div class="evwrap"><div class="evcard ${c.good?'good':'bad'}"><div class="evtop"><span>Day ${S.day}</span><span>${c.area}</span></div><div class="evem">${c.em}</div><h2>${c.t}</h2><p>${c.d(S.ev)}</p><div class="evtag">${c.good?'Good news!':'Uh oh!'}</div></div></div>
   <div class="modal-actions" style="justify-content:center"><button class="btn primary" data-act="cardDone">Got it</button></div>`);}
 function inspection(){const warm=S.storage.pieces.filter(b=>ING[b.key].cold).length;
@@ -2761,7 +2782,8 @@ const BIN_SIZES=[[4,2],[5,3],[6,4]],BIN_COST=[40,90];
 let farmView='out',YUM=null;
 function sackShape(k){let s=FEEDS[k].shape;for(let i=0;i<(S.rot['sack_'+k]||0)%4;i++)s=rot(s);return s;}
 function feedCount(t){return ((S.feedbin&&S.feedbin.pieces)||[]).filter(p=>p.key===t).reduce((a,p)=>a+p.uses,0);}
-function useFeed(t){const ps=S.feedbin.pieces.filter(p=>p.key===t&&p.uses>0).sort((a,b)=>a.uses-b.uses);if(!ps.length)return false;ps[0].uses--;if(ps[0].uses<=0)S.feedbin.pieces=S.feedbin.pieces.filter(q=>q!==ps[0]);return true;}
+function useFeed(t){const ps=S.feedbin.pieces.filter(p=>p.key===t&&p.uses>0).sort((a,b)=>a.uses-b.uses);if(!ps.length)return false;ps[0].uses--;if(ps[0].uses<=0)S.feedbin.pieces=S.feedbin.pieces.filter(q=>q!==ps[0]);else shrinkFeed(ps[0]);return true;}
+function shrinkFeed(b){const f=FEEDS[b.key];if(!f)return;const per=f.scoops/f.shape.length,need=Math.max(1,Math.ceil(b.uses/per));while(b.shape.length>need){let idx=b.shape.length-1;for(let i=b.shape.length-1;i>=0;i--){const rest=b.shape.filter((_,j)=>j!==i);if(connected(rest)){idx=i;break;}}b.shape.splice(idx,1);}}
 function placeSack(k,x,y,shape){const F=S.farm;if(!(F.sacks[k]>0))return false;F.sacks[k]--;addPiece('feedbin','sack',k,x,y,shape,{uses:FEEDS[k].scoops});return true;}
 function autoSack(k){if(!(S.farm.sacks[k]>0))return;let s=sackShape(k);for(let r=0;r<4;r++){for(let y=0;y<S.feedbin.h;y++)for(let x=0;x<S.feedbin.w;x++)if(fits('feedbin',s,x,y)){placeSack(k,x,y,s);return;}s=rot(s);}
   toast('The feed bins are full! Use some feed or buy a bigger bin in the farm store.');}
@@ -3303,7 +3325,7 @@ function cropTap(p){if(!farmOK())return;const c=cropOf(p);
   toast(`${c.emoji} ${c.name}: ${c.days-p.age} more day${c.days-p.age===1?'':'s'} to grow.`);}
 function farmPrice(k,n){return Math.max(1,Math.round(ING[k].cost*n/ING[k].uses*.4*(S.farm&&S.farm.built&&S.farm.built.car?.75:1)));}
 function truckRate(k,n){return Math.max(1,Math.round(ING[k].cost*n/ING[k].uses));}
-function sendToTruck(k,dest){if(S.phase!=='prep')return toast('The truck only comes in the morning.');dest=dest||shopId();let gid='truck';if(dest!==shopId()){MSEL=dest;setMtruck();gid='mtruck';if(S.sent[dest])return toast('That shop’s truck already left today.');}let n=barnCount(k);if(!n)return;let sent=0,paid=0,broke=false;
+function sendToTruck(k,dest,qty){if(S.phase!=='prep')return toast('The truck only comes in the morning.');dest=dest||shopId();let gid='truck';if(dest!==shopId()){MSEL=dest;setMtruck();gid='mtruck';if(S.sent[dest])return toast('That shop’s truck already left today.');}let n=Math.min(barnCount(k),qty||barnCount(k));if(!n)return;let sent=0,paid=0,broke=false;
   while(n>0){const m=Math.min(n,ING[k].uses),pr=farmPrice(k,m);const spot=findSpot(gid,ING[k].basket);if(!spot)break;if(S.money<pr){broke=true;break;}S.money-=pr;S.stats.spent+=pr;paid+=pr;const b=addPiece(gid,'basket',k,spot.x,spot.y,spot.shape,gid==='truck'?{farm:true,paid:pr}:{supply:1,paid:0});b.uses=m;shrink(b);n-=m;sent+=m;}
   barnTake(k,sent);if(sent)truckTrip(ING[k].emoji.repeat(Math.min(3,Math.ceil(sent/4))),dest);toast(sent?`🚚 ${sent} ${ING[k].emoji} sent to ${SHOPS[dest].name} for $${paid} (farm price — the truck charges $${truckRate(k,sent)}). ${dest===shopId()?'Unload it in the Pantry!':'It’s waiting on that shop’s supply truck.'}${broke?' Not enough money for the rest.':''}`:broke?`You need $${farmPrice(k,Math.min(n,ING[k].uses))} to send that.`:'The truck is full. Unload it in the Pantry first.');}
 function feedAnimal(id){if(!farmOK())return;const F=S.farm,a=F.animals.find(x=>x.id===id);if(!a)return;const A=ANIMALS[a.type];
@@ -4199,7 +4221,7 @@ function tap(d){
   }else if(d.kind==='seed')autoPlant(d.key);
   else if(d.kind==='sack')autoSack(d.key);
   else if(d.kind==='flower')autoPlantFlower(d.key);
-  else if(d.kind==='food')autoPlaceFood(d.key);
+  else if(d.kind==='food'){if(!uses(d.key)&&S.phase==='prep'){CPOPEN=false;ACT.tab('pantry');renderAll();setTimeout(()=>jumpBuy(d.key),60);return;}autoPlaceFood(d.key);}
   else{const o=S.storeroom[d.idx];if(o&&FURN[o.key]&&FURN[o.key].nite&&arcFree()>=0)arcPut(o.key,arcFree());else autoPlaceFurn(d.idx);}
 }
 let LASTTAP={id:0,t:0};
@@ -4288,7 +4310,7 @@ const ACT={
   rotSeed(k){S.rot['seed_'+k]=((S.rot['seed_'+k]||0)+1)%4;},
   waterAll(){if(!farmOK())return;[...S.farm.pieces,...S.garden.pieces].forEach(p=>{if(!cropReady(p))p.watered=true;});toast('🚿 Everything is watered!');},
   harvestAll(){if(!farmOK())return;const r=S.farm.pieces.filter(cropReady);if(!r.length)return toast('Nothing is ready to pick yet.');harvestAsk(r);},
-  toTruck(k){const os=otherShops().filter(id=>!S.sent[id]);if(!os.length||S.phase!=='prep')return sendToTruck(k);modal(`<h2>🚚 Where should the ${ING[k].emoji} ${ING[k].name.toLowerCase()} go?</h2><div class="tripdest">${[shopId(),...os].map(id=>`<button class="btn ${id===shopId()?'primary':''}" data-act="toTruckAt" data-arg="${k}|${id}">${SHOPS[id].em} ${SHOPS[id].name}${id===shopId()?' (here today)':' (supply truck)'}</button>`).join('')}</div><div class="modal-actions"><button class="btn" data-act="closeModal">Cancel</button></div>`);},
+  toTruck(k){if(S.phase!=='prep')return sendToTruck(k);SHIPQ={k,n:Math.min(barnCount(k),ING[k].uses),dest:shopId()};return modal(shipHTML());modal(`<h2>🚚 Where should the ${ING[k].emoji} ${ING[k].name.toLowerCase()} go?</h2><div class="tripdest">${[shopId(),...os].map(id=>`<button class="btn ${id===shopId()?'primary':''}" data-act="toTruckAt" data-arg="${k}|${id}">${SHOPS[id].em} ${SHOPS[id].name}${id===shopId()?' (here today)':' (supply truck)'}</button>`).join('')}</div><div class="modal-actions"><button class="btn" data-act="closeModal">Cancel</button></div>`);},
   toTruckAt(a){const [k,id]=String(a).split('|');closeModal();sendToTruck(k,id);},
   feedSel(t){S.farm.feedSel=t;},
   feedAnimal(id){feedAnimal(+id);},
@@ -4392,6 +4414,37 @@ Object.assign(ACT,{
   mbuy(k){const m=market(),it=m.items.find(x=>x.k===k);if(!it||!it.left||!marketDay(S.day)||S.phase!=='prep')return;const pr=premPrice(k);const spot=findSpot('truck',ING[k].basket);if(!spot){toast('🚚 Your truck is full! Move some baskets into the pantry first.');return;}if(!spend(pr))return;addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{prem:true,paid:pr});it.left--;toast(`✨ ${PREM[k]} are on your truck! Drag them into the pantry.`);modal(marketHTML());save();},
   mGoTruck(){closeModal();ACT.tab('pantry');},
   lockList(){window.LOCKOPEN=!window.LOCKOPEN;},
+});
+
+/* ---------- building bar ---------- */
+function renderBldBar(){let b=$('#bldBar');if(!b){b=document.createElement('nav');b.id='bldBar';b.className='bldbar';document.body.appendChild(b);}if(!S||!CUR){b.hidden=true;return;}b.hidden=false;
+  const ids=TOWN_ORDER.flat().filter(id=>SHOPS[id]&&S.owned.includes(id));const here=shopId(),inside=INSIDE&&!['town','farm','museum','msgs'].includes(tab);
+  const key=ids.join()+'|'+here+'|'+inside+'|'+tab+'|'+(S.museum||[]).length+'|'+(S.ev?S.ev.id:'');if(b.dataset.k===key)return;b.dataset.k=key;
+  b.innerHTML=ids.map(id=>`<button class="${id===here&&inside?'here':''}" data-act="bldJump" data-arg="${id}" title="${SHOPS[id].name}"><i>${SHOPS[id].em}</i>${SHOPS[id].name.replace(/^Tile to Table /,'')}</button>`).join('')
+    +`<button class="${tab==='farm'?'here':''}" data-act="bldJump" data-arg="farm"><i>🌾</i>Farm</button>`
+    +((S.museum||[]).length?`<button class="${tab==='museum'?'here':''}" data-act="bldJump" data-arg="museum"><i>🏛️</i>Museum</button>`:'')
+    +(S.ev&&evCard()?`<button class="card" data-act="dayCard" title="Today's card"><i>🃏</i>Day card</button>`:'');}
+function jumpTo(sel,flashSel){const e=typeof sel==='string'?document.querySelector(sel):sel;if(!e)return;const hd=document.querySelector('.top'),off=hd&&getComputedStyle(hd).position!=='static'?hd.getBoundingClientRect().height:0;
+  window.scrollTo({top:e.getBoundingClientRect().top+scrollY-off-16,behavior:'smooth'});setTimeout(()=>{const f=flashSel?document.querySelector(flashSel):(typeof sel==='string'?document.querySelector(sel):e);if(f){f.classList.remove('flash');void f.offsetWidth;f.classList.add('flash');}},80);}
+function jumpBuy(k){if(S.phase!=='prep'){jumpTo('#truckGone');return;}jumpTo(`#buylist .buyi[data-arg="${k}"]`,`#buylist .buyi[data-arg="${k}"]`);}
+let SHIPQ=null;
+function shipCost(k,n){let t=0,r=n;while(r>0){const m=Math.min(r,ING[k].uses);t+=farmPrice(k,m);r-=m;}return t;}
+function shipHTML(){const {k,dest}=SHIPQ,max=barnCount(k);SHIPQ.n=Math.max(1,Math.min(max,SHIPQ.n));const n=SHIPQ.n;const os=[shopId(),...otherShops().filter(id=>!S.sent[id])];
+  return `<h2>🚚 Ship ${ie(k)} ${ING[k].name.toLowerCase()}</h2><p>You have <b>${max}</b> in the barn. How many should go on the truck?</p>
+  <div class="shipq"><button class="btn" data-act="shipQ" data-arg="-4">−4</button><button class="btn" data-act="shipQ" data-arg="-1">−1</button><b>${n}</b><button class="btn" data-act="shipQ" data-arg="1">+1</button><button class="btn" data-act="shipQ" data-arg="4">+4</button></div>
+  <div class="shipp">${[4,8,12,16].filter(x=>x<max).map(x=>`<button class="btn small" data-act="shipSet" data-arg="${x}">${x}</button>`).join('')}<button class="btn small" data-act="shipSet" data-arg="${max}">All ${max}</button></div>
+  <p class="hint" style="text-align:center">${Math.ceil(n/ING[k].uses)} basket${Math.ceil(n/ING[k].uses)>1?'s':''} · farm price $${shipCost(k,n)}. The rest (${max-n}) stays on the harvest shelves.</p>
+  ${os.length>1?`<p style="margin:8px 0 4px;font-weight:800">Send it to:</p><div class="tripdest">${os.map(id=>`<button class="btn ${id===dest?'primary':''}" data-act="shipDest" data-arg="${id}">${SHOPS[id].em} ${SHOPS[id].name}</button>`).join('')}</div>`:''}
+  <div class="modal-actions"><button class="btn primary" data-act="shipGo">🚚 Send ${n}</button><button class="btn" data-act="closeModal">Cancel</button></div>`;}
+Object.assign(ACT,{
+  bldJump(id){CPOPEN=false;CPAP=null;CPINFO=null;if(id==='farm'||id==='museum'){ACT.bld(id);}else if(id===shopId()){ACT.bld(id);}else{ACT.tab('town');ACT.bld(id);}window.scrollTo(0,0);},
+  dayCard(){if(!S.ev||!evCard())return;showCard.force=true;showCard();},
+  jumpBuy(k){jumpBuy(k);},
+  jump(sel){jumpTo(sel);},
+  shipQ(d){SHIPQ.n+=+d;modal(shipHTML());},
+  shipSet(n){SHIPQ.n=+n;modal(shipHTML());},
+  shipDest(id){SHIPQ.dest=id;modal(shipHTML());},
+  shipGo(){const q=SHIPQ;closeModal();if(q)sendToTruck(q.k,q.dest,q.n);},
 });
 
 /* ---------- quiet messages + ding ---------- */
