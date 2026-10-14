@@ -624,6 +624,25 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+/* ---- cooking panel (opens from an appliance) ---- */
+.cookpanel{position:fixed;inset:0;z-index:90;background:rgba(20,26,24,.55);display:flex;align-items:center;justify-content:center;padding:12px}
+.cookpanel[hidden]{display:none!important}
+.cpcard{width:min(980px,100%);max-height:calc(100vh - 24px);overflow:auto;background:linear-gradient(135deg,#E9EDF0,#CDD5DA);border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.4);padding:12px 14px 16px;overscroll-behavior:contain}
+.cphead{display:flex;align-items:center;gap:10px;position:sticky;top:-12px;z-index:5;background:linear-gradient(#E9EDF0,#E3E8EB);margin:-12px -14px 8px;padding:10px 14px;border-radius:20px 20px 0 0;border-bottom:2px solid #C6CED4}
+.cphead b{flex:1;font-size:18px}
+.cphead .cpx{border:0;background:#fff;border-radius:50%;width:38px;height:38px;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.cpbody{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:14px;align-items:start}
+.cpbody .station{margin:0;order:1}.cpbody .bins{margin:0;order:2}
+@media (max-width:700px){.cookpanel{padding:0;align-items:stretch}.cpcard{border-radius:0;max-height:100vh;height:100%;padding-bottom:30px}.cphead{border-radius:0}.cpbody{grid-template-columns:1fr}}
+.cpbody .bdhead h3{display:none}
+#plates:not(.two) .ptitle{display:none}
+.cookpanel .platebox{margin:4px auto}
+.platebox.v-counter{background:repeating-linear-gradient(45deg,rgba(255,255,255,.25) 0 6px,transparent 6px 14px),#D8CDBB!important;border-radius:14px}
+.kcook{display:flex;flex-direction:column;gap:6px}
+#tab-kitchen .kside.kmain{margin-top:10px}
+#tab-kitchen .kside.kmain .gridbox{max-width:620px!important;margin:0 auto}
+.kjump{display:none!important}
+
 /* ---- cooking spots (vessels) ---- */
 .platebox{transition:background .3s}
 .platebox.v-pan{background:radial-gradient(circle at 50% 50%,#3A3F45 0 58%,#24282C 59% 66%,#5A6168 67% 69%,transparent 70%),linear-gradient(90deg,transparent 0 84%,#2A2E33 84% 100%) center/100% 9% no-repeat!important}
@@ -1411,39 +1430,39 @@ html,body{overscroll-behavior-y:none}
       <div class="railwrap"><div class="rail"></div><div id="tickets" class="tickets"></div></div>
       <div class="dishinfo" id="dishinfo"></div>
       <button class="kjump" data-act="kjump">🔧 See your kitchen appliances ↓</button>
-      <div class="ksplit k3">
-        <div class="bins kbins">
-        <h3 style="margin-top:0">Prep bins</h3>
-        <div id="palette" class="palette"></div>
-        </div>
-        <div class="station">
-          <div class="bdhead"><h3>Build the dish</h3><button class="altog" id="alTog" data-act="autoLoad"></button></div>
-          <div class="cookstrip" id="cookstrip" hidden></div>
-          <div class="ptabs" id="ptabs"></div>
-          <div class="plates" id="plates">
-            <div class="pstation" data-st="plate">
-              <button class="ptitle" data-act="selPlate" data-arg="plate"><b>Plate 1</b><span id="pt-plate"></span></button>
-              <div class="gridbox platebox"><div class="grid plate" id="g-plate"></div></div>
-              <div class="plate-actions"><button class="btn" data-act="clearPlate" data-arg="plate">Clear</button><button class="btn primary" id="serve-plate" data-act="serve" data-arg="plate">🛎️ Serve</button></div>
-            </div>
-            <div class="pstation" data-st="plate2" id="st-plate2" hidden>
-              <button class="ptitle" data-act="selPlate" data-arg="plate2"><b>Plate 2</b><span id="pt-plate2"></span></button>
-              <div class="gridbox platebox"><div class="grid plate" id="g-plate2"></div></div>
-              <div class="plate-actions"><button class="btn" data-act="clearPlate" data-arg="plate2">Clear</button><button class="btn primary" id="serve-plate2" data-act="serve" data-arg="plate2">🛎️ Serve</button></div>
-            </div>
-          </div>
-        </div>
-      <div class="kside kbelow kin">
+      <div class="cookstrip" id="cookstrip" hidden></div>
+      <div class="kside kmain">
           <h3>Your kitchen</h3>
           <div class="gridbox"><div class="grid kgrid" id="g-kitchen"></div></div>
           <h3 style="margin-top:12px">Appliances you own</h3>
           <div id="applList" class="applist"></div>
           <p class="hint" id="kitchenNote"></p>
-          <p class="hint">Glowing appliances have orders waiting (the red number). Tap one to start its next order, build it in the pan, tray, basket or glass, then tap the appliance (or Cook it!) to cook. When it dings 🔔, tap it to serve — don't wait too long or it burns! Before opening you can drag appliances around and tap to rotate them.</p>
+          <p class="hint">Glowing appliances have orders waiting (the red number). Tap one — its pan, tray, basket or glass pops up with your prep bins. Build the dish, then tap Cook it! When it dings 🔔, tap it to serve — don't wait too long or it burns! Before opening you can drag appliances around and tap to rotate them.</p>
         </div>
-      </div>
+      <div class="cookpanel" id="cookpanel" hidden><div class="cpcard"><div class="cphead"><b id="cptitle"></b><button class="cpx" data-act="cpClose" aria-label="Close">✕</button></div><div class="cpbody">
+        <div class="station">
+          <div class="bdhead"><h3>Build the dish</h3><button class="altog" id="alTog" data-act="autoLoad"></button></div>
+          <div class="ptabs" id="ptabs"></div>
+          <div class="plates" id="plates">
+            <div class="pstation" data-st="plate">
+              <button class="ptitle" data-act="selPlate" data-arg="plate"><b>Spot 1</b><span id="pt-plate"></span></button>
+              <div class="gridbox platebox"><div class="grid plate" id="g-plate"></div></div>
+              <div class="plate-actions"><button class="btn" data-act="clearPlate" data-arg="plate">Clear</button><button class="btn primary" id="serve-plate" data-act="serve" data-arg="plate">🛎️ Serve</button></div>
+            </div>
+            <div class="pstation" data-st="plate2" id="st-plate2" hidden>
+              <button class="ptitle" data-act="selPlate" data-arg="plate2"><b>Spot 2</b><span id="pt-plate2"></span></button>
+              <div class="gridbox platebox"><div class="grid plate" id="g-plate2"></div></div>
+              <div class="plate-actions"><button class="btn" data-act="clearPlate" data-arg="plate2">Clear</button><button class="btn primary" id="serve-plate2" data-act="serve" data-arg="plate2">🛎️ Serve</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="bins kbins">
+        <h3 style="margin-top:0">Prep bins</h3>
+        <div id="palette" class="palette"></div>
+        </div>
+      </div></div></div>
       <div class="chalk kchalk"><h3>Today's menu</h3><ul id="menuboard"></ul><div class="pbwrap"><button class="btn primary" id="priceBtn" data-act="setPrices" hidden></button></div></div>
-      <p class="hint">Drag a piece onto the plate so it fills the outline. Tap a piece on the plate to rotate it, or drag it off the plate to put it back. Tap an ingredient to drop it into the first spot it fits.</p>
+      <p class="hint">Tap a glowing appliance (or an order ticket) to open its cooking spot. Drag ingredients so they fill the outline — tap a piece to rotate it, or tap an ingredient to drop it into the first spot it fits.</p>
     </div>
 
     <div class="panel tabpanel" id="tab-menu" hidden>
@@ -1855,7 +1874,7 @@ Object.assign(REC_APPL,{eggrice:['stove','rice'],custard:['oven'],kidcheese:['fr
 REC.custard.needs='oven';REC.kidcheese.needs='fryer';REC.applepie.also='oven';REC.lemontart.also='oven';
 const COOKT={toaster:4,stove:6,rice:6,grill:6,fryer:5,oven:8,noodlepot:6,roaster:7,press:5,espresso:4,cofpot:4,kettle:4,blender:3,fishcounter:3,shrimptank:4};
 const EXTRA_COST={toaster:40,stove:70,rice:50,grill:80,fryer:90,oven:100,noodlepot:60,roaster:70,press:60,espresso:90,cofpot:40,kettle:40,blender:50,fishcounter:80,shrimptank:80};
-const PLATE_SIZES=[[5,4],[6,5],[7,6]], PLATE_COST=[120,260], PLATE_NAMES=['Small plate','Big plate','Serving platter'];
+const PLATE_SIZES=[[5,4],[6,5],[7,6]], PLATE_COST=[120,260], PLATE_NAMES=['Regular cookware','Big cookware','Giant cookware'];
 /* ---- golden dishes: successor variants ---- */
 const GOLD_UPS=5,TICKET=2;
 {const MONOI=Object.keys(ING).filter(i=>ING[i].piece.length===1);const NM=[['Deluxe','Royal'],['Super','Mega']];
@@ -2257,7 +2276,7 @@ function autoFill(){if(S.autoLoad===false)return;for(const g of stations()){if(s
 function pickTicket(pid){const g=curSt();{const pp=S.parties.find(q=>q.id===pid);const rd=pp&&S.kitchen.pieces.find(a=>a.cook&&a.cook.pid===pid&&a.cook.ready&&!a.cook.burnt);if(rd){applTap(rd);return;}}{const pp=S.parties.find(q=>q.id===pid);if(pp&&pp.dishes.some(d=>!d.done&&d.mystery&&!d.solved)){modal(riddleHTML(pp));return;}}
   const on=stations().find(x=>stParty(x)&&stParty(x).id===pid);
   if(on&&on!==g&&!S.parties.find(p=>p.id===pid).dishes.some((d,i)=>!d.done&&!claimed(pid,i,null))){S.cur=on;return;}
-  if(!assign(g,pid)){const pp=S.parties.find(q=>q.id===pid);toast(pp&&pp.dishes.some(d=>d.cooking)?'⏳ That order is cooking — wait for the ding!':'Every dish for that order is already on a plate.');}}
+  if(assign(g,pid))openCook();else{const pp=S.parties.find(q=>q.id===pid);toast(pp&&pp.dishes.some(d=>d.cooking)?'⏳ That order is cooking — wait for the ding!':'Every dish for that order is already on a plate.');}}
 function partyOnPlates(pid){return stations().filter(g=>stParty(g)&&stParty(g).id===pid);}
 function activeParty(){return stParty(curSt());}
 function activeDish(){return stDish(curSt());}
@@ -2413,14 +2432,14 @@ function renderKitchen(){ensureKit();
   renderCookStrip();
 }
 function renderPlate(){for(const g of stations())renderOnePlate(g);}
-function renderOnePlate(g){
+function renderOnePlate(g){fitPlate(g);
   const d=stDish(g);const t=d&&!d.hidden?targetOf(d.rec,g):new Map();
   paintGrid(g,{max:76,
     cell:(x,y)=>{const ch=t.get(x+','+y);return ch?{cls:'tgt',inner:`<span>${ie(ch)}</span>`,style:`--tc:${ING[ch].color}`}:{};},
     color:p=>ING[p.key].color,label:p=>ie(p.key),icon:p=>ie(p.key),
     pcls:(p,x,y)=>d&&!d.hidden&&t.get(x+','+y)!==p.key?'wrong':''
   });
-  {const gb=document.getElementById('g-'+g);const box=gb&&gb.closest('.platebox');if(box){const a=d?cookOf(d.rec):null;box.className='gridbox platebox'+(a&&VESSEL[a]?' v-'+VESSEL[a]:'');let lb=box.parentElement.querySelector('.vlabel');if(!lb){lb=document.createElement('span');lb.className='vlabel';box.after(lb);}lb.textContent=a?`${APPL[a].emoji} ${APPL[a].name} — ${cookTime(a)?'cooks in '+cookTime(a)+' sec':'no waiting'}`:'Tap an order ticket or a glowing appliance';}}
+  {const gb=document.getElementById('g-'+g);const box=gb&&gb.closest('.platebox');if(box){const a=d?cookOf(d.rec):null;box.className='gridbox platebox'+(a&&VESSEL[a]?' v-'+VESSEL[a]:'');let lb=box.parentElement.querySelector('.vlabel');if(!lb){lb=document.createElement('span');lb.className='vlabel';box.after(lb);}lb.textContent=a?`${APPL[a].emoji} ${APPL[a].name} — ${cookTime(a)?'cooks in '+cookTime(a)+' sec':'no waiting'}`:'Tap a glowing appliance';if(!a)box.classList.add('v-counter');}}
   {const host=document.getElementById('g-'+g);if(host){let h=host.parentElement.querySelector('.cbhint');if(d&&d.hidden){if(!h){h=document.createElement('div');h.className='cbhint';host.parentElement.appendChild(h);}h.innerHTML=`<b>🤫 Secret order — copy this picture!</b>${cluePic(d.rec)}`;}else if(h)h.remove();}}
 }
 function renderPalette(){
@@ -2466,9 +2485,9 @@ function renderUpgrades(){
   for(const k in EQUIP){const e=EQUIP[k];if(!eqHere(k))continue;const own=S.eq[k];const miss=(e.requires||[]).filter(r=>!S.eq[r]);
     h+=urow(e.emoji,e.name,eqDesc(k),own?'<button class="btn small" disabled>Owned</button>':`<button class="btn small go" data-act="buyEq" data-arg="${k}" ${miss.length?'disabled':''}>Buy $${e.cost}</button>`);}
   const pl2=S.up.plate;
-  h+='<h3>Plates</h3>'+urow('🍽️',`${PLATE_NAMES[pl2]} (${PLATE_SIZES[pl2].join('×')})`,'The plate you build dishes on.','<button class="btn small" disabled>Owned</button>');
+  h+='<h3>Cookware</h3>'+urow('🍳',PLATE_NAMES[pl2],'Your pans, trays, baskets and glasses. Each appliance has its own size — the toaster is small, the stove is big.','<button class="btn small" disabled>Owned</button>');
   if(pl2<PLATE_COST.length){const nx=pl2+1;const unl=Object.keys(REC).filter(k=>inShop(k)&&!REC[k].variant&&REC[k].plate===nx).map(k=>REC[k].emoji+' '+REC[k].name).join(', ');
-    h+=urow(nx===1?'🥘':'🍱',`${PLATE_NAMES[nx]} (${PLATE_SIZES[nx].join('×')})`,`Unlocks ${unl}.${nx===1?' Adds pizza dough to the truck.':''}`,`<button class="btn small go" data-act="growPlate">Buy $${PLATE_COST[pl2]}</button>`);}
+    h+=urow(nx===1?'🥘':'🍲',PLATE_NAMES[nx],`Bigger pans and trays for bigger dishes. Unlocks ${unl}.${nx===1?' Adds pizza dough to the truck.':''}`,`<button class="btn small go" data-act="growPlate">Buy $${PLATE_COST[pl2]}</button>`);}
   {const ml=S.up.menuSlots||0;h+=urow('📋',`Bigger menu board${ml?` (level ${ml})`:''}`,`Every menu section holds ${ml<MENU_UP.length?`one more dish (${2+ml}→${3+ml} starters, ${4+ml}→${5+ml} entrées, and so on)`:'as many dishes as it can — fully upgraded!'}.`,ml<MENU_UP.length?`<button class="btn small go" data-act="growMenu">Buy $${MENU_UP[ml]}</button>`:'<button class="btn small" disabled>Max</button>');}
   {const ty=[...new Set(S.kitchen.pieces.map(q=>q.key))].filter(a=>cookTime(a));h+=urow('🍳','More appliances','Each appliance cooks one dish at a time. Buy another one to cook two of the same thing at once!',ty.map(a=>`<button class="btn small go" data-act="buyAppl" data-arg="${a}" data-tip="Another ${APPL[a].name.toLowerCase()} · $${extraCost(a)}">＋${APPL[a].emoji} $${extraCost(a)}</button>`).join(' '));}
   h+='<h3>Recipes</h3><p class="hint" style="margin:0 0 6px">Improve a recipe to sell it for more. Choose what\'s on today\'s menu in the 📋 Menu tab.</p>';
@@ -2534,9 +2553,9 @@ function renderMenuTab(){
     (locked.length?`<button class="lockbtn" data-act="lockList">🔒 Dishes you can still unlock (${locked.length}) ${window.LOCKOPEN?'▲ hide':'▼ show'}</button>${window.LOCKOPEN?`<div class="mlock">${locked.map(k=>`<span title="${lockText(k)} See Upgrades.">🔒 ${REC[k].emoji} ${REC[k].name} <small>${lockText(k).replace(/^Needs /,'needs ').replace(/\.$/,'')}</small></span>`).join('')}</div>`:''}`:'');
 }
 function renderTabs(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab||(b.dataset.arg==='town'&&(tab==='farm'||tab==='museum'))));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts','town','museum'].forEach(t=>{const e=$('#tab-'+t);if(e)e.hidden=t!==tab;});}
-function renderLive(){cookLive();if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
+function renderLive(){cookLive();renderCookPanel();if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
 function renderShelf(){const t=S.trophies||[],el=$('#shelf');el.hidden=!t.length;el.innerHTML=t.map(k=>`<span title="${TROPHIES[k].name}">${TROPHIES[k].emoji}</span>`).join('');}
-function renderAll(){if(S){ensureFarm();ensureShops();if(CUR&&!booting)armBack();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderMuseum();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
+function renderAll(){if(S){ensureFarm();ensureShops();if(CUR&&!booting)armBack();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderMuseum();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderCookPanel();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
 
 /* ---------- toasts, floats, modal ---------- */
 function toast(msg,ms){const t=document.createElement('div');t.className='toast';t.textContent=msg;$('#toasts').appendChild(t);while($('#toasts').children.length>3)$('#toasts').firstChild.remove();setTimeout(()=>t.remove(),ms||3200);}
@@ -4094,7 +4113,9 @@ function autoScroll(){
   const bar=document.querySelector('.layout>.tabs');if(bar&&getComputedStyle(bar).position==='fixed')bot=bar.getBoundingClientRect().top;
   const hd=document.querySelector('.top');if(hd)top=Math.max(0,hd.getBoundingClientRect().bottom);
   let dy=0;if(AS.y>bot-70)dy=Math.min(24,(AS.y-(bot-70))/3+4);else if(AS.y<top+60)dy=-Math.min(24,(top+60-AS.y)/3+4);
-  if(dy){const before=window.scrollY;window.scrollBy(0,dy);if(window.scrollY!==before){hitTest(AS.x,AS.y-((D&&D.lift)||0));drawPreview();}}
+  const sc=CPOPEN?document.querySelector('#cookpanel:not([hidden]) .cpcard'):null;
+  if(dy&&sc){const b=sc.scrollTop;sc.scrollTop+=dy;if(sc.scrollTop!==b){hitTest(AS.x,AS.y-((D&&D.lift)||0));drawPreview();}}
+  else if(dy){const before=window.scrollY;window.scrollBy(0,dy);if(window.scrollY!==before){hitTest(AS.x,AS.y-((D&&D.lift)||0));drawPreview();}}
   AS.raf=requestAnimationFrame(autoScroll);
 }
 document.addEventListener('pointerup',()=>{if(WS){WS=null;return;}if(PD){if(PD.fence!=null)fenceDrop();else landDrop();return;}if(!D)return;const d=D;D=null;removeGhost();if(!d.started)tap(d);else drop(d);renderAll();});
@@ -4225,7 +4246,7 @@ const ACT={
   growMenu(){const l=S.up.menuSlots||0;if(l>=MENU_UP.length||!spend(MENU_UP[l]))return;S.up.menuSlots=l+1;toast('📋 Bigger menu board! Every section holds one more dish.');},
   growPlate(){const l=S.up.plate;if(l>=PLATE_COST.length||!spend(PLATE_COST[l]))return;stations().forEach(clearSt);
     S.up.plate++;[S.plate.w,S.plate.h]=PLATE_SIZES[l+1];if(S.plate2){S.plate2.w=S.plate.w;S.plate2.h=S.plate.h;}if(S.up.plate===1&&!S.ingOn.includes('D'))S.ingOn.push('D');
-    const f=refreshUnlocks();toast(`🍽️ ${PLATE_NAMES[l+1]}! New recipes to add in the 📋 Menu tab: ${f.map(k=>REC[k].emoji+' '+REC[k].name).join(', ')||'nothing yet — buy the equipment it needs'}.`);},
+    const f=refreshUnlocks();toast(`🍳 ${PLATE_NAMES[l+1]}! New recipes to add in the 📋 Menu tab: ${f.map(k=>REC[k].emoji+' '+REC[k].name).join(', ')||'nothing yet — buy the equipment it needs'}.`);},
   growFreezer(){const l=S.up.freezer||0;if(!S.freezer||l>=FREEZER_COST.length||!spend(FREEZER_COST[l]))return;S.up.freezer=l+1;[S.freezer.w,S.freezer.h]=FREEZER_SIZES[l+1];toast('Bigger dessert freezer! 🧊');},
   growFridge(){const l=S.up.fridge;if(l>=FRIDGE_COST.length||!spend(FRIDGE_COST[l]))return;S.up.fridge++;[S.fridge.w,S.fridge.h]=FRIDGE_SIZES[l+1];toast('Bigger fridge installed! ❄️');},
   pause(){paused=!paused;$('#f-dining').getAnimations&&$('#f-dining').getAnimations({subtree:true}).forEach(a=>paused?a.pause():a.play());},
@@ -4357,6 +4378,17 @@ Object.assign(ACT,{
   lockList(){window.LOCKOPEN=!window.LOCKOPEN;},
 });
 
+/* ---------- cooking panel ---------- */
+const APPL_SIZE={toaster:[3,3],stove:[5,4],oven:[5,4],grill:[5,4],press:[4,3],fryer:[4,4],rice:[4,3],noodlepot:[4,4],roaster:[4,4],drinkfridge:[3,3],blender:[3,3],espresso:[3,3],cofpot:[3,3],kettle:[3,3],freezer:[4,3],saladbar:[4,4],board:[4,4],fishcounter:[5,4],shrimptank:[4,4]};
+function surfaceOf(a,extra){let [w,h]=APPL_SIZE[a]||[4,4];const ks=Object.keys(REC).filter(k=>inShop(k)&&S.rec[k]&&(S.rec[k].unlocked||S.rec[k].onMenu)&&cookOf(k)===a);if(extra)ks.push(extra);
+  for(const k of ks){const m=REC[k].map;w=Math.max(w,m[0].length);h=Math.max(h,m.length);}return [Math.min(w,8),Math.min(h,7)];}
+function fitPlate(g){const d=stDish(g);if(!d||S[g].pieces.length)return;const [w,h]=surfaceOf(cookOf(d.rec),d.rec);S[g].w=w;S[g].h=h;}
+let CPOPEN=false;
+function openCook(){CPOPEN=true;}
+function renderCookPanel(){const el=$('#cookpanel');if(!el||!S)return;const d=stDish(curSt()),p=stParty(curSt());const show=tab==='kitchen'&&CPOPEN&&!!d;if(!show&&CPOPEN&&!d&&!stations().some(g=>stDish(g)))CPOPEN=false;el.hidden=!show;
+  if(show){const a=cookOf(d.rec);$('#cptitle').innerHTML=`${APPL[a].emoji} ${APPL[a].name} · ${d.mystery&&!d.solved?'❓':REC[d.rec].emoji+' '+REC[d.rec].name} <small style="font-weight:700;color:#6E5E55">for ${d.face||faces(p)}</small>`;}}
+Object.assign(ACT,{cpClose(){CPOPEN=false;}});
+
 /* ---------- cooking spots ---------- */
 const VESSEL={stove:'pan',grill:'grill',press:'grill',toaster:'tray',oven:'tray',roaster:'tray',fryer:'basket',rice:'pot',noodlepot:'pot',drinkfridge:'glass',blender:'glass',espresso:'glass',cofpot:'glass',kettle:'glass',freezer:'bowl',saladbar:'bowl',shrimptank:'bowl',board:'board',fishcounter:'board'};
 const VNAME={pan:'frying pan',grill:'grill',tray:'baking tray',basket:'fryer basket',pot:'pot',glass:'glass',bowl:'bowl',board:'cutting board'};
@@ -4364,7 +4396,7 @@ function waitingFor(a){const out=[];for(const p of S.parties.filter(q=>q.state==
 function loadFor(a){const g=curSt();const cur=stDish(g);
   if(cur&&S[g].pieces.length&&cookOf(cur.rec)!==a){toast(`Finish the ${REC[cur.rec].name.toLowerCase()} on the plate first — or tap Clear.`);return false;}
   const w=waitingFor(a);if(!w.length){toast(`${APPL[a].emoji} No orders need the ${APPL[a].name.toLowerCase()} right now.`);return false;}
-  clearSt(g);S.st[g]={pid:w[0].p.id,di:w[0].i};toast(`${APPL[a].emoji} ${REC[w[0].p.dishes[w[0].i].rec].emoji} ${REC[w[0].p.dishes[w[0].i].rec].name} — build it in the ${VNAME[VESSEL[a]]||'plate'}, then cook!`,3000);return true;}
+  clearSt(g);S.st[g]={pid:w[0].p.id,di:w[0].i};openCook();toast(`${APPL[a].emoji} ${REC[w[0].p.dishes[w[0].i].rec].emoji} ${REC[w[0].p.dishes[w[0].i].rec].name} — build it in the ${VNAME[VESSEL[a]]||'plate'}, then cook!`,3000);return true;}
 
 /* ---------- cooking with appliances ---------- */
 function cookOf(k){const b=REC[k].base||k,l=REC_APPL[b]||[];const own=new Set(((S&&S.kitchen&&S.kitchen.pieces)||[]).map(q=>q.key));return l.find(a=>own.has(a))||l[0]||(REC[k].course==='drink'?'drinkfridge':'board');}
@@ -4387,8 +4419,8 @@ function serve(g){g=g||curSt();
   if(!ap)return toast(`${A.emoji} Your ${A.name.toLowerCase()} is busy! Wait for the ding — or buy another one in ⬆️ Upgrades to cook two at once.`);
   const fresh=S[g].pieces.some(q=>q.farm),premN=new Set(S[g].pieces.filter(q=>q.prem).map(q=>q.key)).size;S[g].pieces=[];S.st[g]=null;
   const need=cookTime(a);
-  if(!need){finishDish(p,d,fresh,premN,g);return;}
-  d.cooking=true;ap.cook={pid:p.id,rec:d.rec,t:0,need,fresh,premN};
+  if(!need){CPOPEN=false;finishDish(p,d,fresh,premN,g);return;}
+  d.cooking=true;ap.cook={pid:p.id,rec:d.rec,t:0,need,fresh,premN};CPOPEN=false;
   toast(`${A.emoji} ${REC[d.rec].emoji} ${REC[d.rec].name} is cooking in the ${A.name.toLowerCase()}… wait for the ding!`,2500);
   if(S.autoLoad!==false)assign(g,p.id);autoFill();}
 function cookTick(dt){if(!S.kitchen)return;let ch=false;
@@ -4401,7 +4433,7 @@ function cookTick(dt){if(!S.kitchen)return;let ch=false;
     if(c.ready&&c.t>=c.need+burnWin()){c.burnt=true;c.bt=0;d.cooking=false;ch=true;toast(`💨 Oh no! The ${REC[c.rec].name.toLowerCase()} burned in the ${APPL[a.key].name.toLowerCase()}. Make it again!`,4500);autoFill();}}
   if(ch){renderKitchen();renderDishInfo();}}
 function applTap(ap){const c=ap.cook,A=APPL[ap.key];
-  if(!c){const d=activeDish();if(d&&cookOf(d.rec)===ap.key){if(plateMatches(d.rec,curSt())){serve(curSt());return;}return toast(`Finish building the ${REC[d.rec].name.toLowerCase()} on the plate, then tap the ${A.name.toLowerCase()} to cook it!`);}
+  if(!c){const d=activeDish();if(d&&cookOf(d.rec)===ap.key){if(plateMatches(d.rec,curSt())){serve(curSt());return;}openCook();return;}
     if(loadFor(ap.key))return;return;}
   if(c.burnt)return toast('💨 Cleaning up the smoke…');
   if(!c.ready){const s=Math.max(1,Math.ceil(c.need-c.t));return toast(`⏳ Still cooking… ${s} more second${s>1?'s':''}.`);}
@@ -4479,7 +4511,7 @@ function cbFound(){cbDay();return S.cb.got.length+S.cb.myst.length+S.cb.wishes;}
 Object.assign(ACT,{
   cookbook(){modal(cookbookHTML());},
   guess(a){const [pid,k]=a.split('|'),p=S.parties.find(q=>q.id===+pid);if(!p)return closeModal();const d=p.dishes.find(x=>!x.done&&x.mystery&&!x.solved);if(!d)return closeModal();
-    if(k===d.rec){d.solved=true;closeModal();toast('🕵️ "Yes! That\'s exactly what I want!" Now cook it!',4000);const g=curSt();if(!stDish(g))assign(g,p.id);else autoFill();}
+    if(k===d.rec){d.solved=true;closeModal();toast('🕵️ "Yes! That\'s exactly what I want!" Now cook it!',4000);const g=curSt();if(!stDish(g)){assign(g,p.id);openCook();}else autoFill();}
     else{p.rwrong.push(k);p.pat=Math.max(1,p.pat-p.maxPat*.1);toast('🕵️ "Nope! Read the clues again…"');modal(riddleHTML(p));}},
 });
 document.addEventListener('click',e=>{
@@ -4491,7 +4523,7 @@ document.addEventListener('click',e=>{
     const q=e.target.closest('[data-party]');if(q){const id=+q.dataset.party;S.sel=S.sel===id?null:id;renderLive();}
   }
 });
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='pname'){ACT.createPlayer();return;}if(e.key==='Escape'&&modalOpen()&&S&&S.phase!=='summary'&&!REG)closeModal();if(e.key==='Enter'&&e.target.matches('[data-ticket]')){pickTicket(+e.target.dataset.ticket);renderAll();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&CPOPEN&&!modalOpen()){CPOPEN=false;renderCookPanel();return;}if(e.key==='Enter'&&e.target.id==='pname'){ACT.createPlayer();return;}if(e.key==='Escape'&&modalOpen()&&S&&S.phase!=='summary'&&!REG)closeModal();if(e.key==='Enter'&&e.target.matches('[data-ticket]')){pickTicket(+e.target.dataset.ticket);renderAll();}});
 
 /* ---------- boot ---------- */
 newGame(); // placeholder board behind the title screen
