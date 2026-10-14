@@ -548,6 +548,12 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+/* ---- quiet mode + town shortcut ---- */
+#toasts{display:none!important}
+.godiner{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:70;border:0;border-radius:999px;padding:12px 22px;font:inherit;font-weight:900;font-size:17px;color:#fff;background:linear-gradient(#E0263F,#B50D27);box-shadow:0 4px 0 #7E0A1C,0 8px 18px rgba(0,0,0,.3);cursor:pointer;white-space:nowrap}
+.godiner[hidden]{display:none!important}
+@media (max-width:700px){.godiner{bottom:calc(84px + env(safe-area-inset-bottom,0px));font-size:16px;padding:11px 18px}}
+
 /* ---- feed silo + private party ---- */
 .silo{margin:14px 0 6px;background:linear-gradient(#F4E6C8,#EAD6AE);border:4px solid #A0703A;border-radius:18px 18px 12px 12px;padding:10px 12px 12px;position:relative;box-shadow:0 4px 0 #7A5228}
 .silo h3{margin:0 0 4px;color:#6B4423}
@@ -1464,8 +1470,7 @@ html,body{overscroll-behavior-y:none}
 
     <div class="panel tabpanel" id="tab-msgs" hidden>
       <div class="phead"><h2>📬 Messages</h2><button class="btn small" data-act="clearMsgs">Clear</button></div>
-      <p class="hint" style="margin:0">Everything that happened, newest first. Only the important ones pop up while you play.</p>
-      <label class="msgtog"><input type="checkbox" id="allToasts" data-act="allToasts"> Show every message as a popup</label>
+      <p class="hint" style="margin:0">The important things that happened, newest first. Nothing pops up while you play — check here when the 📬 shows a number.</p>
       <div id="msgList" class="msglist"></div>
     </div>
 
@@ -2562,12 +2567,10 @@ var INSIDE=true;
 function renderTabs(){if(['town','farm','museum'].includes(tab))INSIDE=false;else if(tab!=='msgs')INSIDE=true;document.querySelectorAll('.tab').forEach(b=>{b.hidden=!INSIDE&&!['town','msgs'].includes(b.dataset.arg);});document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab||(b.dataset.arg==='town'&&(tab==='farm'||tab==='museum'))));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts','town','museum','msgs'].forEach(t=>{const e=$('#tab-'+t);if(e)e.hidden=t!==tab;});}
 function renderLive(){cookLive();renderCookPanel();if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
 function renderShelf(){const t=S.trophies||[],el=$('#shelf');el.hidden=!t.length;el.innerHTML=t.map(k=>`<span title="${TROPHIES[k].name}">${TROPHIES[k].emoji}</span>`).join('');}
-function renderAll(){if(S){ensureFarm();ensureShops();if(CUR&&!booting)armBack();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderMuseum();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderCookPanel();renderMsgs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
+function renderAll(){if(S){ensureFarm();ensureShops();if(CUR&&!booting)armBack();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderMuseum();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderCookPanel();renderMsgs();renderGoDiner();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
 
 /* ---------- toasts, floats, modal ---------- */
-function toast(msg,ms){if(typeof MSGS!=='undefined'){MSGS.unshift({m:msg,d:S?S.day:0,t:S&&S.phase==='open'?fmt(S.clock):''});if(MSGS.length>100)MSGS.length=100;MSGNEW++;const b=$('#msgbadge');if(b&&tab!=='msgs')b.textContent=MSGNEW>9?'9+':MSGNEW;
-    if(!(S&&S.allToasts)&&performance.now()-LASTACT>800&&!TOAST_KEEP.test(msg))return;}
-  const t=document.createElement('div');t.className='toast';t.textContent=msg;$('#toasts').appendChild(t);while($('#toasts').children.length>2)$('#toasts').firstChild.remove();setTimeout(()=>t.remove(),ms||3200);}
+function toast(msg,ms){if(typeof TOAST_KEEP==='undefined'||!TOAST_KEEP.test(msg))return;msgLog(msg);}
 function floatText(tableId,text,bad){const t=S.dining.pieces.find(q=>q.id===tableId);if(!t)return;const g=S.dining;const xs=t.shape.map(c=>c[0]+t.x),ys=t.shape.map(c=>c[1]+t.y);
   const el=document.createElement('div');el.className='float'+(bad?' bad':'');el.textContent=text;el.style.left=((Math.min(...xs)+Math.max(...xs)+1)/2/g.w*100)+'%';el.style.top=(Math.min(...ys)/g.h*100)+'%';$('#f-dining').appendChild(el);setTimeout(()=>el.remove(),1500);}
 function modal(html){$('#modalCard').innerHTML=html;$('#modal').classList.remove('hidden');const b=$('#modalCard button');if(b)b.focus();}
@@ -2689,7 +2692,7 @@ function drawEvent(){S.ev=null;if(S.day<2)return;
     const c=pool[rint(0,pool.length-1)];S.ev={id:c.id};if(c.go&&c.go()===false){S.ev=null;continue;}S.lastEv=c.id;return;}
   S.ev=null;}
 function evCard(){return S.ev?EVENTS.find(c=>c.id===S.ev.id):null;}
-function showCard(){const c=evCard();if(!c)return;
+function showCard(){const c=evCard();if(!c)return;msgLog(`${c.em} ${c.good?'Good news':'Uh oh'} — ${c.t}: ${c.d(S.ev)}`);return;
   modal(`<div class="evwrap"><div class="evcard ${c.good?'good':'bad'}"><div class="evtop"><span>Day ${S.day}</span><span>${c.area}</span></div><div class="evem">${c.em}</div><h2>${c.t}</h2><p>${c.d(S.ev)}</p><div class="evtag">${c.good?'Good news!':'Uh oh!'}</div></div></div>
   <div class="modal-actions" style="justify-content:center"><button class="btn primary" data-act="cardDone">Got it</button></div>`);}
 function inspection(){const warm=S.storage.pieces.filter(b=>ING[b.key].cold).length;
@@ -4113,7 +4116,7 @@ document.addEventListener('pointermove',e=>{
     if(Math.hypot(e.clientX-D.sx,e.clientY-D.sy)<7)return;
     if(D.mode==='piece'&&D.kind==='furn'&&partyAt(D.p.id)){toast('Guests are sitting there. Wait until they leave to move or separate it.');D=null;return;}
     if(D.mode==='new'&&D.kind==='food'&&!uses(D.key)){toast(`Out of ${ING[D.key].name.toLowerCase()}. Buy more from the truck.`);D=null;return;}
-    D.started=true;D.lift=e.pointerType==='mouse'?0:Math.round(D.cs*1.2+26);makeGhost();document.querySelectorAll(`[data-pid="${D.mode==='piece'?D.p.id:-1}"]`).forEach(el=>el.classList.add('dim'));
+    D.started=true;D.lift=0;makeGhost();document.querySelectorAll(`[data-pid="${D.mode==='piece'?D.p.id:-1}"]`).forEach(el=>el.classList.add('dim'));
   }
   const lf=D.lift||0;const g=$('.ghost');if(g)g.style.transform=`translate(${e.clientX-(D.gx+.5)*D.cs}px,${e.clientY-lf-(D.gy+.5)*D.cs}px)`;
   AS.x=e.clientX;AS.y=e.clientY;if(!AS.raf)AS.raf=requestAnimationFrame(autoScroll);
@@ -4228,7 +4231,7 @@ const ACT={
   showCard(){showCard();},
   soldOut(k){if(S.ev&&S.ev.locked&&S.ev.locked.includes(k))return toast(`${evCard().em} Can't make that today — ${evCard().t.toLowerCase()}.`);S.soldOut=S.soldOut||{};S.soldOut[k]=!S.soldOut[k];const left=menuList().filter(x=>!S.soldOut[x]).length;
     toast(S.soldOut[k]?`🚫 ${REC[k].emoji} ${REC[k].name} is sold out for today.${left?'':' Nothing left to order — guests will leave!'}`:`✅ ${REC[k].emoji} ${REC[k].name} is back on the menu.`);},
-  sound(){SOUND=!SOUND;lsSet('tt-sound',SOUND?'on':'off');if(SOUND)chime(false);toast(SOUND?'🔔 Door bell on':'🔕 Door bell off');},
+  sound(){SOUND=!SOUND;lsSet('tt-sound',SOUND?'on':'off');if(SOUND)chime(false);const b=$('#sndBtn');if(b)b.textContent=SOUND?'🔔':'🔕';},
   seeReceipts(){closeModal();tab='receipts';window.scrollTo(0,0);},
   unloadAll(){unloadAll();},
   math(){modal(mathHTML());},
@@ -4391,6 +4394,13 @@ Object.assign(ACT,{
   lockList(){window.LOCKOPEN=!window.LOCKOPEN;},
 });
 
+/* ---------- quiet messages + ding ---------- */
+function msgLog(m){if(typeof MSGS==='undefined')return;MSGS.unshift({m,d:S?S.day:0,t:S&&S.phase==='open'?fmt(S.clock):''});if(MSGS.length>100)MSGS.length=100;MSGNEW++;const b=$('#msgbadge');if(b&&tab!=='msgs')b.textContent=MSGNEW>9?'9+':MSGNEW;}
+function dingSound(){if(!SOUND)return;const c=ac();if(!c)return;const t=c.currentTime+.02;tone(2093,t,.8,.16,'triangle');tone(4186,t,.35,.04);tone(2093,t+.18,.6,.09,'triangle');}
+function renderGoDiner(){let b=$('#goDiner');if(!b){b=document.createElement('button');b.id='goDiner';b.className='godiner';b.dataset.act='goDiner';document.body.appendChild(b);}
+  const show=!!S&&(tab==='town'||tab==='farm'||tab==='museum')&&!modalOpen();b.hidden=!show;if(show)b.textContent=`${SHOPS[shopId()].em} Back to ${SHOPS[shopId()].name}`;}
+Object.assign(ACT,{goDiner(){ACT.bld(shopId());window.scrollTo(0,0);}});
+
 /* ---------- private parties ---------- */
 const PARTY_NAMES=['the Bunny Book Club 🐰📚','the Penguin Birthday Bash 🐧🎂','the Bear Family Reunion 🐻','the Fox Scouts 🦊⛺','the Panda Wedding Party 🐼💐','the Duck Soccer Team 🦆⚽','the Kitten Knitting Circle 🐱🧶','the Hamster Science Fair 🐹🔬'];
 function partyBook(){const b=S.booking;if(b&&!b.done&&b.day>=S.day)return;if(S.day<3||regSeats()<6)return;if(S.lastParty&&S.day-S.lastParty<3)return;if(Math.random()>=.3)return;
@@ -4414,7 +4424,7 @@ function partyBanner(){const b=S.booking;if(!b||b.done||b.shop!==shopId()||b.day
 var MSGS=[],MSGNEW=0,LASTACT=0;
 document.addEventListener('pointerdown',()=>{LASTACT=performance.now();},true);
 document.addEventListener('keydown',()=>{LASTACT=performance.now();},true);
-var TOAST_KEEP=/booking|private party|whole room|Ding!|burned|gave up|walked out|left!|saw the long line|mysterious guest|Grandma is here|whispering|makes a wish|farmers market is in town|Today's special|You need \$|is busy|isn't working|truck is full|Out of |Oh no/i;
+var TOAST_KEEP=/booking|private party|whole room|New recipe|GOLDEN|golden|went to waste|flew off|and left|Ding!|burned|gave up|walked out|left!|saw the long line|mysterious guest|Grandma is here|whispering|makes a wish|farmers market is in town|Today's special|You need \$|is busy|isn't working|truck is full|Out of |Oh no/i;
 function renderMsgs(){const el=$('#msgList');if(!el)return;const b=$('#msgbadge');if(b)b.textContent=MSGNEW&&tab!=='msgs'?(MSGNEW>9?'9+':MSGNEW):'';
   if(tab!=='msgs')return;const tg=$('#allToasts');if(tg)tg.checked=!!(S&&S.allToasts);
   el.innerHTML=MSGS.length?MSGS.map((m,i)=>`<div class="msgrow ${i<MSGNEW?'new':''}"><small>Day ${m.d}${m.t?' · '+m.t:''}</small><span>${esc(m.m)}</span></div>`).join(''):'<p class="empty">No messages yet.</p>';
@@ -4514,7 +4524,7 @@ function cookTick(dt){if(!S.kitchen)return;let ch=false;
     const p=S.parties.find(q=>q.id===c.pid&&q.state==='waiting'),d=p&&p.dishes.find(x=>x.cooking&&x.rec===c.rec);
     if(!d){delete a.cook;ch=true;continue;}
     c.t+=dt;
-    if(!c.ready&&c.t>=c.need){c.ready=true;ch=true;chime(true);toast(`🔔 Ding! ${REC[c.rec].emoji} ${REC[c.rec].name} is ready — tap the ${APPL[a.key].name.toLowerCase()} to serve it!`,3500);if(CPAP===a.id)CPKEY='';}
+    if(!c.ready&&c.t>=c.need){c.ready=true;ch=true;dingSound();toast(`🔔 Ding! ${REC[c.rec].emoji} ${REC[c.rec].name} is ready — tap the ${APPL[a.key].name.toLowerCase()} to serve it!`,3500);if(CPAP===a.id)CPKEY='';}
     if(c.ready&&c.t>=c.need+burnWin()){CPKEY='';c.burnt=true;c.bt=0;d.cooking=false;ch=true;toast(`💨 Oh no! The ${REC[c.rec].name.toLowerCase()} burned in the ${APPL[a.key].name.toLowerCase()}. Make it again!`,4500);autoFill();}}
   if(ch){renderKitchen();renderDishInfo();}}
 function applTap(ap){const c=ap.cook,A=APPL[ap.key];
@@ -4542,7 +4552,7 @@ function cbDay(){if(!S.cb)S.cb={clues:[],got:[],myst:[],gma:0,wishes:0};if(!S.cb
 function mysteryDay(d){return d>=3&&d%3===0;}
 function grandmaDay(d){return d>=4&&(d-4)%3===0;}
 function nextDayWhere(f){let n=0;while(!f(S.day+n))n++;return S.day+n;}
-function later(html,btn){const go=()=>{if(modalOpen()||REG){setTimeout(go,600);return;}modal(html+`<div class="modal-actions"><button class="btn primary" data-act="closeModal">${btn||'Yay!'}</button></div>`);};setTimeout(go,450);}
+function later(html,btn){const d=document.createElement('div');d.innerHTML=html;d.querySelectorAll('h2').forEach(h=>h.after(document.createTextNode(' — ')));msgLog(d.textContent.replace(/\s+/g,' ').trim());}
 function cluePic(k){const m=REC[k].map,w=m[0].length;return `<div class="cpic" style="grid-template-columns:repeat(${w},26px)">${m.join('').split('').map(ch=>ch==='.'?'<span class="x"></span>':`<span style="background:${ING[ch].color}">${ie(ch)}</span>`).join('')}</div>`;}
 function freeUp(k){const s=S.rec[k];if(s&&!s.gold&&s.unlocked&&s.level<GOLD_UPS){s.level++;if(S.priced)delete S.priced[k];return `⭐ Free upgrade! ${REC[k].emoji} ${REC[k].name} went up a star (${'★'.repeat(s.level-1)}) — one step closer to golden.`;}S.money+=30;S.stats.earned+=30;return '🪙 A $30 thank-you gift!';}
 function grantWish(k){const r=Math.random(),ns=Object.keys(NITE);if(r<.4)return freeUp(k);if(r<.7){const n=ns[rint(0,ns.length-1)];S.storeroom.push({key:n});return `🎁 A magic treasure: ${FURN[n].emoji} ${FURN[n].name}! It's waiting in your storeroom.`;}S.money+=40;S.stats.earned+=40;return '🪙 A pile of 40 magic gold coins!';}
