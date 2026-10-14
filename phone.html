@@ -624,6 +624,67 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+/* ---- menu book ---- */
+.mbook .mtop em .specx{color:#FFE08A}
+.mbook{position:relative;margin:14px 0 6px;padding:18px 16px 20px;border-radius:20px;background:radial-gradient(circle at 12% 8%,rgba(255,255,255,.7),transparent 40%),repeating-linear-gradient(0deg,rgba(160,120,60,.035) 0 2px,transparent 2px 6px),#FFF6E0;border:4px solid #8B2E1E;box-shadow:inset 0 0 0 4px #FFF6E0,inset 0 0 0 6px #D9A441,0 6px 0 #6E2316,0 10px 24px rgba(0,0,0,.18)}
+.mbtitle{display:flex;flex-direction:column;align-items:center;margin:0 0 6px;color:#8B2E1E;text-align:center}
+.mbtitle small{letter-spacing:.6em;color:#D9A441;font-size:12px}
+.mbtitle b{font-family:'Pacifico',cursive;font-weight:400;font-size:clamp(24px,4.5vw,36px);line-height:1.2}
+.mbtitle span{font-family:'Caveat',cursive;font-size:22px;color:#6E5E55;margin-top:-4px}
+.mhead{display:flex!important;justify-content:center;align-items:center;gap:10px;margin:18px auto 6px!important;font-family:'Pacifico',cursive;font-weight:400;font-size:24px!important;color:#fff;background:#C8102E;width:max-content;max-width:100%;padding:4px 28px!important;border:0!important;border-radius:6px;position:relative;box-shadow:0 3px 0 #9A0C23}
+.mhead::before,.mhead::after{content:'';position:absolute;top:8px;width:18px;height:100%;background:#9A0C23;z-index:-1}
+.mhead::before{left:-12px;clip-path:polygon(0 0,100% 0,100% 100%,0 100%,40% 50%)}.mhead::after{right:-12px;clip-path:polygon(0 0,100% 0,60% 50%,100% 100%,0 100%)}
+.mhead.kids{background:linear-gradient(90deg,#FF6B6B,#FFB23F,#6BCB77,#4D96FF,#B36BFF)!important;box-shadow:0 3px 0 #7A4FB8;padding-top:4px!important}
+.mhead.kids::before,.mhead.kids::after{background:#7A4FB8}
+.mbook .msec2{--cc:#C8102E}
+.mbook .msec2.c-starter{--cc:#3E9B4F}.mbook .msec2.c-drink{--cc:#1E78C8}.mbook .msec2.c-dessert{--cc:#D6478F}
+.mbook .msec2 h3{font-family:'Caveat',cursive;font-size:30px;color:var(--cc);margin:14px 0 8px!important;gap:10px}
+.mbook .msec2 h3::after{content:'';flex:1;min-width:30px;border-bottom:3px dotted var(--cc);opacity:.45;order:2}
+.mbook .msec2 h3 .slots{order:3;font-family:'Nunito',sans-serif}
+.mbook .mcard{background:#fff;border:2px solid #EADCC4;border-left:7px solid var(--cc);border-radius:14px;padding:10px 12px;gap:8px;opacity:1;box-shadow:0 2px 0 #E3D2B4;transition:transform .15s,box-shadow .15s}
+.mbook .mcard:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(0,0,0,.12)}
+.mbook .mcard:not(.in){background:#FBF7EE;border-style:dashed;border-left-style:solid;filter:saturate(.55)}
+.mbook .mcard:not(.in) .me{opacity:.75}
+.mbook .mcard.in{border-color:#B9E3D3;border-left-color:var(--cc)}
+.mbook .mcard.kid{border-radius:20px}
+.mbook .mtop{gap:10px}
+.mbook .mtop .me{flex:none;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:31px;background:radial-gradient(circle,#fff 54%,#EFE8DA 56%,#fff 64%,#F4EEE2 100%);box-shadow:0 2px 4px rgba(0,0,0,.18)}
+.mbook .mtop b{font-size:16px;line-height:1.2}
+.mbook .mtop em{background:var(--cc);color:#fff!important;border-radius:999px;padding:3px 10px;font-size:14px;box-shadow:0 2px 0 rgba(0,0,0,.18)}
+.mbook .mcard:not(.in) .mtop em{background:#B9AE9B}
+.mbook .mcard.sold .mtop em{background:#B3261E}
+.mbook .mings{gap:5px}
+.mbook .mi{font-size:15px;background:#F6EFE0;border-radius:999px;padding:2px 8px}
+.mbook .mi.low{background:#FFE1E1}
+.mbook .mi.ap{background:#E4F0FA;color:#1E5AAA;font-size:13px;display:flex;align-items:center;gap:2px}
+.mbook .mbtn{background:#fff;border:2px dashed #C9B89A;color:#8B6F45}
+.mbook .mbtn.on{background:var(--mint);border:2px solid var(--mint);color:#fff}
+.mbook .mbtn.sold{background:#B3261E;border:2px solid #B3261E;color:#fff}
+.mbook .lvstars{color:#E8A417}
+@media (max-width:600px){.mbook{padding:14px 10px 16px;border-width:3px}.mhead{font-size:20px!important;padding:3px 20px!important}.mbook .msec2 h3{font-size:26px}}
+
+/* ---- cooking with appliances ---- */
+.ckw{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;display:flex;flex-direction:column;align-items:center;font-size:22px;line-height:1.1;background:rgba(255,255,255,.88);border-radius:10px;padding:2px 6px;pointer-events:none;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.ckb{display:block;width:42px;height:7px;background:#E3DED3;border-radius:4px;overflow:hidden;margin-top:2px}.ckb b{display:block;height:100%;width:0;background:linear-gradient(90deg,#F2B134,#E8692A);transition:width .25s linear}
+#g-kitchen .pc.ready .blk{animation:ckready .6s ease-in-out infinite;box-shadow:0 0 0 4px #2BA88A,0 0 16px #2BA88A!important}
+#g-kitchen .pc.hot .blk{box-shadow:0 0 0 4px #E8483B,0 0 16px #E8483B!important}
+#g-kitchen .pc.burnt .blk{filter:grayscale(.7) brightness(.55)}
+#g-kitchen .pc.needed.go .blk{animation:ckready .8s ease-in-out infinite}
+@keyframes ckready{50%{transform:scale(1.07)}}
+.cookstrip{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 6px}
+.ckchip{display:flex;align-items:center;gap:5px;border:2px solid #E0C890;background:#FFF8E6;border-radius:999px;padding:5px 12px;font:inherit;font-weight:900;font-size:16px;cursor:pointer;color:#3A2A1A}
+.ckchip.ready{background:#2BA88A;color:#fff;border-color:#1E7F68;animation:ckready .6s ease-in-out infinite}
+.ckchip.ready.hot{background:#E8483B;border-color:#B8312A}
+.ckchip.burnt{background:#555;color:#fff;border-color:#333}
+.dish.cooking,.dish.cready{position:relative}
+.dish.cooking::after{content:'⏳';position:absolute;right:-8px;top:-9px;font-size:12px}
+.dish.cready::after{content:'🔔';position:absolute;right:-8px;top:-9px;font-size:13px;animation:ckready .6s infinite}
+.kside.kbelow .gridbox{max-width:560px!important}
+
+.ksplit .kbins{margin-top:0;align-self:start}.kside.kbelow{margin-top:12px}.kside.kbelow .gridbox{max-width:420px}
+#tab-kitchen .kchalk{order:4}#tab-kitchen .kside.kbelow{order:3}#tab-kitchen>.hint{order:5}
+.ghost{opacity:.78!important}.ghost .gc{box-shadow:inset 0 0 0 2px rgba(0,0,0,.25),0 0 0 2px rgba(255,255,255,.8)!important}
+.kchalk{margin-top:12px}.kchalk ul{columns:3 200px;font-size:19px}@media (max-width:600px){.kchalk ul{columns:1;font-size:18px}}
 /* ---- secret cookbook ---- */
 .riddle{margin:8px 0 12px 0;padding-left:22px;display:flex;flex-direction:column;gap:6px;font-size:16px}
 .riddle li{background:#FFF8E6;border:2px dashed #E0C890;border-radius:10px;padding:6px 10px}
@@ -845,7 +906,7 @@ html,body{overscroll-behavior-y:none}
 .museum{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;background:linear-gradient(#F7F1E1,#EFE4C6);border:4px solid #C9A646;border-radius:16px;padding:16px}
 .ped{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}.ped b{font-size:13px}.ped small{font-size:11px;opacity:.75}
 .pdish{font-size:46px;filter:drop-shadow(0 0 10px #FFD54A) sepia(.55) saturate(2.4) hue-rotate(-12deg);animation:arcbob 2.4s ease-in-out infinite}
-.pstand{width:70px;height:34px;background:linear-gradient(#FFFFFF,#D8D2C4);border-radius:4px 4px 0 0;box-shadow:inset 0 -6px 0 #BFB6A2;margin-top:-4px}.ped.ghost{opacity:.55}.ped.ghost .pdish{filter:none}
+.pstand{width:70px;height:34px;background:linear-gradient(#FFFFFF,#D8D2C4);border-radius:4px 4px 0 0;box-shadow:inset 0 -6px 0 #BFB6A2;margin-top:-4px}.ped.pghost{opacity:.55}.ped.pghost .pdish{filter:none}
 .tw{position:relative;border-radius:20px;overflow:hidden;border:4px solid #4E8A3A;background:linear-gradient(#9ED8FF 0,#CDEBFF 120px,#8FD07A 120px);padding:0 0 4px;box-shadow:0 6px 0 rgba(0,0,0,.12)}
 .tw.night{background:linear-gradient(#1D2A57 0,#3B4C86 120px,#4E7A4A 120px)}
 .tw-sky{position:absolute;inset:0 0 auto 0;height:120px;pointer-events:none;overflow:hidden}
@@ -1319,7 +1380,6 @@ html,body{overscroll-behavior-y:none}
       <div class="sroom"><div class="sroom-title">📦 STOREROOM</div><div class="sroom-box"><div id="storeroom" class="tray-items"></div></div><p class="sroom-hint">Extra tables, chairs, plants, vases and night-visitor treasures wait here. Drag one onto the dining room floor (or a treasure onto an arcade table) to use it.</p></div>
       </div>
       <p class="hint" id="diningHint"></p>
-      <div class="chalk"><h3>Today's menu</h3><ul id="menuboard"></ul><div class="pbwrap"><button class="btn primary" id="priceBtn" data-act="setPrices" hidden></button></div></div>
     </div>
 
     <div class="panel tabpanel steel" id="tab-kitchen" hidden>
@@ -1328,16 +1388,13 @@ html,body{overscroll-behavior-y:none}
       <div class="dishinfo" id="dishinfo"></div>
       <button class="kjump" data-act="kjump">🔧 See your kitchen appliances ↓</button>
       <div class="ksplit">
-        <div class="kside">
-          <h3>Your kitchen</h3>
-          <div class="gridbox"><div class="grid kgrid" id="g-kitchen"></div></div>
-          <h3 style="margin-top:12px">Appliances you own</h3>
-          <div id="applList" class="applist"></div>
-          <p class="hint" id="kitchenNote"></p>
-          <p class="hint">Drag appliances to arrange your kitchen, tap to rotate. New equipment shows up here. The glowing ones are used for the dish you're making.</p>
+        <div class="bins kbins">
+        <h3 style="margin-top:0">Prep bins</h3>
+        <div id="palette" class="palette"></div>
         </div>
         <div class="station">
           <div class="bdhead"><h3>Build the dish</h3><button class="altog" id="alTog" data-act="autoLoad"></button></div>
+          <div class="cookstrip" id="cookstrip" hidden></div>
           <div class="ptabs" id="ptabs"></div>
           <div class="plates" id="plates">
             <div class="pstation" data-st="plate">
@@ -1353,10 +1410,15 @@ html,body{overscroll-behavior-y:none}
           </div>
         </div>
       </div>
-      <div class="bins">
-        <h3 style="margin-top:0">Prep bins</h3>
-        <div id="palette" class="palette"></div>
-      </div>
+      <div class="kside kbelow">
+          <h3>Your kitchen</h3>
+          <div class="gridbox"><div class="grid kgrid" id="g-kitchen"></div></div>
+          <h3 style="margin-top:12px">Appliances you own</h3>
+          <div id="applList" class="applist"></div>
+          <p class="hint" id="kitchenNote"></p>
+          <p class="hint">When a dish is built, tap the glowing appliance (or the Cook button) to cook it. When it dings 🔔, tap it to serve — don't wait too long or it burns! Before opening you can drag appliances around and tap to rotate them.</p>
+        </div>
+      <div class="chalk kchalk"><h3>Today's menu</h3><ul id="menuboard"></ul><div class="pbwrap"><button class="btn primary" id="priceBtn" data-act="setPrices" hidden></button></div></div>
       <p class="hint">Drag a piece onto the plate so it fills the outline. Tap a piece on the plate to rotate it, or drag it off the plate to put it back. Tap an ingredient to drop it into the first spot it fits.</p>
     </div>
 
@@ -1760,6 +1822,15 @@ function secCount(sec){return Object.keys(REC).filter(k=>inShop(k)&&S.rec[k]&&S.
 function secName(sec){const c=COURSES.find(c=>c[0]===sec.replace(/^k/,''));return (sec[0]==='k'?'Kids\' ':'')+c[2].toLowerCase();}
 const REC_APPL={dinercoffee:["cofpot"],chocmilk:["cofpot"],custard:["stove"],pudding:["cofpot"],fishsand:["fishcounter", "toaster"],soupcup:["stove"],eggbites:["toaster"],grillsoup:["toaster", "stove"],club:["roaster", "toaster"],quiche:["oven"],gardenbowl:["saladbar"],hottea:["kettle"],lemontea:["kettle"],aulait:["cofpot"],hotcocoa:["cofpot"],bananabread:["oven"],parfait:["blender"],pretzel:["oven"],minicroiss:["oven"],muffinbites:["oven"],croissant:["oven", "stove"],bagel:["toaster"],pizzabread:["oven"],meatpie:["oven", "grill"],bakecocoa:["cofpot"],cider:["stove"],honeymilk:["stove"],cinnroll:["oven"],cookies:["oven"],cupcake:["oven"],honeybun:["oven"],cobbler:["oven"],bdaycake:["oven"],kidcracker:["oven"],kidmuffin:["oven"],kidbagel:["oven"],eggdrop:["noodlepot"],dumplings:["noodlepot"],ramen:["noodlepot", "stove"],friedrice:["rice", "stove"],teriyaki:["rice", "roaster"],lomein:["noodlepot", "shrimptank"],greentea:["kettle"],bubbletea:["kettle"],lassi:["blender"],mochi:["freezer"],fortune:["oven"],mangorice:["rice"],kiddumpling:["noodlepot"],kidtea:["kettle"],fruitskewer:["blender"],acai:["blender"],smoothiebowl:["blender"],pbtoast:["toaster"],latte:["espresso"],mocha:["espresso"],hotchoc:["espresso"],milkshake:["blender", "freezer"],matcha:["kettle"],affogato:["espresso", "freezer"],bananasplit:["freezer"],babyccino:["espresso"],chowder:["fishcounter", "stove"],hushpup:["fryer"],shrimpcock:["shrimptank"],fishchips:["fishcounter", "fryer"],shrimpbasket:["shrimptank", "fryer"],grillfish:["fishcounter"],surfturf:["shrimptank", "grill"],icedtea:["kettle"],lemoniced:["kettle"],punch:["blender"],ricepud:["rice"],sandcastle:["freezer"],lemonpie:["oven"],kidshrimp:["shrimptank"],kidjuice:['blender'],kidbanana:['blender'],toast:['toaster'],eggrice:['rice','stove'],burger:['grill'],salad:['saladbar'],noodle:['noodlepot'],spicy:['noodlepot','stove'],sundae:['freezer'],
   berrysmooth:['blender'],tropical:['blender'],bananaberry:['blender'],fries:['fryer'],chicken:['fryer'],fishbowl:['fishcounter','rice'],deluxe:['grill','press'],kidcheese:['toaster'],kidrice:['rice'],kidsoldier:['toaster','stove'],kidcone:['freezer'],kidfruit:['blender'],apptoast:['toaster'],apphoney:['toaster'],honeyyog:['blender'],appfrozen:['freezer'],apptaco:['fishcounter'],appknots:['stove'],appsampler:['stove','toaster'],appwrap:['saladbar'],apppatty:['grill'],appmango:['blender'],appbanana:['blender'],appspring:['noodlepot'],appchips:['fryer'],appchicken:['fryer'],kidsalad:['saladbar'],kidslider:['grill'],kidnoodle:['noodlepot'],kidfries:['fryer'],kidpizza:['stove'],kidfish:['fishcounter'],pizza:['stove'],bigsundae:['freezer'],feast:['stove','rice']};
+
+/* ---- cooking with appliances ---- */
+Object.assign(APPL,{drinkfridge:{name:'Drink fridge',emoji:'🧃',shape:MONO,color:'#BFE0F2'},board:{name:'Cutting board',emoji:'🔪',shape:MONO,color:'#C99A5B'}});
+Object.assign(REC_APPL,{eggrice:['stove','rice'],custard:['oven'],kidcheese:['fryer'],chocmilk:['drinkfridge'],milk:['drinkfridge'],kidchoc:['drinkfridge'],vanillamilk:['drinkfridge'],kidmilk:['drinkfridge'],lemonade:['drinkfridge'],kidlemon:['drinkfridge'],kidyogurt:['drinkfridge'],kidpeach:['drinkfridge'],
+  peachsmooth:['blender'],peachsundae:['freezer'],trailmix:['board'],applesalad:['board'],kidapple:['board'],nuttoast:['toaster'],applepie:['oven'],lemontart:['oven'],
+  secsmile:['toaster'],secflower:['stove'],secchecker:['board'],secheart:['board'],secbunny:['toaster'],grandstew:['stove']});
+REC.custard.needs='oven';REC.kidcheese.needs='fryer';REC.applepie.also='oven';REC.lemontart.also='oven';
+const COOKT={toaster:4,stove:6,rice:6,grill:6,fryer:5,oven:8,noodlepot:6,roaster:7,press:5,espresso:4,cofpot:4,kettle:4,blender:3,fishcounter:3,shrimptank:4};
+const EXTRA_COST={toaster:40,stove:70,rice:50,grill:80,fryer:90,oven:100,noodlepot:60,roaster:70,press:60,espresso:90,cofpot:40,kettle:40,blender:50,fishcounter:80,shrimptank:80};
 const PLATE_SIZES=[[5,4],[6,5],[7,6]], PLATE_COST=[120,260], PLATE_NAMES=['Small plate','Big plate','Serving platter'];
 /* ---- golden dishes: successor variants ---- */
 const GOLD_UPS=5,TICKET=2;
@@ -1796,7 +1867,7 @@ function renderMuseum(){const el=$('#museum');if(!el||!S)return;const mus=S.muse
   el.innerHTML=`<div class="phead"><h2>🏛️ Golden Dish Museum</h2><span class="hours">Tickets $${TICKET} each</span></div>
    <p class="hint" style="margin:0 0 10px">${S.phase==='summary'&&ml?`🌙 Tonight <b>${ml.v} visitors</b> came to see your golden dishes and paid <b>$${ml.money}</b>!`:`Improve a dish ${GOLD_UPS} times in ⬆️ Upgrades and it turns <b>golden</b>: it retires here, visitors pay to see it every day, and a fancier version of the recipe unlocks.${ml?` Last time: <b>${ml.v} visitors</b> paid <b>$${ml.money}</b>.`:''}`}</p>
    ${mus.length?`<div class="museum">${mus.map(o=>`<div class="ped"><div class="pdish">${REC[o.k].emoji}</div><div class="pstand"></div><b>Golden ${REC[o.k].name.charAt(0).toLowerCase()+REC[o.k].name.slice(1)}</b><small>${SHOPS[o.shop]?SHOPS[o.shop].em+' '+SHOPS[o.shop].name:''} · day ${o.day}</small></div>`).join('')}</div>`
-   :`<div class="museum empty"><div class="ped ghost"><div class="pdish">❔</div><div class="pstand"></div><b>Your first golden dish goes here!</b><small>Improve any recipe ${GOLD_UPS} times.</small></div></div>`}
+   :`<div class="museum empty"><div class="ped pghost"><div class="pdish">❔</div><div class="pstand"></div><b>Your first golden dish goes here!</b><small>Improve any recipe ${GOLD_UPS} times.</small></div></div>`}
    <p style="margin-top:12px">${S.phase==='summary'?`<button class="btn primary" data-act="leaveMuseum">🌅 Leave the museum &amp; start day ${S.day+1}</button>`:`<button class="btn" data-act="leaveMuseum">← Back to town</button>`}</p>`;
   if(tab==='museum')museumStart();}
 const FREEZER_SIZES=[[4,3],[5,4],[6,5]], FREEZER_COST=[100,200];
@@ -1883,7 +1954,7 @@ function freshShop(id){const sh=SHOPS[id],keep=packShop(),ff=farmFlags();
 function runShop(id){if(id===shopId()||!S.owned.includes(id))return;const ff=farmFlags();
   S.shops[shopId()]=packShop();const nx=S.shops[id];SHOP_KEYS.forEach(k=>S[k]=nx[k]);S.shops[id]=null;S.shopId=id;
   Object.assign(S.eq,ff);S.truck.pieces.forEach(p=>{if(p.supply)p.paid=0;});
-  S.sel=null;S.active=null;S.st={};S.cur='plate';S.sent[id]=false;refreshUnlocks();applyTheme();}
+  S.sel=null;S.active=null;S.st={};clearCooks();S.cur='plate';S.sent[id]=false;refreshUnlocks();applyTheme();}
 function bestStars(){let b=S.rep||0;for(const id in S.shops){const s=S.shops[id];if(s&&s.rep>b)b=s.rep;}return b;}
 function mgrOf(id){return MGRS.find(m=>m.id===(S.mgr||{})[id]);}
 function mgrShop(mid){return Object.keys(S.mgr||{}).find(id=>S.mgr[id]===mid);}
@@ -2078,12 +2149,12 @@ function fits(gid,shape,x,y,ignore){
   return true;
 }
 function findSpot(gid,shape){let s=shape;const g=S[gid];for(let r=0;r<4;r++){for(let y=0;y<g.h;y++)for(let x=0;x<g.w;x++)if(fits(gid,s,x,y))return {x,y,shape:s};s=rot(s);}return null;}
-function seedKitchen(){addPiece('kitchen','appl','stove',0,0);addPiece('kitchen','appl','sink',4,0);addPiece('kitchen','appl','toaster',0,3);addPiece('kitchen','appl','rice',1,3);}
+function seedKitchen(){addPiece('kitchen','appl','stove',0,0);addPiece('kitchen','appl','sink',4,0);addPiece('kitchen','appl','toaster',0,3);addPiece('kitchen','appl','rice',1,3);addPiece('kitchen','appl','drinkfridge',5,3);addPiece('kitchen','appl','board',4,3);}
 function addAppliance(eq){for(const a in APPL){if(APPL[a].eq!==eq)continue;let spot=findSpot('kitchen',APPL[a].shape);while(!spot){S.kitchen.h++;spot=findSpot('kitchen',APPL[a].shape);}addPiece('kitchen','appl',a,spot.x,spot.y,spot.shape);}}
 function recReady(k){const r=REC[k],sr=S.rec&&S.rec[k];if(r.secret&&!r.variant&&!(S.cb&&S.cb.got.includes(k)))return false;if(r.variant&&!(sr&&sr.earned))return false;if(sr&&sr.gold)return false;return (!r.needs||!!S.eq[r.needs])&&(!r.also||!!S.eq[r.also])&&(!r.plate||S.up.plate>=r.plate);}
-function refreshUnlocks(){const fresh=[];for(const k in REC)if(inShop(k)&&recReady(k)&&!S.rec[k].unlocked){S.rec[k].unlocked=true;S.rec[k].onMenu=false;S.rec[k].isNew=true;fresh.push(k);}return fresh;}
+function refreshUnlocks(){const fresh=[];for(const k in REC)if(inShop(k)&&recReady(k)&&!S.rec[k].unlocked){S.rec[k].unlocked=true;S.rec[k].onMenu=false;S.rec[k].isNew=true;fresh.push(k);}for(const k in REC)if(inShop(k)&&S.rec[k]&&S.rec[k].unlocked&&!REC[k].variant&&!recReady(k)){S.rec[k].unlocked=false;S.rec[k].onMenu=false;}return fresh;}
 function lockText(k){const r=REC[k],p=[];if(r.needs&&!S.eq[r.needs])p.push('the '+EQUIP[r.needs].name.toLowerCase());if(r.also&&!S.eq[r.also])p.push('the '+EQUIP[r.also].name.toLowerCase());if(r.plate&&S.up.plate<r.plate)p.push('the '+PLATE_NAMES[r.plate].toLowerCase());return 'Needs '+p.join(' and ')+'.';}
-function migrate(){ensureFarm();if(S.dining)S.dining.pieces.filter(p=>p.key==='pool'&&p.shape.length>1).forEach(p=>{const cs=cellsOf(p);p.shape=[[0,0]];p.x=cs[0][0];p.y=cs[0][1];cs.slice(1).forEach(([x,y])=>addPiece('dining','furn','pool',x,y,[[0,0]]));});ensureShops();if(S.up.freezer==null)S.up.freezer=0;if(S.eq.sweets&&!S.freezer)S.freezer={w:4,h:3,pieces:[]};if(S.up.plate2&&!S.plate2)S.plate2={w:S.plate.w,h:S.plate.h,pieces:[]};S.st={};S.cur='plate';if(S.fridge){const fz=FRIDGE_SIZES[S.up.fridge||0];S.fridge.w=Math.max(S.fridge.w,fz[0]);S.fridge.h=Math.max(S.fridge.h,fz[1]);}[S.storage,S.fridge,S.truck].forEach(g=>g&&g.pieces.forEach(b=>{if(b.kind==='basket')shrink(b);}));if(S.up.plate==null)S.up.plate=0;if(!S.kitchen){S.kitchen={w:6,h:4,pieces:[]};seedKitchen();for(const k in S.eq)if(S.eq[k])addAppliance(k);}
+function migrate(){ensureFarm();if(S.dining)S.dining.pieces.filter(p=>p.key==='pool'&&p.shape.length>1).forEach(p=>{const cs=cellsOf(p);p.shape=[[0,0]];p.x=cs[0][0];p.y=cs[0][1];cs.slice(1).forEach(([x,y])=>addPiece('dining','furn','pool',x,y,[[0,0]]));});ensureShops();if(S.up.freezer==null)S.up.freezer=0;if(S.eq.sweets&&!S.freezer)S.freezer={w:4,h:3,pieces:[]};if(S.up.plate2&&!S.plate2)S.plate2={w:S.plate.w,h:S.plate.h,pieces:[]};S.st={};clearCooks();S.cur='plate';if(S.fridge){const fz=FRIDGE_SIZES[S.up.fridge||0];S.fridge.w=Math.max(S.fridge.w,fz[0]);S.fridge.h=Math.max(S.fridge.h,fz[1]);}[S.storage,S.fridge,S.truck].forEach(g=>g&&g.pieces.forEach(b=>{if(b.kind==='basket')shrink(b);}));if(S.up.plate==null)S.up.plate=0;if(!S.kitchen){S.kitchen={w:6,h:4,pieces:[]};seedKitchen();for(const k in S.eq)if(S.eq[k])addAppliance(k);}
   for(const k in REC)if(!S.rec[k])S.rec[k]={unlocked:false,level:1,onMenu:false};refreshUnlocks();}
 const PKEY='tile-and-table-players';
 const AVATARS=['🐶','🐱','🐰','🐻','🐼','🦊','🐨','🐸','🐷','🐯','🦁','🐵','🐧','🐢','🦄','🐉','🧜‍♀️','🧚','👽','🤖'];
@@ -2150,19 +2221,19 @@ function stations(){return S.up.plate2&&S.plate2?['plate','plate2']:['plate'];}
 function curSt(){if(!stations().includes(S.cur))S.cur='plate';return S.cur;}
 function stSlot(g){S.st=S.st||{};return S.st[g]||null;}
 function stParty(g){const sl=stSlot(g);return sl?S.parties.find(p=>p.id===sl.pid&&p.state==='waiting')||null:null;}
-function stDish(g){const sl=stSlot(g),p=stParty(g);if(!p)return null;const d=p.dishes[sl.di];return d&&!d.done?d:null;}
+function stDish(g){const sl=stSlot(g),p=stParty(g);if(!p)return null;const d=p.dishes[sl.di];return d&&!d.done&&!d.cooking?d:null;}
 function claimed(pid,di,except){return stations().some(g=>g!==except&&stDish(g)&&S.st[g].pid===pid&&S.st[g].di===di);}
 function clearSt(g){S[g].pieces.forEach(q=>refund(q.key));S[g].pieces=[];}
 function assign(g,pid){const p=S.parties.find(q=>q.id===pid&&q.state==='waiting');if(!p)return false;
   const cur=stSlot(g);if(cur&&cur.pid===pid&&stDish(g))return true;
-  const di=p.dishes.findIndex((d,i)=>!d.done&&!(d.mystery&&!d.solved)&&!claimed(pid,i,g));if(di<0)return false;
+  const di=p.dishes.findIndex((d,i)=>!d.done&&!d.cooking&&!(d.mystery&&!d.solved)&&!claimed(pid,i,g));if(di<0)return false;
   clearSt(g);S.st[g]={pid,di};return true;}
 function autoFill(){if(S.autoLoad===false)return;for(const g of stations()){if(stDish(g))continue;if(S[g].pieces.length&&stSlot(g))continue;
   for(const p of S.parties.filter(q=>q.state==='waiting')){if(assign(g,p.id))break;}}}
-function pickTicket(pid){const g=curSt();{const pp=S.parties.find(q=>q.id===pid);if(pp&&pp.dishes.some(d=>!d.done&&d.mystery&&!d.solved)){modal(riddleHTML(pp));return;}}
+function pickTicket(pid){const g=curSt();{const pp=S.parties.find(q=>q.id===pid);const rd=pp&&S.kitchen.pieces.find(a=>a.cook&&a.cook.pid===pid&&a.cook.ready&&!a.cook.burnt);if(rd){applTap(rd);return;}}{const pp=S.parties.find(q=>q.id===pid);if(pp&&pp.dishes.some(d=>!d.done&&d.mystery&&!d.solved)){modal(riddleHTML(pp));return;}}
   const on=stations().find(x=>stParty(x)&&stParty(x).id===pid);
   if(on&&on!==g&&!S.parties.find(p=>p.id===pid).dishes.some((d,i)=>!d.done&&!claimed(pid,i,null))){S.cur=on;return;}
-  if(!assign(g,pid))toast('Every dish for that order is already on a plate.');}
+  if(!assign(g,pid)){const pp=S.parties.find(q=>q.id===pid);toast(pp&&pp.dishes.some(d=>d.cooking)?'⏳ That order is cooking — wait for the ding!':'Every dish for that order is already on a plate.');}}
 function partyOnPlates(pid){return stations().filter(g=>stParty(g)&&stParty(g).id===pid);}
 function activeParty(){return stParty(curSt());}
 function activeDish(){return stDish(curSt());}
@@ -2222,7 +2293,7 @@ function partySeats(p,ts,pos){
   if(ts.some(t=>FURN[t.key].for)){const cs=ts.flatMap(t=>cellsOf(t));const xs=cs.map(c=>c[0]),ys=cs.map(c=>c[1]);const x0=Math.min(...xs),y0=Math.min(...ys);
     return `<div class="ptag ${p.type==='giant'?'giant':''}" style="${pos(x0,y0,Math.max(...xs)-x0+1,Math.max(...ys)-y0+1)}">${partyTag(p)}</div>`;}
   const cells=ts.flatMap(t=>cellsOf(t)).sort((a,b)=>a[1]-b[1]||a[0]-b[0]);const per=cells.map(()=>[]);
-  p.faces.forEach((f,i)=>per[i%cells.length].push(isKidIdx(p,i)?`<span class="kidf">${f}</span>`:f));
+  p.faces.forEach((f,i)=>{if(p.away&&p.away[i])return;per[i%cells.length].push(isKidIdx(p,i)?`<span class="kidf">${f}</span>`:f);});
   const st=partyStatus(p);let first=true;
   return cells.map((c,i)=>{if(!per[i].length)return '';const extra=first?`${st.icon?`<span class="pst">${st.icon}</span>`:''}${st.bar}`:'';first=false;
     return `<div class="pseat ${per[i].length>1?'many':''}" style="${pos(c[0],c[1])}"><span class="pf">${per[i].join('')}</span>${extra}</div>`;}).join('');
@@ -2289,12 +2360,12 @@ function renderTickets(){
   const ws=S.parties.filter(p=>p.state==='waiting');
   const keyRecs=[...new Set(ws.flatMap(p=>p.dishes.filter(d=>!d.done&&!(d.mystery&&!d.solved)).map(d=>d.rec)))];
   $('#tickets').innerHTML=ws.length?ws.map(p=>{const T=TYPES[p.type],f=p.pat/p.maxPat;
-    return `<div class="ticket tk2 ${partyOnPlates(p.id).length?'on':''}" data-ticket="${p.id}" role="button" tabindex="0"><div class="tf">${facesHTML(p)}</div><div class="dishes">${p.dishes.map(d=>`${d.mystery&&!d.solved?`<span class="dish myst" title="A mystery! Tap for clues">❓</span>`:`<span class="dish ${d.done?'done':''} ${isSpec(d.rec)?'spec':''} ${d.wish&&!d.done?'wish':''}" title="${REC[d.rec].name}${isSpec(d.rec)?' — today\'s special':''}${d.wish?' — wish: '+WISHTXT[d.wish]:''}">${REC[d.rec].emoji}</span>`}`).join('')}</div><span class="bar"><i style="width:${f*100}%;background:${barColor(f)}"></i></span><button class="cant" data-cancel="${p.id}" title="Can't make it — swap" aria-label="Can't make it — swap">🔄</button></div>`;}).join('')
+    return `<div class="ticket tk2 ${partyOnPlates(p.id).length?'on':''}" data-ticket="${p.id}" role="button" tabindex="0"><div class="tf">${facesHTML(p)}</div><div class="dishes">${p.dishes.map(d=>`${d.mystery&&!d.solved?`<span class="dish myst" title="A mystery! Tap for clues">❓</span>`:`<span class="dish ${d.done?'done':''} ${isSpec(d.rec)?'spec':''} ${d.wish&&!d.done?'wish':''} ${d.cooking?(S.kitchen.pieces.some(a=>a.cook&&a.cook.pid===p.id&&a.cook.rec===d.rec&&a.cook.ready)?'cready':'cooking'):''}" title="${REC[d.rec].name}${isSpec(d.rec)?' — today\'s special':''}${d.wish?' — wish: '+WISHTXT[d.wish]:''}">${REC[d.rec].emoji}</span>`}`).join('')}</div><span class="bar"><i style="width:${f*100}%;background:${barColor(f)}"></i></span><button class="cant" data-cancel="${p.id}" title="Can't make it — swap" aria-label="Can't make it — swap">🔄</button></div>`;}).join('')
       +(keyRecs.length?`<div class="tkey"><b>Key</b>${keyRecs.map(r=>`<div><span>${REC[r].emoji}</span>${REC[r].name}<i class="tki">${Object.entries(piecesNeeded(r)).map(([k,n])=>ie(k)+(n>1?'<small>×'+n+'</small>':'')).join(' ')}</i></div>`).join('')}</div>`:'')
     :`<span class="empty">${S.phase==='open'?'No orders yet. Seat some guests!':'Orders show up here once you open.'}</span>`;
 }
 function renderDishInfo(){
-  for(const g of ['plate','plate2']){const b=$('#serve-'+g);if(b){const dd=stDish(g);b.disabled=!(dd&&plateMatches(dd.rec,g));}
+  for(const g of ['plate','plate2']){const b=$('#serve-'+g);if(b){const dd=stDish(g);b.disabled=!(dd&&plateMatches(dd.rec,g));b.textContent=dd?cookLabel(dd.rec):'🛎️ Serve';}
     const t=$('#pt-'+g);if(t){const dd=stDish(g),pp=stParty(g);t.textContent=dd?` · ${REC[dd.rec].emoji} for ${dd.face||faces(pp)}`:' · empty';}}
   $('#st-plate2').hidden=!S.up.plate2;{const a=S.autoLoad!==false;const b=$('#alTog');b.textContent=a?'🔄 Auto-load orders: ON':'✋ Auto-load orders: OFF';b.classList.toggle('on',a);}
   document.querySelectorAll('.pstation').forEach(e=>e.classList.toggle('sel',e.dataset.st===curSt()));$('#plates').classList.toggle('two',stations().length>1);
@@ -2305,16 +2376,17 @@ function renderDishInfo(){
   $('#dishinfo').innerHTML=`${stations().length>1?`<b>Plate ${curSt()==='plate'?1:2}:</b> `:''}Making <b>${r.emoji} ${r.name}</b> for ${d.face?dishFace(d):facesHTML(p)} <small>(${p.dishes.filter(x=>x.done).length+1} of ${p.dishes.length})</small><br>`+
     Object.keys(need).map(k=>{const onPlate=S[curSt()].pieces.filter(q=>q.key===k).length;const short=uses(k)+onPlate<need[k];return `<span class="need ${short?'short':''}" title="${ING[k].name}${short?' — not enough on the shelves':''}">${ING[k].emoji}×${need[k]}</span>`;}).join('');
 }
-function renderKitchen(){
-  const d=activeDish();const need=new Set(d?REC_APPL[d.rec]||[]:[]);
+function renderKitchen(){ensureKit();
+  const d=activeDish();const want=d?cookOf(d.rec):null;const okNow=!!(d&&plateMatches(d.rec,curSt()));
   paintGrid('kitchen',{max:96,color:p=>APPL[p.key].color,
-    label:p=>`<span class="ae">${APPL[p.key].emoji}</span><span class="an">${APPL[p.key].name}</span>`,
-    icon:p=>`<span class="ae">${APPL[p.key].emoji}</span>`,pcls:p=>(need.has(p.key)?'needed':'')+(offAppl(p.key)?' off':'')});
-  const names=d?[...need].map(a=>APPL[a].emoji+' '+APPL[a].name).join(' + '):'';
-  $('#kitchenNote').textContent=d?`This dish uses: ${names}`:'';
+    label:p=>`<span class="ae">${APPL[p.key].emoji}</span><span class="an">${APPL[p.key].name}</span>${ckHTML(p)}`,
+    icon:p=>`<span class="ae">${APPL[p.key].emoji}</span>`,
+    pcls:p=>(p.key===want&&!p.cook?(okNow?'needed go':'needed'):'')+(offAppl(p.key)?' off':'')+(p.cook?(p.cook.burnt?' burnt':p.cook.ready?' ready':' busy'):'')});
+  $('#kitchenNote').innerHTML=d?`${APPL[want].emoji} The ${REC[d.rec].name.toLowerCase()} cooks in the <b>${APPL[want].name.toLowerCase()}</b>${cookTime(want)?` (${cookTime(want)} seconds)`:' — no waiting'}.`:'';
   const owned=[...new Set(S.kitchen.pieces.map(p=>p.key))];
-  $('#applList').innerHTML=owned.map(a=>{const A=APPL[a];const dishes=Object.keys(REC_APPL).filter(r=>inShop(r)&&REC_APPL[r].includes(a)&&S.rec[r]&&S.rec[r].unlocked).map(r=>REC[r].emoji).join('');
-    return `<div class="achip ${need.has(a)?'on':''}"><span class="ad" style="background:${A.color}">${A.emoji}</span><span><b>${A.name}</b><small>${dishes?'for '+dishes:'—'}</small></span></div>`;}).join('');
+  $('#applList').innerHTML=owned.map(a=>{const A=APPL[a],n=S.kitchen.pieces.filter(q=>q.key===a).length;const dishes=Object.keys(REC).filter(r=>inShop(r)&&!REC[r].variant&&S.rec[r]&&S.rec[r].unlocked&&cookOf(r)===a).map(r=>REC[r].emoji).join('');
+    return `<div class="achip ${a===want?'on':''}"><span class="ad" style="background:${A.color}">${A.emoji}</span><span><b>${A.name}${n>1?' ×'+n:''}</b><small>${dishes?'for '+dishes:a==='sink'?'washing up':'—'}${cookTime(a)?` · ${cookTime(a)}s`:''}</small></span></div>`;}).join('');
+  renderCookStrip();
 }
 function renderPlate(){for(const g of stations())renderOnePlate(g);}
 function renderOnePlate(g){
@@ -2373,7 +2445,7 @@ function renderUpgrades(){
   if(pl2<PLATE_COST.length){const nx=pl2+1;const unl=Object.keys(REC).filter(k=>inShop(k)&&!REC[k].variant&&REC[k].plate===nx).map(k=>REC[k].emoji+' '+REC[k].name).join(', ');
     h+=urow(nx===1?'🥘':'🍱',`${PLATE_NAMES[nx]} (${PLATE_SIZES[nx].join('×')})`,`Unlocks ${unl}.${nx===1?' Adds pizza dough to the truck.':''}`,`<button class="btn small go" data-act="growPlate">Buy $${PLATE_COST[pl2]}</button>`);}
   {const ml=S.up.menuSlots||0;h+=urow('📋',`Bigger menu board${ml?` (level ${ml})`:''}`,`Every menu section holds ${ml<MENU_UP.length?`one more dish (${2+ml}→${3+ml} starters, ${4+ml}→${5+ml} entrées, and so on)`:'as many dishes as it can — fully upgraded!'}.`,ml<MENU_UP.length?`<button class="btn small go" data-act="growMenu">Buy $${MENU_UP[ml]}</button>`:'<button class="btn small" disabled>Max</button>');}
-  h+=urow('🍽️','Second plate','Build two dishes at the same time. Tap a plate to pick it, then tap an order ticket to load it.',S.up.plate2?'<button class="btn small" disabled>Owned</button>':'<button class="btn small go" data-act="buyPlate2">Buy $150</button>');
+  {const ty=[...new Set(S.kitchen.pieces.map(q=>q.key))].filter(a=>cookTime(a));h+=urow('🍳','More appliances','Each appliance cooks one dish at a time. Buy another one to cook two of the same thing at once!',ty.map(a=>`<button class="btn small go" data-act="buyAppl" data-arg="${a}" data-tip="Another ${APPL[a].name.toLowerCase()} · $${extraCost(a)}">＋${APPL[a].emoji} $${extraCost(a)}</button>`).join(' '));}
   h+='<h3>Recipes</h3><p class="hint" style="margin:0 0 6px">Improve a recipe to sell it for more. Choose what\'s on today\'s menu in the 📋 Menu tab.</p>';
   h+=`<p class="hint" style="margin:0 0 6px">🏆 Improve a dish ${GOLD_UPS} times and it turns <b>golden</b> — it retires to the 🏛️ museum (visitors pay to see it every day) and a fancier recipe unlocks.</p>`;
   for(const k in REC){if(!inShop(k))continue;const r=REC[k],s=S.rec[k];if(s.gold||(r.variant&&!s.earned))continue;
@@ -2425,19 +2497,19 @@ function renderMenuTab(){
     if(prep)btn=`<button class="mbtn ${inM?'on':''}" data-act="toggleMenu" data-arg="${k}">${inM?'✓ On today\'s menu':'＋ Add to menu'}</button>`;
     else if(inM)btn=`<button class="mbtn ${so[k]?'sold':'on'}" data-act="soldOut" data-arg="${k}">${so[k]?'🚫 Sold out — tap to bring back':'✓ Serving — tap if sold out'}</button>`;
     else btn=`<button class="mbtn" disabled>Not on today's menu</button>`;
-    return `<div class="mcard ${inM?'in':''} ${so[k]&&inM?'sold':''} ${st.isNew?'isnew':''} ${isp?'spec':''}">${isp?'<span class="spectag">⭐ Special</span>':st.isNew?'<span class="newtag">New!</span>':''}<div class="mtop"><span class="me">${r.emoji}</span><b>${r.name}${r.secret?'<span class="sectag">🤫</span>':''}${st.level>1?`<span class="lvstars">${'★'.repeat(st.level-1)}</span>`:''}</b><em>${inM?(so[k]?'SOLD OUT':priceTag(k)):'$'+recipePrice(k)}${isp?`<i class="specx">×${specMult(k)}</i>`:''}</em></div><div class="mings">${ings}</div>${btn}</div>`;};
+    return `<div class="mcard c-${r.course} ${r.kid?'kid':''} ${inM?'in':''} ${so[k]&&inM?'sold':''} ${st.isNew?'isnew':''} ${isp?'spec':''}">${isp?'<span class="spectag">⭐ Special</span>':st.isNew?'<span class="newtag">New!</span>':''}<div class="mtop"><span class="me">${r.emoji}</span><b>${r.name}${r.secret?'<span class="sectag">🤫</span>':''}${st.level>1?`<span class="lvstars">${'★'.repeat(st.level-1)}</span>`:''}</b><em>${inM?(so[k]?'SOLD OUT':priceTag(k)):'$'+recipePrice(k)}${isp?`<i class="specx">×${specMult(k)}</i>`:''}</em></div><div class="mings">${ings}${(()=>{const a=cookOf(k);return `<span class="mi ap" title="Made in the ${APPL[a].name.toLowerCase()}">${APPL[a].emoji}${cookTime(a)?' '+cookTime(a)+'s':''}</span>`;})()}</div>${btn}</div>`;};
   $('#menuTab').innerHTML=
     `<button class="cbbtn" data-act="cookbook">📖 Secret Cookbook <small>${cbFound()} found</small></button>`+
     (prep&&np?`<button class="pbanner" data-act="setPrices">✏️ <b>Set today's menu prices</b><span>${np} to go — tap here</span></button>`:'')+
     `<p class="hint" style="margin:0 0 10px">${prep?'Pick the dishes you want to cook today, then set their prices. You can change this every morning.':'The menu is set for today. If you run out of something, tap a dish to mark it sold out.'}</p>`+
     `<div class="specrow">`+[sp.m,sp.k].filter(Boolean).map(k=>{const inM=menuList().includes(k);return `<div class="specban ${REC[k].kid?'kid':''}"><span class="sbe">${REC[k].emoji}</span><div class="sbt"><small>${REC[k].kid?'🧒 Kids\' special today':'⭐ Today\'s special'}</small><b>${REC[k].name}</b><span>About ${Math.round(specChance(k,REC[k].kid)*100)}% of guests will order it. Pays <b>×${specMult(k)}</b> today.</span></div>${inM?'<em class="ok">✓ On the menu</em>':prep?`<button class="btn small go" data-act="toggleMenu" data-arg="${k}">＋ Add it</button>`:'<em class="no">Not on the menu today</em>'}</div>`;}).join('')+`</div><p class="spechint">⭐ Specials change every day. Every ★ upgrade makes a special pay more <i>and</i> get ordered more.</p>`+
     (()=>{const tm=specFor(S.day+1,false);return tm&&tm!==sp.m?`<p class="spectm">🔮 Tomorrow's special: <b>${REC[tm].emoji} ${REC[tm].name}</b> — upgrade it in ⬆️ Upgrades to earn even more.</p>`:'';})()+
-    ['','k'].map(kp=>{const body=COURSES.map(([c,em,nm])=>{const sec=kp+c,u=unl.filter(k=>secOf(k)===sec);if(!u.length)return '';const n=secCount(sec),m=secSlots(sec);
-      return `<div class="msec2"><h3>${em} ${nm} <span class="slots ${n>m?'over':n===m?'full':''}">${n} of ${m} on the menu</span></h3><div class="mgrid">${[...u.filter(k=>isSpec(k)),...u.filter(k=>!isSpec(k)&&S.rec[k].isNew),...u.filter(k=>!isSpec(k)&&!S.rec[k].isNew)].map(card).join('')}</div></div>`;}).join('');return body?`<h2 class="mhead ${kp?'kids':''}">${kp?'🧒 Kids\' menu':'📋 Main menu'}</h2>`+body:'';}).join('')+
+    `<div class="mbook"><div class="mbtitle"><small>✦ ✦ ✦</small><b>${shopName(shopId())}</b><span>~ Today's Menu ~</span></div>`+['','k'].map(kp=>{const body=COURSES.map(([c,em,nm])=>{const sec=kp+c,u=unl.filter(k=>secOf(k)===sec);if(!u.length)return '';const n=secCount(sec),m=secSlots(sec);
+      return `<div class="msec2 c-${c}"><h3>${em} ${nm} <span class="slots ${n>m?'over':n===m?'full':''}">${n} of ${m} on the menu</span></h3><div class="mgrid">${[...u.filter(k=>isSpec(k)),...u.filter(k=>!isSpec(k)&&S.rec[k].isNew),...u.filter(k=>!isSpec(k)&&!S.rec[k].isNew)].map(card).join('')}</div></div>`;}).join('');return body?`<h2 class="mhead ${kp?'kids':''}">${kp?'🧒 Kids\' Menu':'Main Menu'}</h2>`+body:'';}).join('')+'</div>'+
     (locked.length?`<button class="lockbtn" data-act="lockList">🔒 Dishes you can still unlock (${locked.length}) ${window.LOCKOPEN?'▲ hide':'▼ show'}</button>${window.LOCKOPEN?`<div class="mlock">${locked.map(k=>`<span title="${lockText(k)} See Upgrades.">🔒 ${REC[k].emoji} ${REC[k].name} <small>${lockText(k).replace(/^Needs /,'needs ').replace(/\.$/,'')}</small></span>`).join('')}</div>`:''}`:'');
 }
 function renderTabs(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab||(b.dataset.arg==='town'&&(tab==='farm'||tab==='museum'))));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts','town','museum'].forEach(t=>{const e=$('#tab-'+t);if(e)e.hidden=t!==tab;});}
-function renderLive(){if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
+function renderLive(){cookLive();if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
 function renderShelf(){const t=S.trophies||[],el=$('#shelf');el.hidden=!t.length;el.innerHTML=t.map(k=>`<span title="${TROPHIES[k].name}">${TROPHIES[k].emoji}</span>`).join('');}
 function renderAll(){if(S){ensureFarm();ensureShops();if(CUR&&!booting)armBack();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderMuseum();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
 
@@ -2537,9 +2609,9 @@ const EVENTS=[
  {id:'special',good:1,em:'👨‍🍳',area:'Food',t:'Chef\'s special',d:e=>`${dn(e.dish)} is today's chef's special. Every one you serve earns double!`,go(){const m=menuList();S.ev.dish=m[rint(0,m.length-1)];}},
  {id:'trial',good:1,em:'📜',area:'Food',t:'New recipe card',d:e=>`A friend lent you their recipe for ${dn(e.dish)}. It's on your menu just for today — its ingredients are on the truck.`,
    go(){const c=Object.keys(REC).filter(k=>inShop(k)&&!REC[k].variant&&!REC[k].secret&&!S.rec[k].gold&&!S.rec[k].unlocked&&(!REC[k].plate||S.up.plate>=REC[k].plate));if(!c.length)return false;S.ev.dish=c[rint(0,c.length-1)];}},
- {id:'stove',good:0,day:4,em:'🔥',area:'Kitchen',t:'Broken stove',d:e=>`The stove won't turn on. These are sold out today: ${e.locked.map(dn).join(', ')}.`,go(){if(!lockDishes(k=>(REC_APPL[k]||[]).includes('stove')))return false;}},
+ {id:'stove',good:0,day:4,em:'🔥',area:'Kitchen',t:'Broken stove',d:e=>`The stove won't turn on. These are sold out today: ${e.locked.map(dn).join(', ')}.`,go(){if(!lockDishes(k=>cookOf(k)==='stove'))return false;}},
  {id:'flicker',good:0,day:4,em:'⚡',area:'Kitchen',t:'Power flicker',d:e=>`The ${APPL[e.appl].emoji} ${APPL[e.appl].name.toLowerCase()} lost power. Sold out today: ${e.locked.map(dn).join(', ')}.`,
-   go(){const own=shuffle([...new Set(S.kitchen.pieces.map(p=>p.key))].filter(a=>a!=='sink'));for(const a of own){S.ev.appl=a;if(lockDishes(k=>(REC_APPL[k]||[]).includes(a)))return;}return false;}},
+   go(){const own=shuffle([...new Set(S.kitchen.pieces.map(p=>p.key))].filter(a=>a!=='sink'&&cookTime(a)));for(const a of own){S.ev.appl=a;if(lockDishes(k=>cookOf(k)===a))return;}return false;}},
  {id:'extracold',good:1,em:'❄️',area:'Storage',t:'Extra cold night',d:()=>'The fridge is running extra cold. Fridge food won\'t lose a day tonight.'},
  {id:'crate',good:1,em:'📦',area:'Pantry',t:'Found a crate',d:e=>`You found a forgotten crate of ${ING[e.ing].emoji} ${ING[e.ing].name.toLowerCase()}. It\'s already put away!`,
    go(){const opts=shuffle(Object.keys(menuNeeds()));for(const k of opts){for(const g of coldSpots(k)){const sp=findSpot(g,ING[k].basket);if(sp){addPiece(g,'basket',k,sp.x,sp.y,sp.shape);S.ev.ing=k;return;}}}return false;}},
@@ -3338,7 +3410,7 @@ function closeDay(early){
   farmNight(spoiled);
   S.parties.forEach(p=>{if(p.tables&&p.state!=='walking')walkOut(p);});document.querySelectorAll('#f-dining [id^="w-"]').forEach(e=>e.remove());
   S.stats.kicked=kicked;S.stats.kickedEating=ke;S.parties=[];S.active=null;S.sel=null;
-  ['plate','plate2'].forEach(g=>{if(S[g]){S[g].pieces.forEach(p=>refund(p.key));S[g].pieces=[];}});S.st={};
+  ['plate','plate2'].forEach(g=>{if(S[g]){S[g].pieces.forEach(p=>refund(p.key));S[g].pieces=[];}});S.st={};clearCooks();
   const mreps=otherShops().filter(id=>S.sent[id]).map(runManaged).filter(Boolean);S.sent={};
   otherShops().forEach(id=>{const sh=S.shops[id];if(!sh)return;sh.truck.pieces=sh.truck.pieces.filter(b=>{b.days--;if(b.days<=0){spoiled.push(`${ING[b.key].emoji} ${ING[b.key].name} on the ${SHOPS[id].name} truck — too old`);return false;}return true;});});
   const mday=museumDay();
@@ -3692,26 +3764,27 @@ function arcGag(i,player){const k=S.arcade[i];if(!k)return;const f=FURN[k];if(pl
   if(f.sp==='recolor'&&player){tableRecolor(randTable());renderDining();}
   arcFloat(i,[f.fx,f.emoji,f.fx],true);}
 const SODA=2;
-function sodaVisit(p){if(!p.tables)return;const c=clusterCenter(p.tables);let n=0;
+function setAway(p,i,on){if(!p||i==null)return;p.away=p.away||{};if(on)p.away[i]=1;else delete p.away[i];if(S&&S.parties.includes(p))renderDining();}
+function sodaVisit(p){if(!p.tables)return;const c=clusterCenter(p.tables);let n=0;const used=new Set(p.busy||[]);
   [...new Set(S.dining.pieces.filter(q=>FURN[q.key]&&FURN[q.key].soda).map(q=>q.key))].forEach(key=>{const F=FURN[key],pr=F.dprice||SODA,dr=F.drink||'🥤',sk=F.adults?'coffee':'soda';const ms=S.dining.pieces.filter(q=>q.key===key);
-  const who=(p.faces||[]).map((f,i)=>({f,kid:isKidIdx(p,i)})).filter(w=>F.adults?(!w.kid&&Math.random()<.35):Math.random()<(w.kid?.45:.3)).slice(0,3);if(!who.length)return;
+  const who=(p.faces||[]).map((f,i)=>({f,i,p,kid:isKidIdx(p,i)})).filter(w=>!used.has(w.i)&&(F.adults?(!w.kid&&Math.random()<.35):Math.random()<(w.kid?.45:.3))).slice(0,3);if(!who.length)return;who.forEach(w=>used.add(w.i));
   const m=ms.reduce((a,b)=>Math.abs(b.x-c.x)+Math.abs(b.y-c.y)<Math.abs(a.x-c.x)+Math.abs(a.y-c.y)?b:a);
   who.forEach(w=>{S.money+=pr;S.stats.earned+=pr;S.stats[sk]=(S.stats[sk]||0)+pr;setTimeout(()=>sodaWalk(w,c,m,dr,pr),900+(n++)*1400);});});}
-function sodaWalk(w,from,m,dr,pr){dr=dr||'🥤';pr=pr||SODA;const box=$('#f-dining');if(!box||!Element.prototype.animate||!S.dining.pieces.includes(m))return;const el=document.createElement('div');el.className='walker sodaw'+(w.kid?' kid':'');el.innerHTML=`<span>${w.f}</span>`;box.appendChild(el);
+function sodaWalk(w,from,m,dr,pr){dr=dr||'🥤';pr=pr||SODA;const box=$('#f-dining');if(!box||!Element.prototype.animate||!S.dining.pieces.includes(m))return;const el=document.createElement('div');el.className='walker sodaw'+(w.kid?' kid':'');el.innerHTML=`<span>${w.f}</span>`;box.appendChild(el);setAway(w.p,w.i,true);
   const to={x:m.x,y:m.y},a=cellPct(from.x,from.y),b=cellPct(to.x,to.y),d=Math.max(800,(Math.abs(to.x-from.x)+Math.abs(to.y-from.y))*380);
   el.style.left=a.left;el.style.top=a.top;el.animate([{left:a.left,top:a.top},{left:b.left,top:b.top}],{duration:d,fill:'forwards'});
   setTimeout(()=>{floatText(m.id,`${dr} +$${pr}`);const pc=document.querySelector(`#g-dining .pc[data-pid="${m.id}"] .blk`);if(pc&&pc.animate)pc.animate([{transform:'scale(1)'},{transform:'scale(1.15) rotate(-6deg)'},{transform:'scale(1.1) rotate(6deg)'},{transform:'scale(1)'}],{duration:700});},d);
   setTimeout(()=>{el.innerHTML=`<span>${w.f}${dr}</span>`;el.animate([{left:b.left,top:b.top},{left:a.left,top:a.top}],{duration:d,fill:'forwards'});},d+1100);
-  setTimeout(()=>el.remove(),2*d+1300);}
+  setTimeout(()=>{el.remove();setAway(w.p,w.i,false);},2*d+1300);}
 function arcWatch(){ACT.tab('dining');renderAll();setTimeout(()=>{const e=$('#arcade');if(e)e.scrollIntoView({block:'center',behavior:'smooth'});},60);}
 function arcNotify(faces){const t=document.createElement('div');t.className='toast arcnote';t.innerHTML=`<span>🕹️ ${faces.join(' ')} ${faces.length>1?'are':'is'} heading to the arcade!</span><button type="button">👀 Watch</button>`;
   t.querySelector('button').onclick=()=>{arcWatch();t.remove();};$('#toasts').appendChild(t);while($('#toasts').children.length>3)$('#toasts').firstChild.remove();setTimeout(()=>t.remove(),6500);}
 let ARC_N=0;
 function arcHall(){const h=document.querySelector('.arc-hall');if(h)h.innerHTML=ARC_N?`<span class="arc-busy">🕹️ ${ARC_N} playing</span>`:'';}
 const ARC_SAY=['Wheee!','Hee hee!','Again!','Whoa!','So funny!','Ooooh!','Haha!','Cool!','Yay!','One more!'];
-function arcWalk(face,kid,stops,delay){const box=$('#f-arcade');if(!box||!Element.prototype.animate)return;
+function arcWalk(face,kid,stops,delay,pp,pi){const box=$('#f-arcade');if(!box||!Element.prototype.animate)return;
   const near=i=>{const [x,y]=arcPos(i);return [x+(50-x)*.4,y+(50-y)*.4];};const seg=1100,stay=1500;
-  setTimeout(()=>{ARC_N++;arcHall();const e=document.createElement('div');e.className='arc-guest'+(kid?' kid':'');e.textContent=face;e.style.left='50%';e.style.top='-6%';box.appendChild(e);
+  setTimeout(()=>{ARC_N++;arcHall();setAway(pp,pi,true);const e=document.createElement('div');e.className='arc-guest'+(kid?' kid':'');e.textContent=face;e.style.left='50%';e.style.top='-6%';box.appendChild(e);
     const go=(x,y,d)=>{e.animate([{left:e.style.left,top:e.style.top},{left:x+'%',top:y+'%'}],{duration:d,fill:'forwards',easing:'ease-in-out'});e.style.left=x+'%';e.style.top=y+'%';};
     let t=0;const at=(ms,fn)=>setTimeout(fn,ms);
     at(t,()=>go(50,22,seg));t+=seg;
@@ -3721,10 +3794,10 @@ function arcWalk(face,kid,stops,delay){const box=$('#f-arcade');if(!box||!Elemen
         const b=document.createElement('div');b.className='nsay arcsay';b.textContent=ARC_SAY[rint(0,ARC_SAY.length-1)];b.style.left=x+'%';b.style.top=`calc(${y}% - 26px)`;box.appendChild(b);setTimeout(()=>b.remove(),1300);
         const c=document.createElement('div');c.className='ngag coin';c.textContent='+$1';c.style.left=x+'%';c.style.top=y+'%';box.appendChild(c);
         c.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:'translate(-50%,-260%)',opacity:0}],{duration:1300,fill:'forwards'});setTimeout(()=>c.remove(),1400);});t+=stay;});
-    at(t,()=>go(50,22,seg));t+=seg;at(t,()=>go(50,-8,seg));t+=seg;at(t,()=>{e.remove();ARC_N=Math.max(0,ARC_N-1);arcHall();});},delay);}
+    at(t,()=>go(50,22,seg));t+=seg;at(t,()=>go(50,-8,seg));t+=seg;at(t,()=>{e.remove();ARC_N=Math.max(0,ARC_N-1);arcHall();setAway(pp,pi,false);});},delay);}
 function arcadeVisit(p){if(!S.arcade)return;const slots=arcSlots();if(!slots.length)return;
-  const who=(p.faces||[]).map((f,i)=>({f,kid:isKidIdx(p,i)})).filter(w=>Math.random()<(w.kid?.55:.2));if(!who.length)return;
-  let total=0;who.forEach((w,wi)=>{const n=rint(1,Math.min(5,slots.length));total+=n;arcWalk(w.f,w.kid,[...slots].sort(()=>Math.random()-.5).slice(0,n),2200+wi*1600);});
+  const who=(p.faces||[]).map((f,i)=>({f,i,kid:isKidIdx(p,i)})).filter(w=>Math.random()<(w.kid?.55:.2));if(!who.length)return;p.busy=who.map(w=>w.i);
+  let total=0;who.forEach((w,wi)=>{const n=rint(1,Math.min(5,slots.length));total+=n;arcWalk(w.f,w.kid,[...slots].sort(()=>Math.random()-.5).slice(0,n),2200+wi*1600,p,w.i);});
   S.money+=total;S.stats.earned+=total;S.stats.arcade=(S.stats.arcade||0)+total;renderArcade();arcNotify(who.map(w=>w.f));}
 /* ---- keep the game safe: autosave, back-button guard, pause when hidden ---- */
 let BACKTRAP=false,LEAVING=false;
@@ -3841,7 +3914,7 @@ function swapPick(d,avail,taken){const old=d.rec,r=REC[old],kid=!!r.kid,a=pieces
   return pool.sort((x,y)=>score(y)-score(x))[0];}
 function swapOrder(p){
   const avail=menuList().filter(k=>!(S.soldOut&&S.soldOut[k]));
-  const left=p.dishes.filter(d=>!d.done);
+  const left=p.dishes.filter(d=>!d.done&&!d.cooking);
   const onPl=partyOnPlates(p.id).map(g=>stDish(g)).filter(Boolean);
   let targets=left.filter(d=>!canMake(d.rec));if(!targets.length)targets=left.filter(d=>onPl.includes(d));if(!targets.length)targets=left.slice(0,1);
   const msgs=[],taken=[];
@@ -3927,13 +4000,6 @@ function regAnswer(n){
 }
 function checkout(p){const b=p.bill;p.tnum=tableNum(p.tables[0]);S.money+=b.base+b.tip;S.stats.earned+=b.base+b.tip;S.stats.tips+=b.tip;S.stats.happy++;
   floatText(p.tables[0],`+$${b.base+b.tip}`);if(p.type==='dragon')toast('🐉 The dragon paid with a pile of gold coins!');receipt(p,'paid');walkOut(p);removeParty(p);}
-function serve(g){g=g||curSt();
-  const p=stParty(g),d=stDish(g);if(!d)return toast('Pick an order ticket first.');
-  if(!plateMatches(d.rec,g))return toast('The plate doesn\'t match the outline yet.');
-  const fresh=S[g].pieces.some(q=>q.farm),premN=new Set(S[g].pieces.filter(q=>q.prem).map(q=>q.key)).size;S[g].pieces=[];S.st[g]=null;d.done=true;d.fresh=fresh;d.price=d.swapped?Math.round(recipePrice(d.rec)*0.75):recipePrice(d.rec);if(evIs('special')&&S.ev.dish===d.rec)d.price*=2;if(isSpec(d.rec)){d.price=Math.round(d.price*specMult(d.rec));d.spec=true;floatText(p.tables[0],'⭐');}if(premN){d.price+=PREM_BONUS*premN;d.prem=premN;}cbServe(p,d,premN,fresh);S.stats.dishes++;
-  if(p.dishes.every(x=>x.done))finishParty(p);else if(S.autoLoad!==false)assign(g,p.id);
-  autoFill();
-}
 let lastT=performance.now(),acc=0;
 function tick(){
   const now=performance.now();let dt=Math.min(.5,(now-lastT)/1000);lastT=now;
@@ -3948,6 +4014,7 @@ function tick(){
       else if(p.state==='waiting'){p.pat-=dt;if(p.pat<=0)leaveAngry(p,'gave up waiting for food');}
       else if(p.state==='eating'){p.t-=dt;if(p.t<=0){if(mathOn()){p.state='paying';S.payQ=S.payQ||[];S.payQ.push(p.id);}else checkout(p);}}
     }
+    cookTick(dt);
     if(S.up.host)autoSeat();
     if((evIs('goldstar')||evIs('inspect'))&&!S.ev.done&&S.clock>=S.ev.at){S.ev.done=true;inspection();}
     if(S.payQ&&S.payQ.length&&!modalOpen())openRegister();
@@ -3983,17 +4050,17 @@ document.addEventListener('pointerdown',e=>{
 document.addEventListener('pointermove',e=>{
   if(WS){e.preventDefault();if(waterAt(e.clientX,e.clientY))renderAll();return;}
   if(PD){e.preventDefault();if(PD.fence!=null)fenceDragMove(e);else landDragMove(e);return;}
-  if(D&&D.mode==='new'&&D.kind==='furn'&&FURN[D.key]&&FURN[D.key].nite){const el=document.elementsFromPoint(e.clientX,e.clientY).find(x=>x.classList&&x.classList.contains('arc-tbl'));document.querySelectorAll('.arc-tbl.hot').forEach(x=>x.classList.remove('hot'));D.arc=el&&!el.classList.contains('has')?+el.dataset.slot:null;if(el&&D.arc!=null)el.classList.add('hot');}
+  if(D&&D.mode==='new'&&D.kind==='furn'&&FURN[D.key]&&FURN[D.key].nite){const el=document.elementsFromPoint(e.clientX,e.clientY-((D&&D.lift)||0)).find(x=>x.classList&&x.classList.contains('arc-tbl'));document.querySelectorAll('.arc-tbl.hot').forEach(x=>x.classList.remove('hot'));D.arc=el&&!el.classList.contains('has')?+el.dataset.slot:null;if(el&&D.arc!=null)el.classList.add('hot');}
   if(!D)return;
   if(!D.started){
     if(Math.hypot(e.clientX-D.sx,e.clientY-D.sy)<7)return;
     if(D.mode==='piece'&&D.kind==='furn'&&partyAt(D.p.id)){toast('Guests are sitting there. Wait until they leave to move or separate it.');D=null;return;}
     if(D.mode==='new'&&D.kind==='food'&&!uses(D.key)){toast(`Out of ${ING[D.key].name.toLowerCase()}. Buy more from the truck.`);D=null;return;}
-    D.started=true;makeGhost();document.querySelectorAll(`[data-pid="${D.mode==='piece'?D.p.id:-1}"]`).forEach(el=>el.classList.add('dim'));
+    D.started=true;D.lift=e.pointerType==='mouse'?0:Math.round(D.cs*1.2+26);makeGhost();document.querySelectorAll(`[data-pid="${D.mode==='piece'?D.p.id:-1}"]`).forEach(el=>el.classList.add('dim'));
   }
-  const g=$('.ghost');if(g)g.style.transform=`translate(${e.clientX-(D.gx+.5)*D.cs}px,${e.clientY-(D.gy+.5)*D.cs}px)`;
+  const lf=D.lift||0;const g=$('.ghost');if(g)g.style.transform=`translate(${e.clientX-(D.gx+.5)*D.cs}px,${e.clientY-lf-(D.gy+.5)*D.cs}px)`;
   AS.x=e.clientX;AS.y=e.clientY;if(!AS.raf)AS.raf=requestAnimationFrame(autoScroll);
-  hitTest(e.clientX,e.clientY);drawPreview();
+  hitTest(e.clientX,e.clientY-lf);drawPreview();
 });
 const AS={x:0,y:0,raf:null};
 function autoScroll(){
@@ -4002,7 +4069,7 @@ function autoScroll(){
   const bar=document.querySelector('.layout>.tabs');if(bar&&getComputedStyle(bar).position==='fixed')bot=bar.getBoundingClientRect().top;
   const hd=document.querySelector('.top');if(hd)top=Math.max(0,hd.getBoundingClientRect().bottom);
   let dy=0;if(AS.y>bot-70)dy=Math.min(24,(AS.y-(bot-70))/3+4);else if(AS.y<top+60)dy=-Math.min(24,(top+60-AS.y)/3+4);
-  if(dy){const before=window.scrollY;window.scrollBy(0,dy);if(window.scrollY!==before){hitTest(AS.x,AS.y);drawPreview();}}
+  if(dy){const before=window.scrollY;window.scrollBy(0,dy);if(window.scrollY!==before){hitTest(AS.x,AS.y-((D&&D.lift)||0));drawPreview();}}
   AS.raf=requestAnimationFrame(autoScroll);
 }
 document.addEventListener('pointerup',()=>{if(WS){WS=null;return;}if(PD){if(PD.fence!=null)fenceDrop();else landDrop();return;}if(!D)return;const d=D;D=null;removeGhost();if(!d.started)tap(d);else drop(d);renderAll();});
@@ -4064,6 +4131,7 @@ function tap(d){
     if(d.gid==='dining'&&FURN[p.key].gag)return doGag(p);
     if(d.gid==='dining'&&tool==='paint')return toast('Only tables have tablecloths to paint.');
     if(d.gid==='truck'){const now=performance.now();if(LASTTAP.id===p.id&&now-LASTTAP.t<450){LASTTAP={id:0,t:0};ROTSEL=null;return unloadBasket(p,true);}LASTTAP={id:p.id,t:now};ROTSEL=ROTSEL===p.id?null:p.id;return;}
+    if(d.gid==='kitchen'&&S.phase==='open'){applTap(p);return;}
     rotatePiece(d.gid,p);
   }else if(d.kind==='seed')autoPlant(d.key);
   else if(d.kind==='sack')autoSack(d.key);
@@ -4194,7 +4262,7 @@ const ACT={
   guideTog(){S.guide=!!($('#gOn')&&$('#gOn').checked);save();},
   guideGo(t){closeModal();tab=t;window.scrollTo(0,0);},
   cardDone(){closeModal();if(S.guide!==false&&S.phase==='prep'&&S.day<=3)modal(dailyHTML());},
-  continue(){const sv=loadSave();if(sv){S=sv.S;uid=sv.uid;migrate();const ph=S.phase;S.parties=[];S.active=null;S.sel=null;S.st={};S.payQ=[];REG=null;S._autoPaused=false;
+  continue(){const sv=loadSave();if(sv){S=sv.S;uid=sv.uid;migrate();const ph=S.phase;S.parties=[];S.active=null;S.sel=null;S.st={};clearCooks();S.payQ=[];REG=null;S._autoPaused=false;
     ['plate','plate2'].forEach(g=>{if(S[g]){S[g].pieces.forEach(p=>refund(p.key));S[g].pieces=[];}});
     if(ph==='open'){S.nextArrival=S.clock+4;if(!paused)paused=true;setTimeout(()=>modal(`<h2>👋 Welcome back!</h2><p>Your day was saved right where you left off — it’s <b>${fmt(S.clock)}</b>. Guests who were inside headed home, but your money, food and everything else are just how you left them.</p><div class="modal-actions"><button class="btn primary" data-act="resumeDay">▶ Keep playing</button></div>`),60);}
     else if(ph!=='summary')S.phase='prep';tab=ph==='open'?'dining':'town';}
@@ -4262,6 +4330,59 @@ Object.assign(ACT,{
   mbuy(k){const m=market(),it=m.items.find(x=>x.k===k);if(!it||!it.left||!marketDay(S.day)||S.phase!=='prep')return;const pr=premPrice(k);const spot=findSpot('truck',ING[k].basket);if(!spot){toast('🚚 Your truck is full! Move some baskets into the pantry first.');return;}if(!spend(pr))return;addPiece('truck','basket',k,spot.x,spot.y,spot.shape,{prem:true,paid:pr});it.left--;toast(`✨ ${PREM[k]} are on your truck! Drag them into the pantry.`);modal(marketHTML());save();},
   mGoTruck(){closeModal();ACT.tab('pantry');},
   lockList(){window.LOCKOPEN=!window.LOCKOPEN;},
+});
+
+/* ---------- cooking with appliances ---------- */
+function cookOf(k){const b=REC[k].base||k,l=REC_APPL[b]||[];const own=new Set(((S&&S.kitchen&&S.kitchen.pieces)||[]).map(q=>q.key));return l.find(a=>own.has(a))||l[0]||(REC[k].course==='drink'?'drinkfridge':'board');}
+function cookTime(a){return COOKT[a]||0;}
+function burnWin(){return S.relaxed?30:15;}
+function cookLabel(k){const a=cookOf(k);return cookTime(a)?`${APPL[a].emoji} Cook it!`:`${APPL[a].emoji} Serve`;}
+function ensureKit(){if(!S||!S.kitchen)return;['drinkfridge','board'].forEach(a=>{if(S.kitchen.pieces.some(q=>q.key===a))return;let spot=findSpot('kitchen',APPL[a].shape);while(!spot){S.kitchen.h++;spot=findSpot('kitchen',APPL[a].shape);}addPiece('kitchen','appl',a,spot.x,spot.y,spot.shape);});}
+function clearCooks(){if(!S)return;if(S.kitchen)S.kitchen.pieces.forEach(a=>{delete a.cook;});(S.parties||[]).forEach(p=>(p.dishes||[]).forEach(d=>{d.cooking=false;}));}
+function cookFor(p,d){return S.kitchen.pieces.find(a=>a.cook&&a.cook.pid===p.id&&a.cook.rec===d.rec)||null;}
+function finishDish(p,d,fresh,premN,g){d.cooking=false;d.done=true;d.fresh=fresh;d.price=d.swapped?Math.round(recipePrice(d.rec)*0.75):recipePrice(d.rec);if(evIs('special')&&S.ev.dish===d.rec)d.price*=2;if(isSpec(d.rec)){d.price=Math.round(d.price*specMult(d.rec));d.spec=true;if(p.tables)floatText(p.tables[0],'⭐');}if(premN){d.price+=PREM_BONUS*premN;d.prem=premN;}cbServe(p,d,premN,fresh);S.stats.dishes++;
+  if(p.dishes.every(x=>x.done))finishParty(p);else if(g&&S.autoLoad!==false)assign(g,p.id);
+  autoFill();}
+function serve(g){g=g||curSt();
+  const p=stParty(g),d=stDish(g);if(!d)return toast('Pick an order ticket first.');
+  if(!plateMatches(d.rec,g))return toast('The plate doesn\'t match the outline yet.');
+  const a=cookOf(d.rec),A=APPL[a];
+  if(!S.kitchen.pieces.some(q=>q.key===a))return toast(`You need a ${A.name.toLowerCase()} to make this. Look in ⬆️ Upgrades.`);
+  if(offAppl(a))return toast(`${A.emoji} The ${A.name.toLowerCase()} isn't working today!`);
+  const ap=S.kitchen.pieces.find(q=>q.key===a&&!q.cook);
+  if(!ap)return toast(`${A.emoji} Your ${A.name.toLowerCase()} is busy! Wait for the ding — or buy another one in ⬆️ Upgrades to cook two at once.`);
+  const fresh=S[g].pieces.some(q=>q.farm),premN=new Set(S[g].pieces.filter(q=>q.prem).map(q=>q.key)).size;S[g].pieces=[];S.st[g]=null;
+  const need=cookTime(a);
+  if(!need){finishDish(p,d,fresh,premN,g);return;}
+  d.cooking=true;ap.cook={pid:p.id,rec:d.rec,t:0,need,fresh,premN};
+  toast(`${A.emoji} ${REC[d.rec].emoji} ${REC[d.rec].name} is cooking in the ${A.name.toLowerCase()}… wait for the ding!`,2500);
+  if(S.autoLoad!==false)assign(g,p.id);autoFill();}
+function cookTick(dt){if(!S.kitchen)return;let ch=false;
+  for(const a of S.kitchen.pieces){const c=a.cook;if(!c)continue;
+    if(c.burnt){c.bt=(c.bt||0)+dt;if(c.bt>3){delete a.cook;ch=true;}continue;}
+    const p=S.parties.find(q=>q.id===c.pid&&q.state==='waiting'),d=p&&p.dishes.find(x=>x.cooking&&x.rec===c.rec);
+    if(!d){delete a.cook;ch=true;continue;}
+    c.t+=dt;
+    if(!c.ready&&c.t>=c.need){c.ready=true;ch=true;chime(true);toast(`🔔 Ding! ${REC[c.rec].emoji} ${REC[c.rec].name} is ready — tap it to serve!`,3500);}
+    if(c.ready&&c.t>=c.need+burnWin()){c.burnt=true;c.bt=0;d.cooking=false;ch=true;toast(`💨 Oh no! The ${REC[c.rec].name.toLowerCase()} burned in the ${APPL[a.key].name.toLowerCase()}. Make it again!`,4500);autoFill();}}
+  if(ch){renderKitchen();renderDishInfo();}}
+function applTap(ap){const c=ap.cook,A=APPL[ap.key];
+  if(!c){const d=activeDish();if(d&&cookOf(d.rec)===ap.key){if(plateMatches(d.rec,curSt())){serve(curSt());return;}return toast(`Finish building the ${REC[d.rec].name.toLowerCase()} on the plate, then tap the ${A.name.toLowerCase()} to cook it!`);}
+    return toast(`${A.emoji} ${A.name}: ${cookTime(ap.key)?'cooks food in '+cookTime(ap.key)+' seconds':'no waiting — food is served right away'}.`);}
+  if(c.burnt)return toast('💨 Cleaning up the smoke…');
+  if(!c.ready){const s=Math.max(1,Math.ceil(c.need-c.t));return toast(`⏳ Still cooking… ${s} more second${s>1?'s':''}.`);}
+  const p=S.parties.find(q=>q.id===c.pid),d=p&&p.dishes.find(x=>x.cooking&&x.rec===c.rec);delete ap.cook;if(!d)return;
+  finishDish(p,d,c.fresh,c.premN,null);}
+function ckHTML(p){const c=p.cook;if(!c)return '';return `<span class="ckw">${c.burnt?'💨':c.ready?'🔔':REC[c.rec].emoji}${c.ready||c.burnt?'':`<i class="ckb"><b style="width:${Math.min(100,c.t/c.need*100)}%"></b></i>`}</span>`;}
+function renderCookStrip(){const el=$('#cookstrip');if(!el||!S.kitchen)return;const bs=S.kitchen.pieces.filter(a=>a.cook);el.hidden=!bs.length;
+  el.innerHTML=bs.map(a=>{const c=a.cook,st=c.burnt?'burnt':c.ready?'ready':'busy';return `<button class="ckchip ${st}" data-act="applServe" data-arg="${a.id}" data-ap="${a.id}">${APPL[a.key].emoji}${REC[c.rec].emoji} ${c.burnt?'💨 Burned!':c.ready?'🔔 Serve!':`<i class="ckb"><b style="width:${Math.min(100,c.t/c.need*100)}%"></b></i>`}</button>`;}).join('');}
+function cookLive(){if(!S||!S.kitchen)return;for(const a of S.kitchen.pieces){const c=a.cook;if(!c||c.burnt)continue;
+  if(!c.ready){const w=Math.min(100,c.t/c.need*100)+'%';document.querySelectorAll(`#g-kitchen .pc[data-pid="${a.id}"] .ckb b, .ckchip[data-ap="${a.id}"] .ckb b`).forEach(b=>b.style.width=w);}
+  else{const hot=c.t-c.need>burnWin()*.6;document.querySelectorAll(`.ckchip[data-ap="${a.id}"], #g-kitchen .pc[data-pid="${a.id}"]`).forEach(e=>e.classList.toggle('hot',hot));}}}
+function extraCost(a){const n=S.kitchen.pieces.filter(q=>q.key===a).length;return Math.round((EXTRA_COST[a]||60)*(1+0.5*(n-1)));}
+Object.assign(ACT,{
+  applServe(id){const a=S.kitchen.pieces.find(q=>q.id===+id);if(a)applTap(a);},
+  buyAppl(a){if(!APPL[a]||!spend(extraCost(a)))return;let spot=findSpot('kitchen',APPL[a].shape);while(!spot){S.kitchen.h++;spot=findSpot('kitchen',APPL[a].shape);}addPiece('kitchen','appl',a,spot.x,spot.y,spot.shape);const n=S.kitchen.pieces.filter(q=>q.key===a).length;toast(`${APPL[a].emoji} Another ${APPL[a].name.toLowerCase()} is in your kitchen! Now you can cook ${n} at once.`);},
 });
 
 /* ---------- secret cookbook ---------- */
