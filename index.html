@@ -10,20 +10,19 @@
   if(phone&&pref!=='desktop')location.replace('phone.html');}catch(e){}})();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tile &amp; Table — Restaurant Game</title>
+<title>Tile to Table — Restaurant Game</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@500;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
 <style>
 :root{
+  color-scheme:light;
   --wallpaper:#22605A; --stripe:#1D5550; --panel:#FFFDF7; --ink:#2A1E1A; --muted:#6E5E55; --line:#E3D5C3;
-  --red:#C8102E; --redD:#9A0C23; --mustard:#F2B134; --mint:#2BA88A; --chrome:#C9D1D6;
+  --red:#C8102E; --redD:#9A0C23; --mustard:#F2B134; --mint:#1E8B71; --chrome:#C9D1D6;
   --tileA:#FBFBF8; --tileB:#2B2B2B; --wood:#B07A45; --woodD:#8A5A2E; --steelA:#E7ECEF; --steelB:#C3CCD2;
   --chalk:#26332F; --paper:#FFF8E1;
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --wallpaper:#0F2B28; --stripe:#0C2421; --panel:#221B18; --ink:#F6EDE2; --muted:#BBA999; --line:#3E322C;
-  --tileA:#5A5A5A; --tileB:#1E1E1E; --wood:#7A5330; --woodD:#5E3E22; --steelA:#3A4349; --steelB:#2C3338; --chalk:#1A2421; --paper:#3A322A;}}
+
 :root[data-theme="dark"]{
   --wallpaper:#0F2B28; --stripe:#0C2421; --panel:#221B18; --ink:#F6EDE2; --muted:#BBA999; --line:#3E322C;
   --tileA:#5A5A5A; --tileB:#1E1E1E; --wood:#7A5330; --woodD:#5E3E22; --steelA:#3A4349; --steelB:#2C3338; --chalk:#1A2421; --paper:#3A322A;}
@@ -549,6 +548,35 @@ h3{font-size:15px;margin:14px 0 6px;font-weight:900}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+/* ---- feed silo + private party ---- */
+.silo{margin:14px 0 6px;background:linear-gradient(#F4E6C8,#EAD6AE);border:4px solid #A0703A;border-radius:18px 18px 12px 12px;padding:10px 12px 12px;position:relative;box-shadow:0 4px 0 #7A5228}
+.silo h3{margin:0 0 4px;color:#6B4423}
+.silo .mhint{margin:0 0 6px}
+.partyban{display:flex;align-items:center;gap:10px;margin:0 0 10px;padding:8px 12px;border-radius:14px;background:linear-gradient(135deg,#FFF0F6,#F3E8FF);border:3px solid #B36BFF;font-weight:800;color:#4A2A80}
+.partyban .pe{font-size:28px}
+.partyban small{display:block;font-weight:700;color:#6B5A8A}
+
+/* ---- readability pass ---- */
+.btn:disabled{opacity:.62!important}
+.pal.out{opacity:.55!important}
+.spectag{color:#3A2600!important}
+.mhead.kids{text-shadow:0 1px 0 rgba(0,0,0,.45),0 0 6px rgba(0,0,0,.35)}
+.mbook .msec2.c-starter{--cc:#2C7A3B!important}.mbook .msec2.c-drink{--cc:#1762A6!important}.mbook .msec2.c-dessert{--cc:#B32F75!important}
+.ped.pghost{opacity:.9!important}.ped.pghost b,.ped.pghost small{color:#3A2A1A!important}
+.cbcard.q{color:#6B5F82!important}
+.ncap{text-shadow:0 1px 3px #000,0 0 8px #000!important;background:rgba(0,0,0,.35);border-radius:8px;padding:2px 8px}
+.hint,.mhint{color:#5A4A40}
+
+/* ---- messages tab, storeroom drop, town tabs ---- */
+.tab[hidden]{display:none!important}
+.sroom.hot .sroom-box{outline:4px dashed #2BA88A;outline-offset:3px}
+.msglist{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.msgrow{display:flex;gap:10px;align-items:baseline;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:14px}
+.msgrow small{flex:none;color:var(--muted);font-size:12px;min-width:84px}
+.msgrow.new{border-color:#E8A417;background:#FFFBEE}
+.msgtog{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;margin:4px 0 0}
+.msgtog input{width:20px;height:20px}
+
 /* ---- appliance info view ---- */
 .cpready .vbtns{flex-wrap:wrap;justify-content:center}.cpready .vbtns .btn{white-space:nowrap}@media (max-width:600px){.cpready .vbtns .btn{font-size:15px;padding:10px 14px}}
 .cpready.info .vinfo{font-size:15px;color:#4A3A2A;font-weight:700}
@@ -1345,7 +1373,7 @@ html,body{overscroll-behavior-y:none}
 <body>
 <header class="top">
   <div class="topbar">
-    <span class="logo">Tile &amp; Table</span>
+    <span class="logo">Tile to Table</span>
     <div class="stats">
       <button class="stat who" data-act="switchPlayer" title="Switch player"><span class="k">Player 👥</span><b id="who">—</b></button>
       <div class="stat"><span class="k">Day</span><b id="day">1</b></div>
@@ -1375,6 +1403,7 @@ html,body{overscroll-behavior-y:none}
     <button class="tab" data-act="tab" data-arg="pantry">📦 Pantry &amp; truck</button>
     <button class="tab" data-act="tab" data-arg="upgrades">⬆️ Upgrades</button>
     <button class="tab" data-act="tab" data-arg="receipts">🧾 Receipts <span id="rbadge" class="badge"></span></button>
+    <button class="tab" data-act="tab" data-arg="msgs">📬 Messages <span id="msgbadge" class="badge"></span></button>
   </nav>
   <section>
     <div class="panel dining tabpanel" id="tab-dining">
@@ -1433,6 +1462,13 @@ html,body{overscroll-behavior-y:none}
       <p class="hint">Tap a glowing appliance (or an order ticket) to open its cooking spot. Drag ingredients so they fill the outline — tap a piece to rotate it, or tap an ingredient to drop it into the first spot it fits.</p>
     </div>
 
+    <div class="panel tabpanel" id="tab-msgs" hidden>
+      <div class="phead"><h2>📬 Messages</h2><button class="btn small" data-act="clearMsgs">Clear</button></div>
+      <p class="hint" style="margin:0">Everything that happened, newest first. Only the important ones pop up while you play.</p>
+      <label class="msgtog"><input type="checkbox" id="allToasts" data-act="allToasts"> Show every message as a popup</label>
+      <div id="msgList" class="msglist"></div>
+    </div>
+
     <div class="panel tabpanel" id="tab-menu" hidden>
       <div class="phead"><h2>Today's menu</h2><span class="hours" id="menuNote"></span></div>
       <div id="menuTab"></div>
@@ -1478,6 +1514,12 @@ html,body{overscroll-behavior-y:none}
             <p class="mhint" style="margin-top:8px">Grow flowers, pick them, then put the vase next to a table. Guests at that table feel extra happy: bigger tips and more stars. Vases stay fresh for 4 days.</p>
             <div id="flowerSeeds" class="palette seedcart"></div></div>
           <p class="mhint" id="gardenLocked"></p>
+        <div class="silo">
+            <h3>🌾 Feed silo <small style="font-weight:700;color:#6B4F2A">animal food only</small></h3>
+            <p class="mhint">Feed sacks you buy in the barn store wait here. Drag them into the bins (tap one to drop it in the first free spot, tap a sack in the bin to turn it). Your animals eat from the bins.</p>
+            <div id="sacks" class="palette sackrow"></div>
+            <div class="binwrap"><div class="gridbox"><div class="grid feedbin" id="g-feedbin"></div></div></div>
+          </div>
           <h3 class="mh">🐾 Animals</h3>
           <div id="feedRow"><p class="mhint" style="margin:0 0 6px">Pick a feed scoop, then tap each hungry animal once every morning.</p><div id="feedSel" class="fsel"></div></div>
           <div id="pens" class="pens"></div>
@@ -1486,13 +1528,7 @@ html,body{overscroll-behavior-y:none}
       <div id="farmIn" class="barnin" hidden>
         <div class="bihead"><button class="btn" data-act="farmView" data-arg="out">⬅ Back outside</button><h2>🛖 Inside the barn</h2><span class="lantern">🏮</span></div>
         <div class="bisec">
-          <h3>🌾 Feed bins</h3>
-          <p class="mhint">New feed sacks wait by the door. Drag them into the bins (tap one to drop it in the first free spot, tap a sack in the bin to turn it). Your animals eat from the bins.</p>
-          <div id="sacks" class="palette sackrow"></div>
-          <div class="binwrap"><div class="gridbox"><div class="grid feedbin" id="g-feedbin"></div></div></div>
-        </div>
-        <div class="bisec">
-          <h3>📦 Storage shelves</h3>
+          <h3>🧺 Harvest shelves <small style="font-weight:700;color:#6B4F2A">food your farm makes</small></h3>
           <div id="barnStore" class="crates"></div>
         </div>
         <div class="bisec store">
@@ -1767,6 +1803,7 @@ const FURN={
   shipwreck:{name:'Shipwreck table',emoji:'⚓',shape:T4,seats:1,cost:170,color:'#6B4A2A',for:'kraken'},
 };
 const TYPES={
+  party:{name:'Private party',faces:['🐻','🐰','🐷','🐶','🐱','🦊','🐼','🐨','🐧','🦆'],mix:true,size:[4,16],pat:2.4,tip:1.2,rep:1.5,eat:1.5,w:0,desc:'Booked a day ahead and rented the whole dining room. Every two guests share one big platter (double price), plus a room rental fee. Nobody else comes in while they are there.'},
   regular:{name:'Animal regulars',faces:['🐶','🐱','🐰','🐻','🐼','🦊','🐨','🐸','🐷','🐮','🐯','🦝'],mix:true,size:[1,2],pat:1,tip:1,rep:1,eat:1,w:5,desc:'Puppies, kittens, bunnies, bears and friends. Order anything. Easy-going.'},
   student:{name:'Hamster students',faces:['🐹','🐭'],mix:true,size:[1,2],pat:1,tip:.4,rep:1,eat:.8,w:3,pick:'cheap',desc:'Tight budget. Always order the cheapest dish and tip in sunflower seeds.'},
   business:{name:'Busy penguin',faces:['🐧'],size:[1,1],pat:.55,tip:2,rep:1,eat:.6,w:2,pick:'pricey',desc:'Late for a meeting. Orders pricey food and tips huge if you are fast.'},
@@ -1913,6 +1950,7 @@ const $=s=>document.querySelector(s);
 const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 const rand=(a,b)=>a+Math.random()*(b-a);
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function rotSame(sh){const n=a=>{const mx=Math.min(...a.map(c=>c[0])),my=Math.min(...a.map(c=>c[1]));return a.map(([x,y])=>(x-mx)+','+(y-my)).sort().join('|');};return n(rot(sh))===n(sh);}
 function rot(shape){const r=shape.map(([x,y])=>[-y,x]);const mx=Math.min(...r.map(c=>c[0])),my=Math.min(...r.map(c=>c[1]));return r.map(([x,y])=>[x-mx,y-my]);}
 function cellsOf(p,x=p.x,y=p.y,shape=p.shape){return shape.map(([a,b])=>[a+x,b+y]);}
 function fmt(m){m=Math.floor(m);let h=Math.floor(m/60)%24,mm=m%60;const ap=h>=12?'PM':'AM';const h12=h%12||12;return `${h12}:${String(mm).padStart(2,'0')} ${ap}`;}
@@ -1921,7 +1959,7 @@ function barColor(f){return f>.5?'#2BA88A':f>.25?'#F2B134':'#D7263D';}
 function miniShape(shape,color,size=11){const w=Math.max(...shape.map(c=>c[0]))+1,h=Math.max(...shape.map(c=>c[1]))+1;return `<span class="mini" style="width:${w*size}px;height:${h*size}px;--c:${color}">${shape.map(([x,y])=>`<i style="left:${x*size}px;top:${y*size}px;width:${size-1}px;height:${size-1}px"></i>`).join('')}</span>`;}
 
 const SHOPS={
-  diner:{name:'Tile & Table Diner',em:'🍳',cost:0,eq:[],ing:["B", "C", "R", "E", "T", "V"],theme:'diner',blurb:'Your first restaurant. A little bit of everything — burgers, pizza, pies, basic coffee and smoothies.'},
+  diner:{name:'Tile to Table Diner',em:'🍳',cost:0,eq:[],ing:["B", "C", "R", "E", "T", "V"],theme:'diner',blurb:'Your first restaurant. A little bit of everything — burgers, pizza, pies, basic coffee and smoothies.'},
   cafe:{name:'Corner Café',em:'🥪',cost:500,eq:["garden", "teapot"],ing:["B", "C", "E", "T", "V", "D"],theme:'cafe',blurb:'Cozy soups, sandwiches, salads and teas. Calm, patient guests.'},
   bakery:{name:'Sunny Bakery',em:'🥐',cost:800,eq:["oven"],ing:["C", "E", "T", "V"],theme:'bakery',blurb:'Croissants, bagels, cookies, cupcakes and birthday cakes.'},
   noodle:{name:'Noodle House',em:'🍜',cost:1200,eq:["noodle", "teapot"],ing:["R", "E", "T", "V"],theme:'noodle',blurb:'Ramen, fried rice, dumplings, bubble tea and mochi.'},
@@ -2278,7 +2316,7 @@ function gridHTML(gid,opt={}){
 }
 function paintGrid(gid,opt){const el=document.getElementById('g-'+gid),g=S[gid];el.dataset.grid=gid;el.style.aspectRatio=`${g.w} / ${g.h}`;el.parentElement.style.maxWidth=(g.w*(opt.max||56))+'px';el.innerHTML=gridHTML(gid,opt);}
 
-function renderHeader(){{const lg=document.querySelector('.logo');if(lg)lg.textContent=shopId()==='diner'?'Tile & Table':SHOPS[shopId()].em+' '+SHOPS[shopId()].name;}
+function renderHeader(){{const lg=document.querySelector('.logo');if(lg)lg.textContent=shopId()==='diner'?'Tile to Table':SHOPS[shopId()].em+' '+SHOPS[shopId()].name;}
   {const c=evCard(),ch=$('#evChip');ch.hidden=!c;if(c){ch.className='stat evchip '+(c.good?'good':'bad');$('#evName').textContent=c.em+' '+c.t;}}
   $('#relaxBtn').textContent=S.relaxed?'🐢 Relaxed':'🐇 Normal';
   $('#sndBtn').textContent=SOUND?'🔔':'🔕';$('#day').textContent=S.day;const cp=curPlayer();$('#who').textContent=cp?cp.av+' '+cp.name:'—';
@@ -2344,7 +2382,7 @@ function renderDining(){
   else if(S.phase==='open')hint='Tap a guest at the door, then tap a table to seat them. Tap a table showing ⏳ to jump to its order.';
   else if(tool==='paint')hint='🎨 Tap a table to paint the whole joined table this color. Pick ↩ Move to go back to moving things.';
   else hint='Every table seats 1. Put tables next to each other and they join into one bigger table — any shape you like. Drag one away to split it off. Drag a piece off the floor to put it in the storeroom.';
-  $('#diningHint').textContent=hint;
+  $('#diningHint').textContent=hint;{let pb=$('#partyBan');if(!pb){pb=document.createElement('div');pb.id='partyBan';const g=$('#tab-dining .gridbox');if(g)g.before(pb);}if(pb)pb.innerHTML=partyBanner();}
   document.querySelectorAll('.tool').forEach(b=>b.classList.toggle('on',b.dataset.arg===tool));
   $('#swatches').innerHTML=CLOTHS.map(([n,c])=>`<button class="sw ${tool==='paint'&&c===paintColor?'on':''}" style="--cloth:${c}" data-act="paintColor" data-arg="${c}" title="${n}" aria-label="${n}"></button>`).join('');
 }
@@ -2520,13 +2558,16 @@ function renderMenuTab(){
       return `<div class="msec2 c-${c}"><h3>${em} ${nm} <span class="slots ${n>m?'over':n===m?'full':''}">${n} of ${m} on the menu</span></h3><div class="mgrid">${[...u.filter(k=>isSpec(k)),...u.filter(k=>!isSpec(k)&&S.rec[k].isNew),...u.filter(k=>!isSpec(k)&&!S.rec[k].isNew)].map(card).join('')}</div></div>`;}).join('');return body?`<h2 class="mhead ${kp?'kids':''}">${kp?'🧒 Kids\' Menu':'Main Menu'}</h2>`+body:'';}).join('')+'</div>'+
     (locked.length?`<button class="lockbtn" data-act="lockList">🔒 Dishes you can still unlock (${locked.length}) ${window.LOCKOPEN?'▲ hide':'▼ show'}</button>${window.LOCKOPEN?`<div class="mlock">${locked.map(k=>`<span title="${lockText(k)} See Upgrades.">🔒 ${REC[k].emoji} ${REC[k].name} <small>${lockText(k).replace(/^Needs /,'needs ').replace(/\.$/,'')}</small></span>`).join('')}</div>`:''}`:'');
 }
-function renderTabs(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab||(b.dataset.arg==='town'&&(tab==='farm'||tab==='museum'))));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts','town','museum'].forEach(t=>{const e=$('#tab-'+t);if(e)e.hidden=t!==tab;});}
+var INSIDE=true;
+function renderTabs(){if(['town','farm','museum'].includes(tab))INSIDE=false;else if(tab!=='msgs')INSIDE=true;document.querySelectorAll('.tab').forEach(b=>{b.hidden=!INSIDE&&!['town','msgs'].includes(b.dataset.arg);});document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.arg===tab||(b.dataset.arg==='town'&&(tab==='farm'||tab==='museum'))));if(tab==='receipts')S.newRc=0;['dining','kitchen','menu','farm','pantry','upgrades','receipts','town','museum','msgs'].forEach(t=>{const e=$('#tab-'+t);if(e)e.hidden=t!==tab;});}
 function renderLive(){cookLive();renderCookPanel();if(tab==='receipts'&&RCDIRTY)renderReceipts();renderHeader();renderQueue();renderDining();renderTickets();renderDishInfo();drawPreview();}
 function renderShelf(){const t=S.trophies||[],el=$('#shelf');el.hidden=!t.length;el.innerHTML=t.map(k=>`<span title="${TROPHIES[k].name}">${TROPHIES[k].emoji}</span>`).join('');}
-function renderAll(){if(S){ensureFarm();ensureShops();if(CUR&&!booting)armBack();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderMuseum();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderCookPanel();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
+function renderAll(){if(S){ensureFarm();ensureShops();if(CUR&&!booting)armBack();}renderFarm();applyTheme();renderShelf();renderHeader();renderQueue();renderDining();renderStoreroom();renderArcade();renderMenuBoard();renderTickets();renderDishInfo();renderKitchen();renderPlate();renderPalette();renderTruck();renderShopping();renderSupply();renderTown();renderMuseum();renderStorage();renderUpgrades();renderMenuTab();renderTabs();renderCookPanel();renderMsgs();renderReceipts();drawPreview();if(S.phase==='prep'&&!booting)save();}
 
 /* ---------- toasts, floats, modal ---------- */
-function toast(msg,ms){const t=document.createElement('div');t.className='toast';t.textContent=msg;$('#toasts').appendChild(t);while($('#toasts').children.length>3)$('#toasts').firstChild.remove();setTimeout(()=>t.remove(),ms||3200);}
+function toast(msg,ms){if(typeof MSGS!=='undefined'){MSGS.unshift({m:msg,d:S?S.day:0,t:S&&S.phase==='open'?fmt(S.clock):''});if(MSGS.length>100)MSGS.length=100;MSGNEW++;const b=$('#msgbadge');if(b&&tab!=='msgs')b.textContent=MSGNEW>9?'9+':MSGNEW;
+    if(!(S&&S.allToasts)&&performance.now()-LASTACT>800&&!TOAST_KEEP.test(msg))return;}
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;$('#toasts').appendChild(t);while($('#toasts').children.length>2)$('#toasts').firstChild.remove();setTimeout(()=>t.remove(),ms||3200);}
 function floatText(tableId,text,bad){const t=S.dining.pieces.find(q=>q.id===tableId);if(!t)return;const g=S.dining;const xs=t.shape.map(c=>c[0]+t.x),ys=t.shape.map(c=>c[1]+t.y);
   const el=document.createElement('div');el.className='float'+(bad?' bad':'');el.textContent=text;el.style.left=((Math.min(...xs)+Math.max(...xs)+1)/2/g.w*100)+'%';el.style.top=(Math.min(...ys)/g.h*100)+'%';$('#f-dining').appendChild(el);setTimeout(()=>el.remove(),1500);}
 function modal(html){$('#modalCard').innerHTML=html;$('#modal').classList.remove('hidden');const b=$('#modalCard button');if(b)b.focus();}
@@ -2576,7 +2617,7 @@ function guideHTML(){return `<h2>Who walks through the door</h2>`+Object.values(
 function esc(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function titleScreen(){loadPlayers();
   const cards=PLAYERS.map(p=>{const sv=loadSave(p.id);return `<button class="pcard" data-act="pickPlayer" data-arg="${p.id}"><span class="pav">${p.av}</span><b>${esc(p.name)}</b><small>${sv?`Day ${sv.S.day} · ${sv.S.rep.toFixed(1)}★`:'New restaurant'}</small></button>`;}).join('');
-  modal(`<h1>Tile &amp; Table</h1><p class="tagline">🐶 🐹 🦉 🧜‍♀️ 🐉 🦄 👽 🧞</p><h2>Who's playing?</h2>
+  modal(`<h1>Tile to Table</h1><p class="tagline">🐶 🐹 🦉 🧜‍♀️ 🐉 🦄 👽 🧞</p><h2>Who's playing?</h2>
   <div class="pgrid">${cards}<button class="pcard add" data-act="newPlayer"><span class="pav">➕</span><b>New player</b><small>Start your own restaurant</small></button></div>
   <div class="modal-actions"><button class="btn" data-act="help">How to play</button>${/github\.io$/.test(location.hostname)?`<button class="btn" data-act="goPhone">📱 Phone version</button>`:''}</div>`);}
 function playerMenu(){const p=curPlayer();if(!p)return titleScreen();const sv=loadSave();
@@ -3752,6 +3793,8 @@ function nightShow(done){
   let trashP=.45;let i=keys[Math.floor(Math.random()*keys.length)];if(window.NIGHT_SCENE!=null)i=window.NIGHT_SCENE;NLAST=[...NLAST,i].slice(-8);
   st.animate([{opacity:0},{opacity:1}],{duration:900,fill:'forwards'});
   at(900,()=>{try{scenes[i]();}catch(e){console.warn(e);}});
+  if(Math.random()<.6)at(10400,()=>{const d=decorPick(),to=d&&spotPick(d);if(!d||!to)return;const [dx,dy]=pc(d.x,d.y),[tx,ty]=pc(to.x,to.y);const k=rint(0,4),em=['🦝','🐹','🐿️','🦔','🐁'][k],nm=['raccoon','hamster','squirrel','hedgehog','mouse'][k];
+    const c=A(em,-8,dy,.8);go(c,dx-6,dy,1000,{hop:4});say(c,'Hmm… better over here!',1000,1300);moveThing(d,to,1500,1600,`A sneaky ${nm} pushed your`);at(1500,()=>go(c,tx-6,ty,1600,{hop:3}));at(3300,()=>go(c,112,ty,1100,{hop:4}));});
   at(13600,()=>{if(Math.random()<trashP){const before=new Set(S.dining.pieces.map(p=>p.id));const n=dropTrash(rint(1,3));if(n){renderDining();S.dining.pieces.filter(p=>!before.has(p.id)).forEach(p=>{const [x,y]=pc(p.x,p.y);const e=A(p.em,x,y-30,.5);mv(e,[[x,y-30,'',0],[x,y,'rotate(200deg)',1]],500,0,'ease-in');});notes.push(`🗑️ The night visitors left ${n} piece${n>1?'s':''} of trash on the floor! Tap ${n>1?'them':'it'} to clean up — guests don’t like a messy dining room.`);}}});
   at(15200,()=>fin());
 }
@@ -3833,7 +3876,7 @@ window.addEventListener('popstate',()=>{if(!S||!CUR||LEAVING)return;try{history.
 let ROTSEL=null;
 
 function rollClearance(){S.clear={};if(Math.random()<.6){const pool=[...S.ingOn].sort(()=>Math.random()-.5).slice(0,rint(1,2));pool.forEach(k=>S.clear[k]=rint(1,2));}}
-function nextDay(){if(NSHOW)NSHOW(true);S.day++;if(marketDay(S.day))setTimeout(()=>toast('🧺 The farmers market is in town today! Find it on the town map.',5000),1300);setTimeout(()=>{cbDay();if(S.day>=4&&Math.random()<(S.cb.clues.length?.2:1))findClue('🌙 One of last night\'s visitors slipped a folded note under the door…');},3000);setTimeout(()=>{const sp=specials();if(sp.m)toast(`⭐ Today's special: ${REC[sp.m].emoji} ${REC[sp.m].name}. Put it on the menu!`,5000);},2400);tab='town';{const nw=sproutWeeds();if(nw)setTimeout(()=>toast(`🌿 ${nw} weed${nw>1?'s':''} sprouted on your farm overnight. Pull them — you might find something!`,5000),400);}S.phase='prep';S.soldOut={};S.priced={};S.facts={};rollClearance();drawEvent();S.clock=S.openTime-60;S.stats=blankStats();closeModal();renderAll();if(evCard())showCard();else if(S.guide!==false&&S.day<=3)modal(dailyHTML());toast('🚚 The truck is here! Set your menu prices and stock up before you open.');}
+function nextDay(){if(NSHOW)NSHOW(true);S.day++;partyBook();{const b=partyToday();if(b)setTimeout(()=>toast(`🎉 Reminder: ${b.name} has the whole room today at ${fmt(b.at)} (${b.size} guests).`,6000),3600);}if(marketDay(S.day))setTimeout(()=>toast('🧺 The farmers market is in town today! Find it on the town map.',5000),1300);setTimeout(()=>{cbDay();if(S.day>=4&&Math.random()<(S.cb.clues.length?.2:1))findClue('🌙 One of last night\'s visitors slipped a folded note under the door…');},3000);setTimeout(()=>{const sp=specials();if(sp.m)toast(`⭐ Today's special: ${REC[sp.m].emoji} ${REC[sp.m].name}. Put it on the menu!`,5000);},2400);tab='town';{const nw=sproutWeeds();if(nw)setTimeout(()=>toast(`🌿 ${nw} weed${nw>1?'s':''} sprouted on your farm overnight. Pull them — you might find something!`,5000),400);}S.phase='prep';S.soldOut={};S.priced={};S.facts={};rollClearance();drawEvent();S.clock=S.openTime-60;S.stats=blankStats();closeModal();renderAll();if(evCard())showCard();else if(S.guide!==false&&S.day<=3)modal(dailyHTML());toast('🚚 The truck is here! Set your menu prices and stock up before you open.');}
 function pickType(){
   const ms=seatsFor('regular');
   const pool=[];for(const k in TYPES){const T=TYPES[k];let w=T.w;
@@ -3851,11 +3894,12 @@ function chime(magic){if(!SOUND)return;const c=ac();if(!c)return;const t=c.curre
   tone(1319,t,.9,.22);tone(1047,t+.32,1.2,.22);}
 function spawnParty(){
   let type=pickType(),bday=false;
+  {const big=S.parties.filter(p=>p.size>=4&&!['eating','paying'].includes(p.state)).length;if(big>=1)for(let i=0;i<8&&(type==='family'||type==='kidfam');i++)type=pickType();}
   if(evIs('legend')&&!S.ev.done&&S.clock>=S.ev.at){type=S.ev.legend;S.ev.done=true;}
   if(evIs('birthday')&&!S.ev.done){type='family';bday=true;S.ev.done=true;}
   const T=TYPES[type];
   const capS=Math.max(2,Math.floor(regSeats()*.6));let size=bday?Math.min(4,capS):T.special?Math.min(rint(T.size[0],T.size[1]),Math.max(1,seatsFor(type))):Math.min(capS,rint(T.size[0],T.size[1]));
-  let fs,kids=0;if(type==='kidfam'){let ad=rint(1,2);kids=rint(1,6);if(ad+kids>capS){ad=Math.min(ad,capS-1);kids=Math.max(1,capS-ad);}size=ad+kids;const a=T.faces[rint(0,T.faces.length-1)];fs=Array(size).fill(a);S.stats.kidSeen=true;}
+  let fs,kids=0;if(type==='kidfam'){let ad=Math.random()<.65?1:2;{const r=Math.random();kids=r<.45?2:r<.8?3:4;}if(ad+kids>capS){ad=Math.min(ad,capS-1);kids=Math.max(1,capS-ad);}size=ad+kids;const a=T.faces[rint(0,T.faces.length-1)];fs=Array(size).fill(a);S.stats.kidSeen=true;}
   else if(T.mix)fs=Array.from({length:size},()=>T.faces[rint(0,T.faces.length-1)]);else fs=Array(size).fill(T.faces[rint(0,T.faces.length-1)]);
   if(S.parties.filter(p=>p.state==='door').length>=4){S.stats.lost++;toast(`${fs[0]} ${T.name} saw the long line and left.`);return;}
   const mp=30*T.pat*patBonus()*(1+0.12*Math.max(0,size-2));
@@ -3902,7 +3946,7 @@ function orderFood(p){
   let menu=T.kidOK?[...adult,...kidMenu]:adult;if(!menu.length)menu=avail.filter(k=>!REC[k].app);if(!menu.length)menu=avail;
   if(evIs('picky')&&menu.length>2)menu=[...menu].sort((a,b)=>recipePrice(b)-recipePrice(a)).slice(0,2);
   if(!menu.length){leaveAngry(p,'found nothing on the menu');return;}
-  const n=T.dishes||p.size;p.dishes=[];const _sp=specials(),SPm=_sp.m,SPk=_sp.k;
+  const n=p.type==='party'?Math.ceil(p.size/2):(T.dishes||p.size);p.dishes=[];const _sp=specials(),SPm=_sp.m,SPk=_sp.k;
   const CW={main:5,drink:1.4,dessert:1.4,starter:.8};
   const pickPool=list=>{const by={};list.forEach(k=>{const c=REC[k].course;(by[c]=by[c]||[]).push(k);});const cs=Object.keys(by);let t=cs.reduce((a,c)=>a+CW[c],0)*Math.random();for(const c of cs){t-=CW[c];if(t<=0)return by[c];}return by[cs[0]];};
   for(let i=0;i<n;i++){let rk;
@@ -3913,8 +3957,8 @@ function orderFood(p){
       if(T.pick==='cheap')rk=byPrice[0];
       else if(T.pick==='pricey')rk=byPrice[byPrice.length-1-(Math.random()<.35&&byPrice.length>1?1:0)];
       else rk=pool[rint(0,pool.length-1)];}
-    p.dishes.push({rec:rk,done:false,face:p.faces[i%p.faces.length],kidface:isKidIdx(p,i%p.faces.length)});}
-  if(apps.length&&Math.random()<(p.size>=3?.6:.35))p.dishes.unshift({rec:apps[rint(0,apps.length-1)],done:false,face:'🍽️',app:true});
+    p.dishes.push({rec:rk,done:false,face:p.type==='party'?p.faces[(2*i)%p.faces.length]+p.faces[(2*i+1)%p.faces.length]:p.faces[i%p.faces.length],kidface:isKidIdx(p,i%p.faces.length),platter:p.type==='party'||undefined});}
+  if(p.type!=='party'&&apps.length&&Math.random()<(p.size>=3?.6:.35))p.dishes.unshift({rec:apps[rint(0,apps.length-1)],done:false,face:'🍽️',app:true});
   p.maxPat=p.pat=(40+22*p.dishes.length)*T.pat*patBonus();p.state='waiting';cbOrder(p,avail);
   autoFill();
 }
@@ -3944,7 +3988,7 @@ function leaveAngry(p,why){const T=TYPES[p.type];changeRep(-0.06*Math.min(T.rep,
   if(p.type==='dragon')toast(`🐉 The dragon ${why} and flew off in a puff of smoke!`);removeParty(p);renderAll();}
 function finishParty(p){
   const T=TYPES[p.type],frac=Math.max(0,p.pat/p.maxPat);
-  let base=p.dishes.reduce((a,d)=>a+d.price,0);
+  let base=p.dishes.reduce((a,d)=>a+d.price,0);if(p.type==='party'&&S.booking){base+=S.booking.fee;p.rentFee=S.booking.fee;}
   const speed=frac>.5?1.2:frac>.25?0.6:0.15;let tip=Math.round(base*0.3*T.tip*speed*(1+charm()*0.04));let note=frac<=.25?'🐌 Food was slow — small tip':frac<=.5?'⏳ A bit slow — smaller tip':'';
   if(evIs('tippers'))tip*=2;if(p.bday){tip+=10;note='🎂 Birthday party — big tip!';}
   if(T.special&&p.misSeat){tip=0;note=`Wanted the ${seatName(p.type).toLowerCase()} — no tip`;}
@@ -4018,7 +4062,8 @@ function tick(){
   if(S&&S.phase==='open'&&!paused&&!modalOpen()){
     S.clock+=dt*MPS;
     if(S.clock>=S.closeTime){closeDay(false);return;}
-    if(S.clock>=S.nextArrival&&S.clock<S.closeTime-15){spawnParty();S.nextArrival=S.clock+arrivalGap();}
+    partyTick();
+    if(S.clock>=S.nextArrival&&S.clock<S.closeTime-15&&!partyBlock()){spawnParty();S.nextArrival=S.clock+arrivalGap();}
     for(const p of [...S.parties]){
       if(p.state==='door'){p.pat-=dt;if(p.pat<=0)leaveAngry(p,'got tired of waiting at the door');}
       else if(p.state==='walking'){p.t-=dt;if(p.t<=0){p.state='menu';p.t=4;const el=document.getElementById('w-'+p.id);if(el)el.remove();}}
@@ -4073,6 +4118,7 @@ document.addEventListener('pointermove',e=>{
   const lf=D.lift||0;const g=$('.ghost');if(g)g.style.transform=`translate(${e.clientX-(D.gx+.5)*D.cs}px,${e.clientY-lf-(D.gy+.5)*D.cs}px)`;
   AS.x=e.clientX;AS.y=e.clientY;if(!AS.raf)AS.raf=requestAnimationFrame(autoScroll);
   hitTest(e.clientX,e.clientY-lf);drawPreview();
+  if(D.kind==='furn'&&D.mode==='piece'){const el=document.elementFromPoint(e.clientX,e.clientY-lf);D.toStore=!!(el&&el.closest('.sroom'));const sr=document.querySelector('.sroom');if(sr)sr.classList.toggle('hot',D.toStore);}
 });
 const AS={x:0,y:0,raf:null};
 function autoScroll(){
@@ -4112,7 +4158,7 @@ function drawPreview(){
   document.querySelectorAll('.preview').forEach(p=>{if(p!==el)p.innerHTML='';});
   el.innerHTML=(D.target.cells||D.shape.map(([a,b])=>[a+x,b+y])).map(([a,b])=>`<div class="pv ${ok?'ok':'bad'}" style="left:${a/g.w*100}%;top:${b/g.h*100}%;width:${100/g.w}%;height:${100/g.h}%"></div>`).join('');
 }
-function drop(d){
+function drop(d){document.querySelectorAll('.sroom.hot').forEach(x=>x.classList.remove('hot'));
   const t=d.target;document.querySelectorAll('.arc-tbl.hot').forEach(x=>x.classList.remove('hot'));if(d.mode==='new'&&d.kind==='furn'&&d.arc!=null&&FURN[d.key]&&FURN[d.key].nite){arcPut(d.key,d.arc);return;}if(((t&&t.gid==='mtruck')||d.gid==='mtruck')&&mLocked()){toast('🚚 That truck already left for the day.');return;}const tr=$('#trash');if(tr)tr.classList.remove('hot');
   if(d.trash){S[d.gid].pieces=S[d.gid].pieces.filter(q=>q!==d.p);toast(`🗑️ Threw away ${ING[d.key].emoji} ${ING[d.key].name.toLowerCase()} (${d.p.uses} piece${d.p.uses===1?'':'s'}). No refund.`);return;}
   if(d.mode==='piece'){
@@ -4121,7 +4167,7 @@ function drop(d){
     else if(!d.over){
       if(d.kind==='food'){S[d.gid].pieces=S[d.gid].pieces.filter(q=>q!==d.p);refund(d.key);}
       else if(d.kind==='furn'&&FURN[d.key].trash){cleanTrash(d.p);}
-      else if(d.kind==='furn'){S.dining.pieces=S.dining.pieces.filter(q=>q!==d.p);S.storeroom.push(d.p.fresh?{key:d.key,fresh:d.p.fresh}:{key:d.key,cloth:d.p.cloth,style:d.p.style});toast(`${FURN[d.key].name} moved to the storeroom.`);}
+      else if(d.kind==='furn'&&d.toStore){S.dining.pieces=S.dining.pieces.filter(q=>q!==d.p);S.storeroom.push(d.p.fresh?{key:d.key,fresh:d.p.fresh}:{key:d.key,cloth:d.p.cloth,style:d.p.style});toast(`${FURN[d.key].name} moved to the storeroom.`);}
     }
   }else if(t&&t.ok){
     if(d.kind==='seed'){plant(d.key,t.x,t.y,d.shape);return;}
@@ -4144,7 +4190,7 @@ function tap(d){
     if(d.gid==='dining'&&FURN[p.key].trash)return cleanTrash(p);
     if(d.gid==='dining'&&FURN[p.key].gag)return doGag(p);
     if(d.gid==='dining'&&tool==='paint')return toast('Only tables have tablecloths to paint.');
-    if(d.gid==='truck'){const now=performance.now();if(LASTTAP.id===p.id&&now-LASTTAP.t<450){LASTTAP={id:0,t:0};ROTSEL=null;return unloadBasket(p,true);}LASTTAP={id:p.id,t:now};ROTSEL=ROTSEL===p.id?null:p.id;return;}
+    if(d.gid==='truck'){const now=performance.now();if(LASTTAP.id===p.id&&now-LASTTAP.t<450){LASTTAP={id:0,t:0};ROTSEL=null;return unloadBasket(p,true);}LASTTAP={id:p.id,t:now};ROTSEL=ROTSEL===p.id||rotSame(p.shape)?null:p.id;return;}
     if(d.gid==='kitchen'){if(S.phase==='open')applTap(p);else openInfo(p.id);return;}
     rotatePiece(d.gid,p);
   }else if(d.kind==='seed')autoPlant(d.key);
@@ -4345,6 +4391,36 @@ Object.assign(ACT,{
   lockList(){window.LOCKOPEN=!window.LOCKOPEN;},
 });
 
+/* ---------- private parties ---------- */
+const PARTY_NAMES=['the Bunny Book Club 🐰📚','the Penguin Birthday Bash 🐧🎂','the Bear Family Reunion 🐻','the Fox Scouts 🦊⛺','the Panda Wedding Party 🐼💐','the Duck Soccer Team 🦆⚽','the Kitten Knitting Circle 🐱🧶','the Hamster Science Fair 🐹🔬'];
+function partyBook(){const b=S.booking;if(b&&!b.done&&b.day>=S.day)return;if(S.day<3||regSeats()<6)return;if(S.lastParty&&S.day-S.lastParty<3)return;if(Math.random()>=.3)return;
+  const size=Math.min(16,regSeats()),lo=S.openTime+120,hi=S.closeTime-300;const at=Math.round((lo+Math.random()*Math.max(0,hi-lo))/30)*30;
+  S.booking={day:S.day+1,at,size,name:PARTY_NAMES[rint(0,PARTY_NAMES.length-1)],fee:2*size,shop:shopId()};S.lastParty=S.day+1;
+  const nb=S.booking;setTimeout(()=>toast(`🎉 New booking! ${nb.name} rented your whole dining room for tomorrow at ${fmt(at)} — ${size} guests. No one else comes in while they're there.`,7000),2600);}
+function partyToday(){const b=S.booking;return b&&b.day===S.day&&b.shop===shopId()&&!b.done?b:null;}
+function partyBlock(){const b=partyToday();return !!(b&&S.clock>=b.at-30);}
+function partyTick(){const b=partyToday();if(!b)return;
+  if(!b.spawned&&S.clock>=b.at){b.spawned=true;
+    const door=S.parties.filter(p=>p.state==='door');if(door.length){door.forEach(p=>{const e=document.getElementById('w-'+p.id);if(e)e.remove();});S.parties=S.parties.filter(p=>p.state!=='door');toast('🎉 The dining room is booked — the guests at the door will come back another day.',4000);}
+    const n=Math.max(2,Math.min(b.size,regSeats())),fs=Array.from({length:n},()=>TYPES.party.faces[rint(0,TYPES.party.faces.length-1)]);
+    S.parties.push({id:uid++,type:'party',size:n,faces:fs,state:'door',pat:99999,maxPat:99999,t:0,tables:null,dishes:[],kids:0,party:true});chime(true);
+    toast(`🎉 ${b.name.charAt(0).toUpperCase()+b.name.slice(1)} just arrived! Seat them — they get the whole room.`,5000);}
+  const p=S.parties.find(q=>q.type==='party');
+  if(p&&p.state==='door'){const ids=S.dining.pieces.filter(q=>FURN[q.key].seats&&!FURN[q.key].for).map(q=>q.id);if(ids.length&&!ids.some(id=>partyAt(id))){p.tables=ids;startWalk(p);}}
+  if(b.spawned&&!p){b.done=true;S.nextArrival=S.clock+6;}}
+function partyBanner(){const b=S.booking;if(!b||b.done||b.shop!==shopId()||b.day<S.day)return '';return `<div class="partyban"><span class="pe">🎉</span><div>${b.day===S.day?'Today':'Tomorrow'} at ${fmt(b.at)}: private party for ${b.size}<small>${b.name} rented the whole room. Doors close to other guests 30 minutes before. Each pair of guests shares one big platter (double price) + $${b.fee} room rental.</small></div></div>`;}
+
+/* ---------- messages ---------- */
+var MSGS=[],MSGNEW=0,LASTACT=0;
+document.addEventListener('pointerdown',()=>{LASTACT=performance.now();},true);
+document.addEventListener('keydown',()=>{LASTACT=performance.now();},true);
+var TOAST_KEEP=/booking|private party|whole room|Ding!|burned|gave up|walked out|left!|saw the long line|mysterious guest|Grandma is here|whispering|makes a wish|farmers market is in town|Today's special|You need \$|is busy|isn't working|truck is full|Out of |Oh no/i;
+function renderMsgs(){const el=$('#msgList');if(!el)return;const b=$('#msgbadge');if(b)b.textContent=MSGNEW&&tab!=='msgs'?(MSGNEW>9?'9+':MSGNEW):'';
+  if(tab!=='msgs')return;const tg=$('#allToasts');if(tg)tg.checked=!!(S&&S.allToasts);
+  el.innerHTML=MSGS.length?MSGS.map((m,i)=>`<div class="msgrow ${i<MSGNEW?'new':''}"><small>Day ${m.d}${m.t?' · '+m.t:''}</small><span>${esc(m.m)}</span></div>`).join(''):'<p class="empty">No messages yet.</p>';
+  MSGNEW=0;if(b)b.textContent='';}
+Object.assign(ACT,{allToasts(){if(!S)return;S.allToasts=!S.allToasts;save();},clearMsgs(){MSGS.length=0;MSGNEW=0;}});
+
 /* ---------- appliance info (any time) ---------- */
 let CPINFO=null,CPIDISH=null,CPIKEY='';
 function openInfo(id){CPINFO=id;CPAP=null;CPOPEN=false;CPIDISH=null;CPIKEY='';}
@@ -4415,7 +4491,7 @@ function cookLabel(k){const a=cookOf(k);return cookTime(a)?`${APPL[a].emoji} Coo
 function ensureKit(){if(!S||!S.kitchen)return;['drinkfridge','board'].forEach(a=>{if(S.kitchen.pieces.some(q=>q.key===a))return;let spot=findSpot('kitchen',APPL[a].shape);while(!spot){S.kitchen.h++;spot=findSpot('kitchen',APPL[a].shape);}addPiece('kitchen','appl',a,spot.x,spot.y,spot.shape);});}
 function clearCooks(){if(!S)return;if(S.kitchen)S.kitchen.pieces.forEach(a=>{delete a.cook;});(S.parties||[]).forEach(p=>(p.dishes||[]).forEach(d=>{d.cooking=false;}));}
 function cookFor(p,d){return S.kitchen.pieces.find(a=>a.cook&&a.cook.pid===p.id&&a.cook.rec===d.rec)||null;}
-function finishDish(p,d,fresh,premN,g){d.cooking=false;d.done=true;d.fresh=fresh;d.price=d.swapped?Math.round(recipePrice(d.rec)*0.75):recipePrice(d.rec);if(evIs('special')&&S.ev.dish===d.rec)d.price*=2;if(isSpec(d.rec)){d.price=Math.round(d.price*specMult(d.rec));d.spec=true;if(p.tables)floatText(p.tables[0],'⭐');}if(premN){d.price+=PREM_BONUS*premN;d.prem=premN;}cbServe(p,d,premN,fresh);S.stats.dishes++;
+function finishDish(p,d,fresh,premN,g){d.cooking=false;d.done=true;d.fresh=fresh;d.price=d.swapped?Math.round(recipePrice(d.rec)*0.75):recipePrice(d.rec);if(d.platter)d.price*=2;if(evIs('special')&&S.ev.dish===d.rec)d.price*=2;if(isSpec(d.rec)){d.price=Math.round(d.price*specMult(d.rec));d.spec=true;if(p.tables)floatText(p.tables[0],'⭐');}if(premN){d.price+=PREM_BONUS*premN;d.prem=premN;}cbServe(p,d,premN,fresh);S.stats.dishes++;
   if(p.dishes.every(x=>x.done))finishParty(p);else if(g&&S.autoLoad!==false)assign(g,p.id);
   autoFill();}
 function serve(g){g=g||curSt();
