@@ -623,6 +623,8 @@ h2{font-size:19px}
 .hvfact{font-size:clamp(30px,8vw,52px)}
 
 /* ---- cute farm ---- */
+.kchalk{display:none!important}
+.shopsum{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:15px;margin:2px 0 6px}.shopsum button{border:2px solid var(--line);background:#fff;color:#2A1E1A;border-radius:999px;padding:5px 12px;font:inherit;font-weight:800;font-size:13px;cursor:pointer}
 /* ---- building bar, jumps, ship amount ---- */
 .godiner{display:none!important}
 .bldbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;gap:6px;padding:6px 8px;border-radius:999px;background:rgba(42,30,26,.92);box-shadow:0 6px 18px rgba(0,0,0,.3);max-width:calc(100vw - 16px);overflow-x:auto;scrollbar-width:none}
@@ -2579,7 +2581,7 @@ function renderShopping(){
   const rows=Object.keys(need).map(k=>{const i=ING[k],n=uses(k),tr=truckUses(k);
     const st=i.farmOnly&&n===0?['out','Get it from the farm 🌱']:n===0?['out','Need to buy']:n<5?['low','Running low']:['ok','Stocked ✓'];
     return `<div class="needrow ${st[0]}" ${S.phase==='prep'&&!i.farmOnly?`data-act="jumpBuy" data-arg="${k}" role="button" title="Tap to jump to buying ${i.name.toLowerCase()}"`:''}><span class="nm"><b>${i.name}${i.cold?' ❄️':''}</b></span><span class="have">${n} piece${n===1?'':'s'}${tr?`<small>+${tr} on truck</small>`:''}</span><span class="st">${st[1]}</span></div>`;}).join('');
-  $('#shopping').innerHTML=`<h3>Your menu today</h3><div class="menudishes">${menu.map(k=>(()=>{const pn=piecesNeeded(k);return `<div class="dcard"><div class="dtop"><span class="de">${REC[k].emoji}</span><b>${REC[k].name}</b><em>${priceTag(k)}</em></div><div class="dings">${Object.keys(pn).map(i=>`<span class="ding" title="${ING[i].name}">${ING[i].emoji}<small>×${pn[i]}</small></span>`).join('')}</div></div>`;})()).join('')}</div><h3>What you need for it <small style="font-weight:700;color:#5A4A40">— tap one to jump to buying it</small></h3><div class="jumpnav">${S.phase==='prep'?'<button data-act="jump" data-arg="#truckArea">⬇ Buy food</button>':''}<button data-act="jump" data-arg=".storerow">⬇ Shelves &amp; fridge</button></div><div class="needlist">${rows}</div>`;
+  $('#shopping').innerHTML=`<div class="shopsum">🛒 Shopping for <b>${menu.length} dish${menu.length===1?'':'es'}</b> on today's menu <button data-act="tab" data-arg="menu">✏️ Change menu</button></div><h3>What you need for it <small style="font-weight:700;color:#5A4A40">— tap one to jump to buying it</small></h3><div class="jumpnav">${S.phase==='prep'?'<button data-act="jump" data-arg="#truckArea">⬇ Buy food</button>':''}<button data-act="jump" data-arg=".storerow">⬇ Shelves &amp; fridge</button></div><div class="needlist">${rows}</div>`;
 }
 function renderStorage(){
   paintGrid('storage',{max:64,color:p=>ING[p.key].color,label:basketLabel,icon:basketIcon,pcls:p=>ING[p.key].cold?'warm':''});
